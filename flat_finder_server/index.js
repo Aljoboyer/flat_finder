@@ -15,6 +15,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const connectDB = require("./src/DBConnection/DBConnection");
 connectDB()
 
+const mainRouter = require('./src/modules/routers/index');
+
+// Use the main router
+app.use('/api', mainRouter); 
+
 app.get('/', (req, res) => {
   res.send('Flat Finder Server is connected!')
 })

@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 
 const connectDB = () => {
-  const mongouri = `mongodb+srv://${process.env.USERDB}:${process.env.USERPASS}@cluster0.obwta.mongodb.net/LearningDB2023?retryWrites=true&w=majority`;
+  const mongouri = `mongodb+srv://${process.env.USERDB}:${process.env.USERPASS}@cluster0.obwta.mongodb.net/flat_finder?retryWrites=true&w=majority`;
   
   try {
        mongoose.connect( 
