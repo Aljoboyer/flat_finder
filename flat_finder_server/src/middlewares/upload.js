@@ -8,7 +8,7 @@ const storage = new CloudinaryStorage({
   params: async (req, file) => ({
     folder: 'property_uploads',
     resource_type: file.mimetype.startsWith('video') ? 'video' : 'image',
-    allowed_formats: ['jpg', 'jpeg', 'png', 'mp4', 'webm'],
+    allowed_formats: ['jpg', 'jpeg', 'png', 'mp4', 'webm', 'webp'],
     public_id: `${Date.now()}-${file.originalname}`,
   }),
 });

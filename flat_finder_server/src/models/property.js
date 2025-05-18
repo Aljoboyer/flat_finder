@@ -64,15 +64,23 @@ const PropertySchema = new mongoose.Schema({
     type: Boolean,
     default: false
   },
+  parking: {
+    type: Boolean,
+    default: false
+  },
   hospitalNearBy: {
     type: Boolean,
     default: false
   },
-
+  propertyType: {
+    type: String,
+    default: false
+  },
   // Generated ID for public display (6 digit code)
   propertyId: {
     type: String,
-    unique: true,
+    enum: ['flat', 'office', 'showroam', 'restaurant'],
+    default: 'normal',
     required: true
   },
 
