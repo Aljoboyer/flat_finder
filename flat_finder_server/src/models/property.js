@@ -74,14 +74,12 @@ const PropertySchema = new mongoose.Schema({
   },
   propertyType: {
     type: String,
-    default: false
+    default: false,
+     enum: ['flat', 'office', 'showroam', 'restaurant'],
   },
   // Generated ID for public display (6 digit code)
   propertyId: {
     type: String,
-    enum: ['flat', 'office', 'showroam', 'restaurant'],
-    default: 'normal',
-    required: true
   },
 
   images: [String], // Array of image URLs
