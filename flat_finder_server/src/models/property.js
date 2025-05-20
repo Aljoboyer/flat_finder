@@ -19,7 +19,7 @@ const PropertySchema = new mongoose.Schema({
     required: true
   },
   price: {
-    type: String,
+    type: Number,
     required: true
   },
   advanceMoney: {
@@ -27,7 +27,7 @@ const PropertySchema = new mongoose.Schema({
     required: true
   },
   flatMeasurement: {
-    type: String,
+    type: Number,
     required: true
   },
   description: {

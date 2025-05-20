@@ -1,3 +1,4 @@
+const { generateFilterQuery } = require("../../../helper/generateFilterQuery");
 const { PaginationCalculate } = require("../../../helper/pagination");
 const PropertyCollection = require("../../../models/property");
 
@@ -20,27 +21,29 @@ const propertyPostController = async (req, res) => {
   };
 
 
-//Get all Property
+// Get all Properties with Pagination + Filters
 const getAllPropertyController = async (req, res) => {
+  try {
+ 
+    const { skip , page, limit} = PaginationCalculate(req.query);
+    const query = generateFilterQuery(req.query)
 
-    try {
-      const paginationOption = {
-        page: req?.query?.page,
-        limit: req?.query?.limit,
-      };
+    // Fetch filtered data with pagination
+    const result = await PropertyCollection.find(query).skip(skip).limit(Number(limit));
+    const totalCount = await PropertyCollection.countDocuments(query);
 
-      const {page, limit, skip} = PaginationCalculate(paginationOption);
-
-      const result = await PropertyCollection.find({}).skip(skip).limit(limit);
-      const totalCount = await PropertyCollection.find({}).countDocuments();
-
-      res.status(201).json({data: result, page, limit, totalPage: totalCount});
-
-    } catch (error) {
-      res.status(500).json({ message: "Property Posting Failed" , error});
-      console.log(error);
-    }
-  };
+    res.status(200).json({
+      data: result,
+      page: Number(page),
+      limit: Number(limit),
+      totalPage: Math.ceil(totalCount / limit),
+      totalData: totalCount
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Property Fetching Failed", error });
+  }
+};
 
 
   module.exports = {
