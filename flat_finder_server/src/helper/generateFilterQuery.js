@@ -7,7 +7,7 @@ const generateFilterQuery = (queryOptions) => {
           propertyType,
           minSqft,
           maxSqft,
-          bedrooms,} = queryOptions;
+          bedrooms, seller} = queryOptions;
 
           
         // Build dynamic query
@@ -31,6 +31,9 @@ const generateFilterQuery = (queryOptions) => {
         // 4. Bedroom count
         if (bedrooms) {
         query.bedrooms = Number(bedrooms);
+        }
+        if(seller){
+            query.seller = seller
         }
     return query;
 }

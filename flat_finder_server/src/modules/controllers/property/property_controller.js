@@ -1,6 +1,7 @@
 const { generateFilterQuery } = require("../../../helper/generateFilterQuery");
 const { PaginationCalculate } = require("../../../helper/pagination");
 const PropertyCollection = require("../../../models/property");
+const { ObjectId } = require('mongodb');
 
 //Posting Property
 const propertyPostController = async (req, res) => {
@@ -29,8 +30,8 @@ const getAllPropertyController = async (req, res) => {
     const query = generateFilterQuery(req.query)
 
     // Fetch filtered data with pagination
-    const result = await PropertyCollection.find(query).skip(skip).limit(Number(limit));
-    const totalCount = await PropertyCollection.countDocuments(query);
+    const  result = await PropertyCollection.find(query).skip(skip).limit(Number(limit));
+    const  totalCount = await PropertyCollection.countDocuments(query);
 
     res.status(200).json({
       data: result,

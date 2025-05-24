@@ -89,8 +89,8 @@ const PropertySchema = new mongoose.Schema({
 
   status: {
     type: String,
-    enum: ['normal', 'pending', 'booked'],
-    default: 'normal'
+    enum: ['active', 'pending', 'booked', 'inactive'],
+    default: 'active'
   },
 
   googleMapUrl: {
