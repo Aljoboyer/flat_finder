@@ -1,7 +1,8 @@
 const { generateFilterQuery } = require("../../../helper/generateFilterQuery");
 const { PaginationCalculate } = require("../../../helper/pagination");
 const PropertyCollection = require("../../../models/property");
-const { ObjectId } = require('mongodb');
+const mongoose = require('mongoose');
+const ObjectId = mongoose.Types.ObjectId;
 
 //Posting Property
 const propertyPostController = async (req, res) => {
@@ -46,9 +47,31 @@ const getAllPropertyController = async (req, res) => {
   }
 };
 
+// Updating Property
+const updatePropertyController = async (req, res) => {
+  try {
+ 
+    const { _id, ...rest} = req.body
 
-  module.exports = {
-    propertyPostController,
-    getAllPropertyController
-  };
+     const updatedProperty = await PropertyCollection.findByIdAndUpdate(
+      {_id: new ObjectId(_id)},
+      rest,
+      { new: true } 
+    );
+
+    res.status(200).json({
+      msg: "updated successfully"
+    });
+  } catch (error) {
+
+    res.status(500).json({ message: "Update Failed", error });
+  }
+};
+
+
+module.exports = {
+  propertyPostController,
+  getAllPropertyController,
+  updatePropertyController
+};
   
