@@ -5,10 +5,12 @@ const router = express.Router();
 const authRouter = require('./auth._route');
 const uploadRouter = require('./upload');
 const propertyRouter = require('./property_route');
+const commentRouter = require('./comment_route');
 
 // Use them with prefixes if needed
 router.use('/auth', authRouter);
 router.use('/file', uploadRouter);
 router.use('/property', propertyRouter);
+router.use('/comment', commentRouter);
 
 module.exports = router;

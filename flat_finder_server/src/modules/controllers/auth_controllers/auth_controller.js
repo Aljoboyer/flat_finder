@@ -2,6 +2,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 const UserCollection = require("../../../models/user");
+const { successResponse, errorResponse } = require("../../../helper/responseHandler");
 
 const SecretKey = process.env.SECRETKEY;
 
@@ -12,21 +13,20 @@ const loginController = async (req, res) => {
     const oldUser = await UserCollection.findOne({ email });
     
     if (!oldUser)
-      return res.status(404).json({ message: "User doesn't exist with this email" });
+      return successResponse(res, 200, "User doesn't exist with this email");
 
     const isPasswordCorrect = await bcrypt.compare(password, oldUser.password);
 
     if (!isPasswordCorrect)
-      return res.status(400).json({ message: "Invalid password" });
+      return successResponse(res, 200, "Invalid password");
 
     const token = jwt.sign({ email: oldUser.email, id: oldUser._id }, SecretKey,  {
       expiresIn: "8h",
     });
 
-    res.status(200).json({ result: oldUser, token });
+    successResponse(res, 200, "Successfully LoggedIn", { result: oldUser, token });
   } catch (error) {
-    res.status(500).json({ message: "Something went wrong" , error});
-    console.log(error);
+    errorResponse()
   }
 };
 
@@ -57,8 +57,7 @@ const signUpController = async (req, res) => {
     res.status(201).json({ result, token });
 
     } catch (error) {
-      res.status(500).json({ message: "Something went wrong" , error});
-      console.log(error);
+    errorResponse()
     }
   };
 

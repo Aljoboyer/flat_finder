@@ -68,10 +68,33 @@ const updatePropertyController = async (req, res) => {
   }
 };
 
+// get A Property
+const getSpecificProperty = async (req, res) => {
+  try {
+ 
+    const { id } = req.query
+
+     const Property = await PropertyCollection.findById({_id: new ObjectId(id)}).populate({
+        path: 'comments',
+        populate: {
+          path: 'commenter', 
+          select: 'name email image' 
+        }
+      });
+
+    res.status(200).json({
+      data: Property
+    });
+  } catch (error) {
+
+    res.status(500).json({ message: "Property fetching failed", error });
+  }
+};
 
 module.exports = {
   propertyPostController,
   getAllPropertyController,
-  updatePropertyController
+  updatePropertyController,
+  getSpecificProperty
 };
   
