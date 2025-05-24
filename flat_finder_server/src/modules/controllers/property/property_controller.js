@@ -91,10 +91,32 @@ const getSpecificProperty = async (req, res) => {
   }
 };
 
+//Adding Like on A Property
+const addLikeOnPropertyontroller = async (req, res) => {
+  
+    const {liker_id, property_id} = req.body;
+
+    try {
+      
+         await PropertyCollection.findByIdAndUpdate(
+            property_id,
+            { $push: { likes: liker_id } },
+            { new: true }
+          );
+
+          
+      res.status(201).json({ "msg": "Like Added Successfully" });
+
+    } catch (error) {
+      res.status(500).json({ message: "Like Posting Failed" , error});
+    }
+};
+
 module.exports = {
   propertyPostController,
   getAllPropertyController,
   updatePropertyController,
-  getSpecificProperty
+  getSpecificProperty,
+  addLikeOnPropertyontroller
 };
   
