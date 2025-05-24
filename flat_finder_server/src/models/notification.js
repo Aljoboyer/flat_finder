@@ -39,6 +39,9 @@ const NotificationSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+connectionRoamId: {
+    type: String
+  },
   createdAt: {
     type: Date,
     default: Date.now,
