@@ -9,6 +9,9 @@ const UserConnectionSchema = new mongoose.Schema({
     ref: 'User',
     required: true,
   },
+  connectionRoamId: {
+    type: String
+  },
   user1Deleted: {
     type: Boolean,
     default: false,
