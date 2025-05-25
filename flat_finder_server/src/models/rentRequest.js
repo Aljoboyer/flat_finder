@@ -27,19 +27,12 @@ const RentalRequestSchema = new mongoose.Schema({
   },
   showPaymentOption:{
     type: Boolean,
+    default: false
   },
   paymentLastDate:{
     type: Date,
     default: null
   },
-  isPaid: {
-    type: Boolean,
-    default: false
-  },
-  paidAt: {
-    type: Date,
-    default: null
-  }
 }, { timestamps: true });
 
 module.exports = mongoose.model('RentalRequest', RentalRequestSchema);

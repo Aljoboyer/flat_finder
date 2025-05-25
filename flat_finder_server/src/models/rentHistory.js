@@ -35,6 +35,10 @@ const RentHistorySchema = new mongoose.Schema({
   rentedAt: {
     type: Date,
     default: Date.now
+  },
+  paidAt: {
+    type: Date,
+    default: null
   }
 }, { timestamps: true });
 
