@@ -63,16 +63,19 @@ const RentRequestActionController = async (req, res) => {
     const {id, status, property_id} = req.body;
 
     try {
-      const rentRequestAction = await RentRequestCollection.findByIdAndUpdate(
-                        id,
-                        { status: status },);
 
     if (status === 'accepted') {
+           const rentRequestAction = await RentRequestCollection.findByIdAndUpdate(
+                        id,
+                        { status: status },);
       const updatePropertyStatus = await PropertyCollection.findByIdAndUpdate(
         property_id,
         { status: "in_process" },
         { new: true }
       );
+    }
+    else{
+      await RentRequestCollection.findByIdAndDelete(id)
     }
 
     res.status(201).json({ "msg": `Rent request ${status} Successfully` });
