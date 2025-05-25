@@ -113,4 +113,6 @@ const PropertySchema = new mongoose.Schema({
   }]
 }, { timestamps: true });
 
+PropertySchema.index({ propertyId: 1 });
+
 module.exports = mongoose.model('Property', PropertySchema);

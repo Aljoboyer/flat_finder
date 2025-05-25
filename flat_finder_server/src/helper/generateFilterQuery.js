@@ -7,7 +7,10 @@ const generateFilterQuery = (queryOptions) => {
           propertyType,
           minSqft,
           maxSqft,
-          bedrooms, seller} = queryOptions;
+          bedrooms,
+          seller,
+        searchKey
+        } = queryOptions;
 
           
         // Build dynamic query
@@ -32,8 +35,12 @@ const generateFilterQuery = (queryOptions) => {
         if (bedrooms) {
         query.bedrooms = Number(bedrooms);
         }
+
         if(seller){
             query.seller = seller
+        }
+        if (searchKey) {
+            query.propertyId = { $regex: searchKey, $options: 'i' }; 
         }
     return query;
 }

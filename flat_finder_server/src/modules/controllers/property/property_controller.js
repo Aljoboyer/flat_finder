@@ -1,4 +1,5 @@
 const { generateFilterQuery } = require("../../../helper/generateFilterQuery");
+const { generatePropertyId } = require("../../../helper/generatePropertyId");
 const { PaginationCalculate } = require("../../../helper/pagination");
 const PropertyCollection = require("../../../models/property");
 const mongoose = require('mongoose');
@@ -29,7 +30,7 @@ const getAllPropertyController = async (req, res) => {
  
     const { skip , page, limit} = PaginationCalculate(req.query);
     const query = generateFilterQuery(req.query)
-
+   
     // Fetch filtered data with pagination
     const  result = await PropertyCollection.find(query).skip(skip).limit(Number(limit));
     const  totalCount = await PropertyCollection.countDocuments(query);
