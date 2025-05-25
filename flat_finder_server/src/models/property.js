@@ -89,7 +89,7 @@ const PropertySchema = new mongoose.Schema({
 
   status: {
     type: String,
-    enum: ['active', 'pending', 'booked', 'inactive'],
+    enum: ['active', 'in_process', 'booked', 'inactive'],
     default: 'active'
   },
 

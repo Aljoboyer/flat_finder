@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const ObjectId = mongoose.Types.ObjectId;
 const RentRequestCollection = require("../../../models/rentRequest");
+const PropertyCollection = require("../../../models/property");
 const { PaginationCalculate } = require('../../../helper/pagination');
 const { generateFilterQuery } = require('../../../helper/generateFilterQuery');
 
@@ -56,8 +57,35 @@ const getAllRentReqController = async (req, res) => {
   }
 };
 
+//Request Action
+const RentRequestActionController = async (req, res) => {
+  
+    const {id, status, property_id} = req.body;
+
+    try {
+      const rentRequestAction = await RentRequestCollection.findByIdAndUpdate(
+                        id,
+                        { status: status },);
+
+    if (status === 'accepted') {
+      const updatePropertyStatus = await PropertyCollection.findByIdAndUpdate(
+        property_id,
+        { status: "in_process" },
+        { new: true }
+      );
+    }
+
+    res.status(201).json({ "msg": `Rent request ${status} Successfully` });
+
+    } catch (error) {
+      res.status(500).json({ message: "Rent request Failed" , error});
+    }
+};
+
+
 module.exports = {
  RentRequestController,
- getAllRentReqController
+ getAllRentReqController,
+ RentRequestActionController
 };
   
