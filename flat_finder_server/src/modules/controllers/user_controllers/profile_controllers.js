@@ -1,6 +1,7 @@
 const UserCollection = require("../../../models/user");
 const PropertyCollection = require("../../../models/property");
 const ReviewCollection = require("../../../models/review");
+const ConnectionCollection = require("../../../models/connection");
 const mongoose = require('mongoose');
 const ObjectId = mongoose.Types.ObjectId;
 
@@ -46,13 +47,19 @@ const updateProfileController = async (req, res) => {
 const sellerDetailsController = async (req, res) => {
   try {
  
-    const { property, seller_id } = req.query;
+    const { property, seller_id ,followers} = req.query;
     let detailsData = []
     if(property){
        detailsData = await PropertyCollection.find({seller: seller_id})
     }
+    else if(followers){
+        detailsData = await ConnectionCollection.find({seller: seller_id}).populate({
+        path: 'buyer',
+        select: 'name email image' 
+      });
+    }
     else{
-       detailsData = await ReviewCollection.find({seller: seller_id})
+     detailsData = await ReviewCollection.find({seller: seller_id})
     }
 
     res.status(200).json({

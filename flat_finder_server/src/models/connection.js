@@ -1,3 +1,5 @@
+const mongoose = require('mongoose');
+
 const UserConnectionSchema = new mongoose.Schema({
   buyer: {
     type: mongoose.Schema.Types.ObjectId,
@@ -25,4 +27,5 @@ const UserConnectionSchema = new mongoose.Schema({
   }
 }, { timestamps: true });
 
-UserConnectionSchema.index({ user1: 1, user2: 1 }, { unique: true });
+UserConnectionSchema.index({ buyer: 1, seller: 1 }, { unique: true });
+module.exports = mongoose.model('Connection', UserConnectionSchema);
