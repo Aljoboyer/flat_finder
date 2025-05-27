@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 
 const ReviewSchema = new mongoose.Schema({
-  reviewer: {
+  buyer: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User', // Buyer giving the review
+    ref: 'User', 
     required: true,
   },
   seller: {
@@ -19,7 +19,7 @@ const ReviewSchema = new mongoose.Schema({
   },
   reviewText: {
     type: String,
-    maxlength: 1000,
+    maxlength: 3000,
   },
   createdAt: {
     type: Date,
@@ -27,5 +27,4 @@ const ReviewSchema = new mongoose.Schema({
   },
 }, { timestamps: true });
 
-ReviewSchema.index({ seller: 1 }); // Faster lookup on seller profile
-ReviewSchema.index({ reviewer: 1, seller: 1 }, { unique: true }); // One review per buyer per seller
+module.exports = mongoose.model('Review', ReviewSchema);

@@ -1,10 +1,10 @@
 const UserConnectionSchema = new mongoose.Schema({
-  buyer_follower: {
+  buyer: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     required: true,
   },
-  seller_builder: {
+  seller: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     required: true,

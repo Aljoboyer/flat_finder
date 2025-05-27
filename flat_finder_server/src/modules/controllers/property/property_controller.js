@@ -1,5 +1,4 @@
 const { generateFilterQuery } = require("../../../helper/generateFilterQuery");
-const { generatePropertyId } = require("../../../helper/generatePropertyId");
 const { PaginationCalculate } = require("../../../helper/pagination");
 const PropertyCollection = require("../../../models/property");
 const mongoose = require('mongoose');
