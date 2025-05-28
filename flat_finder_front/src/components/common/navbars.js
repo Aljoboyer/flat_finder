@@ -14,15 +14,18 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-  Divider
+  Divider,
+  Menu,
+  MenuItem
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+import Notifications from '@mui/icons-material/Notifications';
 import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
 import AirportShuttleIcon from '@mui/icons-material/AirportShuttle';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { TbHomeSearch } from "react-icons/tb";
+import { COLORS } from '@/theme/colors';
 
 const navItems = [
   'HOLIDAYS',
@@ -42,22 +45,28 @@ const Navbar = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
   const [drawerOpen, setDrawerOpen] = React.useState(false);
-
-  const toggleDrawer = (open) => () => {
-    setDrawerOpen(open);
-  };
-
+const [anchorEl, setAnchorEl] = React.useState(null);
+const open = Boolean(anchorEl);
+      const handleClose = () => {
+        setAnchorEl(null);
+      };
+        const toggleDrawer = (open) => () => {
+          setDrawerOpen(open);
+        };
+      const handleMenuClick = (event) => {
+        setAnchorEl(event.currentTarget);
+      };
   return (
     <AppBar position="sticky" sx={{ backgroundColor: '#fff', color: '#000', boxShadow: 'none' }}>
-      <Box sx={{ borderBottom: '4px solid #ffb432' }} />
+      <Box sx={{ borderBottom: `4px solid ${COLORS.side_yellow}` }} />
       <Toolbar sx={{ justifyContent: 'space-between' }}>
         {/* Brand */}
        <div className='flex flex-row items-center '>
-         <Typography variant="h6" sx={{ fontWeight: 'bold', color: '#53C3F1' }}>
+         <Typography variant="h6" sx={{ fontWeight: 'bold', color: COLORS.baseColor }}>
           Flat
         </Typography>
-         <TbHomeSearch color='#FFB432' size={20} className='mx-[4px] font-bold' />
-        <Typography variant="h6" sx={{ fontWeight: 'bold', color: '#53C3F1' }}>Finder</Typography>
+         <TbHomeSearch color={COLORS.side_yellow} size={25} className='mx-[4px] font-bold' />
+        <Typography variant="h6" sx={{ fontWeight: 'bold', color: COLORS.baseColor }}>Finder</Typography>
        </div>
 
 
@@ -69,12 +78,31 @@ const Navbar = () => {
                 <FavoriteBorderIcon />
               </IconButton>
               <IconButton>
-                <HelpOutlineIcon />
+                <Notifications />
               </IconButton>
-              <Button endIcon={<ArrowDropDownIcon />} sx={{ color: '#000' }}>
-                EN
-              </Button>
-              <Button variant="contained" sx={{ backgroundColor: '#53C3F1', color: '#fff' }}>
+              <>
+                <Button
+                  endIcon={<ArrowDropDownIcon />}
+                  sx={{ color: '#000' }}
+                  onClick={handleMenuClick}
+                >
+                  EN
+                </Button>
+                <Menu
+                  anchorEl={anchorEl}
+                  open={open}
+                  onClose={handleClose}
+                  MenuListProps={{
+                    'aria-labelledby': 'language-button',
+                  }}
+                >
+                  <MenuItem >English</MenuItem>
+                  <MenuItem >French</MenuItem>
+                  <MenuItem >Bangla</MenuItem>
+                </Menu>
+              </>
+
+              <Button variant="contained" sx={{ backgroundColor: COLORS.baseColor, color: '#fff' }}>
                 LOGIN
               </Button>
             </>
@@ -89,7 +117,7 @@ const Navbar = () => {
 
       {/* Desktop Navigation */}
       {!isMobile && (
-        <Box sx={{ backgroundColor: '#53C3F1', px: 2 }}>
+        <Box sx={{ backgroundColor: COLORS.baseColor, px: 2 }}>
           <Toolbar sx={{ justifyContent: 'space-between', flexWrap: 'wrap' }}>
             <Box sx={{ display: 'flex', gap: 3 }}>
               {navItems.map((item) => (
@@ -141,7 +169,7 @@ const Navbar = () => {
             </ListItem>
             <ListItem>
               <ListItemIcon>
-                <HelpOutlineIcon />
+                <Notifications />
               </ListItemIcon>
               <ListItemText primary="Help" />
             </ListItem>
@@ -149,7 +177,7 @@ const Navbar = () => {
               <ListItemText primary="Language: EN" />
             </ListItem>
             <ListItem>
-              <Button variant="contained" fullWidth sx={{ backgroundColor: '#53C3F1', color: '#fff' }}>
+              <Button variant="contained" fullWidth sx={{ backgroundColor: COLORS.baseColor, color: '#fff' }}>
                 LOGIN
               </Button>
             </ListItem>
