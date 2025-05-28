@@ -15,47 +15,39 @@ import {
   ListItemIcon,
   ListItemText,
   Divider,
-  Menu,
-  MenuItem
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import Notifications from '@mui/icons-material/Notifications';
 import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
-import AirportShuttleIcon from '@mui/icons-material/AirportShuttle';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import FavoriteOutlined from '@mui/icons-material/FavoriteOutlined';
 import { TbHomeSearch } from "react-icons/tb";
 import { COLORS } from '@/theme/colors';
+import { Buttons } from './Buttons';
+import ProfileManu from '../buyer/ProfileManu';
+import { DropDownBtn } from './DropDownBtn';
+import { languages } from '@/constant/dropdownData';
 
 const navItems = [
-  'HOLIDAYS',
-  'HOTEL',
-  'SUPER DEALS',
-  'CATEGORIES',
-  'LAST-MINUTE DEALS',
+  'Home',
+  'Find Flat'
 ];
 
 const iconNavItems = [
-  { label: 'RENT A CAR', icon: <DirectionsCarIcon /> },
-  { label: 'TRANSFERS', icon: <AirportShuttleIcon /> },
+  { label: 'Your Dashboard', icon: <DirectionsCarIcon /> },
 ];
 
 const Navbar = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
-  const [drawerOpen, setDrawerOpen] = React.useState(false);
-const [anchorEl, setAnchorEl] = React.useState(null);
-const open = Boolean(anchorEl);
-      const handleClose = () => {
-        setAnchorEl(null);
-      };
-        const toggleDrawer = (open) => () => {
-          setDrawerOpen(open);
-        };
-      const handleMenuClick = (event) => {
-        setAnchorEl(event.currentTarget);
-      };
+const [drawerOpen, setDrawerOpen] = React.useState(false);
+
+
+  const toggleDrawer = (open) => () => {
+    setDrawerOpen(open);
+  };
+
+
   return (
     <AppBar position="sticky" sx={{ backgroundColor: '#fff', color: '#000', boxShadow: 'none' }}>
       <Box sx={{ borderBottom: `4px solid ${COLORS.side_yellow}` }} />
@@ -75,36 +67,38 @@ const open = Boolean(anchorEl);
           {!isMobile && (
             <>
               <IconButton>
-                <FavoriteBorderIcon />
+                <FavoriteOutlined />
               </IconButton>
               <IconButton>
                 <Notifications />
               </IconButton>
-              <>
-                <Button
-                  endIcon={<ArrowDropDownIcon />}
-                  sx={{ color: '#000' }}
-                  onClick={handleMenuClick}
-                >
-                  EN
-                </Button>
-                <Menu
-                  anchorEl={anchorEl}
-                  open={open}
-                  onClose={handleClose}
-                  MenuListProps={{
-                    'aria-labelledby': 'language-button',
-                  }}
-                >
-                  <MenuItem >English</MenuItem>
-                  <MenuItem >French</MenuItem>
-                  <MenuItem >Bangla</MenuItem>
-                </Menu>
-              </>
+             <DropDownBtn manuArray={languages} buttonTitle='En'/>
 
-              <Button variant="contained" sx={{ backgroundColor: COLORS.baseColor, color: '#fff' }}>
-                LOGIN
-              </Button>
+          <Button
+              variant="contained"
+              sx={{
+                backgroundColor: COLORS.overlay,
+                color: COLORS.baseColor,
+                display: 'flex',
+                alignItems: 'center',
+                '& .text-link': {
+                  fontWeight: 'bold',
+                  textDecoration: 'none',
+                  cursor: 'pointer',
+                  '&:hover': {
+                    textDecoration: 'underline',
+                  },
+                },
+                '& .divider': {
+                  mx: 1,
+                },
+              }}
+            >
+              <span className="text-link">LOGIN</span>
+              <span className="divider">/</span>
+              <span className="text-link">REGISTER</span>
+            </Button>
+              {/* <ProfileManu/> */}
             </>
           )}
           {isMobile && (
@@ -121,7 +115,7 @@ const open = Boolean(anchorEl);
           <Toolbar sx={{ justifyContent: 'space-between', flexWrap: 'wrap' }}>
             <Box sx={{ display: 'flex', gap: 3 }}>
               {navItems.map((item) => (
-                <Button key={item} sx={{ color: '#fff' }}>{item}</Button>
+                <Button key={item} sx={{ color: '#fff', ":hover":{backgroundColor: COLORS.side_yellow, color: COLORS.baseColor} }}>{item}</Button>
               ))}
             </Box>
             <Box sx={{ display: 'flex', gap: 3 }}>
@@ -140,8 +134,8 @@ const open = Boolean(anchorEl);
         <Box
           sx={{ width: 250 }}
           role="presentation"
-          onClick={toggleDrawer(false)}
-          onKeyDown={toggleDrawer(false)}
+          // onClick={toggleDrawer(false)}
+          // onKeyDown={toggleDrawer(false)}
         >
           <List>
             {navItems.map((text) => (
@@ -161,25 +155,21 @@ const open = Boolean(anchorEl);
           </List>
           <Divider />
           <List>
-            <ListItem>
-              <ListItemIcon>
-                <FavoriteBorderIcon />
-              </ListItemIcon>
-              <ListItemText primary="Favorites" />
-            </ListItem>
+
             <ListItem>
               <ListItemIcon>
                 <Notifications />
               </ListItemIcon>
-              <ListItemText primary="Help" />
+              <ListItemText primary="Notification" />
             </ListItem>
             <ListItem>
-              <ListItemText primary="Language: EN" />
+                <DropDownBtn manuArray={languages} buttonTitle='En'/>
             </ListItem>
             <ListItem>
-              <Button variant="contained" fullWidth sx={{ backgroundColor: COLORS.baseColor, color: '#fff' }}>
-                LOGIN
-              </Button>
+                  <Buttons title='LOGIN'/>
+            </ListItem>
+              <ListItem>
+                <Buttons title='REGISTER'/>
             </ListItem>
           </List>
         </Box>
