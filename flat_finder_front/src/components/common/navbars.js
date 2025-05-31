@@ -53,7 +53,7 @@ const [drawerOpen, setDrawerOpen] = React.useState(false);
       <Box sx={{ borderBottom: `4px solid ${COLORS.side_yellow}` }} />
       <Toolbar sx={{ justifyContent: 'space-between' }}>
         {/* Brand */}
-       <div className='flex flex-row items-center '>
+       <div className='flex flex-row items-center cursor-pointer'>
          <Typography variant="h6" sx={{ fontWeight: 'bold', color: COLORS.baseColor }}>
           Flat
         </Typography>
@@ -115,7 +115,7 @@ const [drawerOpen, setDrawerOpen] = React.useState(false);
           <Toolbar sx={{ justifyContent: 'space-between', flexWrap: 'wrap' }}>
             <Box sx={{ display: 'flex', gap: 3 }}>
               {navItems.map((item) => (
-                <Button key={item} sx={{ color: '#fff', ":hover":{backgroundColor: COLORS.side_yellow, color: COLORS.baseColor} }}>{item}</Button>
+                <Button key={item} sx={{ color: '#fff', ":hover":{textDecoration: 'underline', color: COLORS.side_yellow} }}>{item}</Button>
               ))}
             </Box>
             <Box sx={{ display: 'flex', gap: 3 }}>

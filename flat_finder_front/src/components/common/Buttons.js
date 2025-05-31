@@ -6,10 +6,13 @@ import React from 'react'
 export const Buttons = ({
     onClickHandler, title = 'Test', 
     bgColor = COLORS.overlay, textColor = COLORS.baseColor,
-    variant = 'contained'
+    variant = 'contained',
+    icon = '',
+    other_style = {}
 }) => {
   return (
-    <Button onClick={onClickHandler} variant={variant} fullWidth sx={{backgroundColor: bgColor, color: textColor}}>
+    <Button onClick={onClickHandler} variant={variant} fullWidth sx={{...other_style , backgroundColor: bgColor, color: textColor}}>
+      {icon && icon}
         {title}
     </Button>
   )

@@ -1,8 +1,12 @@
+'use client'
+import { HeroSection } from "@/components/visitors/LandingPage/HeroSection";
+
+
 
 export default function Home() {
   return (
-    <div className="">
-        <h1>Hi</h1>
+    <div className="w-full">
+        <HeroSection/>
     </div>
   );
 }
