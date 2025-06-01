@@ -26,6 +26,8 @@ import { Buttons } from './Buttons';
 import ProfileManu from '../buyer/ProfileManu';
 import { DropDownBtn } from './DropDownBtn';
 import { languages } from '@/constant/dropdownData';
+import { useRouter } from 'next/navigation';
+
 
 const navItems = [
   'Home',
@@ -37,6 +39,7 @@ const iconNavItems = [
 ];
 
 const Navbar = () => {
+  const router = useRouter()
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
@@ -53,12 +56,12 @@ const [drawerOpen, setDrawerOpen] = React.useState(false);
       <Box sx={{ borderBottom: `4px solid ${COLORS.side_yellow}` }} />
       <Toolbar sx={{ justifyContent: 'space-between' }}>
         {/* Brand */}
-       <div className='flex flex-row items-center cursor-pointer'>
-         <Typography variant="h6" sx={{ fontWeight: 'bold', color: COLORS.baseColor }}>
+       <div onClick={() => router.push('/flat-finder-home')} className='flex flex-row items-center cursor-pointer'>
+         <Typography variant="h5" sx={{ fontWeight: 'bold', color: COLORS.baseColor }}>
           Flat
         </Typography>
-         <TbHomeSearch color={COLORS.side_yellow} size={25} className='mx-[4px] font-bold' />
-        <Typography variant="h6" sx={{ fontWeight: 'bold', color: COLORS.baseColor }}>Finder</Typography>
+         <TbHomeSearch color={COLORS.side_yellow} size={28} className='mx-[4px] font-bold' />
+        <Typography variant="h5" sx={{ fontWeight: 'bold', color: COLORS.baseColor }}>Finder</Typography>
        </div>
 
 
@@ -94,7 +97,7 @@ const [drawerOpen, setDrawerOpen] = React.useState(false);
                 },
               }}
             >
-              <span className="text-link">LOGIN</span>
+              <span onClick={() => router.push('/login')} className="text-link">LOGIN</span>
               <span className="divider">/</span>
               <span className="text-link">REGISTER</span>
             </Button>
