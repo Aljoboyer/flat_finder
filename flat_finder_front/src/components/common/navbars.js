@@ -27,7 +27,7 @@ import ProfileManu from '../buyer/ProfileManu';
 import { DropDownBtn } from './DropDownBtn';
 import { languages } from '@/constant/dropdownData';
 import { useRouter } from 'next/navigation';
-
+import { usePathname } from 'next/navigation';
 
 const navItems = [
   'Home',
@@ -43,17 +43,20 @@ const Navbar = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
-const [drawerOpen, setDrawerOpen] = React.useState(false);
-
+  const [drawerOpen, setDrawerOpen] = React.useState(false);
 
   const toggleDrawer = (open) => () => {
     setDrawerOpen(open);
   };
 
+  const pathname = usePathname();
 
   return (
     <AppBar position="sticky" sx={{ backgroundColor: '#fff', color: '#000', boxShadow: 'none' }}>
       <Box sx={{ borderBottom: `4px solid ${COLORS.side_yellow}` }} />
+      {
+
+      }
       <Toolbar sx={{ justifyContent: 'space-between' }}>
         {/* Brand */}
        <div onClick={() => router.push('/flat-finder-home')} className='flex flex-row items-center cursor-pointer'>
@@ -113,7 +116,7 @@ const [drawerOpen, setDrawerOpen] = React.useState(false);
       </Toolbar>
 
       {/* Desktop Navigation */}
-      {!isMobile && (
+      {(!isMobile && pathname !== '/login') && (
         <Box sx={{ backgroundColor: COLORS.baseColor, px: 2 }}>
           <Toolbar sx={{ justifyContent: 'space-between', flexWrap: 'wrap' }}>
             <Box sx={{ display: 'flex', gap: 3 }}>
