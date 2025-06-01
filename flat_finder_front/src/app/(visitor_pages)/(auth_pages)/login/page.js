@@ -24,7 +24,7 @@ export default function Login() {
 
             <p className="text-sm text-center mt-4">
               New to My FlatFinder?{" "}
-              <span className="font-bold text-teal-800">Create Account</span>
+              <span className="font-bold text-teal-800 cursor-pointer">Create Account</span>
             </p>
 
             <p className="text-xs text-center mt-4 text-gray-600 mt-21">

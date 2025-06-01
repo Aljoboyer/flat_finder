@@ -54,9 +54,7 @@ const Navbar = () => {
   return (
     <AppBar position="sticky" sx={{ backgroundColor: '#fff', color: '#000', boxShadow: 'none' }}>
       <Box sx={{ borderBottom: `4px solid ${COLORS.side_yellow}` }} />
-      {
 
-      }
       <Toolbar sx={{ justifyContent: 'space-between' }}>
         {/* Brand */}
        <div onClick={() => router.push('/flat-finder-home')} className='flex flex-row items-center cursor-pointer'>
@@ -102,7 +100,7 @@ const Navbar = () => {
             >
               <span onClick={() => router.push('/login')} className="text-link">LOGIN</span>
               <span className="divider">/</span>
-              <span className="text-link">REGISTER</span>
+              <span onClick={() => router.push('/register')} className="text-link">REGISTER</span>
             </Button>
               {/* <ProfileManu/> */}
             </>
@@ -116,7 +114,7 @@ const Navbar = () => {
       </Toolbar>
 
       {/* Desktop Navigation */}
-      {(!isMobile && pathname !== '/login') && (
+      {(!isMobile && pathname !== '/login' && pathname !== '/register') && (
         <Box sx={{ backgroundColor: COLORS.baseColor, px: 2 }}>
           <Toolbar sx={{ justifyContent: 'space-between', flexWrap: 'wrap' }}>
             <Box sx={{ display: 'flex', gap: 3 }}>

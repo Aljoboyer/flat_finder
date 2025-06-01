@@ -22,7 +22,7 @@ const customStyle = {
         "& label.Mui-focused": {
           color: COLORS.baseColor,
         },
-      }
+}
       
 export default function InputField({
   passwordInput = false, 
