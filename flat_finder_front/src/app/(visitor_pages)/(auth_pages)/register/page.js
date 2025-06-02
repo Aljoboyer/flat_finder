@@ -14,7 +14,7 @@ export default function Register() {
           <div className="space-y-4">
             <CommonTabs tabsData={RegisterTabData} tabWidth={'50%'} isPanelShow={true}/>
 
-            <p className="text-xs text-center mt-4 text-gray-600 mt-21">
+            <p className="text-xs text-center mt-4 text-gray-600 mt-11">
               Signing in will use a <a className="underline text-teal-800" href="#">cookie</a>. You can review our <a className="underline text-teal-800" href="#">privacy policy</a>.
             </p>
           </div>

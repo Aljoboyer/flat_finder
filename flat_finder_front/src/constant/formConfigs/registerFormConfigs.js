@@ -1,29 +1,63 @@
-import { emailRegex, nameRegex } from "./regexData";
+import { emailRegex, nameRegex, phoneRegex } from "./regexData";
 
 export const registerFormFields =  [
     {
         field_id: 'name',
         label: 'Name',
-        placeHolder: 'Enter your name',
+        placeholder: 'Enter your name',
         required:{
             required: 'Please Enter Your Name',
             pattern: {
                 value: nameRegex,
                 message: "Please enter name without special character or number",
             }
-        }
+        },
+        inputType: 'textfield'
     },
-        {
+    {
         field_id: 'email',
         label: 'Email',
-        placeHolder: 'Enter your email',
+        placeholder: 'Enter your email',
          required:{
             required: 'Please Enter Valid Email',
             pattern: {
                 value: emailRegex,
                 message: "Please Enter Valid Email",
             }
-        }
-
+        },
+        inputType: 'textfield'
+    },
+    {
+        field_id: 'phone',
+        label: 'Phone',
+        placeholder: 'Enter your phone',
+         required:{
+            required: 'Please enter valid phone number',
+            pattern: {
+                value: phoneRegex,
+                message: "Please enter valid phone number",
+            }
+        },
+        inputType: 'textfield'
+    },
+    {
+        field_id: 'nidNo',
+        label: 'NID No.',
+        placeholder: 'Enter your NID number',
+         required:{
+            required: 'Please enter valid NID number',
+            min: 4
+        },
+        inputType: 'textfield'
+    },
+    {
+        field_id: 'propertyName',
+        label: 'Property Name',
+        placeholder: 'Enter your Property Name',
+         required:{
+            required: 'Please enter valid NID number',
+            min: 4
+        },
+        inputType: 'textfield'
     },
 ]

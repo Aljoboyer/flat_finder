@@ -25,18 +25,18 @@ const customStyle = {
 }
       
 export default function InputField({
-  passwordInput = false, 
+  inputType = 'textfield', 
   label = 'Input',
-  showPassword,
-  setShowPassword,
   otherStyle,
   field,
   field_id,
-  errors
+  errors,
+  placeholder
 }) {
+   const [showPassword, setShowPassword] = React.useState(false);
  
  
-  if(passwordInput){
+  if(inputType == 'password'){
    return (
    <TextField
     fullWidth
@@ -62,6 +62,7 @@ export default function InputField({
     <>
     <TextField
       {...field}
+      placeholder={placeholder}
       fullWidth
       label={label}
       variant="outlined"

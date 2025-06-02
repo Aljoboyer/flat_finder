@@ -8,17 +8,18 @@ import React from 'react'
 import { useForm, Controller } from "react-hook-form";
 
 export default function BuyerRegistraton() {
-  const [showPassword, setShowPassword] = React.useState(false);
   const router = useRouter()
 
   const {
     handleSubmit,
     control,
+    setError,
     formState: { errors },
   } = useForm();
 
   const onSubmit = (data) => {
     console.log("Form Data:", data);
+    
   };
     console.log("Form errors:", errors);
 
@@ -26,7 +27,7 @@ export default function BuyerRegistraton() {
     <div className='mt-4'>
       <form onSubmit={handleSubmit(onSubmit)} noValidate>
             {
-              registerFormFields?.map((fieldItem) => (
+              registerFormFields.slice(0, 3)?.map((fieldItem) => (
                 <Controller
                     key={fieldItem?.field_id}
                     name={fieldItem?.field_id}
@@ -42,6 +43,7 @@ export default function BuyerRegistraton() {
                         field={field}
                         field_id={fieldItem?.field_id}
                         errors={errors}
+                        placeholder={fieldItem?.placeholder}
                         />
                     )}
                   />
@@ -55,12 +57,6 @@ export default function BuyerRegistraton() {
             Already have an account?{" "}
             <span onClick={() => router.push('/login')} className="font-bold text-teal-800 cursor-pointer">Sign In</span>
           </p>
-
-        
-        <InputField label="Password" 
-        passwordInput={true} 
-        showPassword={showPassword} 
-        setShowPassword={setShowPassword} otherStyle={{marginTop: '10px'}} />
     </div>
   )
 }
