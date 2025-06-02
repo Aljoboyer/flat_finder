@@ -54,7 +54,7 @@ export default function CommonTabs({tabsData, tabWidth = 'auto', isPanelShow}) {
 
   return (
     <Box>
-        <Tabs sx={{width: '100%'}} 
+        <Tabs sx={{width: '100%', height: '60px'}} 
         value={value} onChange={handleChange} 
         TabIndicatorProps={{ style: { backgroundColor: COLORS.baseColor } }}
         aria-label="icon label tabs example">

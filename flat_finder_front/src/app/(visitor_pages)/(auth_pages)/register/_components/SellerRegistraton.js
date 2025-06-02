@@ -1,7 +1,7 @@
 "use client"
 import { Buttons } from '@/components/common/Buttons';
 import InputField from '@/components/common/InputField'
-import { registerFormFields } from '@/constant/formConfigs/registerFormConfigs';
+import { authFormFields } from '@/constant/formConfigs/authFormConfigs';
 import { COLORS } from '@/theme/colors';
 import { useRouter } from 'next/navigation';
 import React from 'react'
@@ -27,7 +27,7 @@ export default function SellerRegistraton() {
     <div className='mt-4'>
       <form onSubmit={handleSubmit(onSubmit)} noValidate>
             {
-              registerFormFields?.map((fieldItem) => (
+              authFormFields?.map((fieldItem) => (
                 <Controller
                     key={fieldItem?.field_id}
                     name={fieldItem?.field_id}

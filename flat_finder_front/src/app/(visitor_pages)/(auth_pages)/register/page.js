@@ -9,12 +9,12 @@ export default function Register() {
 
   return (
  <div className="w-full max-w-md">
-          <h2 className="text-title font-bold text-basecolor mb-6">Create an account</h2>
+          <h2 className="text-title font-bold text-basecolor mb-4">Create an account</h2>
 
           <div className="space-y-4">
             <CommonTabs tabsData={RegisterTabData} tabWidth={'50%'} isPanelShow={true}/>
 
-            <p className="text-xs text-center mt-4 text-gray-600 mt-11">
+            <p className="text-xs text-center mt-4 text-gray-600 mt-4">
               Signing in will use a <a className="underline text-teal-800" href="#">cookie</a>. You can review our <a className="underline text-teal-800" href="#">privacy policy</a>.
             </p>
           </div>

@@ -38,23 +38,27 @@ export default function InputField({
  
   if(inputType == 'password'){
    return (
-   <TextField
-    fullWidth
-    label="Password"
-    variant="outlined"
-    type={showPassword ? "text" : "password"}
-    size="small"
-    sx={{...otherStyle, ...customStyle}}
-    InputProps={{
-      endAdornment: (
-        <InputAdornment position="end">
-          <IconButton onClick={() => setShowPassword(!showPassword)}>
-            {showPassword ? <VisibilityOff /> : <Visibility />}
-          </IconButton>
-        </InputAdornment>
-      ),
-    }}
-  />
+      <>
+        <TextField
+        {...field}
+          fullWidth
+          label="Password"
+          variant="outlined"
+          type={showPassword ? "text" : "password"}
+          size="small"
+          sx={{...otherStyle, ...customStyle}}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton onClick={() => setShowPassword(!showPassword)}>
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+        />
+          { errors[field_id] && <p className='text-psm text-red-500'>{errors[field_id].message}</p>}
+      </>
   )
  }
  else{

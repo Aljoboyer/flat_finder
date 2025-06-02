@@ -1,6 +1,6 @@
-import { emailRegex, nameRegex, phoneRegex } from "./regexData";
+import { emailRegex, nameRegex, passwordRegex, phoneRegex } from "./regexData";
 
-export const registerFormFields =  [
+export const authFormFields =  [
     {
         field_id: 'name',
         label: 'Name',
@@ -10,6 +10,19 @@ export const registerFormFields =  [
             pattern: {
                 value: nameRegex,
                 message: "Please enter name without special character or number",
+            }
+        },
+        inputType: 'textfield'
+    },
+    {
+        field_id: 'phone',
+        label: 'Phone',
+        placeholder: 'Enter your phone',
+         required:{
+            required: 'Please enter valid phone number',
+            pattern: {
+                value: phoneRegex,
+                message: "Please enter valid phone number",
             }
         },
         inputType: 'textfield'
@@ -28,17 +41,17 @@ export const registerFormFields =  [
         inputType: 'textfield'
     },
     {
-        field_id: 'phone',
-        label: 'Phone',
-        placeholder: 'Enter your phone',
+        field_id: 'password',
+        label: 'Password',
+        placeholder: 'Enter your password',
          required:{
             required: 'Please enter valid phone number',
             pattern: {
-                value: phoneRegex,
-                message: "Please enter valid phone number",
+                // value: passwordRegex,
+                message: "Please enter valid password",
             }
         },
-        inputType: 'textfield'
+        inputType: 'password'
     },
     {
         field_id: 'nidNo',
