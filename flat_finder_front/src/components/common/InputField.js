@@ -29,7 +29,10 @@ export default function InputField({
   label = 'Input',
   showPassword,
   setShowPassword,
-  otherStyle
+  otherStyle,
+  field,
+  field_id,
+  errors
 }) {
  
  
@@ -56,13 +59,17 @@ export default function InputField({
  }
  else{
    return (
-  <TextField
+    <>
+    <TextField
+      {...field}
       fullWidth
       label={label}
       variant="outlined"
       size="small"
-      sx={{...customStyle}}
+      sx={{...customStyle, ...otherStyle}}
     />
+    { errors[field_id] && <p className='text-psm text-red-500'>{errors[field_id].message}</p>}
+    </>
   )
  }
 }

@@ -8,10 +8,11 @@ export const Buttons = ({
     bgColor = COLORS.overlay, textColor = COLORS.baseColor,
     variant = 'contained',
     icon = '',
-    other_style = {}
+    other_style = {},
+    type = ''
 }) => {
   return (
-    <Button onClick={onClickHandler} variant={variant} fullWidth sx={{...other_style , backgroundColor: bgColor, color: textColor}}>
+    <Button type={type} onClick={onClickHandler} variant={variant} fullWidth sx={{...other_style , backgroundColor: bgColor, color: textColor}}>
       {icon && icon}
         {title}
     </Button>

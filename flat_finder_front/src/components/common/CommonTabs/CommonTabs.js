@@ -44,7 +44,7 @@ function a11yProps(index) {
 }
 
 
-export default function CommonTabs({tabsData, tabWidth = 'auto'}) {
+export default function CommonTabs({tabsData, tabWidth = 'auto', isPanelShow}) {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
@@ -74,8 +74,8 @@ export default function CommonTabs({tabsData, tabWidth = 'auto'}) {
                 />
                 ))}
         </Tabs>
-
-        {tabsData.map((tab, index) => (
+        
+        {isPanelShow && tabsData.map((tab, index) => (
             <TabPanel
             key={index}
             value={value}
