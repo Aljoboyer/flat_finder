@@ -34,13 +34,16 @@ const loginController = async (req, res) => {
 const signUpController = async (req, res) => {
   
     const requestData = req.body;
-    const { email, password } = requestData;
+    const { email, password , propertyName} = requestData;
 
     try {
       const oldUser = await UserCollection.findOne({ email: email });
   
       if (oldUser) {
         return res.status(400).json({ message: "User already exists with this email" });
+      }
+      if (oldUser?.propertyName == propertyName) {
+        return res.status(400).json({ message: "An account with this property name has already been opened." });
       }
   
       const hashedPassword = await bcrypt.hash(password, 12);
