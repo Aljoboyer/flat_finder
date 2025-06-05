@@ -26,7 +26,6 @@ export default function Login() {
     setLoading(true)
     let response = await useLoginHandler(data);
     
-    console.log(response)
     if(response?.data?.token){
       setLoading(false)
       router.push('/flat-finder-home')
