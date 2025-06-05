@@ -2,14 +2,18 @@
 import { Buttons } from '@/components/common/Buttons';
 import InputField from '@/components/common/InputField'
 import { authFormFields } from '@/constant/formConfigs/authFormConfigs';
+import { useSignUpMutation } from '@/redux/features/authApi';
 import { COLORS } from '@/theme/colors';
+import { errorToast } from '@/utils/toaster/toaster';
 import { useRouter } from 'next/navigation';
-import React from 'react'
+import React, { useState } from 'react'
 import { useForm, Controller } from "react-hook-form";
+import { authErrorchecker } from '../../_helper/authErrorcheck';
 
 export default function BuyerRegistraton() {
   const router = useRouter()
-
+  const [signUpHandler, { }] = useSignUpMutation();
+  const [loading, setLoading] = useState(false)
   const {
     handleSubmit,
     control,
@@ -17,11 +21,28 @@ export default function BuyerRegistraton() {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
-    console.log("Form Data:", data);
-    
+  const onSubmit = async (data) => {
+   setLoading(true)
+
+    let response = await signUpHandler({...data, 'role': 'buyer'});
+  
+    if(response?.data?.token){
+       setLoading(false)
+      router.push('/flat-finder-home')
+    }
+    else if(response?.error?.data?.message){
+      setLoading(false);
+
+      const checkedData = authErrorchecker(response);
+
+      setError(checkedData?.field, {...checkedData?.typeObj});
+    }
+    else{
+       setLoading(false)
+       errorToast()
+    }
+
   };
-    console.log("Form errors:", errors);
 
   return (
     <div className='mt-4'>
@@ -51,7 +72,7 @@ export default function BuyerRegistraton() {
               ))
             }
 
-          <Buttons type='submit' title="Register" bgColor={COLORS.side_yellow} textColor="black" other_style={{fontWeight: '700', marginTop: '10px'}} />
+          <Buttons isLoading={loading} type='submit' title="Register" bgColor={COLORS.side_yellow} textColor="black" other_style={{fontWeight: '700', marginTop: '10px'}} />
       </form>
 
           <p className="text-sm text-center mt-4">

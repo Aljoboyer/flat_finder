@@ -37,15 +37,9 @@ const UserSchema = new mongoose.Schema({
  // Seller-specific fields
   nidNo: {
     type: String,
-    required: function () {
-      return this.role === 'seller';
-    }
   },
   propertyName: {
     type: String,
-    required: function () {
-      return this.role === 'seller';
-    }
   }
 
 }, { timestamps: true });

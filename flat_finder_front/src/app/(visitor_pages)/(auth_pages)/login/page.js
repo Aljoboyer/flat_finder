@@ -1,14 +1,19 @@
 "use client"
-import React from "react";
+import React, { useState } from "react";
 import { Buttons } from "@/components/common/Buttons";
 import { COLORS } from "@/theme/colors";
 import InputField from "@/components/common/InputField";
 import { useForm, Controller } from "react-hook-form";
 import { authFormFields } from "@/constant/formConfigs/authFormConfigs";
 import { useRouter } from 'next/navigation';
+import { useLogInMutation } from "@/redux/features/authApi";
+import { authErrorchecker } from "../_helper/authErrorcheck";
+import { errorToast } from "@/utils/toaster/toaster";
 
 export default function Login() {
-const router = useRouter()
+  const router = useRouter()
+  const [useLoginHandler, { }] = useLogInMutation();
+  const [loading, setLoading] = useState(false)
 
   const {
     handleSubmit,
@@ -17,11 +22,28 @@ const router = useRouter()
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
-    console.log("Form Data:", data);
+  const onSubmit = async (data) => {
+    setLoading(true)
+    let response = await useLoginHandler(data);
     
+    console.log(response)
+    if(response?.data?.token){
+      setLoading(false)
+      router.push('/flat-finder-home')
+    }
+    else if(response?.error?.data?.message){
+        setLoading(false)
+        const checkedData = authErrorchecker(response);
+  
+        setError(checkedData?.field, {...checkedData?.typeObj});
+    }
+    else{
+      setLoading(false)
+      errorToast()
+    }
   };
-    console.log("Form errors:", errors);
+
+  console.log("Form errors:", errors);
 
   return (
  <div className="w-full max-w-md">
@@ -58,12 +80,16 @@ const router = useRouter()
               <a href="#" className="text-basecolor font-semibold text-psm mt-2">Forgot Password?</a>
             </div>
 
-          <Buttons type='submit' title="Login" bgColor={COLORS.side_yellow} textColor="black" other_style={{fontWeight: '700', marginTop: '10px'}} />
+          <Buttons
+           isLoading={loading}
+           type='submit' title="Login" 
+           bgColor={COLORS.side_yellow} textColor="black" 
+           other_style={{fontWeight: '700', marginTop: '10px'}} />
       </form>
 
             <p className="text-sm text-center mt-4">
               New to My FlatFinder?{" "}
-              <span className="font-bold text-teal-800 cursor-pointer">Create Account</span>
+              <span onClick={() => router.push('/register')} className="font-bold text-teal-800 cursor-pointer">Create Account</span>
             </p>
 
             <p className="text-xs text-center mt-4 text-gray-600 mt-21">

@@ -9,10 +9,11 @@ const successResponse = (res, statusCode = 200, msg = "Success", data = {}) => {
 
 // Error response
 const errorResponse = (res, statusCode = 500, msg = "Something went wrong", error = {}) => {
-  return res.status(statusCode).json({
+  return res.json({
     success: false,
     msg,
-    error
+    error,
+    status: statusCode
   });
 };
 

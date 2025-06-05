@@ -9,10 +9,16 @@ export const Buttons = ({
     variant = 'contained',
     icon = '',
     other_style = {},
-    type = ''
+    type = '',
+    isLoading
 }) => {
   return (
-    <Button type={type} onClick={onClickHandler} variant={variant} fullWidth sx={{...other_style , backgroundColor: bgColor, color: textColor}}>
+    <Button 
+     loading={isLoading}
+     type={type}
+     onClick={onClickHandler} 
+     variant={variant} 
+     fullWidth sx={{...other_style , backgroundColor: bgColor, color: textColor}}>
       {icon && icon}
         {title}
     </Button>

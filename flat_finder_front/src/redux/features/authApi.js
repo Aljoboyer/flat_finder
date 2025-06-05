@@ -4,7 +4,7 @@ const authApi = api.injectEndpoints({
   endpoints: (builder) => ({
     signUp: builder.mutation({
       query: (data) => ({
-        url: "/supplier/auth/v1/registration",
+        url: "/auth/signup",
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -12,12 +12,12 @@ const authApi = api.injectEndpoints({
         },
         body: data,
       }),
-      //   invalidatesTags: [''],
+
     }),
 
     logIn: builder.mutation({
       query: (data) => ({
-        url: "/supplier/auth/v1/login",
+        url: "/auth/login",
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -25,7 +25,7 @@ const authApi = api.injectEndpoints({
         },
         body: data,
       }),
-      //   invalidatesTags: [''],
+   
     }),
 
 
