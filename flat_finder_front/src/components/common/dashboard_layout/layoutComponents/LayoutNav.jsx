@@ -9,6 +9,8 @@ import LogoutSharpIcon from '@mui/icons-material/LogoutSharp';
 import { Box, Button } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { COLORS } from '@/theme/colors';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import { TbHomeSearch } from "react-icons/tb";
 
 export const LayoutNav = ({handleDrawerOpen}) => {
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -25,7 +27,7 @@ export const LayoutNav = ({handleDrawerOpen}) => {
     localStorage.removeItem('pixplayToken')
   }
   return (
-    <Box sx={{position:'sticky',top: '0px', width: '100%', backgroundColor: 'white', height: '90px', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', paddingX: {md: '20px'}, alignItems: 'center' ,zIndex: 1}}>
+    <Box sx={{position:'sticky',top: '0px', width: '100%', backgroundColor: 'white', height: '60px', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', paddingX: {md: '20px'}, alignItems: 'center' ,zIndex: 1}}>
         
     <Box sx={{display: 'flex', 
       alignItems: 'center', 
@@ -33,16 +35,13 @@ export const LayoutNav = ({handleDrawerOpen}) => {
       overflowX: {xs: 'initial', sm: 'auto'},
       }}>
       <Toolbar>
-          <Typography 
-            sx={{
-          display: { xs: 'none', sm: 'none', md: 'block', lg: 'block' },  // Ensure hidden on smaller screens, visible on larger
-        }}
-            variant="h6" 
-            noWrap 
-            component="div"
-          >
-            PixplaySync
-          </Typography>
+          <div onClick={() => router.push('/flat-finder-home')} className='flex flex-row items-center cursor-pointer'>
+         <Typography  sx={{ fontWeight: 'bold', color: COLORS.baseColor , fontSize: {xs: '18px', md: '24px'}}}>
+          Flat
+        </Typography>
+         <TbHomeSearch color={COLORS.side_yellow} size={28} className='mx-[4px] font-bold' />
+        <Typography sx={{ fontWeight: 'bold', color: COLORS.baseColor , fontSize: {xs: '18px', md: '24px'}}}>Finder</Typography>
+       </div>
         <Button
             onClick={handleDrawerOpen}
             sx={{
@@ -66,23 +65,15 @@ export const LayoutNav = ({handleDrawerOpen}) => {
     </Box>
 
     <Box className='ease-in-out duration-300'  sx={{ height: '50px', width: {xs: '80px', md: '100px'},
-      backgroundColor: !manuOpen ? COLORS.primaryOverlay : COLORS.side_yellow, 
-      borderRadius: '40px', display: 'flex', justifyContent: 'center', alignItems: 'center', paddingX: '10px', 
-      '&:hover': {
-        backgroundColor: COLORS.side_yellow,
-        '& .basic-button': {
-          color:  "white",  
-        },
-        },
-        '& .basic-button': {
-          color: manuOpen ?  "white" : '#1e88e5',  
-        }
-        }}>
-     <Avatar   sx={{ width: 35, height:35 , backgroundColor: COLORS.side_yellow, }} alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-        <div>
+    
+      borderRadius: '40px', display: 'flex', justifyContent: 'center', alignItems: 'center', }}>
+
+     <Avatar   sx={{ width: 35, height:35 , backgroundColor: COLORS.side_yellow, }} alt="Kemy Sharp" src="/static/images/avatar/1.jpg" />
+
+      <div>
         <Button
           sx={{ minWidth: 'auto', 
-            width: '40px',
+            width: '30px',
             height: '30px',
           }}
           className="basic-button"
@@ -91,7 +82,7 @@ export const LayoutNav = ({handleDrawerOpen}) => {
           aria-expanded={manuOpen ? 'true' : undefined}
           onClick={handleClick}
         >
-          <Brightness5OutlinedIcon color="#1e88e5"/>
+          <KeyboardArrowDownIcon color="#1e88e5"/>
         </Button>
         
         <Menu

@@ -23,7 +23,6 @@ import FavoriteOutlined from '@mui/icons-material/FavoriteOutlined';
 import { TbHomeSearch } from "react-icons/tb";
 import { COLORS } from '@/theme/colors';
 import { Buttons } from './Buttons';
-import ProfileManu from '../buyer/ProfileManu';
 import { DropDownBtn } from './DropDownBtn';
 import { languages } from '@/constant/dropdownData';
 import { useRouter } from 'next/navigation';

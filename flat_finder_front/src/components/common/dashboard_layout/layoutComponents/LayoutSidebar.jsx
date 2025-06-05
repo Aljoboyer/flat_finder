@@ -7,11 +7,13 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import { Button, Divider, useMediaQuery } from '@mui/material';
+import { Button, Divider, Typography, useMediaQuery } from '@mui/material';
 import { styled, useTheme } from '@mui/material/styles';
 import CloseIcon from '@mui/icons-material/Close';
 import { useDispatch } from 'react-redux';
 import { sideManuList } from '@/constant/sidebarManus';
+import { COLORS } from '@/theme/colors';
+import { TbHomeSearch } from "react-icons/tb";
 
 const DrawerHeader = styled('div')(({ theme }) => ({
     display: 'flex',
@@ -52,7 +54,13 @@ const LayoutSidebar = ({open, handleDrawerClose}) => {
           >
             {
               !isLargeScreen && <DrawerHeader sx={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
-              <p className='font-bold text-base_color font-roboto text-xl'>PIXSYNC</p>
+               <div onClick={() => router.push('/flat-finder-home')} className='flex flex-row items-center cursor-pointer'>
+                  <Typography variant="h7" sx={{ fontWeight: 'bold', color: COLORS.baseColor }}>
+                    Flat
+                  </Typography>
+                  <TbHomeSearch color={COLORS.side_yellow} size={28} className='mx-[4px] font-bold' />
+                  <Typography variant="h7" sx={{ fontWeight: 'bold', color: COLORS.baseColor }}>Finder</Typography>
+                </div>
             <IconButton onClick={handleDrawerClose}>
                   <CloseIcon />
             </IconButton>
