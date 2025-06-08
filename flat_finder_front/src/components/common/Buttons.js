@@ -12,13 +12,14 @@ export const Buttons = ({
     type = '',
     isLoading
 }) => {
+  console.log('checking ===>', {...other_style})
   return (
     <Button 
      loading={isLoading}
      type={type}
      onClick={onClickHandler} 
      variant={variant} 
-     fullWidth sx={{...other_style , backgroundColor: bgColor, color: textColor}}>
+     fullWidth sx={{...other_style , backgroundColor: bgColor, color: textColor, }}>
       {icon && icon}
         {title}
     </Button>

@@ -4,7 +4,13 @@ import React from 'react'
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import { COLORS } from "@/theme/colors";
 
-const cities = ['New York', 'London', 'Tokyo', 'Dhaka', 'Berlin'];
+export const cities = [
+  { label: 'New York', value: 'New York' },
+  { label: 'London', value: 'London' },
+  { label: 'Tokyo', value: 'Thello' },
+  { label: 'Dhaka', value: 'Dhaka' },
+  { label: 'Berlin', value: 'Berlin' }
+];;
 
 export const HeroSection = () => {
   return (

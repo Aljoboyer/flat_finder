@@ -3,14 +3,22 @@ import React from 'react'
 
 export const AutoCompletes = ({
     options = [],
-    textFieldLabel = 'Label'
+    textFieldLabel = 'Label',
+    otherStyle
 }) => {
   return (
     <Autocomplete
         disablePortal
         options={options}
+        getOptionLabel={(option) => option.label}
+        onChange={(event, newValue) => {
+            console.log('Selected label:', newValue?.label);
+            console.log('Selected value:', newValue?.value);
+        }}
+        sx={{...otherStyle}}
         renderInput={(params) =>
             <TextField 
+            
             sx={{
                     '& .MuiInputBase-root': {
                     height: '45px',

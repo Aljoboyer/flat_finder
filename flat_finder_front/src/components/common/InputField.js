@@ -1,7 +1,9 @@
 import { COLORS } from '@/theme/colors'
-import { IconButton, InputAdornment, TextField } from '@mui/material'
+import { IconButton, InputAdornment, InputBase, Paper, TextField } from '@mui/material'
 import React from 'react'
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import SearchIcon from '@mui/icons-material/Search';
+import { AutoCompletes } from './AutoComplete';
 
 const customStyle = {
         backgroundColor: "white",
@@ -31,7 +33,9 @@ export default function InputField({
   field,
   field_id,
   errors,
-  placeholder
+  placeholder,
+  options,
+  textFieldLabel
 }) {
    const [showPassword, setShowPassword] = React.useState(false);
  
@@ -59,6 +63,28 @@ export default function InputField({
         />
           { errors[field_id] && <p className='text-psm text-red-500'>{errors[field_id].message}</p>}
       </>
+  )
+ }
+ else if(inputType == 'search'){
+  return (
+    <Paper
+      component="form"
+      sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: {xs: '100%', md: '36%'}, backgroundColor: COLORS.grey50 , ...otherStyle}}
+    >
+      <InputBase
+        sx={{ ml: 1, flex: 1,  }}
+        placeholder={placeholder}
+        inputProps={{ 'aria-label': 'search google maps' }}
+      />
+      <IconButton type="button" sx={{ p: '10px', backgroundColor: 'white' }} aria-label="search">
+        <SearchIcon />
+      </IconButton>
+    </Paper>
+  )
+ }
+ else if (inputType == 'autocomplete'){
+  return(
+    <AutoCompletes otherStyle={otherStyle} options={options} textFieldLabel={textFieldLabel}/>
   )
  }
  else{
