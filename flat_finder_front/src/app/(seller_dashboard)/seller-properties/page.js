@@ -6,7 +6,10 @@ import { useState } from "react";
 import {  useTheme } from '@mui/material/styles';
 import { useMediaQuery } from "@mui/material";
 import FilterAndSearch from "@/components/common/FilterAndSearch";
-import { cities } from "@/components/visitors/LandingPage/HeroSection";
+import FFTable from "@/components/common/FFTable";
+import { filterFieldConfig } from "@/constant/formConfigs/filterConfig";
+import Pagination from '@mui/material/Pagination';
+import FFPagination from "@/components/common/FFPagination";
 
 
 export default function SellerProperties() {
@@ -20,18 +23,6 @@ export default function SellerProperties() {
     const isMediumScreen = useMediaQuery(theme.breakpoints.up('md'));
     const islargeScreen = useMediaQuery(theme.breakpoints.up('lg'));
 
-    const filterFieldConfig = [
-      {
-        options: cities,
-        textFieldLabel: 'City Name',
-        inputType: 'autocomplete'
-      },
-      {
-        options: cities,
-        textFieldLabel: 'Area Name',
-        inputType: 'autocomplete'
-      }
-    ]
   return (
     <div className="bg-overlay h-screen p-6 rounded-t-[20px]">
           <CommonTabs 
@@ -44,6 +35,12 @@ export default function SellerProperties() {
             <FilterAndSearch 
               filterFieldConfig={filterFieldConfig}
             />
+            <div className="my-7">
+              <FFTable/>
+            </div>
+            <div className="flex flex-row justify-end">
+              <FFPagination/>
+            </div>
         </div>
     </div>
   );

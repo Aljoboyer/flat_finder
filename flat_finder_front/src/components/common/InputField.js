@@ -69,7 +69,9 @@ export default function InputField({
   return (
     <Paper
       component="form"
-      sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: {xs: '100%', md: '36%'}, backgroundColor: COLORS.grey50 , ...otherStyle}}
+      sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: {xs: '100%', md: '36%'} , ...otherStyle}}
+      elevation={1}
+      variant="outlined"
     >
       <InputBase
         sx={{ ml: 1, flex: 1,  }}
