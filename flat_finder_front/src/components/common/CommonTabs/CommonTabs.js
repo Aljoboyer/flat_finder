@@ -44,18 +44,16 @@ function a11yProps(index) {
 }
 
 
-export default function CommonTabs({tabsData, tabWidth = 'auto', isPanelShow}) {
-  const [value, setValue] = React.useState(0);
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
+export default function CommonTabs({
+  handleTabChange, value, 
+  tabsData, tabWidth = 'auto', isPanelShow, polygonShape}) {
+ 
   const theme = useTheme();
 
   return (
     <Box>
         <Tabs sx={{width: '100%', height: '60px'}} 
-        value={value} onChange={handleChange} 
+        value={value} onChange={handleTabChange} 
         TabIndicatorProps={{ style: { backgroundColor: COLORS.baseColor } }}
         aria-label="icon label tabs example">
              {tabsData.map((tab, index) => (
@@ -67,14 +65,26 @@ export default function CommonTabs({tabsData, tabWidth = 'auto', isPanelShow}) {
                      sx={{
                       width: tabWidth,
                     color: value === index ? COLORS.baseColor : 'gray', // text/icon color
+                    // '&.Mui-selected': {
+                    //   color: COLORS.baseColor,
+                    // },
+                      marginLeft: '',
+                     clipPath: polygonShape && 'polygon(0 0, 80% 0, 100% 80%, 80% 100%, 0 100%)',// angled bottom corners
+                    transition: '0.3s ease',
+                    backgroundColor: value === index ? '#f5f5f5' : '#fff',
                     '&.Mui-selected': {
                       color: COLORS.baseColor,
+                      backgroundColor: 'white',
+                    },
+                    '&:hover': {
+                      backgroundColor: '#f0f0f0',
                     },
                   }}
                 />
                 ))}
         </Tabs>
-        
+   
+
         {isPanelShow && tabsData.map((tab, index) => (
             <TabPanel
             key={index}

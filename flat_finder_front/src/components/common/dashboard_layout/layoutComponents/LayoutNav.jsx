@@ -9,7 +9,7 @@ import LogoutSharpIcon from '@mui/icons-material/LogoutSharp';
 import { Box, Button } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { COLORS } from '@/theme/colors';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { TbHomeSearch } from "react-icons/tb";
 
 export const LayoutNav = ({handleDrawerOpen}) => {
@@ -35,7 +35,7 @@ export const LayoutNav = ({handleDrawerOpen}) => {
       overflowX: {xs: 'initial', sm: 'auto'},
       }}>
       <Toolbar>
-          <div onClick={() => router.push('/flat-finder-home')} className='flex flex-row items-center cursor-pointer'>
+          <div onClick={() => router.push('/flat-finder-home')} className='hidden md:flex flex-row items-center cursor-pointer '>
          <Typography  sx={{ fontWeight: 'bold', color: COLORS.baseColor , fontSize: {xs: '18px', md: '24px'}}}>
           Flat
         </Typography>
@@ -45,7 +45,7 @@ export const LayoutNav = ({handleDrawerOpen}) => {
         <Button
             onClick={handleDrawerOpen}
             sx={{
-              marginLeft: '20px',
+              marginLeft: {xsm: '0px', md: '20px'},
               backgroundColor: COLORS.overlay,
               padding: '5px',
               minWidth: 'auto', 
@@ -58,7 +58,7 @@ export const LayoutNav = ({handleDrawerOpen}) => {
               },
             }}
           >
-            <MenuIcon color="#5e35b1"/>
+            <MenuIcon color="#fff000"/>
         </Button>
       </Toolbar>
    
@@ -82,7 +82,7 @@ export const LayoutNav = ({handleDrawerOpen}) => {
           aria-expanded={manuOpen ? 'true' : undefined}
           onClick={handleClick}
         >
-          <KeyboardArrowDownIcon color="#1e88e5"/>
+          <MoreVertIcon color="#1e88e5"/>
         </Button>
         
         <Menu
