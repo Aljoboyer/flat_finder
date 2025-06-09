@@ -7,7 +7,8 @@ import { useRouter } from 'next/navigation';
 import React, { useState } from 'react'
 import { useForm, Controller } from "react-hook-form";
 import { authErrorchecker } from '../../_helper/authErrorcheck';
-import { useSignUpMutation } from '@/redux/features/authApi';
+import { useSignUpMutation } from '@/app/redux/features/authApi';
+
 
 export default function SellerRegistraton() {
   const router = useRouter()

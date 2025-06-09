@@ -2,13 +2,13 @@
 import { Buttons } from '@/components/common/Buttons';
 import InputField from '@/components/common/InputField'
 import { authFormFields } from '@/constant/formConfigs/authFormConfigs';
-import { useSignUpMutation } from '@/redux/features/authApi';
 import { COLORS } from '@/theme/colors';
 import { errorToast } from '@/utils/toaster/toaster';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react'
 import { useForm, Controller } from "react-hook-form";
 import { authErrorchecker } from '../../_helper/authErrorcheck';
+import { useSignUpMutation } from '@/app/redux/features/authApi';
 
 export default function BuyerRegistraton() {
   const router = useRouter()

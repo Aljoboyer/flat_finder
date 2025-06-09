@@ -1,10 +1,7 @@
-"use client"
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { Provider } from "react-redux";
-import { persistor, store } from "@/redux/store";
-import { PersistGate } from "redux-persist/integration/react";
 import { Toaster } from "react-hot-toast";
+import ProviderWraper from "@/components/providers/RootContainer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -17,15 +14,13 @@ const geistMono = Geist_Mono({
 });
 
 
-export default function RootLayout({ children }) {
+export default function Layout({ children }) {
   return (
     <html lang="en">
         <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-          <Provider store={store}>
-            <PersistGate loading={null} persistor={persistor}>
-                {children}
-            </PersistGate>
-          </Provider>
+        <ProviderWraper>
+            {children}
+        </ProviderWraper>
           <Toaster position="top-right" />
       </body>
     </html>

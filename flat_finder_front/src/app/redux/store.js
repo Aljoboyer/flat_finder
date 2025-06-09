@@ -16,15 +16,15 @@ import { rootReducer } from './rootReducers';
 
 const persistConfig={
   key: 'persist-store', 
-  storage: localforage
+  storage: localforage,
+   whitelist: ['commonstore'], 
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
 
 export const store = configureStore({
   reducer: persistedReducer,
-  // middleware: (getDefaultMiddleware) =>
-  // getDefaultMiddleware().concat(api.middleware),
+  
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {

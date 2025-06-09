@@ -6,9 +6,9 @@ import InputField from "@/components/common/InputField";
 import { useForm, Controller } from "react-hook-form";
 import { authFormFields } from "@/constant/formConfigs/authFormConfigs";
 import { useRouter } from 'next/navigation';
-import { useLogInMutation } from "@/redux/features/authApi";
 import { authErrorchecker } from "../_helper/authErrorcheck";
 import { errorToast } from "@/utils/toaster/toaster";
+import { useLogInMutation } from "@/app/redux/features/authApi";
 
 export default function Login() {
   const router = useRouter()
@@ -27,6 +27,8 @@ export default function Login() {
     let response = await useLoginHandler(data);
     
     if(response?.data?.token){
+   
+      localStorage.setItem('ff_user', JSON.stringify(response.data))
       setLoading(false)
       router.push('/flat-finder-home')
     }

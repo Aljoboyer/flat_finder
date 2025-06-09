@@ -12,7 +12,7 @@ export const Buttons = ({
     type = '',
     isLoading
 }) => {
-  console.log('checking ===>', {...other_style})
+
   return (
     <Button 
      loading={isLoading}
