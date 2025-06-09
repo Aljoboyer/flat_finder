@@ -1,0 +1,28 @@
+
+export const propertyTableHeader = [
+    {
+        id: 'title',
+        header_label: 'Title',
+        isImageShow: true
+    },
+     {
+        id: 'city',
+        header_label: 'City'
+    },
+      {
+        id: 'areaName',
+        header_label: 'Area Name'
+    },
+    {
+        id: 'price',
+        header_label: 'Price'
+    },
+      {
+        id: 'bedRooms',
+        header_label: 'Bed Rooms'
+    },
+    {
+        id: 'propertyType',
+        header_label: 'Property Type'
+    }
+]

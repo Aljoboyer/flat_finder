@@ -10,10 +10,11 @@ import FFTable from "@/components/common/FFTable";
 import { filterFieldConfig } from "@/constant/formConfigs/filterConfig";
 import FFPagination from "@/components/common/FFPagination";
 import { useLazyGetPropertyListQuery } from "@/app/redux/features/propertyApi";
+import { propertyTableHeader } from "@/constant/tableConfig/propertyTableConfig";
 
 
 export default function SellerProperties() {
-  const [trigger, { data: propertyList, error, isLoading , isFetching}] = useLazyGetPropertyListQuery();
+  const [propertyTrigger, { data: propertyList, error, isLoading , isFetching}] = useLazyGetPropertyListQuery();
   
    const [value, setValue] = useState(0);
   
@@ -26,13 +27,14 @@ export default function SellerProperties() {
     
 useEffect(() => {
   if (typeof window !== 'undefined') {
-    trigger({ querys: `limit=10&page=1` });
+    propertyTrigger({ querys: `limit=${10}&page=${1}` });
   }
 }, []);
-   console.log('propertyList ==>', propertyList, isLoading, error)
+
+   console.log('propertyList ==>', propertyList, isFetching, isLoading)
 
   return (
-    <div className="bg-overlay h-screen p-6 rounded-t-[20px]">
+    <div className="bg-overlay  p-6 rounded-t-[20px]">
           <CommonTabs 
             value={value}
             handleTabChange={handleTabChange}
@@ -40,14 +42,12 @@ useEffect(() => {
             tabWidth={islargeScreen ? '10%' : isMediumScreen ? '20%' : '50%'}
             isPanelShow={false} polygonShape={true}/>
         <div className="bg-white rounded-b-md p-4">
-          <button onClick={() => trigger({ querys: "limit=10&page=1" })}>
-  Load Properties
-</button>
+          
             <FilterAndSearch 
               filterFieldConfig={filterFieldConfig}
             />
             <div className="my-7">
-              <FFTable/>
+              <FFTable tableHeader={propertyTableHeader} dataList={propertyList?.data}/>
             </div>
             <div className="flex flex-row justify-end">
               <FFPagination/>

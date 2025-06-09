@@ -4,17 +4,20 @@ import React from 'react'
 
 export default function FFPagination() {
   return (
-    <Pagination 
-    sx={{
-
-    '& .Mui-selected': {
-      backgroundColor: COLORS.baseColor, // your custom color
-      color: COLORS.side_yellow,
+ <Pagination
+  sx={{
+    '& .MuiPaginationItem-root.Mui-selected': {
+      backgroundColor: `${COLORS.baseColor} !important`,
+      color: `${COLORS.side_yellow} !important`,
       '&:hover': {
-        backgroundColor: COLORS.baseColor,
+        backgroundColor: `${COLORS.baseColor} !important`,
       },
     },
   }}
-    count={10} variant="outlined" shape="rounded" />
+  count={10}
+  variant="outlined"
+  shape="rounded"
+/>
+
   )
 }
