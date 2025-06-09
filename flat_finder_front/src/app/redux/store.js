@@ -17,7 +17,7 @@ import { rootReducer } from './rootReducers';
 const persistConfig={
   key: 'persist-store', 
   storage: localforage,
-   whitelist: ['commonstore'], 
+
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

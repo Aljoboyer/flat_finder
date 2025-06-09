@@ -3,7 +3,8 @@ export const propertyTableHeader = [
     {
         id: 'title',
         header_label: 'Title',
-        isImageShow: true
+        isImageShow: true,
+        secondField: 'propertyId'
     },
      {
         id: 'city',

@@ -5,6 +5,14 @@
   --color-basecolor: #017163;
   --color-side_yellow: #fff000;
   --color-overlay: #e6f6f6;
+  --color-grey50:  #f8fafc,
+  --color-grey100: #eef2f6,
+  --color-grey200: #e3e8ef,
+  --color-grey300: #cdd5df,
+  --color-grey500: #697586,
+  --color-grey600: #4b5565,
+  --color-grey700: #364152,
+  --color-grey900: #121926,
 
   /* ----------TEXT SIZE---------- */
   --text-xxl_title: 60px;

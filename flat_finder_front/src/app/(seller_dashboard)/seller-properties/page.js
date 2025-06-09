@@ -47,7 +47,10 @@ useEffect(() => {
               filterFieldConfig={filterFieldConfig}
             />
             <div className="my-7">
-              <FFTable tableHeader={propertyTableHeader} dataList={propertyList?.data}/>
+              <FFTable 
+              loading={isFetching}
+              tableHeader={propertyTableHeader} 
+              dataList={propertyList?.data}/>
             </div>
             <div className="flex flex-row justify-end">
               <FFPagination/>
