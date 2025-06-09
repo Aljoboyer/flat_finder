@@ -52,9 +52,11 @@ useEffect(() => {
               tableHeader={propertyTableHeader} 
               dataList={propertyList?.data}/>
             </div>
-            <div className="flex flex-row justify-end">
-              <FFPagination/>
+            {
+              propertyList?.data?.length > 0 && <div className="flex flex-row justify-end">
+              <FFPagination totalPage={propertyList?.totalPage} />
             </div>
+            }
         </div>
     </div>
   );

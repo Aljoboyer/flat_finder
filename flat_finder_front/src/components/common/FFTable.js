@@ -10,13 +10,14 @@ import { COLORS } from '@/theme/colors';
 import { Avatar, Box } from '@mui/material';
 import FFLoader from './FFLoader';
 import FFNodata from './FFNodata';
+import ActionButton from './ActionButton';
 
 export default function FFTable({tableHeader, dataList, loading}) {
   return (
     <TableContainer component={Paper}>
       
       {
-        loading ?  <FFLoader/> : 
+        !loading ?  <FFLoader/> : 
       <> 
         {
          dataList?.length == 0 ? <FFNodata/> : <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -24,7 +25,7 @@ export default function FFTable({tableHeader, dataList, loading}) {
           <TableRow>
             {
               tableHeader?.map((header) => (
-                <TableCell key={header?.id}>{header?.header_label}</TableCell>
+                <TableCell sx={{fontWeight: '700' , fontSize: '16px', textAlign: 'center'}} key={header?.id}>{header?.header_label}</TableCell>
               ))
             }
           </TableRow>
@@ -34,12 +35,13 @@ export default function FFTable({tableHeader, dataList, loading}) {
             <TableRow key={row?._id}>
               {tableHeader.map((col) => (
                 
-                <TableCell sx={col?.isImageShow ? {display: 'flex', flexDirection: 'row', } : {}} key={col.id}>
+                <TableCell  sx={col?.isImageShow ? {display: 'flex', flexDirection: 'row', } : {textAlign: 'center'}} key={col.id}>
                   {col?.isImageShow && <Avatar sx={{marginRight: '5px'}} alt="Remy Sharp" src={row?.images[0]} />}
                   
                     <Box>
                         <p>{row[col.id]}</p>
                         <p className='mt-2 text-gray-400'>{row[col.secondField]}</p>
+                        {col?.showActionbtn && <ActionButton editBtnShow={col?.edit}/>}
                     </Box>
                 </TableCell>
               ))}

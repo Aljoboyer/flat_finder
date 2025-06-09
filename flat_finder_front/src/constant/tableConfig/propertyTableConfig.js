@@ -25,5 +25,15 @@ export const propertyTableHeader = [
     {
         id: 'propertyType',
         header_label: 'Property Type'
+    },
+    {
+        id: 'status',
+        header_label: 'Status',
+        
+    },
+     {
+        id: 'Action',
+        showActionbtn: true,
+        edit: true,
     }
 ]
