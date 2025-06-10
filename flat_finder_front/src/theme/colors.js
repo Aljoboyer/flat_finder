@@ -4,7 +4,12 @@ export const COLORS = {
     baseColor: '#017163',
     side_yellow: '#fff000',
     overlay: '#e6f6f6',
-
+    successOverlay: '#b9f6ca',
+    greenMain: '#00c853',
+    blueOverlay: '#e3f2fd',
+    bluemain: '#4c96f3',
+    yellowOverlay: '#fff9e6',
+    
     // grey
     grey50: "#f8fafc",
     grey100: "#eef2f6",

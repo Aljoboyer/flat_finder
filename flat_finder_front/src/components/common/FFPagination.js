@@ -2,28 +2,17 @@ import React, { useState } from 'react';
 import { Pagination, Select, MenuItem, Box, Typography } from '@mui/material';
 import { COLORS } from '@/theme/colors';
 
-export default function FFPagination() {
-  const [page, setPage] = useState(1);
-  const [perPage, setPerPage] = useState(10);
-  const totalItems = 100; 
-
-  const pageCount = Math.ceil(totalItems / perPage);
-
-  const handlePageChange = (event, value) => {
-    setPage(value);
-    console.log('Selected page:', value);
-  };
-
-  const handlePerPageChange = (event) => {
-    setPerPage(Number(event.target.value));
-    setPage(1); // Reset to first page when perPage changes
-    console.log('Items per page:', event.target.value);
-  };
-
+export default function FFPagination({
+  totalPage,
+  handlePageChange,
+  handlePerPageChange,
+  perPage
+}) {
+  
   return (
     <Box sx={{display: 'flex', flexDirection: 'row', alignItems: 'center', flexWrap: {xs: 'wrap', md: 'nowrap'}}} gap={2}>
       <Box display="flex" alignItems="center" gap={1}>
-        <Typography>Items per page:</Typography>
+        <Typography sx={{color: COLORS.grey500, fontSize: '14px'}}>Items per page:</Typography>
         <Select
           value={perPage}
           onChange={handlePerPageChange}
@@ -38,8 +27,7 @@ export default function FFPagination() {
       </Box>
 
       <Pagination
-        count={pageCount}
-        page={page}
+        count={totalPage}
         onChange={handlePageChange}
         variant="outlined"
         shape="rounded"

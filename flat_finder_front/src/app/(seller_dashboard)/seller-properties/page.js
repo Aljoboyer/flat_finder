@@ -15,21 +15,45 @@ import { propertyTableHeader } from "@/constant/tableConfig/propertyTableConfig"
 
 export default function SellerProperties() {
   const [propertyTrigger, { data: propertyList, error, isLoading , isFetching}] = useLazyGetPropertyListQuery();
+  const theme = useTheme();
+  const isMediumScreen = useMediaQuery(theme.breakpoints.up('md'));
+  const islargeScreen = useMediaQuery(theme.breakpoints.up('lg'));
+  const [value, setValue] = useState(0);
+  const [page, setPage] = useState(1);
   
-   const [value, setValue] = useState(0);
+  const [perPage, setPerPage] = useState(10);
+
+
+  const handlePageChange = (event, value) => {
+    setPage(value);
+  };
+
+  const handlePerPageChange = (event) => {
+    setPerPage(Number(event.target.value));
+    setPage(1); 
+  };
   
+
     const handleTabChange = (event, newValue) => {
       setValue(newValue);
+      if(newValue == 1){
+         propertyTrigger({ querys: `limit=${perPage}&page=${page}&status=in_process` });
+      }
+      else if(newValue == 2){
+         propertyTrigger({ querys: `limit=${perPage}&page=${page}&status=booked` });
+      }
+      else{
+         propertyTrigger({ querys: `limit=${perPage}&page=${page}&status=active` });
+      }
+
     };
-    const theme = useTheme();
-    const isMediumScreen = useMediaQuery(theme.breakpoints.up('md'));
-    const islargeScreen = useMediaQuery(theme.breakpoints.up('lg'));
+ 
     
 useEffect(() => {
   if (typeof window !== 'undefined') {
-    propertyTrigger({ querys: `limit=${10}&page=${1}` });
+    propertyTrigger({ querys: `limit=${perPage}&page=${page}&status=active` });
   }
-}, []);
+}, [perPage, page]);
 
    console.log('propertyList ==>', propertyList, isFetching, isLoading)
 
@@ -39,7 +63,7 @@ useEffect(() => {
             value={value}
             handleTabChange={handleTabChange}
             tabsData={PropertiesTabData} 
-            tabWidth={islargeScreen ? '10%' : isMediumScreen ? '20%' : '50%'}
+            tabWidth={islargeScreen ? 'perPage%' : isMediumScreen ? '20%' : '50%'}
             isPanelShow={false} polygonShape={true}/>
         <div className="bg-white rounded-b-md p-4">
           
@@ -54,7 +78,11 @@ useEffect(() => {
             </div>
             {
               propertyList?.data?.length > 0 && <div className="flex flex-row justify-end">
-              <FFPagination totalPage={propertyList?.totalPage} />
+              <FFPagination 
+              perPage={perPage}
+              handlePerPageChange={handlePerPageChange}
+              handlePageChange={handlePageChange}
+              totalPage={propertyList?.totalPage} />
             </div>
             }
         </div>
