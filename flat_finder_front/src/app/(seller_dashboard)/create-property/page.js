@@ -1,8 +1,10 @@
 "use client"
 import { Buttons } from '@/components/common/Buttons'
 import FFPageHeader from '@/components/common/FFPageHeader'
+import ImageUpload from '@/components/common/ImageUpload'
 import InputField from '@/components/common/InputField'
 import { propertyFormFields } from '@/constant/formConfigs/propertyFormConfigs'
+import { uploadImage } from '@/helper/uploadImage'
 import { COLORS } from '@/theme/colors'
 import { Box, Grid } from '@mui/material'
 import React, { useState } from 'react'
@@ -10,6 +12,7 @@ import { Controller, useForm } from 'react-hook-form'
 
 export default function page() {
   const [loading, setLoading] = useState(false)
+  const [imgLoading , setImgLoading] = useState(false)
 
   const {
     handleSubmit,
@@ -25,10 +28,19 @@ export default function page() {
         console.log(data)
   }
 
+  const imageUploadHandler = async (img) => {
+    const uploadedData = await uploadImage(img, setImgLoading)
+    console.log('check', uploadedData)
+  }
   return (
       <div className="bg-overlay  p-6 rounded-t-[20px] w-full">
            <FFPageHeader pageTitle="Create Property"/>
            <div className="bg-white rounded-md p-4">
+
+            {
+              imgLoading ? <h1>Loading...</h1> : <ImageUpload imageUploadHandler={imageUploadHandler} ImageResolution={512}/>
+            }
+
               <form className="space-y-4" onSubmit={handleSubmit(onSubmit)} noValidate>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                       {
