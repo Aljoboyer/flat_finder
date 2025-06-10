@@ -11,9 +11,11 @@ import { filterFieldConfig } from "@/constant/formConfigs/filterConfig";
 import FFPagination from "@/components/common/FFPagination";
 import { useLazyGetPropertyListQuery } from "@/app/redux/features/propertyApi";
 import { propertyTableHeader } from "@/constant/tableConfig/propertyTableConfig";
+import { useRouter } from "next/navigation";
 
 
 export default function SellerProperties() {
+  const router = useRouter()
   const [propertyTrigger, { data: propertyList, error, isLoading , isFetching}] = useLazyGetPropertyListQuery();
   const theme = useTheme();
   const isMediumScreen = useMediaQuery(theme.breakpoints.up('md'));
@@ -55,8 +57,7 @@ useEffect(() => {
   }
 }, [perPage, page]);
 
-   console.log('propertyList ==>', propertyList, isFetching, isLoading)
-
+  
   return (
     <div className="bg-overlay  p-6 rounded-t-[20px]">
           <CommonTabs 
@@ -68,6 +69,7 @@ useEffect(() => {
         <div className="bg-white rounded-b-md p-4">
           
             <FilterAndSearch 
+              createHandler={() => router.push('/create-property')}
               filterFieldConfig={filterFieldConfig}
             />
             <div className="my-7">

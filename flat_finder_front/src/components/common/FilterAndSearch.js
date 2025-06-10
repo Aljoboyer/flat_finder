@@ -7,7 +7,8 @@ import { Box } from '@mui/material';
 
 export default function FilterAndSearch({
     createBtnShow = true,
-    filterFieldConfig
+    filterFieldConfig,
+    createHandler
 }) {
   return (
     <div>
@@ -16,7 +17,9 @@ export default function FilterAndSearch({
 
             {
                 createBtnShow && <div>
-                <Buttons title="Add Property" 
+                <Buttons
+                onClickHandler={createHandler}
+                title="Add Property" 
                 icon={<AddHomeIcon sx={{marginRight: '5px'}}/>} 
                 bgColor={COLORS.baseColor} 
                 textColor={COLORS.side_yellow} other_style={{paddingY: '10px', marginTop: {xs: '15px',md: '0px'}, }}/>
