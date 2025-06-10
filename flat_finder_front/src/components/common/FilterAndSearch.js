@@ -28,16 +28,14 @@ export default function FilterAndSearch({
             
         </div>
 
-        <div className='flex flex-row items-center flex-wrap'>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           {
             filterFieldConfig?.map((field) => (
-              <Box key={field?.label} sx={{width: {xs: '100%', md: '40%'}}}>
                 <InputField 
-                otherStyle={{width: {xs: '100%', md: '90%'}, marginTop: {xs: '10px', md: '0px'}}}
+                otherStyle={{ marginTop: {xs: '10px', md: '0px'}}}
                 label={field?.label}
                 inputType={field?.inputType} options={field?.options}
               />
-              </Box>
             ))
           }
         </div>

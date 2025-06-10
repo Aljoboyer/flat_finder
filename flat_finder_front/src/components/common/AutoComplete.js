@@ -1,10 +1,13 @@
 import { Autocomplete, TextField } from '@mui/material'
 import React from 'react'
+import { customStyle, selectCustomstyle } from './InputField';
 
 export const AutoCompletes = ({
     options = [],
     label = 'Label',
-    otherStyle
+    otherStyle,
+    onChangeHandler,
+    field_id
 }) => {
   return (
     <Autocomplete
@@ -12,26 +15,16 @@ export const AutoCompletes = ({
         options={options}
         getOptionLabel={(option) => option.label}
         onChange={(event, newValue) => {
-            console.log('Selected label:', newValue?.label);
-            console.log('Selected value:', newValue?.value);
+            onChangeHandler(field_id, newValue?.value)
         }}
+        
         sx={{...otherStyle, width: '100%'}}
         renderInput={(params) =>
-            <TextField 
-            
+            <TextField
             sx={{
                     width: '100%',
-                    '& .MuiInputBase-root': {
-                    height: '45px',
-                    minHeight: '45px',
-                    },
-                    '& input': {
-                    padding: '0 8px',
-                    fontSize: '0.875rem',
-                    },
-                    '& label': {
-                    fontSize: '0.75rem',
-                    },
+                    ...customStyle,
+                    ...selectCustomstyle
                 }}
             {...params} label={label} />
         }

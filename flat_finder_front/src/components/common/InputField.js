@@ -5,7 +5,7 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import SearchIcon from '@mui/icons-material/Search';
 import { AutoCompletes } from './AutoComplete';
 
-const customStyle = {
+export const customStyle = {
         backgroundColor: "white",
         "& .MuiOutlinedInput-root": {
           "& fieldset": {
@@ -25,7 +25,20 @@ const customStyle = {
           color: COLORS.baseColor,
         },
 }
-      
+
+export const selectCustomstyle = {
+  '& .MuiInputBase-root': {
+    height: '45px',
+    minHeight: '45px',
+    },
+    '& input': {
+    padding: '0 8px',
+    fontSize: '0.875rem',
+    },
+    '& label': {
+    fontSize: '15px',
+    }
+}
 export default function InputField({
   inputType = 'textfield', 
   label = 'Input',
@@ -35,13 +48,14 @@ export default function InputField({
   errors,
   placeholder,
   options,
+  onChangeHandler
 }) {
    const [showPassword, setShowPassword] = React.useState(false);
  
  
   if(inputType == 'password'){
    return (
-      <>
+      <div className='w-full'>
         <TextField
         {...field}
           fullWidth
@@ -61,7 +75,7 @@ export default function InputField({
           }}
         />
           { errors[field_id] && <p className='text-psm text-red-500'>{errors[field_id].message}</p>}
-      </>
+      </div>
   )
  }
  else if(inputType == 'search'){
@@ -85,15 +99,15 @@ export default function InputField({
  }
  else if (inputType == 'autocomplete'){
   return(
-    <>
-        <AutoCompletes otherStyle={otherStyle} options={options} label={label}/>
+    <div>
+        <AutoCompletes field_id={field_id} onChangeHandler={onChangeHandler}  field={field} otherStyle={otherStyle} options={options} label={label}/>
         { errors && <> {errors[field_id] && <p className='text-psm text-red-500'>{errors[field_id].message}</p>}</>}
-    </>
+    </div>
   )
  }
  else if(inputType == 'number'){
 return (
-    <>
+    <div className='w-full'>
         <TextField
       {...field}
       type="number"
@@ -103,51 +117,37 @@ return (
       variant="outlined"
       size="small"
       sx={{ ...customStyle, ...otherStyle,  }}
-      inputProps={{
-        inputMode: 'numeric',
-        pattern: '[0-9]*'
-      }}
+ 
     />
    { errors[field_id] && <p className='text-psm text-red-500'>{errors[field_id].message}</p>}
-  </>
+  </div>
 )
  }
  else if (inputType == 'select'){
   return (
-     <FormControl  sx={{...customStyle, ...otherStyle,  
-                    '& .MuiInputBase-root': {
-                    height: '45px',
-                    minHeight: '45px',
-                    },
-                    '& input': {
-                    padding: '0 8px',
-                    fontSize: '0.875rem',
-                    },
-                    '& label': {
-                    fontSize: '0.75rem',
-                    },}} fullWidth>
-  <InputLabel id="demo-simple-select-label">{label}</InputLabel>
-  <Select
-    labelId="demo-simple-select-label"
-    id="demo-simple-select"
-  
-    label={label}
-  
-  >
-    {
-      options?.map((item) => (
-          <MenuItem value={item?.value}>{item?.label}</MenuItem>
-      ))
-    }
-   
-  </Select>
+  <FormControl  sx={{...customStyle, ...otherStyle, ...selectCustomstyle}} fullWidth>
+      <InputLabel id="demo-simple-select-label">{label}</InputLabel>
+      <Select
+        labelId="demo-simple-select-label"
+        id="demo-simple-select"
+        label={label}
+        value={field.value} // <- needed for react-hook-form field.onChange
+        onChange={(e) => onChangeHandler(field_id, e.target.value)} 
+      >
+        {
+          options?.map((item) => (
+              <MenuItem value={item?.value}>{item?.label}</MenuItem>
+          ))
+        }
+      
+      </Select>
       { errors[field_id] && <p className='text-psm text-red-500'>{errors[field_id].message}</p>}
 </FormControl>
   )
  }
  else{
    return (
-    <>
+    <div className='w-full'>
     <TextField
       
       {...field}
@@ -159,7 +159,7 @@ return (
       sx={{...customStyle, ...otherStyle}}
     />
     { errors[field_id] && <p className='text-psm text-red-500'>{errors[field_id].message}</p>}
-    </>
+    </div>
   )
  }
 }

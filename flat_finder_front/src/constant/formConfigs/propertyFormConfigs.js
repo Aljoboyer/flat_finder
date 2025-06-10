@@ -32,13 +32,19 @@ export const propertyFormFields =  [
         options: cities,
         field_id: 'city',
         label: 'City Name',
-        inputType: 'autocomplete'
+        inputType: 'autocomplete',
+        required:{
+            required: 'Please Enter city name',
+        },
     },
     {
         options: cities,
         field_id: 'areaName',
         label: 'Area Name',
-        inputType: 'autocomplete'
+        inputType: 'autocomplete',
+        required:{
+            required: 'Please Enter area name',
+        },
     },
     {
         field_id: 'propertyType',
