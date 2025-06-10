@@ -9,7 +9,8 @@ const generateFilterQuery = (queryOptions) => {
           maxSqft,
           bedrooms,
           seller,
-        searchKey
+          searchKey,
+          status
         } = queryOptions;
 
           
@@ -41,6 +42,9 @@ const generateFilterQuery = (queryOptions) => {
         }
         if (searchKey) {
             query.propertyId = { $regex: searchKey, $options: 'i' }; 
+        }
+        if(status){
+            query.status = status
         }
     return query;
 }

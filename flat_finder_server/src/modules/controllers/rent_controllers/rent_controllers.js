@@ -65,7 +65,7 @@ const RentRequestActionController = async (req, res) => {
     try {
 
     if (status === 'accepted') {
-           const rentRequestAction = await RentRequestCollection.findByIdAndUpdate(
+      const rentRequestAction = await RentRequestCollection.findByIdAndUpdate(
                         id,
                         { status: status },);
       const updatePropertyStatus = await PropertyCollection.findByIdAndUpdate(
