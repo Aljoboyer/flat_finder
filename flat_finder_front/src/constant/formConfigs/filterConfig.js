@@ -3,12 +3,12 @@ import { cities } from "@/components/visitors/LandingPage/HeroSection";
 export  const filterFieldConfig = [
       {
         options: cities,
-        textFieldLabel: 'City Name',
+        label: 'City Name',
         inputType: 'autocomplete'
       },
       {
         options: cities,
-        textFieldLabel: 'Area Name',
+        label: 'Area Name',
         inputType: 'autocomplete'
       }
     ]

@@ -21,8 +21,8 @@ export const HeroSection = () => {
                 <p className="my-4">Experience the home that moves with you for a month, a year, or longer with a global network of designer, furnished apartments.</p>
             </div>
             <div className="  flex flex-col md:flex-row items-center gap-4 mt-4 w-full max-w-2xl header_form p-[15px]">
-              <AutoCompletes options={cities} textFieldLabel='City'/>
-             <AutoCompletes options={cities} textFieldLabel='Area Name'/>
+              <AutoCompletes options={cities} label='City'/>
+              <AutoCompletes options={cities} label='Area Name'/>
 
               <Buttons title="Serch" icon={ <SearchRoundedIcon />} other_style={{width: '200px', height: '45px'}} bgColor={COLORS.baseColor} textColor="white"/>
             </div>

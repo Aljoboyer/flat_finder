@@ -3,7 +3,7 @@ import React from 'react'
 
 export const AutoCompletes = ({
     options = [],
-    textFieldLabel = 'Label',
+    label = 'Label',
     otherStyle
 }) => {
   return (
@@ -15,11 +15,12 @@ export const AutoCompletes = ({
             console.log('Selected label:', newValue?.label);
             console.log('Selected value:', newValue?.value);
         }}
-        sx={{...otherStyle}}
+        sx={{...otherStyle, width: '100%'}}
         renderInput={(params) =>
             <TextField 
             
             sx={{
+                    width: '100%',
                     '& .MuiInputBase-root': {
                     height: '45px',
                     minHeight: '45px',
@@ -32,9 +33,9 @@ export const AutoCompletes = ({
                     fontSize: '0.75rem',
                     },
                 }}
-            {...params} label={textFieldLabel} />
+            {...params} label={label} />
         }
-        className="w-full md:w-1/2"
+        className="w-full "
         />
   )
 }

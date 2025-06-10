@@ -31,11 +31,11 @@ export default function FilterAndSearch({
         <div className='flex flex-row items-center flex-wrap'>
           {
             filterFieldConfig?.map((field) => (
-              <Box key={field?.textFieldLabel} sx={{width: {xs: '100%', md: '40%'}}}>
+              <Box key={field?.label} sx={{width: {xs: '100%', md: '40%'}}}>
                 <InputField 
                 otherStyle={{width: {xs: '100%', md: '90%'}, marginTop: {xs: '10px', md: '0px'}}}
-              textFieldLabel={field?.textFieldLabel}
-              inputType={field?.inputType} options={field?.options}
+                label={field?.label}
+                inputType={field?.inputType} options={field?.options}
               />
               </Box>
             ))

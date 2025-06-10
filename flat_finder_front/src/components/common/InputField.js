@@ -1,5 +1,5 @@
 import { COLORS } from '@/theme/colors'
-import { IconButton, InputAdornment, InputBase, Paper, TextField } from '@mui/material'
+import { FormControl, IconButton, InputAdornment, InputBase, InputLabel, MenuItem, Paper, Select, TextField } from '@mui/material'
 import React from 'react'
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import SearchIcon from '@mui/icons-material/Search';
@@ -35,7 +35,6 @@ export default function InputField({
   errors,
   placeholder,
   options,
-  textFieldLabel
 }) {
    const [showPassword, setShowPassword] = React.useState(false);
  
@@ -86,13 +85,71 @@ export default function InputField({
  }
  else if (inputType == 'autocomplete'){
   return(
-    <AutoCompletes otherStyle={otherStyle} options={options} textFieldLabel={textFieldLabel}/>
+    <>
+        <AutoCompletes otherStyle={otherStyle} options={options} label={label}/>
+        { errors && <> {errors[field_id] && <p className='text-psm text-red-500'>{errors[field_id].message}</p>}</>}
+    </>
+  )
+ }
+ else if(inputType == 'number'){
+return (
+    <>
+        <TextField
+      {...field}
+      type="number"
+      placeholder={placeholder}
+      fullWidth
+      label={label}
+      variant="outlined"
+      size="small"
+      sx={{ ...customStyle, ...otherStyle,  }}
+      inputProps={{
+        inputMode: 'numeric',
+        pattern: '[0-9]*'
+      }}
+    />
+   { errors[field_id] && <p className='text-psm text-red-500'>{errors[field_id].message}</p>}
+  </>
+)
+ }
+ else if (inputType == 'select'){
+  return (
+     <FormControl  sx={{...customStyle, ...otherStyle,  
+                    '& .MuiInputBase-root': {
+                    height: '45px',
+                    minHeight: '45px',
+                    },
+                    '& input': {
+                    padding: '0 8px',
+                    fontSize: '0.875rem',
+                    },
+                    '& label': {
+                    fontSize: '0.75rem',
+                    },}} fullWidth>
+  <InputLabel id="demo-simple-select-label">{label}</InputLabel>
+  <Select
+    labelId="demo-simple-select-label"
+    id="demo-simple-select"
+  
+    label={label}
+  
+  >
+    {
+      options?.map((item) => (
+          <MenuItem value={item?.value}>{item?.label}</MenuItem>
+      ))
+    }
+   
+  </Select>
+      { errors[field_id] && <p className='text-psm text-red-500'>{errors[field_id].message}</p>}
+</FormControl>
   )
  }
  else{
    return (
     <>
     <TextField
+      
       {...field}
       placeholder={placeholder}
       fullWidth
