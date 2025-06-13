@@ -3,6 +3,7 @@ import { Buttons } from '@/components/common/Buttons'
 import FFPageHeader from '@/components/common/FFPageHeader'
 import ImageUpload from '@/components/common/ImageUpload'
 import InputField from '@/components/common/InputField'
+import PropertyFormImg from '@/components/seller/propertyFormImg/PropertyFormImg'
 import { propertyFormFields } from '@/constant/formConfigs/propertyFormConfigs'
 import { uploadImage } from '@/helper/uploadImage'
 import { COLORS } from '@/theme/colors'
@@ -40,6 +41,8 @@ export default function page() {
             {
               imgLoading ? <h1>Loading...</h1> : <ImageUpload imageUploadHandler={imageUploadHandler} ImageResolution={512}/>
             }
+            
+            <PropertyFormImg/>
 
               <form className="space-y-4" onSubmit={handleSubmit(onSubmit)} noValidate>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
