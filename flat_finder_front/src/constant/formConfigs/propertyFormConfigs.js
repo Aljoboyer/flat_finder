@@ -1,4 +1,6 @@
 import { cities } from "@/components/visitors/LandingPage/HeroSection";
+import { numberRegex } from "./regexData";
+import { itemNumbers } from "../dropdownData";
 
 export const propertyFormFields =  [
     {
@@ -16,6 +18,10 @@ export const propertyFormFields =  [
         placeholder: 'Enter advance money',
         required:{
             required: 'Please Enter advance money',
+            pattern: {
+                    value: numberRegex,
+                    message: "Please enter valid amount",
+                }
         },
         inputType: 'number'
     },
@@ -25,6 +31,10 @@ export const propertyFormFields =  [
         placeholder: 'Enter property price',
         required:{
             required: 'Please Enter property price',
+            pattern: {
+            value: numberRegex,
+            message: "Please enter valid amount",
+            }
         },
         inputType: 'number'
     },
@@ -59,5 +69,110 @@ export const propertyFormFields =  [
             required: 'Please Enter property type',
         },
         inputType: 'select'
+    },
+    {
+        field_id: 'flatMeasurement',
+        label: 'Flat Measurement',
+        placeholder: 'Enter Measurement',
+        required:{
+            required: 'Please Enter Measurementy',
+            pattern: {
+                    value: numberRegex,
+                    message: "Please enter valid Measurement",
+                }
+        },
+        inputType: 'number'
+    },
+    {
+        field_id: 'bedRooms',
+        options: itemNumbers.slice(0, 10),
+        label: 'Bed Rooms',
+        placeholder: 'Enter total bedroom',
+        required:{
+            required: 'Please Enter total bedroom',
+        },
+        inputType: 'select'
+    },
+    {
+        field_id: 'bathrooms',
+        options: itemNumbers.slice(0, 5),
+        label: 'Bath Rooms',
+        placeholder: 'Enter total bath room',
+        required:{
+            required: 'Please Enter total bath room',
+        },
+        inputType: 'select'
+    },
+    {
+        field_id: 'balcony',
+        options: itemNumbers.slice(0, 5),
+        label: 'Balcony',
+        placeholder: 'Enter total balcony',
+        required:{
+            required: 'Please Enter total balcony',
+        },
+        inputType: 'select'
+    },
+    {
+        field_id: 'floorNo',
+        options: itemNumbers,
+        label: 'Floor No.',
+        placeholder: 'Enter total floor no',
+        required:{
+            required: 'Please Enter floor no',
+        },
+        inputType: 'select'
+    },
+    {
+        field_id: 'purpose',
+        options: [
+            {value: 'rent', label: 'Rent'},
+            {value: 'Sell', label: 'Sell'},
+        ],
+        label: 'Purpose',
+        placeholder: 'Enter property purpose',
+        required:{
+            required: 'Please Enter property purpose',
+        },
+        inputType: 'select'
+    },
+    {
+        field_id: 'generator',
+        label: 'Generator',
+        inputType: 'checkbox'
+    },
+    {
+        field_id: 'govtGas',
+        label: 'Govt. Gas',
+        inputType: 'checkbox'
+    },
+    {
+        field_id: 'cctvSecurity',
+        label: 'CC-Tv Security',
+        inputType: 'checkbox'
+    },
+     {
+        field_id: 'schoolNearBy',
+        label: 'School NearBy',
+        inputType: 'checkbox'
+    },
+    {
+        field_id: 'parking',
+        label: 'Parking',
+        inputType: 'checkbox'
+    },
+    {
+        field_id: 'hospitalNearBy',
+        label: 'Hospital NearBy',
+        inputType: 'checkbox'
+    },
+      {
+        field_id: 'description',
+        label: 'Property Description',
+        inputType: 'textarea',
+        placeholder: 'Write Property Description...',
+        required:{
+            required: 'Please Enter property Description',
+        },
     },
 ]

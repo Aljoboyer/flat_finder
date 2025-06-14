@@ -42,43 +42,42 @@ export default function page() {
               imgLoading ? <h1>Loading...</h1> : <ImageUpload imageUploadHandler={imageUploadHandler} ImageResolution={512}/>
             }
             
-            <PropertyFormImg/>
+            {/* <PropertyFormImg/> */}
 
               <form className="space-y-4" onSubmit={handleSubmit(onSubmit)} noValidate>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                      {
-                        propertyFormFields.map((fieldItem) => (
-                          <Controller
-                            key={fieldItem?.field_id}
-                            name={fieldItem?.field_id}
-                            control={control}
-                            defaultValue=""
-                            rules={{
-                              ...fieldItem?.required
-                            }}
-                            render={({ field }) => (
-                                <InputField
-                                otherStyle={{marginTop: '14px'}}
-                                label={fieldItem?.label} 
-                                field={field}
-                                field_id={fieldItem?.field_id}
-                                errors={errors}
-                                placeholder={fieldItem?.placeholder}
-                                inputType={fieldItem?.inputType}
-                                options={fieldItem?.options}
-                                onChangeHandler={(id , value) => {
-                                    if(fieldItem?.inputType == 'select' || fieldItem?.inputType == 'autocomplete'){
-                                       setValue(`${id}`, value)
-                                      setError(`${id}`, { type: "custom", message: "" });
-                                    }
-                                } }
-                                />
-                            )}
-                          />
-                        ))
-                      }
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                        {
+                          propertyFormFields.map((fieldItem) => (
+                            <Controller
+                              key={fieldItem?.field_id}
+                              name={fieldItem?.field_id}
+                              control={control}
+                              defaultValue=""
+                              rules={{
+                                ...fieldItem?.required
+                              }}
+                              render={({ field }) => (
+                                  <InputField
+                                  otherStyle={{marginTop: '14px'}}
+                                  label={fieldItem?.label} 
+                                  field={field}
+                                  field_id={fieldItem?.field_id}
+                                  errors={errors}
+                                  placeholder={fieldItem?.placeholder}
+                                  inputType={fieldItem?.inputType}
+                                  options={fieldItem?.options}
+                                  onChangeHandler={(id , value) => {
+                                      if(fieldItem?.inputType == 'select' || fieldItem?.inputType == 'autocomplete'){
+                                        setValue(`${id}`, value)
+                                        setError(`${id}`, { type: "custom", message: "" });
+                                      }
+                                  } }
+                                  />
+                              )}
+                            />
+                          ))
+                        }
                   </div>
-      
                 <div className='flex flex-row justify-end'>
                   <Buttons
                   isLoading={loading}
