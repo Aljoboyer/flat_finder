@@ -17,7 +17,7 @@ import { getLocalStorageData } from "@/utils/getLocalStorageData";
 
 export default function SellerProperties() {
   const router = useRouter()
-  const [propertyTrigger, { data: propertyList, error, isLoading , isFetching}] = useLazyGetPropertyListQuery();
+  const [propertyListTrigger, { data: propertyList, error, isLoading , isFetching}] = useLazyGetPropertyListQuery();
   const theme = useTheme();
   const isMediumScreen = useMediaQuery(theme.breakpoints.up('md'));
   const islargeScreen = useMediaQuery(theme.breakpoints.up('lg'));
@@ -39,26 +39,31 @@ export default function SellerProperties() {
   const handleTabChange = (event, newValue) => {
     setValue(newValue);
     if(newValue == 1){
-        propertyTrigger({ querys: `limit=${perPage}&page=${page}&status=in_process` });
+        propertyListTrigger({ querys: `limit=${perPage}&page=${page}&status=in_process` });
     }
     else if(newValue == 2){
-        propertyTrigger({ querys: `limit=${perPage}&page=${page}&status=booked` });
+        propertyListTrigger({ querys: `limit=${perPage}&page=${page}&status=booked` });
     }
     else{
-        propertyTrigger({ querys: `limit=${perPage}&page=${page}&status=active` });
+        propertyListTrigger({ querys: `limit=${perPage}&page=${page}&status=active` });
     }
 
   };
 
     
-useEffect(() => {
-  if (typeof window !== 'undefined') {
-    
-    propertyTrigger({ querys: `limit=${perPage}&page=${page}&status=active&seller=${userData?._id}` });
-  }
-}, [perPage, page]);
+    useEffect(() => {
+      if (typeof window !== 'undefined') {
+        
+        propertyListTrigger({ querys: `limit=${perPage}&page=${page}&status=active&seller=${userData?._id}` });
+      }
+    }, [perPage, page]);
 
-  
+    const filterChangeHandler = () => {
+
+    }
+    const editHandler = (itemId) => {
+      router.push(`/edit-property/${itemId}`)
+    }
   return (
     <div className="bg-overlay  p-6 rounded-t-[20px]">
           <CommonTabs 
@@ -72,9 +77,11 @@ useEffect(() => {
             <FilterAndSearch 
               createHandler={() => router.push('/create-property')}
               filterFieldConfig={filterFieldConfig}
+              onChangeHandler={filterChangeHandler}
             />
             <div className="my-7">
-              <FFTable 
+              <FFTable
+              editHandler={editHandler}
               loading={isFetching}
               tableHeader={propertyTableHeader} 
               dataList={propertyList?.data}/>

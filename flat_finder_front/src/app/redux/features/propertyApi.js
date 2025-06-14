@@ -26,11 +26,19 @@ const PropertyApi = api.injectEndpoints({
    
     }),
 
+    getSingleProperty: builder.query({
+      query: (data) => (
+        getListQueryCall('/property/property', data?.querys)
+      ),
+      
+    }),
+
   }),
 });
 
 export const {
   useLazyGetPropertyListQuery,
   useCreatePropertyMutation,
-  useDeletePropertyImgMutation
+  useDeletePropertyImgMutation,
+  useLazyGetSinglePropertyQuery
 } = PropertyApi;

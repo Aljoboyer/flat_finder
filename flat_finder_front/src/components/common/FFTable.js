@@ -12,8 +12,13 @@ import FFLoader from './FFLoader';
 import FFNodata from './FFNodata';
 import ActionButton from './ActionButton';
 import FFChip from './FFChip';
+import { capitalizeFirstLetter } from '@/utils/stringHelper';
 
-export default function FFTable({tableHeader, dataList, loading}) {
+export default function FFTable({tableHeader, 
+    dataList, 
+    loading,
+    editHandler
+  }) {
   return (
     <TableContainer component={Paper}>
       
@@ -36,15 +41,15 @@ export default function FFTable({tableHeader, dataList, loading}) {
             <TableRow key={row?._id}>
               {tableHeader.map((col) => (
                 
-                <TableCell  sx={col?.isImageShow ? {display: 'flex', flexDirection: 'row', } : {textAlign: 'center'}} key={col.id}>
+                <TableCell key={col?.id}  sx={col?.isImageShow ? {display: 'flex', flexDirection: 'row', } : {textAlign: 'center'}} >
                   {col?.isImageShow && <Avatar sx={{marginRight: '5px'}} alt="Remy Sharp" src={row?.images[0]} />}
                   
                     <Box>
-                      {col?.id == 'status' ? <FFChip label={row[col.id] } /> : <p className=''>{ row[col.id]}</p>}
+                      {col?.id == 'status' ? <FFChip label={row[col.id] } /> : <p className=''>{col?.makeFirstLaterCapital ? capitalizeFirstLetter(row[col.id]) : row[col.id]}</p>}
                         
                         <p className='mt-2 text-gray-500 font-medium text-[12px]'>{row[col.secondField]}</p>
                     </Box>
-                      {col?.showActionbtn && <ActionButton editBtnShow={col?.edit}/>}
+                      {col?.showActionbtn && <ActionButton itemId={row?._id} editHandler={editHandler} editBtnShow={col?.edit}/>}
                 </TableCell>
               ))}
             </TableRow>

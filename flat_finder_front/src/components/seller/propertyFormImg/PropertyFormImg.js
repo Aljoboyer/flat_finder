@@ -15,13 +15,13 @@ export default function PropertyFormImg({
       <div className="grid grid-cols-4 sm:grid-cols-2 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 gap-4 p-4 min-w-[520px] sm:min-w-0">
         {imgData?.map((item) => (
           <div
-            key={item?.public_id}
+            key={item}
             className="relative bg-white shadow-md rounded overflow-hidden min-w-[120px]"
           >
             {
-               currentDeletingImg == item?.public_id  || <IconButton
+               currentDeletingImg == item  || <IconButton
                 size="small"
-                onClick={() => onDeleteHandler(item?.public_id)}
+                onClick={() => onDeleteHandler(item)}
                 className="!absolute !top-1 !right-1 !shadow-sm hover:!text-red-500"
                 sx={{
                     width: 24,
@@ -40,8 +40,8 @@ export default function PropertyFormImg({
             
             {/* Image */}
            {
-            currentDeletingImg == item?.public_id  ? <FFLoader2/> : <img
-              src={item?.url}
+            currentDeletingImg == item  ? <FFLoader2/> : <img
+              src={item}
               alt="Sample"
               className="w-full h-28 sm:h-32 md:h-36 lg:h-40 object-contain"
             />

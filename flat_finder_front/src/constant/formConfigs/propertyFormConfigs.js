@@ -139,34 +139,40 @@ export const propertyFormFields =  [
     {
         field_id: 'generator',
         label: 'Generator',
-        inputType: 'checkbox'
+        inputType: 'checkbox',
+        value: false
     },
     {
         field_id: 'govtGas',
         label: 'Govt. Gas',
-        inputType: 'checkbox'
+        inputType: 'checkbox',
+        value: false
     },
     {
         field_id: 'cctvSecurity',
         label: 'CC-Tv Security',
-        inputType: 'checkbox'
+        inputType: 'checkbox',
+        value: false
     },
      {
         field_id: 'schoolNearBy',
         label: 'School NearBy',
-        inputType: 'checkbox'
+        inputType: 'checkbox',
+        value: false
     },
     {
         field_id: 'parking',
         label: 'Parking',
-        inputType: 'checkbox'
+        inputType: 'checkbox',
+        value: false
     },
     {
         field_id: 'hospitalNearBy',
         label: 'Hospital NearBy',
-        inputType: 'checkbox'
+        inputType: 'checkbox',
+        value: false
     },
-      {
+    {
         field_id: 'description',
         label: 'Property Description',
         inputType: 'textarea',
@@ -175,4 +181,5 @@ export const propertyFormFields =  [
             required: 'Please Enter property Description',
         },
     },
+
 ]

@@ -9,12 +9,14 @@ import { FaRegEdit } from "react-icons/fa";
 
 export default function ActionButton({
     editBtnShow,
-    approveBtnShow
+    approveBtnShow,
+    itemId,
+    editHandler
 }) {
-        const [anchorEl, setAnchorEl] = React.useState(null);
-      const manuOpen = Boolean(anchorEl);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const manuOpen = Boolean(anchorEl);
   const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
+    setAnchorEl(event.currentTarget)
   };
   const handleClose = () => {
     setAnchorEl(null);
@@ -56,9 +58,9 @@ export default function ActionButton({
           }}
         >
             {
-                editBtnShow &&      <MenuItem className='ease-in-out duration-300'  sx={{ borderRadius: '4px', height: '50px',  '&:hover': {
-        backgroundColor: COLORS.overlay,
-        }}} 
+                editBtnShow &&      <MenuItem  className='ease-in-out duration-300'  sx={{ borderRadius: '4px', height: '50px',  '&:hover': {
+                backgroundColor: COLORS.overlay,}}} 
+                onClick={() => editHandler(itemId)}
             >
                 <FaRegEdit className='mr-2'/>
             <p className='font-roboto font-regular text-[14px] text-[#364152]'>Edit</p>
@@ -70,9 +72,10 @@ export default function ActionButton({
             approveBtnShow && <MenuItem className='ease-in-out duration-300'  sx={{borderRadius: '4px', height: '50px',  '&:hover': {
         backgroundColor: COLORS.overlay,
         }}} 
-        // onClick={logOutHandler}
+        
             ><p className='font-roboto font-regular text-[14px] text-[#364152]'>Approve</p></MenuItem>
         }
+
           
         </Menu>
       </div>

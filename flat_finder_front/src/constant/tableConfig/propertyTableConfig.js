@@ -24,7 +24,8 @@ export const propertyTableHeader = [
     },
     {
         id: 'propertyType',
-        header_label: 'Property Type'
+        header_label: 'Property Type',
+        makeFirstLaterCapital: true
     },
     {
         id: 'status',
@@ -33,6 +34,7 @@ export const propertyTableHeader = [
     },
      {
         id: 'Action',
+        header_label: 'Action',
         showActionbtn: true,
         edit: true,
     }

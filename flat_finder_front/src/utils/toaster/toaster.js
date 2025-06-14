@@ -1,4 +1,5 @@
-const { default: toast } = require("react-hot-toast");
+import toast from "react-hot-toast";
+
 
 
 export const errorToast = () => {

@@ -8,7 +8,8 @@ import { Box } from '@mui/material';
 export default function FilterAndSearch({
     createBtnShow = true,
     filterFieldConfig,
-    createHandler
+    createHandler,
+    onChangeHandler
 }) {
   return (
     <div>
@@ -35,6 +36,7 @@ export default function FilterAndSearch({
                 otherStyle={{ marginTop: {xs: '10px', md: '0px'}}}
                 label={field?.label}
                 inputType={field?.inputType} options={field?.options}
+                onChangeHandler={onChangeHandler}
               />
             ))
           }
