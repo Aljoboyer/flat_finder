@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { getAuthToken } from "@/utils/getAuthToken";
 import { api } from "../api/api";
-import { getListQueryCall } from "@/utils/reduxApiCallObj";
+import { getListQueryCall, mutationCall } from "@/utils/reduxApiCallObj";
 
 const PropertyApi = api.injectEndpoints({
   endpoints: (builder) => ({
@@ -12,10 +12,25 @@ const PropertyApi = api.injectEndpoints({
       providesTags: ["propertyList"],
     }),
 
+    createProperty: builder.mutation({
+      query: (requestBody) =>(
+        mutationCall('/property/post','POST', requestBody)
+      ),
+      invalidatesTags: ['propertyList'],
+    }),
+
+    deletePropertyImg: builder.mutation({
+      query: (requestBody) =>(
+        mutationCall('/file/delete/','POST', requestBody)
+      ),
+   
+    }),
+
   }),
 });
 
 export const {
   useLazyGetPropertyListQuery,
-  useGetPropertyListQuery
+  useCreatePropertyMutation,
+  useDeletePropertyImgMutation
 } = PropertyApi;

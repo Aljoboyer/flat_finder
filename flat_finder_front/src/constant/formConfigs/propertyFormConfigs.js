@@ -127,7 +127,7 @@ export const propertyFormFields =  [
         field_id: 'purpose',
         options: [
             {value: 'rent', label: 'Rent'},
-            {value: 'Sell', label: 'Sell'},
+            {value: 'sell', label: 'Sell'},
         ],
         label: 'Purpose',
         placeholder: 'Enter property purpose',

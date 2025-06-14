@@ -12,3 +12,16 @@ export const getListQueryCall = (url,querys) => {
         }
    return apiCallObj;
 }
+
+export const mutationCall = (url, method, requestBody) => {
+   const apiCallObj = {
+          url: `${url}`,
+          method: method,
+          headers: {
+            "Authorization": `Bearer ${getAuthToken()}`,
+            "Content-Type": "application/json",
+          },
+          body: requestBody
+        }
+   return apiCallObj;
+}

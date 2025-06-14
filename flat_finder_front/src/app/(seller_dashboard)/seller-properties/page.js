@@ -12,6 +12,7 @@ import FFPagination from "@/components/common/FFPagination";
 import { useLazyGetPropertyListQuery } from "@/app/redux/features/propertyApi";
 import { propertyTableHeader } from "@/constant/tableConfig/propertyTableConfig";
 import { useRouter } from "next/navigation";
+import { getLocalStorageData } from "@/utils/getLocalStorageData";
 
 
 export default function SellerProperties() {
@@ -24,7 +25,7 @@ export default function SellerProperties() {
   const [page, setPage] = useState(1);
   
   const [perPage, setPerPage] = useState(10);
-
+  const userData = getLocalStorageData()
 
   const handlePageChange = (event, value) => {
     setPage(value);
@@ -35,25 +36,25 @@ export default function SellerProperties() {
     setPage(1); 
   };
   
+  const handleTabChange = (event, newValue) => {
+    setValue(newValue);
+    if(newValue == 1){
+        propertyTrigger({ querys: `limit=${perPage}&page=${page}&status=in_process` });
+    }
+    else if(newValue == 2){
+        propertyTrigger({ querys: `limit=${perPage}&page=${page}&status=booked` });
+    }
+    else{
+        propertyTrigger({ querys: `limit=${perPage}&page=${page}&status=active` });
+    }
 
-    const handleTabChange = (event, newValue) => {
-      setValue(newValue);
-      if(newValue == 1){
-         propertyTrigger({ querys: `limit=${perPage}&page=${page}&status=in_process` });
-      }
-      else if(newValue == 2){
-         propertyTrigger({ querys: `limit=${perPage}&page=${page}&status=booked` });
-      }
-      else{
-         propertyTrigger({ querys: `limit=${perPage}&page=${page}&status=active` });
-      }
+  };
 
-    };
- 
     
 useEffect(() => {
   if (typeof window !== 'undefined') {
-    propertyTrigger({ querys: `limit=${perPage}&page=${page}&status=active` });
+    
+    propertyTrigger({ querys: `limit=${perPage}&page=${page}&status=active&seller=${userData?._id}` });
   }
 }, [perPage, page]);
 
