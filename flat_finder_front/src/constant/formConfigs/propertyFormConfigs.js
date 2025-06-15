@@ -1,6 +1,5 @@
-import { cities } from "@/components/visitors/LandingPage/HeroSection";
 import { numberRegex } from "./regexData";
-import { itemNumbers } from "../dropdownData";
+import { cities, itemNumbers } from "../dropdownData";
 
 export const propertyFormFields =  [
     {

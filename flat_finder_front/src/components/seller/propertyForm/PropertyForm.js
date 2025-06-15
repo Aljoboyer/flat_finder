@@ -2,7 +2,6 @@
 import { useCreatePropertyMutation, useDeletePropertyImgMutation } from '@/app/redux/features/propertyApi'
 import { Buttons } from '@/components/common/Buttons'
 import FFLoader2 from '@/components/common/FFLoader-2'
-import FFPageHeader from '@/components/common/FFPageHeader'
 import ImageUpload from '@/components/common/ImageUpload'
 import InputField from '@/components/common/InputField'
 import PropertyFormImg from '@/components/seller/propertyFormImg/PropertyFormImg'

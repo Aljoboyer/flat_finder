@@ -1,4 +1,4 @@
-import { cities } from "@/components/visitors/LandingPage/HeroSection";
+import { cities } from "../dropdownData";
 
 export  const filterFieldConfig = [
       {

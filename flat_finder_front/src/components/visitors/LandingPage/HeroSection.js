@@ -3,14 +3,7 @@ import { Buttons } from '@/components/common/Buttons'
 import React from 'react'
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import { COLORS } from "@/theme/colors";
-
-export const cities = [
-  { label: 'New York', value: 'New York' },
-  { label: 'London', value: 'London' },
-  { label: 'Tokyo', value: 'Thello' },
-  { label: 'Dhaka', value: 'Dhaka' },
-  { label: 'Berlin', value: 'Berlin' }
-];;
+import { cities } from '@/constant/dropdownData';
 
 export const HeroSection = () => {
   return (

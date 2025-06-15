@@ -3,7 +3,6 @@ import InputField from "@/components/common/InputField";
 import { Buttons } from "@/components/common/Buttons";
 import { COLORS } from "@/theme/colors";
 import AddHomeIcon from '@mui/icons-material/AddHome';
-import { Box } from '@mui/material';
 
 export default function FilterAndSearch({
     createBtnShow = true,
