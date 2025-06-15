@@ -22,9 +22,14 @@ const deleteFileFromCloudinary = async (req, res) => {
   if (!public_id) {
     return res.status(400).json({ error: 'public_id is required' });
   }
-
+  let result; 
   try {
-    const result = await cloudinary.uploader.destroy(public_id);
+    if(Array.isArray(public_id)){
+       result = await cloudinary.api.delete_resources(public_id);
+    }else{
+       result = await cloudinary.uploader.destroy(public_id);
+    }
+    
     res.json({ message: 'Deleted successfully', result });
   } catch (error) {
     res.status(500).json({ error: 'Failed to delete', details: error });
