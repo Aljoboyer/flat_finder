@@ -28,6 +28,7 @@ export default function PropertyForm({property}) {
   const router = useRouter()
   const [propertyFields, setPropertyFields] = useState(propertyFormFields)
   const [areaNameTrigger, { data: areaNameList}] = useLazyGetAreaNamesQuery();
+  const [deleteUrls, setDeletedUrls] = useState([])
 
   const {
     handleSubmit,
@@ -40,10 +41,17 @@ export default function PropertyForm({property}) {
   } = useForm();
 
   
+    const deleteImgApiCall = async (imgId) => {
+    const deleteImgRes = await deletePropertyImg({public_id: imgId})
+    return deleteImgRes
+  }
+
   const onSubmit = async (data) => {
        setLoading(true)
+
        if(property?._id){
-         const postPropertyData = await updateProperty({...data})
+          await deleteImgApiCall(deleteUrls)
+          const postPropertyData = await updateProperty({...data, images: images})
 
           if(postPropertyData?.data?.msg == 'updated successfully'){
             setLoading(false)
@@ -52,6 +60,7 @@ export default function PropertyForm({property}) {
           }
        }
        else{
+          await deleteImgApiCall(deleteUrls)
           const postPropertyData = await postProperty({...data, images: images, seller: userData?._id})
 
           if(postPropertyData?.data?.msg == 'Poperty posted Successfully'){
@@ -68,20 +77,17 @@ export default function PropertyForm({property}) {
     setImages([...images, uploadedData?.url])
   }
 
-  const onDeleteHandler = async (imgId) => {
+  const deleteImgFilterHandler = (imgId) => {
+     const removeDeletedImg = images?.filter((item) => item !== imgId)
+     setImages(removeDeletedImg)
+  }
+
+  const onImgDeleteHandler = async (imgId) => {
+    
+    deleteImgFilterHandler(imgId);
     const public_id = extractImgPublicId(imgId)
-   
-    setCurrentDeletingImg(imgId)
+    setDeletedUrls([...deleteUrls, public_id])
 
-    const deleteImg = await deletePropertyImg({public_id: public_id})
-    
-    if(deleteImg?.data?.message == 'Deleted successfully'){
-      const removeDeletedImg = images?.filter((item) => item !== imgId)
-    
-      setImages(removeDeletedImg)
-      setCurrentDeletingImg('')
-
-    }
   }
 
   useEffect(() => {
@@ -104,7 +110,7 @@ export default function PropertyForm({property}) {
     }
   },[property?._id]) 
 
-  const {city, areaName} = getValues();
+  const {city} = getValues();
 
   useEffect(() => {
     if(areaNameList?.data?.length > 0 && areaNameList){
@@ -149,7 +155,7 @@ export default function PropertyForm({property}) {
             }
             
             <PropertyFormImg
-              onDeleteHandler={onDeleteHandler}
+              onDeleteHandler={onImgDeleteHandler}
               currentDeletingImg={currentDeletingImg}
               imgData={images}
               deleteLoader={deleteImgLoader}
@@ -193,7 +199,7 @@ export default function PropertyForm({property}) {
                 <div className='flex flex-row justify-end'>
                   <Buttons
                   isLoading={loading}
-                  type='submit' title="Create" 
+                  type='submit' title={property?._id ? 'Update' : 'Post'} 
                   bgColor={COLORS.side_yellow} textColor="black" 
                   other_style={{fontWeight: '700', marginTop: '10px', width: {xs: '100%',  md: '20%'},}} />
                 </div>

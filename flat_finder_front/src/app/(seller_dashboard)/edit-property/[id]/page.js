@@ -7,7 +7,7 @@ import React, { useEffect, useState } from 'react'
 
 
 export default function page({params}) {
-  const [propertyTrigger, { data: property, error, isLoading , isFetching}] = useLazyGetSinglePropertyQuery();
+  const [propertyTrigger, { data: property, error, isLoading , }] = useLazyGetSinglePropertyQuery();
   const { id } = params;
  
   useEffect(() => {
