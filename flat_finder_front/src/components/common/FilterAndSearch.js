@@ -1,5 +1,5 @@
 import React from 'react'
-import InputField from "@/components/common/InputField";
+import InputField from "@/components/common/Inputs/InputField";
 import { Buttons } from "@/components/common/Buttons";
 import { COLORS } from "@/theme/colors";
 import AddHomeIcon from '@mui/icons-material/AddHome';

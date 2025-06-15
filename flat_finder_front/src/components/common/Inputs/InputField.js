@@ -106,6 +106,7 @@ export default function InputField({
   return(
     <div>
         <AutoCompletes 
+        value={field?.value ? field?.value : fieldItem?.value}
         field_id={field_id} onChangeHandler={onChangeHandler}  
         field={field} otherStyle={otherStyle} 
         options={options} label={label}/>

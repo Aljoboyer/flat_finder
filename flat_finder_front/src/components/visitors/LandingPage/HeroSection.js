@@ -1,4 +1,4 @@
-import { AutoCompletes } from '@/components/common/AutoComplete'
+import { AutoCompletes } from '@/components/common/Inputs/AutoComplete'
 import { Buttons } from '@/components/common/Buttons'
 import React from 'react'
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';

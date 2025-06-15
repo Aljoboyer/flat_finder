@@ -4,7 +4,7 @@ import { useCreatePropertyMutation, useDeletePropertyImgMutation, useUpdatePrope
 import { Buttons } from '@/components/common/Buttons'
 import FFLoader2 from '@/components/common/FFLoader-2'
 import ImageUpload from '@/components/common/ImageUpload'
-import InputField from '@/components/common/InputField'
+import InputField from '@/components/common/Inputs/InputField'
 import PropertyFormImg from '@/components/seller/propertyFormImg/PropertyFormImg'
 import { propertyFormFields } from '@/constant/formConfigs/propertyFormConfigs'
 import { uploadImage } from '@/helper/uploadImage'
@@ -91,7 +91,7 @@ export default function PropertyForm({property}) {
             ...property
         });
       const fieldsAddedValue = propertyFormFields?.map((item) => {
-        if(item?.inputType == 'select'){
+        if(item?.inputType == 'select' || item?.inputType == 'autocomplete'){
           const newObj = {...item, value: property[item?.field_id]}
           return newObj
         }
@@ -112,7 +112,7 @@ export default function PropertyForm({property}) {
         const newObj = {"label": item?.areaName, value: item?.areaName}
         return newObj
       })
-         const fieldsAddedValue = propertyFields?.map((item) => {
+      const fieldsAddedValue = propertyFields?.map((item) => {
         if(item?.field_id == 'areaName'){
           const newObj = {...item, options: formatAreaNameData, suggestionText: ''}
           return newObj

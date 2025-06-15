@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { Buttons } from "@/components/common/Buttons";
 import { COLORS } from "@/theme/colors";
-import InputField from "@/components/common/InputField";
+import InputField from "@/components/common/Inputs/InputField";
 import { useForm, Controller } from "react-hook-form";
 import { authFormFields } from "@/constant/formConfigs/authFormConfigs";
 import { useRouter } from 'next/navigation';

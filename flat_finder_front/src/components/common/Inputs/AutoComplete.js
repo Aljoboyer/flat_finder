@@ -7,20 +7,24 @@ export const AutoCompletes = ({
     label = 'Label',
     otherStyle,
     onChangeHandler,
-    field_id
+    field_id,
+    value
 }) => {
+     const selectedOption = options.find(opt => opt.value === "Dhaka") || null;
   return (
     <Autocomplete
         disablePortal
         options={options}
+        value={options.find(opt => opt.value == value) || null}
         getOptionLabel={(option) => option.label}
         onChange={(event, newValue) => {
             onChangeHandler(field_id, newValue?.value)
         }}
-    
+        filterSelectedOptions
         sx={{...otherStyle, width: '100%'}}
         renderInput={(params) =>
             <TextField
+            
             sx={{
                     width: '100%',
                     ...customStyle,
