@@ -10,7 +10,7 @@ import { COLORS } from '@/theme/colors';
 import { Avatar, Box, Chip } from '@mui/material';
 import FFLoader from './FFLoader';
 import FFNodata from './FFNodata';
-import ActionButton from './ActionButton';
+import ActionButton from './Buttons/ActionButton';
 import FFChip from './FFChip';
 import { capitalizeFirstLetter } from '@/utils/stringHelper';
 

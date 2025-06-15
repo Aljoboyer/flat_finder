@@ -1,5 +1,5 @@
 "use client"
-import { Buttons } from '@/components/common/Buttons';
+import { Buttons } from '@/components/common/Buttons/Buttons';
 import InputField from '@/components/common/Inputs/InputField'
 import { authFormFields } from '@/constant/formConfigs/authFormConfigs';
 import { COLORS } from '@/theme/colors';

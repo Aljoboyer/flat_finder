@@ -1,6 +1,6 @@
 "use client"
 import React, { useState } from "react";
-import { Buttons } from "@/components/common/Buttons";
+import { Buttons } from "@/components/common/Buttons/Buttons";
 import { COLORS } from "@/theme/colors";
 import InputField from "@/components/common/Inputs/InputField";
 import { useForm, Controller } from "react-hook-form";

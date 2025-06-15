@@ -1,7 +1,7 @@
 "use client"
 import { useLazyGetAreaNamesQuery } from '@/app/redux/features/dropDownApi'
 import { useCreatePropertyMutation, useDeletePropertyImgMutation, useUpdatePropertyMutation } from '@/app/redux/features/propertyApi'
-import { Buttons } from '@/components/common/Buttons'
+import { Buttons } from '@/components/common/Buttons/Buttons'
 import FFLoader2 from '@/components/common/FFLoader-2'
 import ImageUpload from '@/components/common/ImageUpload'
 import InputField from '@/components/common/Inputs/InputField'

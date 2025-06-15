@@ -1,5 +1,5 @@
 import { AutoCompletes } from '@/components/common/Inputs/AutoComplete'
-import { Buttons } from '@/components/common/Buttons'
+import { Buttons } from '@/components/common/Buttons/Buttons'
 import React from 'react'
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import { COLORS } from "@/theme/colors";
