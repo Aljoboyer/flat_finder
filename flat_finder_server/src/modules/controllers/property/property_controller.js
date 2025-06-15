@@ -113,28 +113,6 @@ const addLikeOnPropertyontroller = async (req, res) => {
     }
 };
 
-//Adding Like on A Property
-const updateAllData = async (req, res) => {
-  
-    try {
-      
-      //  const allData =  await PropertyCollection.find({})
-      
-      //  allData?.forEach(async (item) => {
-      //     const imgArray = item?.images?.map((img) => img)
-       
-      //       const updatedProperty = await PropertyCollection.findByIdAndUpdate(
-      //       {_id: new ObjectId(item?._id)},
-      //       {images: imgArray},
-      //     );
-      //  })
-          
-      res.status(201).json({ "msg": "all updated Successfully" });
-
-    } catch (error) {
-      res.status(500).json({ message: "Like Posting Failed" , error});
-    }
-};
 
 module.exports = {
   propertyPostController,
@@ -142,6 +120,6 @@ module.exports = {
   updatePropertyController,
   getSpecificProperty,
   addLikeOnPropertyontroller,
-  updateAllData
+  
 };
   
