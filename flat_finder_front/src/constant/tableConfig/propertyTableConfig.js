@@ -36,6 +36,7 @@ export const propertyTableHeader = [
         id: 'Action',
         header_label: 'Action',
         showActionbtn: true,
-        edit: true,
+        editBtnShow: true,
+        statusBtn: true
     }
 ]

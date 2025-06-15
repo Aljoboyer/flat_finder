@@ -1,7 +1,8 @@
 import BuyerRegistraton from "@/app/(visitor_pages)/(auth_pages)/register/_components/BuyerRegistration";
 import SellerRegistraton from "@/app/(visitor_pages)/(auth_pages)/register/_components/SellerRegistraton";
 import { BiSolidUserBadge } from "react-icons/bi";
-import { FaBuildingUser, FaBuildingShield, FaHouseLock , FaBuildingCircleCheck} from "react-icons/fa6";
+import { FaBuildingUser, FaBuildingShield, FaHouseLock ,
+     FaBuildingCircleCheck,FaBuildingCircleXmark } from "react-icons/fa6";
 
 export const RegisterTabData = [
     {
@@ -20,6 +21,11 @@ export const PropertiesTabData = [
     {
         label: 'Available',
         icon: <FaBuildingCircleCheck size={22}/>,
+        content: '',
+    },
+    {
+        label: 'InActive',
+        icon: <FaBuildingCircleXmark  size={22}/>,
         content: '',
     },
     {

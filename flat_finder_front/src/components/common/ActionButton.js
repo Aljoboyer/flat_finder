@@ -2,16 +2,29 @@ import { Button } from '@mui/material'
 import React from 'react'
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { COLORS } from '@/theme/colors';
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { FaRegEdit } from "react-icons/fa";
+import { FiSlash } from "react-icons/fi";
+
+const ActionManuItem = ({title, icon, clickHandler}) => {
+  return (
+     <MenuItem onClick={clickHandler} className='ease-in-out duration-300'  sx={{borderRadius: '4px', height: '50px',  '&:hover': {
+        backgroundColor: COLORS.overlay,}}}>
+          {icon}
+          <p className='font-roboto font-regular text-[14px] text-[#364152]'>{title}</p>
+          
+      </MenuItem>
+  )
+}
 
 export default function ActionButton({
     editBtnShow,
     approveBtnShow,
     itemId,
-    editHandler
+    actionHandler,
+    statusBtn,
+    tableitem
 }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const manuOpen = Boolean(anchorEl);
@@ -49,7 +62,7 @@ export default function ActionButton({
          disableScrollLock={true}
           sx={{
             '& .MuiPaper-root': {
-              width: '100px', 
+              width: 'auto', 
               height: 'fit',
              
               borderRadius: '10px',
@@ -58,24 +71,18 @@ export default function ActionButton({
           }}
         >
             {
-                editBtnShow &&      <MenuItem  className='ease-in-out duration-300'  sx={{ borderRadius: '4px', height: '50px',  '&:hover': {
-                backgroundColor: COLORS.overlay,}}} 
-                onClick={() => editHandler(itemId)}
-            >
-                <FaRegEdit className='mr-2'/>
-            <p className='font-roboto font-regular text-[14px] text-[#364152]'>Edit</p>
-        </MenuItem>
+                editBtnShow && <ActionManuItem clickHandler={() => actionHandler('edit', itemId)} title="Edit" icon={<FaRegEdit className='mr-2'/>}/>
             }
      
-        
-        {
-            approveBtnShow && <MenuItem className='ease-in-out duration-300'  sx={{borderRadius: '4px', height: '50px',  '&:hover': {
-        backgroundColor: COLORS.overlay,
-        }}} 
-        
-            ><p className='font-roboto font-regular text-[14px] text-[#364152]'>Approve</p></MenuItem>
-        }
-
+            {
+                approveBtnShow && <ActionManuItem  title="Approve" icon={<FaRegEdit className='mr-2'/>}/>
+            }
+            {
+                statusBtn && <ActionManuItem clickHandler={() => {
+                  const actionName = tableitem?.status == 'active' ? "inactive" : "active"
+                  actionHandler(actionName, itemId)
+                }} title={tableitem?.status == 'active' ? "In Active" : "Active"} icon={<FiSlash className='mr-2'/>}/>
+            }
           
         </Menu>
       </div>

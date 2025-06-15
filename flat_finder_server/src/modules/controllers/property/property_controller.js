@@ -1,4 +1,5 @@
 const { generateFilterQuery } = require("../../../helper/generateFilterQuery");
+const { generatePropertyId } = require("../../../helper/generatePropertyId");
 const { PaginationCalculate } = require("../../../helper/pagination");
 const PropertyCollection = require("../../../models/property");
 const mongoose = require('mongoose');
@@ -10,8 +11,8 @@ const propertyPostController = async (req, res) => {
     const requestData = req.body;
 
     try {
-
-      const result = await PropertyCollection.create(requestData);
+      const propertyId = generatePropertyId()
+      const result = await PropertyCollection.create({...requestData, propertyId});
 
 
     res.status(201).json({ "msg": "Poperty posted Successfully" });
@@ -112,11 +113,35 @@ const addLikeOnPropertyontroller = async (req, res) => {
     }
 };
 
+//Adding Like on A Property
+const updateAllData = async (req, res) => {
+  
+    try {
+      
+      //  const allData =  await PropertyCollection.find({})
+      
+      //  allData?.forEach(async (item) => {
+      //     const imgArray = item?.images?.map((img) => img)
+       
+      //       const updatedProperty = await PropertyCollection.findByIdAndUpdate(
+      //       {_id: new ObjectId(item?._id)},
+      //       {images: imgArray},
+      //     );
+      //  })
+          
+      res.status(201).json({ "msg": "all updated Successfully" });
+
+    } catch (error) {
+      res.status(500).json({ message: "Like Posting Failed" , error});
+    }
+};
+
 module.exports = {
   propertyPostController,
   getAllPropertyController,
   updatePropertyController,
   getSpecificProperty,
-  addLikeOnPropertyontroller
+  addLikeOnPropertyontroller,
+  updateAllData
 };
   

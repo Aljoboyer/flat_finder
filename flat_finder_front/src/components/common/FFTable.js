@@ -17,7 +17,7 @@ import { capitalizeFirstLetter } from '@/utils/stringHelper';
 export default function FFTable({tableHeader, 
     dataList, 
     loading,
-    editHandler
+    actionHandler
   }) {
   return (
     <TableContainer component={Paper}>
@@ -49,7 +49,7 @@ export default function FFTable({tableHeader,
                         
                         <p className='mt-2 text-gray-500 font-medium text-[12px]'>{row[col.secondField]}</p>
                     </Box>
-                      {col?.showActionbtn && <ActionButton itemId={row?._id} editHandler={editHandler} editBtnShow={col?.edit}/>}
+                      {col?.showActionbtn && <ActionButton itemId={row?._id} actionHandler={actionHandler} editBtnShow={col?.editBtnShow} tableitem={row} approveBtnShow={col?.approveBtnShow} statusBtn={col?.statusBtn}/>}
                 </TableCell>
               ))}
             </TableRow>

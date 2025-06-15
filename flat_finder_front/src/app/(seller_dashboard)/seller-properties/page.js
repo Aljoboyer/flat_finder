@@ -26,6 +26,7 @@ export default function SellerProperties() {
   
   const [perPage, setPerPage] = useState(10);
   const userData = getLocalStorageData()
+  const [tableHeader, setTableHeader] = useState([])
 
   const handlePageChange = (event, value) => {
     setPage(value);
@@ -39,13 +40,20 @@ export default function SellerProperties() {
   const handleTabChange = (event, newValue) => {
     setValue(newValue);
     if(newValue == 1){
-        propertyListTrigger({ querys: `limit=${perPage}&page=${page}&status=in_process` });
+        propertyListTrigger({ querys: `limit=${perPage}&page=${page}&status=inactive` });
+        setTableHeader(propertyTableHeader)
     }
     else if(newValue == 2){
+        propertyListTrigger({ querys: `limit=${perPage}&page=${page}&status=in_process` });
+        setTableHeader(propertyTableHeader.slice(0, -1))
+    }
+    else if(newValue == 1){
         propertyListTrigger({ querys: `limit=${perPage}&page=${page}&status=booked` });
+        setTableHeader(propertyTableHeader.slice(0, -1))
     }
     else{
         propertyListTrigger({ querys: `limit=${perPage}&page=${page}&status=active` });
+        setTableHeader(propertyTableHeader)
     }
 
   };
@@ -61,9 +69,19 @@ export default function SellerProperties() {
     const filterChangeHandler = () => {
 
     }
-    const editHandler = (itemId) => {
-      router.push(`/edit-property/${itemId}`)
+    const actionHandler = (action,itemId) => {
+      if(action == 'edit'){
+        router.push(`/edit-property/${itemId}`)
+      }
+      else if(action == 'active' || action == 'inactive'){
+        console.log("clicked", action)
+      }
     }
+
+    useEffect(() => {
+      setTableHeader(propertyTableHeader)
+    },[])
+
   return (
     <div className="bg-overlay  p-6 rounded-t-[20px]">
           <CommonTabs 
@@ -81,9 +99,9 @@ export default function SellerProperties() {
             />
             <div className="my-7">
               <FFTable
-              editHandler={editHandler}
+              actionHandler={actionHandler}
               loading={isFetching}
-              tableHeader={propertyTableHeader} 
+              tableHeader={tableHeader} 
               dataList={propertyList?.data}/>
             </div>
             {
