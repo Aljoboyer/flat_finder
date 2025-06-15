@@ -5,9 +5,16 @@ export const languages = [
     {'label': 'Bangla', "value": "Bangla"}
 ]
 
+export const propertyTypes = [
+            {value: 'flat', label: 'Flat'},
+            {value: 'office', label: 'Office'},
+            {value: 'showroom', label: 'Showroom'},
+            {value: 'restaurant', label: 'Restaurant'}
+        ]
+        
 //numbers
 export const itemNumbers =  Array.from({ length: 20 }, (_, i) => {
-  const value = (i + 1).toString();
+  const value = (i).toString();
   return { label: value, value: value };
 });
 

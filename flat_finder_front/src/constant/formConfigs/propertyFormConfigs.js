@@ -1,5 +1,5 @@
 import { numberRegex } from "./regexData";
-import { cities, itemNumbers } from "../dropdownData";
+import { cities, itemNumbers, propertyTypes } from "../dropdownData";
 
 export const propertyFormFields =  [
     {
@@ -58,11 +58,7 @@ export const propertyFormFields =  [
     },
     {
         field_id: 'propertyType',
-        options: [
-            {value: 'flat', label: 'Flat'},
-            {value: 'office', label: 'Office'},
-            {value: 'showroam', label: 'Showroam'},
-        ],
+        options: propertyTypes,
         label: 'Property Type',
         placeholder: 'Enter property type',
         required:{

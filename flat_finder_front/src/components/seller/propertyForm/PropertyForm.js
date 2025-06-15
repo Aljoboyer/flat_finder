@@ -47,10 +47,13 @@ export default function PropertyForm({property}) {
   }
 
   const onSubmit = async (data) => {
+
        setLoading(true)
 
        if(property?._id){
-          await deleteImgApiCall(deleteUrls)
+          if(deleteUrls?.length > 0){
+            await deleteImgApiCall(deleteUrls)
+          }
           const postPropertyData = await updateProperty({...data, images: images})
 
           if(postPropertyData?.data?.msg == 'updated successfully'){
@@ -60,7 +63,9 @@ export default function PropertyForm({property}) {
           }
        }
        else{
-          await deleteImgApiCall(deleteUrls)
+           if(deleteUrls?.length > 0){
+            await deleteImgApiCall(deleteUrls)
+          }
           const postPropertyData = await postProperty({...data, images: images, seller: userData?._id})
 
           if(postPropertyData?.data?.msg == 'Poperty posted Successfully'){
@@ -135,11 +140,10 @@ export default function PropertyForm({property}) {
   useEffect(() => {
     if(city){
       areaNameTrigger({ querys: `city=${city}` });
-      setValue('areaName', '')
     }
   },[city])
 
-  console.log('areaNameList ===>', areaNameList)
+  console.log('property ===>', property)
   
   return (
       <div className=" w-full">
@@ -150,7 +154,7 @@ export default function PropertyForm({property}) {
               imgLoading ? <FFLoader2 /> : <ImageUpload 
              
               imageUploadHandler={imageUploadHandler} 
-              ImageResolution={700}
+              ImageResolution={2000}
               />
             }
             
@@ -186,8 +190,15 @@ export default function PropertyForm({property}) {
                                   fieldItem={fieldItem}
                                   onChangeHandler={(id , value) => {
                                       if(fieldItem?.inputType == 'select' || fieldItem?.inputType == 'autocomplete'){
-                                        setValue(`${id}`, value)
-                                        setError(`${id}`, { type: "custom", message: "" });
+                                        if(id == 'city'){
+                                          setValue(`${id}`, value)
+                                          setValue(`areaName`, '')
+                                          setError(`${id}`, { type: "custom", message: "" });
+                                        }else{
+                                          setValue(`${id}`, value)
+                                          setError(`${id}`, { type: "custom", message: "" });
+
+                                        }
                                       }
                                   } }
                                   />
