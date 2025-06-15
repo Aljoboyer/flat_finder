@@ -9,7 +9,7 @@ import FilterAndSearch from "@/components/common/FilterAndSearch";
 import FFTable from "@/components/common/FFTable";
 import { filterFieldConfig } from "@/constant/formConfigs/filterConfig";
 import FFPagination from "@/components/common/FFPagination";
-import { useLazyGetPropertyListQuery } from "@/app/redux/features/propertyApi";
+import { useLazyGetPropertyListQuery, useUpdatePropertyMutation } from "@/app/redux/features/propertyApi";
 import { propertyTableHeader } from "@/constant/tableConfig/propertyTableConfig";
 import { useRouter } from "next/navigation";
 import { getLocalStorageData } from "@/utils/getLocalStorageData";
@@ -18,6 +18,7 @@ import { getLocalStorageData } from "@/utils/getLocalStorageData";
 export default function SellerProperties() {
   const router = useRouter()
   const [propertyListTrigger, { data: propertyList, error, isLoading , isFetching}] = useLazyGetPropertyListQuery();
+  const [updateProperty, { isLoading: deleteImgLoader, isSuccess }] = useUpdatePropertyMutation();
   const theme = useTheme();
   const isMediumScreen = useMediaQuery(theme.breakpoints.up('md'));
   const islargeScreen = useMediaQuery(theme.breakpoints.up('lg'));
@@ -69,12 +70,13 @@ export default function SellerProperties() {
     const filterChangeHandler = () => {
 
     }
-    const actionHandler = (action,itemId) => {
+    const actionHandler = async (action,itemId) => {
       if(action == 'edit'){
         router.push(`/edit-property/${itemId}`)
       }
       else if(action == 'active' || action == 'inactive'){
-        console.log("clicked", action)
+        const updatePropertyRes = await updateProperty({_id: itemId, status: action})
+        console.log("updatePropertyRes", updatePropertyRes)
       }
     }
 

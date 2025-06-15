@@ -23,14 +23,19 @@ const PropertyApi = api.injectEndpoints({
       query: (requestBody) =>(
         mutationCall('/file/delete/','POST', requestBody)
       ),
-   
     }),
 
     getSingleProperty: builder.query({
       query: (data) => (
         getListQueryCall('/property/property', data?.querys)
       ),
-      
+    }),
+
+    updateProperty: builder.mutation({
+      query: (requestBody) =>(
+        mutationCall('/property/update','PUT', requestBody)
+      ),
+      invalidatesTags: ['propertyList'],
     }),
 
   }),
@@ -40,5 +45,6 @@ export const {
   useLazyGetPropertyListQuery,
   useCreatePropertyMutation,
   useDeletePropertyImgMutation,
-  useLazyGetSinglePropertyQuery
+  useLazyGetSinglePropertyQuery,
+  useUpdatePropertyMutation
 } = PropertyApi;

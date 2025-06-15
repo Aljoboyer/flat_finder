@@ -9,6 +9,8 @@ export const COLORS = {
     blueOverlay: '#e3f2fd',
     bluemain: '#4c96f3',
     yellowOverlay: '#fff9e6',
+    inActiveOverlay: '#fbece7',
+    inActive: '#f44336',
     
     // grey
     grey50: "#f8fafc",
