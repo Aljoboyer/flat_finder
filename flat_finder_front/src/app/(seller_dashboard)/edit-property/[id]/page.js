@@ -15,8 +15,6 @@ export default function page({params}) {
       propertyTrigger({querys: `id=${id}`})
     }
   },[id])
-  
-  console.log('property ==>', property)
 
   return (
       <div className="bg-overlay  p-6 rounded-t-[20px] w-full">

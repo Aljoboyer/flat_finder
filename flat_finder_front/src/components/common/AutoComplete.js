@@ -17,7 +17,7 @@ export const AutoCompletes = ({
         onChange={(event, newValue) => {
             onChangeHandler(field_id, newValue?.value)
         }}
-        
+    
         sx={{...otherStyle, width: '100%'}}
         renderInput={(params) =>
             <TextField

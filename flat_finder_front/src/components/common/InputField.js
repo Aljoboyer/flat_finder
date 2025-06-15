@@ -52,10 +52,11 @@ export default function InputField({
   errors,
   placeholder,
   options,
-  onChangeHandler
+  onChangeHandler,
+  fieldItem
 }) {
    const [showPassword, setShowPassword] = React.useState(false);
- 
+
  
   if(inputType == 'password'){
    return (
@@ -109,6 +110,7 @@ export default function InputField({
         field={field} otherStyle={otherStyle} 
         options={options} label={label}/>
 
+        {fieldItem?.suggestionText &&  <p className='text-psm text-gray-400 mt-[2px]'>{fieldItem?.suggestionText}</p>}
         { errors && <> {errors[field_id] && <p className='text-psm text-red-500'>{errors[field_id].message}</p>}</>}
     </div>
   )
@@ -139,7 +141,7 @@ export default function InputField({
         labelId="demo-simple-select-label"
         id="demo-simple-select"
         label={label}
-        value={field.value} // <- needed for react-hook-form field.onChange
+        value={field?.value ? field?.value : fieldItem?.value } 
         onChange={(e) => onChangeHandler(field_id, e.target.value)} 
       >
         {

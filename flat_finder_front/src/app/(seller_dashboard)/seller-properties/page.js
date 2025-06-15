@@ -18,7 +18,7 @@ import { getLocalStorageData } from "@/utils/getLocalStorageData";
 export default function SellerProperties() {
   const router = useRouter()
   const [propertyListTrigger, { data: propertyList, error, isLoading , isFetching}] = useLazyGetPropertyListQuery();
-  const [updateProperty, { isLoading: deleteImgLoader, isSuccess }] = useUpdatePropertyMutation();
+  const [updateProperty, { }] = useUpdatePropertyMutation();
   const theme = useTheme();
   const isMediumScreen = useMediaQuery(theme.breakpoints.up('md'));
   const islargeScreen = useMediaQuery(theme.breakpoints.up('lg'));

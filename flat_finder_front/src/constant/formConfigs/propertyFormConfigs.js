@@ -47,13 +47,14 @@ export const propertyFormFields =  [
         },
     },
     {
-        options: cities,
+        options: [],
         field_id: 'areaName',
         label: 'Area Name',
         inputType: 'autocomplete',
         required:{
             required: 'Please Enter area name',
         },
+        suggestionText: "Please Select City First"
     },
     {
         field_id: 'propertyType',
@@ -67,7 +68,8 @@ export const propertyFormFields =  [
         required:{
             required: 'Please Enter property type',
         },
-        inputType: 'select'
+        inputType: 'select',
+         value: ""
     },
     {
         field_id: 'flatMeasurement',
@@ -90,7 +92,8 @@ export const propertyFormFields =  [
         required:{
             required: 'Please Enter total bedroom',
         },
-        inputType: 'select'
+        inputType: 'select',
+         value: ""
     },
     {
         field_id: 'bathrooms',
@@ -100,7 +103,8 @@ export const propertyFormFields =  [
         required:{
             required: 'Please Enter total bath room',
         },
-        inputType: 'select'
+        inputType: 'select',
+         value: ""
     },
     {
         field_id: 'balcony',
@@ -110,7 +114,8 @@ export const propertyFormFields =  [
         required:{
             required: 'Please Enter total balcony',
         },
-        inputType: 'select'
+        inputType: 'select',
+        value: ""
     },
     {
         field_id: 'floorNo',
@@ -120,7 +125,8 @@ export const propertyFormFields =  [
         required:{
             required: 'Please Enter floor no',
         },
-        inputType: 'select'
+        inputType: 'select',
+        value: ""
     },
     {
         field_id: 'purpose',
@@ -133,7 +139,8 @@ export const propertyFormFields =  [
         required:{
             required: 'Please Enter property purpose',
         },
-        inputType: 'select'
+        inputType: 'select',
+        value: ""
     },
     {
         field_id: 'generator',
