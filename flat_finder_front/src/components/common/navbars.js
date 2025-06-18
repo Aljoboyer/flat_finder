@@ -29,8 +29,8 @@ import { useRouter } from 'next/navigation';
 import { usePathname } from 'next/navigation';
 
 const navItems = [
-  'Home',
-  'Find Flat'
+    {label: 'Home', link: '/flat-finder-home'},
+    {label: 'Flat / Apartment', link: '/search-property',},
 ];
 
 const iconNavItems = [
@@ -49,6 +49,10 @@ const Navbar = () => {
   };
 
   const pathname = usePathname();
+
+  const navigationHanlder = (url) => {
+    router.push(url)
+  }
 
   return (
     <AppBar position="sticky" sx={{ backgroundColor: '#fff', color: '#000', boxShadow: 'none' }}>
@@ -118,7 +122,7 @@ const Navbar = () => {
           <Toolbar sx={{ justifyContent: 'space-between', flexWrap: 'wrap' }}>
             <Box sx={{ display: 'flex', gap: 3 }}>
               {navItems.map((item) => (
-                <Button key={item} sx={{ color: '#fff', ":hover":{textDecoration: 'underline', color: COLORS.side_yellow} }}>{item}</Button>
+                <Button onClick={() => navigationHanlder(item?.link)} key={item?.label} sx={{ color: '#fff', fontWeight: '600', ":hover":{textDecoration: 'underline', color: COLORS.side_yellow} }}>{item?.label}</Button>
               ))}
             </Box>
             <Box sx={{ display: 'flex', gap: 3 }}>

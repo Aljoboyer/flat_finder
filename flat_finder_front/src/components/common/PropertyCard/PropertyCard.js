@@ -1,0 +1,75 @@
+import { Card, CardContent, Button, Avatar } from "@mui/material";
+import { LocationOn, Bed, Bathtub, CropSquare } from "@mui/icons-material";
+import { FaBath } from "react-icons/fa6";
+import { PiResizeFill } from "react-icons/pi";
+import { Buttons } from "../Buttons/Buttons";
+import { COLORS } from "@/theme/colors";
+
+
+export default function PropertyCard() {
+  return (
+
+      <div className="md:flex property_card jusity-between     rounded  h-fit md:h-[430px]  w-full mt-7">
+        {/* Images */}
+        <div className="w-full md:w-1/2 flex flex-row">
+          <div className="h-full w-full">
+            <img
+            src="/assets/website_logo.png"
+            alt="Property"
+            className="object-contain md:object-cover h-full w-full"
+          />
+          </div>
+          {/* Optional: more images for larger screens */}
+            <div className="w-[150px] h-full hidden md:block px-2">
+                <div className='h-25'>
+                    <img src="/assets/website_logo.png" alt="" className="card_img cursor-pointer"/>
+                </div>
+                <div className='h-25'>
+                    <img src="/assets/website_logo.png" alt="" className="card_img cursor-pointer mt-2"/>
+                </div>
+                <div className='h-25'>
+                    <img src="/assets/website_logo.png " alt="" className="card_img cursor-pointer mt-2"/>
+                </div>
+                <div className='h-25'>
+                    <img src="/assets/website_logo.png" alt="" className="card_img cursor-pointer mt-2"/>
+                </div>
+            </div>
+        </div>
+       
+
+        {/* Details */}
+        <div className="w-full md:w-1/2 p-4 flex flex-col justify-between">
+          <div>
+            <h2 className="text-basecolor text-title_sm md:text-title font-bold">AED 275,000 PA AED 275,000 PA AED 275,000 PA</h2>
+            <div className="text-grey600 flex items-center mt-2">
+              <LocationOn fontSize="medium" />
+              <span className="text-p">Maple 3, Dubai Hills Estate, Dubai</span>
+            </div>
+
+            <div className="flex items-center gap-4 text-title_sm mt-4 text-gray700">
+              <span className="flex items-center gap-1"><Bed  />4</span>
+              <span className="flex items-center gap-1"><FaBath  />3</span>
+              <span className="flex items-center gap-1"><PiResizeFill  />3,037 sq.ft</span>
+            </div>
+
+             
+            <div className="flex items-center my-4">
+              <Avatar src="/charlie.jpg" alt="Charlie Maguire" className="mr-3" />
+              <div>
+                <p className="font-medium">Charlie Maguire</p>
+                <p className="text-sm text-gray-500">Speaks English</p>
+              </div>
+            </div>
+
+             <h2 className=" text-lg_title font-bold">240930 BDT</h2>
+          </div>
+
+          {/* Call to action button */}
+          <div className="mt-4 md:mt-0 text-right">
+            <Buttons title="Book Now" bgColor={COLORS.side_yellow} textColor={COLORS.baseColor} other_style={{width: {xs: '100%', md: '50%', lg: '30%'}, fontWeight: "bold", fontSize: '16px'}}/>
+          </div>
+        </div>
+      </div>
+
+  );
+}
