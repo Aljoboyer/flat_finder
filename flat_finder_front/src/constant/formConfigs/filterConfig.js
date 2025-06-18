@@ -4,11 +4,20 @@ export  const filterFieldConfig = [
       {
         options: cities,
         label: 'City Name',
-        inputType: 'autocomplete'
+        inputType: 'autocomplete',
+        fieldValue: {
+           value: ""
+        },
+        field_id: 'city',
       },
       {
-        options: cities,
+        options: [],
         label: 'Area Name',
-        inputType: 'autocomplete'
+        inputType: 'autocomplete',
+        fieldValue: {
+           value: ""
+        },
+        field_id: 'areaName',
+        suggestionText: "Please Select City First"
       }
     ]

@@ -8,12 +8,13 @@ export default function FilterAndSearch({
     createBtnShow = true,
     filterFieldConfig,
     createHandler,
-    onChangeHandler
+    onChangeHandler,
+    onSearchHandler
 }) {
   return (
     <div>
         <div className="flex flex-row items-center justify-between flex-wrap my-4">
-            <InputField inputType="search" placeholder='Search'/>
+            <InputField onChangeHandler={onSearchHandler} inputType="search" placeholder='Search property id'/>
 
             {
                 createBtnShow && <div>
@@ -32,10 +33,15 @@ export default function FilterAndSearch({
           {
             filterFieldConfig?.map((field) => (
                 <InputField 
+                key={field?.id}
                 otherStyle={{ marginTop: {xs: '10px', md: '0px'}}}
                 label={field?.label}
-                inputType={field?.inputType} options={field?.options}
+                inputType={field?.inputType} 
+                options={field?.options}
                 onChangeHandler={onChangeHandler}
+                field={field.fieldValue}
+                field_id={field?.field_id}
+                fieldItem={field}
               />
             ))
           }

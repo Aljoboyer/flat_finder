@@ -87,7 +87,7 @@ export default function InputField({
   return (
     <Paper
       component="form"
-      sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: {xs: '100%', md: '36%'} , ...otherStyle}}
+      sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: {xs: '100%', md: '32%'} , ...otherStyle}}
       elevation={1}
       variant="outlined"
     >
@@ -95,6 +95,7 @@ export default function InputField({
         sx={{ ml: 1, flex: 1,  }}
         placeholder={placeholder}
         inputProps={{ 'aria-label': 'search google maps' }}
+        onChange={(e) => onChangeHandler(e.target.value)}
       />
       <IconButton type="button" sx={{ p: '10px', backgroundColor: 'white' }} aria-label="search">
         <SearchIcon />

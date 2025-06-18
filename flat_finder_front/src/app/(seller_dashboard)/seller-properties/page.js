@@ -13,6 +13,7 @@ import { useLazyGetPropertyListQuery, useUpdatePropertyMutation } from "@/app/re
 import { propertyTableHeader } from "@/constant/tableConfig/propertyTableConfig";
 import { useRouter } from "next/navigation";
 import { getLocalStorageData } from "@/utils/getLocalStorageData";
+import { useLazyGetAreaNamesQuery } from "@/app/redux/features/dropDownApi";
 
 
 export default function SellerProperties() {
@@ -24,11 +25,19 @@ export default function SellerProperties() {
   const islargeScreen = useMediaQuery(theme.breakpoints.up('lg'));
   const [value, setValue] = useState(0);
   const [page, setPage] = useState(1);
-  
+  const [areaNameTrigger, { data: areaNameList}] = useLazyGetAreaNamesQuery();
+
   const [perPage, setPerPage] = useState(10);
   const userData = getLocalStorageData()
   const [tableHeader, setTableHeader] = useState([])
-
+  const [searchKey, setSearchKey] = useState('')
+  const [tabValue, setTabValue] = useState('active')
+  const [filterInputData, setFilterInputData] = useState([])
+  const [filterObj, setFilterObj] = useState({city: '', areaName: ''})
+  
+  const propertyFetch = () => {
+    propertyListTrigger({ querys: `limit=${perPage}&page=${page}&status=${tabValue}&seller=${userData?._id}&searchKey=${searchKey}&city=${filterObj?.city}&areaName=${filterObj?.areaName }` });
+  }
   const handlePageChange = (event, value) => {
     setPage(value);
   };
@@ -41,48 +50,116 @@ export default function SellerProperties() {
   const handleTabChange = (event, newValue) => {
     setValue(newValue);
     if(newValue == 1){
-        propertyListTrigger({ querys: `limit=${perPage}&page=${page}&status=inactive` });
+        propertyListTrigger({ querys: `limit=${10}&page=${1}&status=inactive` });
         setTableHeader(propertyTableHeader)
+        setTabValue('inactive')
     }
     else if(newValue == 2){
-        propertyListTrigger({ querys: `limit=${perPage}&page=${page}&status=in_process` });
+        propertyListTrigger({ querys: `limit=${10}&page=${1}&status=in_process` });
         setTableHeader(propertyTableHeader.slice(0, -1))
     }
-    else if(newValue == 1){
-        propertyListTrigger({ querys: `limit=${perPage}&page=${page}&status=booked` });
+    else if(newValue == 3){
+        propertyListTrigger({ querys: `limit=${10}&page=${1}&status=booked` });
         setTableHeader(propertyTableHeader.slice(0, -1))
+        setTabValue('booked')
     }
     else{
-        propertyListTrigger({ querys: `limit=${perPage}&page=${page}&status=active` });
+        propertyListTrigger({ querys: `limit=${10}&page=${1}&status=active` });
         setTableHeader(propertyTableHeader)
+        setTabValue('active')
     }
 
   };
 
-    
-    useEffect(() => {
-      if (typeof window !== 'undefined') {
-        
-        propertyListTrigger({ querys: `limit=${perPage}&page=${page}&status=active&seller=${userData?._id}` });
-      }
-    }, [perPage, page]);
-
-    const filterChangeHandler = () => {
-
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      console.log('entering-------')
+      propertyFetch()
     }
-    const actionHandler = async (action,itemId) => {
-      if(action == 'edit'){
-        router.push(`/edit-property/${itemId}`)
+  }, [perPage, page]);
+
+  const filterChangeHandler = (id, val) => {
+   let value = val ? val : ''
+
+    const addFilterValuToInput = filterInputData?.map((item) => {
+        if(item?.field_id == id){
+          return {...item,fieldValue:{value: value}}
+        }else{
+          return item;
+        }
+    })
+    setFilterInputData(addFilterValuToInput)
+
+  
+    setFilterObj({...filterObj, [id]: value})
+    if(id == 'city'){
+        if(value){
+          propertyListTrigger({ querys: `limit=${10}&page=${1}&status=${tabValue}&seller=${userData?._id}&searchKey=${searchKey}&city=${value}` });
+        }else{
+          propertyListTrigger({ querys: `limit=${10}&page=${1}&status=${tabValue}&seller=${userData?._id}&searchKey=${searchKey}` });
+        }
+    }
+    else if (id == 'areaName'){
+      if(value){
+        propertyListTrigger({ querys: `limit=${10}&page=${1}&status=${tabValue}&seller=${userData?._id}&searchKey=${searchKey}&city=${filterObj?.city}&areaName=${value}` });
       }
-      else if(action == 'active' || action == 'inactive'){
-        const updatePropertyRes = await updateProperty({_id: itemId, status: action})
-        console.log("updatePropertyRes", updatePropertyRes)
+      else{
+        propertyListTrigger({ querys: `limit=${10}&page=${1}&status=${tabValue}&seller=${userData?._id}&searchKey=${searchKey}&city=${filterObj?.city}` });
       }
     }
+  }
+  
+  const actionHandler = async (action,itemId) => {
+    if(action == 'edit'){
+      router.push(`/edit-property/${itemId}`)
+    }
+    else if(action == 'active' || action == 'inactive'){
+      const updatePropertyRes = await updateProperty({_id: itemId, status: action})
+      console.log("updatePropertyRes", updatePropertyRes)
+    }
+  }
 
-    useEffect(() => {
-      setTableHeader(propertyTableHeader)
-    },[])
+   useEffect(() => {
+      if(filterObj?.city){
+        areaNameTrigger({ querys: `city=${filterObj?.city}` });
+      }
+    },[filterObj?.city])
+
+  useEffect(() => {
+    setTableHeader(propertyTableHeader)
+    setFilterInputData(filterFieldConfig)
+  },[])
+
+  const onSearchHandler = (searchVal) => {
+    setSearchKey(searchVal)
+    setTimeout(propertyFetch(), 1000)
+  }
+
+   useEffect(() => {
+      if(areaNameList?.data?.length > 0 && areaNameList){
+ 
+        const formatAreaNameData = areaNameList?.data?.map((item) => {
+          const newObj = {"label": item?.areaName, value: item?.areaName}
+          return newObj
+        })
+      
+       
+        const fieldsAddedValue = filterInputData?.map((item) => {
+          if(item?.field_id == 'areaName'){
+            const newObj = {...item, options: formatAreaNameData, suggestionText: ''}
+            return newObj
+          }
+          else{
+            return item
+          }
+        })
+        setFilterInputData(fieldsAddedValue)
+      }
+  
+    },[areaNameList, areaNameList?.data?.length])
+
+   console.log('filterObj ====>', filterObj)
+   console.log('filterInputData ====>', filterInputData)
 
   return (
     <div className="bg-overlay  p-6 rounded-t-[20px]">
@@ -96,8 +173,9 @@ export default function SellerProperties() {
           
             <FilterAndSearch 
               createHandler={() => router.push('/create-property')}
-              filterFieldConfig={filterFieldConfig}
+              filterFieldConfig={filterInputData}
               onChangeHandler={filterChangeHandler}
+              onSearchHandler={onSearchHandler}
             />
             <div className="my-7">
               <FFTable
