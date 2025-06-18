@@ -75,7 +75,7 @@ const PropertySchema = new mongoose.Schema({
   propertyType: {
     type: String,
     default: false,
-     enum: ['flat', 'office', 'showroam', 'restaurant'],
+     enum: ['flat', 'office', 'showroom', 'restaurant'],
   },
   // Generated ID for public display (6 digit code)
   propertyId: {
