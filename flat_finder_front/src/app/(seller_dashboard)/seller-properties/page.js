@@ -73,7 +73,7 @@ export default function SellerProperties() {
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      console.log('entering-------')
+ 
       propertyFetch()
     }
   }, [perPage, page]);
@@ -157,9 +157,6 @@ export default function SellerProperties() {
       }
   
     },[areaNameList, areaNameList?.data?.length])
-
-   console.log('filterObj ====>', filterObj)
-   console.log('filterInputData ====>', filterInputData)
 
   return (
     <div className="bg-overlay  p-6 rounded-t-[20px]">

@@ -1,6 +1,6 @@
 "use client"
 import { useLazyGetSinglePropertyQuery } from '@/app/redux/features/propertyApi';
-import FFLoader from '@/components/common/FFLoader';
+import FFLoader from '@/components/common/Loaders/FFLoader';
 import FFPageHeader from '@/components/common/FFPageHeader';
 import PropertyForm from '@/components/seller/propertyForm/PropertyForm'
 import React, { useEffect, useState } from 'react'

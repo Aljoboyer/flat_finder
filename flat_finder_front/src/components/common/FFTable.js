@@ -8,7 +8,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { COLORS } from '@/theme/colors';
 import { Avatar, Box, Chip } from '@mui/material';
-import FFLoader from './FFLoader';
+import FFLoader from './Loaders/FFLoader';
 import FFNodata from './FFNodata';
 import ActionButton from './Buttons/ActionButton';
 import FFChip from './FFChip';

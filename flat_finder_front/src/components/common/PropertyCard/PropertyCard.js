@@ -1,12 +1,13 @@
-import { Card, CardContent, Button, Avatar } from "@mui/material";
-import { LocationOn, Bed, Bathtub, CropSquare } from "@mui/icons-material";
+import { Avatar } from "@mui/material";
+import { LocationOn, Bed } from "@mui/icons-material";
 import { FaBath } from "react-icons/fa6";
 import { PiResizeFill } from "react-icons/pi";
 import { Buttons } from "../Buttons/Buttons";
 import { COLORS } from "@/theme/colors";
 
 
-export default function PropertyCard() {
+export default function PropertyCard({property}) {
+
   return (
 
       <div className="md:flex property_card jusity-between     rounded  h-fit md:h-[430px]  w-full mt-7">
@@ -14,7 +15,7 @@ export default function PropertyCard() {
         <div className="w-full md:w-1/2 flex flex-row">
           <div className="h-full w-full">
             <img
-            src="/assets/website_logo.png"
+            src={property?.images[0] ? property?.images[0] : '/assets/placeholderimg.jpg'}
             alt="Property"
             className="object-contain md:object-cover h-full w-full"
           />
@@ -22,16 +23,16 @@ export default function PropertyCard() {
           {/* Optional: more images for larger screens */}
             <div className="w-[150px] h-full hidden md:block px-2">
                 <div className='h-25'>
-                    <img src="/assets/website_logo.png" alt="" className="card_img cursor-pointer"/>
+                      <img src={property?.images[1] ? property?.images[1] : '/assets/placeholderimg.jpg'} alt="" className="card_img cursor-pointer"/>
                 </div>
                 <div className='h-25'>
-                    <img src="/assets/website_logo.png" alt="" className="card_img cursor-pointer mt-2"/>
+                      <img src={property?.images[2] ? property?.images[2] : '/assets/placeholderimg.jpg'} alt="" className="card_img cursor-pointer"/>
                 </div>
                 <div className='h-25'>
-                    <img src="/assets/website_logo.png " alt="" className="card_img cursor-pointer mt-2"/>
+                      <img src={property?.images[3] ? property?.images[3] : '/assets/placeholderimg.jpg'} alt="" className="card_img cursor-pointer"/>
                 </div>
                 <div className='h-25'>
-                    <img src="/assets/website_logo.png" alt="" className="card_img cursor-pointer mt-2"/>
+                      <img src={property?.images[4] ? property?.images[4] : '/assets/placeholderimg.jpg'} alt="" className="card_img cursor-pointer"/>
                 </div>
             </div>
         </div>
@@ -40,16 +41,16 @@ export default function PropertyCard() {
         {/* Details */}
         <div className="w-full md:w-1/2 p-4 flex flex-col justify-between">
           <div>
-            <h2 className="text-basecolor text-title_sm md:text-title font-bold">AED 275,000 PA AED 275,000 PA AED 275,000 PA</h2>
+            <h2 className="text-basecolor text-title_sm md:text-title font-bold">{property?.title}</h2>
             <div className="text-grey600 flex items-center mt-2">
               <LocationOn fontSize="medium" />
-              <span className="text-p">Maple 3, Dubai Hills Estate, Dubai</span>
+              <span className="text-p">{property?.city}, {property?.areaName}</span>
             </div>
 
             <div className="flex items-center gap-4 text-title_sm mt-4 text-gray700">
-              <span className="flex items-center gap-1"><Bed  />4</span>
-              <span className="flex items-center gap-1"><FaBath  />3</span>
-              <span className="flex items-center gap-1"><PiResizeFill  />3,037 sq.ft</span>
+              <span className="flex items-center gap-1"><Bed  />{property?.bedRooms}</span>
+              <span className="flex items-center gap-1"><FaBath  />{property?.bathrooms}</span>
+              <span className="flex items-center gap-1"><PiResizeFill  />{property?.flatMeasurement} sq.ft</span>
             </div>
 
              
@@ -61,7 +62,7 @@ export default function PropertyCard() {
               </div>
             </div>
 
-             <h2 className=" text-lg_title font-bold">240930 BDT</h2>
+             <h2 className=" text-lg_title font-bold">{property?.price} BDT</h2>
           </div>
 
           {/* Call to action button */}

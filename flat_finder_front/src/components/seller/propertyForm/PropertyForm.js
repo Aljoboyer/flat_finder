@@ -2,7 +2,7 @@
 import { useLazyGetAreaNamesQuery } from '@/app/redux/features/dropDownApi'
 import { useCreatePropertyMutation, useDeletePropertyImgMutation, useUpdatePropertyMutation } from '@/app/redux/features/propertyApi'
 import { Buttons } from '@/components/common/Buttons/Buttons'
-import FFLoader2 from '@/components/common/FFLoader-2'
+import FFLoader2 from '@/components/common/Loaders/FFLoader-2'
 import ImageUpload from '@/components/common/ImageUpload'
 import InputField from '@/components/common/Inputs/InputField'
 import PropertyFormImg from '@/components/seller/propertyFormImg/PropertyFormImg'

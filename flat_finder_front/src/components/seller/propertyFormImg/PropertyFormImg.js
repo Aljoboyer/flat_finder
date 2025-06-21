@@ -2,7 +2,7 @@ import React from 'react'
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import { COLORS } from '@/theme/colors';
-import FFLoader2 from '@/components/common/FFLoader-2';
+import FFLoader2 from '@/components/common/Loaders/FFLoader-2';
 
 export default function PropertyFormImg({
   currentDeletingImg,
