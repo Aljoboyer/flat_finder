@@ -9,12 +9,14 @@ export default function FilterAndSearch({
     filterFieldConfig,
     createHandler,
     onChangeHandler,
-    onSearchHandler
+    onSearchHandler,
+    searchInputShow = true,
+    gridStyle = 'md:grid-cols-3'
 }) {
   return (
     <div>
         <div className="flex flex-row items-center justify-between flex-wrap my-4">
-            <InputField onChangeHandler={onSearchHandler} inputType="search" placeholder='Search property id'/>
+            {searchInputShow && <InputField onChangeHandler={onSearchHandler} inputType="search" placeholder='Search property id'/>}
 
             {
                 createBtnShow && <div>
@@ -29,7 +31,7 @@ export default function FilterAndSearch({
             
         </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+      <div className={`grid grid-cols-1 sm:grid-cols-2 ${gridStyle} gap-4`}>
           {
             filterFieldConfig?.map((field) => (
                 <InputField 

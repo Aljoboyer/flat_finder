@@ -153,7 +153,7 @@ export default function InputField({
         }
       
       </Select>
-      { errors[field_id] && <p className='text-psm text-red-500'>{errors[field_id].message}</p>}
+      {errors && <>{ errors[field_id] && <p className='text-psm text-red-500'>{errors[field_id].message}</p>}</>} 
 </FormControl>
   )
  }

@@ -1,6 +1,16 @@
-import { cities } from "../dropdownData";
+import { cities, propertyTypes } from "../dropdownData";
 
 export  const filterFieldConfig = [
+      {
+          field_id: 'propertyType',
+          options: propertyTypes,
+          label: 'Property Type',
+          placeholder: 'Enter property type',
+          inputType: 'select',
+          fieldValue: {
+           value: ""
+          },
+      },
       {
         options: cities,
         label: 'City Name',
@@ -18,6 +28,5 @@ export  const filterFieldConfig = [
            value: ""
         },
         field_id: 'areaName',
-        suggestionText: "Please Select City First"
       }
     ]

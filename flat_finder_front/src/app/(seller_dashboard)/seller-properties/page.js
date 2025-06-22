@@ -127,7 +127,7 @@ export default function SellerProperties() {
 
   useEffect(() => {
     setTableHeader(propertyTableHeader)
-    setFilterInputData(filterFieldConfig)
+    setFilterInputData(filterFieldConfig?.slice(1, 3))
   },[])
 
   const onSearchHandler = (searchVal) => {
