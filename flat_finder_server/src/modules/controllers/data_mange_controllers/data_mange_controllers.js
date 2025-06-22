@@ -1,5 +1,6 @@
 const PropertyCollection = require("../../../models/property");
 const AreaNameCollection = require("../../../models/areaNames");
+const { generateFilterQuery } = require("../../../helper/generateFilterQuery");
 
 
 //updating all data in porperty
@@ -44,8 +45,9 @@ const addAreaName = async (req, res) => {
 const getAreaNameByCity = async (req, res) => {
   
     try {
+      const query = generateFilterQuery(req.query)
       
-      const data = await AreaNameCollection.find({cityName: req.query.city});
+      const data = await AreaNameCollection.find(query);
         
       res.status(200).json({
       data: data
