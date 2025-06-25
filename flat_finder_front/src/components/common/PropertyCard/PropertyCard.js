@@ -10,7 +10,7 @@ export default function PropertyCard({property}) {
 
   return (
 
-      <div className="md:flex property_card jusity-between     rounded  h-fit md:h-[430px]  w-full mt-7">
+      <div className="md:flex property_card jusity-between rounded  h-fit md:h-[350px]  w-full mt-7">
         {/* Images */}
         <div className="w-full md:w-1/2 flex flex-row">
           <div className="h-full w-full">
@@ -22,16 +22,16 @@ export default function PropertyCard({property}) {
           </div>
           {/* Optional: more images for larger screens */}
             <div className="w-[150px] h-full hidden md:block px-2">
-                <div className='h-25'>
+                <div className='h-[85px]'>
                       <img src={property?.images[1] ? property?.images[1] : '/assets/placeholderimg.jpg'} alt="" className="card_img cursor-pointer"/>
                 </div>
-                <div className='h-25'>
+                <div className='h-[85px]'>
                       <img src={property?.images[2] ? property?.images[2] : '/assets/placeholderimg.jpg'} alt="" className="card_img cursor-pointer"/>
                 </div>
-                <div className='h-25'>
+                <div className='h-[85px]'>
                       <img src={property?.images[3] ? property?.images[3] : '/assets/placeholderimg.jpg'} alt="" className="card_img cursor-pointer"/>
                 </div>
-                <div className='h-25'>
+                <div className='h-[85px]'>
                       <img src={property?.images[4] ? property?.images[4] : '/assets/placeholderimg.jpg'} alt="" className="card_img cursor-pointer"/>
                 </div>
             </div>
