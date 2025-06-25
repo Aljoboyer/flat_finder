@@ -4,7 +4,8 @@ import Slider from '@mui/material/Slider';
 import { COLORS } from '@/theme/colors';
 
 function formatPriceValue(value) {
-  return `${value.toLocaleString()} BDT`; 
+  const newVal = Number(value) * 10000
+  return `${newVal.toLocaleString()} BDT`; 
 }
 
 

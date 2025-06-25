@@ -20,7 +20,7 @@ export default function SearchProperty() {
   const [propertyListTrigger, { data: propertyList, error, isLoading , isFetching}] = useLazyGetPropertyListQuery();
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
-  const [filterObj, setFilterObj] = useState({city: '', areaName: '', bedRooms: '', propertyType: '', bathRooms: ''})
+  const [filterObj, setFilterObj] = useState({city: '', areaName: '', bedRooms: '', propertyType: '', bathRooms: '', maxSqft: '', minSqft: ''})
   const [searchKey, setSearchKey] = useState('')
   const [filterInputData, setFilterInputData] = useState([])
   const [openDrawer, setOpenDrawer] = useState(false);
@@ -28,28 +28,34 @@ export default function SearchProperty() {
   const [sqrftRange, setSqrftRange] = useState([0, 5000]);
  const [areaNameTrigger, { data: areaNameList}] = useLazyGetAreaNamesQuery();
 
+   const propertyFetch = () => {
+    propertyListTrigger({ querys: `limit=${perPage}&page=${page}&status=active&searchKey=${searchKey}&city=${filterObj?.city}&areaName=${filterObj?.areaName }&maxPrice=${priceRange[1]}&minPrice=${priceRange[0]}&minSqft=${filterObj?.minSqft}&maxSqft=${filterObj?.maxSqft}&bedRooms=${filterObj?.bedRooms}&bathRooms=${filterObj?.bathRooms}&propertyType=${filterObj?.propertyType}` });
+  }
+
+
   const priceRangeChange = (event, newValue) => {
     setPriceRange(newValue);
   };
 
   const SqrftRangeChange = (event, newValue) => {
+    console.log(newValue)
     setSqrftRange(newValue);
+    setTimeout(() => {
+          console.log('calling 11')
+      setFilterObj({...filterObj, maxSqft: newValue[1], minSqft: newValue[0]})
+    },1000)
   };
 
   const toggleDrawer = (newOpen) =>  {
     setOpenDrawer(newOpen);
   };
 
-  const propertyFetch = () => {
-    propertyListTrigger({ querys: `limit=${perPage}&page=${page}&status=active&searchKey=${searchKey}&city=${filterObj?.city}&areaName=${filterObj?.areaName }&maxPrice=${priceRange[1]}&minPrice=${priceRange[0]}&minSqft=${sqrftRange[0]}&maxSqft=${sqrftRange[1]}&bedRooms=${filterObj?.bedRooms}&bathRooms=${filterObj?.bathRooms}&propertyType=${filterObj?.propertyType}` });
-  }
-
   useEffect(() => {
     if (typeof window !== 'undefined') {
-  
+      console.log('calling')
       propertyFetch()
     }
-  }, [perPage, page, filterObj?.city, filterObj?.areaName,filterObj?.bedRooms,filterObj?.propertyType, filterObj?.bathRooms]);
+  }, [perPage, page, filterObj?.city, filterObj?.areaName,filterObj?.bedRooms,filterObj?.propertyType, filterObj?.bathRooms, filterObj?.maxSqft, filterObj?.minSqft]);
 
   useEffect(() => {
     setFilterInputData(filterFieldConfig)
@@ -109,7 +115,8 @@ export default function SearchProperty() {
 
   },[areaNameList, areaNameList?.data?.length])
 
-  console.log('filter data', filterObj)
+  console.log('priceRange ==>', priceRange)
+  
   return (
     <div className="w-full p-4 flex flex-col lg:flex-row justify-between">
           <div className="lg:hidden">
@@ -134,7 +141,7 @@ export default function SearchProperty() {
               searchInputShow={false}
               gridStyle='md:grid-cols-1 lg:grid-cols-1'
             />
-            <FFRangeSlider title={"Set Price Range"} handleChange={priceRangeChange} step={1000} isPrice={true} value={priceRange} maxValue={10000000}/>
+            <FFRangeSlider title={"Set Price Range"} handleChange={priceRangeChange} step={1} isPrice={true} value={priceRange} maxValue={1000}/>
             <FFRangeSlider title={"Set Size"} handleChange={SqrftRangeChange} step={50} isPrice={false} value={sqrftRange} maxValue={5000}/>
           </div>
         <div className="lg:w-w-4/5 w-full px-0 lg:px-4">
