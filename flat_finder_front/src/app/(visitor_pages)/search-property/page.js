@@ -5,6 +5,7 @@ import { Buttons } from "@/components/common/Buttons/Buttons";
 import FFDrawer from "@/components/common/FFDrawer/FFDrawer";
 import FFNodata from "@/components/common/FFNodata";
 import FFPagination from "@/components/common/FFPagination";
+import FFRangeSlider from "@/components/common/FFRangeSlider";
 import FilterAndSearch from "@/components/common/FilterAndSearch";
 import SkeletonPropertyCard from "@/components/common/Loaders/SkeletonPropertyCard";
 import PropertyCard from "@/components/common/PropertyCard/PropertyCard";
@@ -22,13 +23,24 @@ export default function SearchProperty() {
   const [searchKey, setSearchKey] = useState('')
   const [filterInputData, setFilterInputData] = useState([])
   const [openDrawer, setOpenDrawer] = useState(false);
+  const [priceRange, setPriceRange] = useState([0, 10000000]);
+  const [sqrftRange, setSqrftRange] = useState([0, 5000]);
+
+
+  const priceRangeChange = (event, newValue) => {
+    setPriceRange(newValue);
+  };
+
+  const SqrftRangeChange = (event, newValue) => {
+    setSqrftRange(newValue);
+  };
 
   const toggleDrawer = (newOpen) =>  {
     setOpenDrawer(newOpen);
   };
 
   const propertyFetch = () => {
-    propertyListTrigger({ querys: `limit=${perPage}&page=${page}&status=active&searchKey=${searchKey}&city=${filterObj?.city}&areaName=${filterObj?.areaName }` });
+    propertyListTrigger({ querys: `limit=${perPage}&page=${page}&status=active&searchKey=${searchKey}&city=${filterObj?.city}&areaName=${filterObj?.areaName }&maxPrice=${priceRange[1]}&minPrice=${priceRange[0]}&minSqft=${sqrftRange[0]}&maxSqft=${sqrftRange[1]}` });
   }
 
   useEffect(() => {
@@ -78,6 +90,8 @@ export default function SearchProperty() {
               searchInputShow={false}
               gridStyle='md:grid-cols-1 lg:grid-cols-1'
             />
+            <FFRangeSlider title={"Set Price Range"} handleChange={priceRangeChange} step={1000} isPrice={true} value={priceRange} maxValue={10000000}/>
+            <FFRangeSlider title={"Set Size"} handleChange={SqrftRangeChange} step={50} isPrice={false} value={sqrftRange} maxValue={5000}/>
           </div>
         <div className="lg:w-w-4/5 w-full px-0 lg:px-4">
             {
