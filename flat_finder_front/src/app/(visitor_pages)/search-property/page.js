@@ -4,6 +4,7 @@ import { useLazyGetPropertyListQuery } from "@/app/redux/features/propertyApi";
 import { Buttons } from "@/components/common/Buttons/Buttons";
 import FFDrawer from "@/components/common/FFDrawer/FFDrawer";
 import FFNodata from "@/components/common/FFNodata";
+import FFPagination from "@/components/common/FFPagination";
 import FilterAndSearch from "@/components/common/FilterAndSearch";
 import SkeletonPropertyCard from "@/components/common/Loaders/SkeletonPropertyCard";
 import PropertyCard from "@/components/common/PropertyCard/PropertyCard";
@@ -30,21 +31,29 @@ export default function SearchProperty() {
     propertyListTrigger({ querys: `limit=${perPage}&page=${page}&status=active&searchKey=${searchKey}&city=${filterObj?.city}&areaName=${filterObj?.areaName }` });
   }
 
-    useEffect(() => {
-      if (typeof window !== 'undefined') {
-   
-        propertyFetch()
-      }
-    }, [perPage, page]);
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+  
+      propertyFetch()
+    }
+  }, [perPage, page]);
 
-      useEffect(() => {
-        setFilterInputData(filterFieldConfig)
-      },[])
+  useEffect(() => {
+    setFilterInputData(filterFieldConfig)
+  },[])
 
-      const filterChangeHandler = () => {
-        
-      }
-console.log('openDrawer', openDrawer)
+  const filterChangeHandler = () => {
+    
+  }
+   const handlePageChange = (event, value) => {
+    setPage(value);
+  };
+
+  const handlePerPageChange = (event) => {
+    setPerPage(Number(event.target.value));
+    setPage(1); 
+  };
+
   return (
     <div className="w-full p-4 flex flex-col lg:flex-row justify-between">
           <div className="lg:hidden">
@@ -83,7 +92,15 @@ console.log('openDrawer', openDrawer)
                 }
             </>
             }
+             <div className="flex flex-row justify-center my-4">
+                <FFPagination 
+                perPage={perPage}
+                handlePerPageChange={handlePerPageChange}
+                handlePageChange={handlePageChange}
+                totalPage={propertyList?.totalPage} />
+              </div>
         </div>
+       
     </div>
   );
 }
