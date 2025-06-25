@@ -30,7 +30,7 @@ const getAllPropertyController = async (req, res) => {
 
     const { skip , page, limit} = PaginationCalculate(req.query);
     const query = generateFilterQuery(req.query)
-   
+
     // Fetch filtered data with pagination
     const  result = await PropertyCollection.find(query).select('-comments -likes -video -googleMapUrl -description').sort({ createdAt: -1 }).skip(skip).limit(Number(limit));
     const  totalCount = await PropertyCollection.countDocuments(query);

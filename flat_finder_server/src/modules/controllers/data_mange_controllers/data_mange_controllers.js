@@ -1,4 +1,3 @@
-const PropertyCollection = require("../../../models/property");
 const AreaNameCollection = require("../../../models/areaNames");
 const { generateFilterQuery } = require("../../../helper/generateFilterQuery");
 

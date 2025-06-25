@@ -7,10 +7,12 @@ const generateFilterQuery = (queryOptions) => {
           propertyType,
           minSqft,
           maxSqft,
-          bedrooms,
+          bedRooms,
           seller,
           searchKey,
-          status
+          status,
+          cityName,
+          bathrooms
         } = queryOptions;
 
           
@@ -23,20 +25,31 @@ const generateFilterQuery = (queryOptions) => {
         }
     
         // 2. City, Area Name, Property Type
-        if (city) query.city = city;
-        if (areaName) query.areaName = areaName;
-        if (propertyType) query.propertyType = propertyType;
+        
+        if (city && typeof city == "string"){
+            query.city = city;
+        }
+         if (areaName && typeof areaName == "string"){
+            query.areaName = areaName;
+        }
+        if (cityName && typeof cityName == "string"){
+            query.cityName = cityName;
+        }
+         if (propertyType && typeof propertyType == "string"){
+            query.propertyType = propertyType;
+        }
     
         // 3. Floor Square Feet Range
         if (minSqft && maxSqft) {
-        query.flatMeasurement = { $gte: Number(minSqft), $lte: Number(maxSqft) };
+            query.flatMeasurement = { $gte: Number(minSqft), $lte: Number(maxSqft) };
         }
     
-        // 4. Bedroom count
-        if (bedrooms) {
-        query.bedrooms = Number(bedrooms);
+        if (bedRooms && typeof bedRooms == "string") {
+            query.bedRooms = Number(bedRooms);
         }
-
+        if (bathrooms && typeof bathrooms == "string") {
+            query.bathrooms = Number(bathrooms);
+        }
         if(seller){
             query.seller = seller
         }
