@@ -1,5 +1,6 @@
 "use client"
 
+import { useLazyGetAreaNamesQuery } from "@/app/redux/features/dropDownApi";
 import { useLazyGetPropertyListQuery } from "@/app/redux/features/propertyApi";
 import { Buttons } from "@/components/common/Buttons/Buttons";
 import FFDrawer from "@/components/common/FFDrawer/FFDrawer";
@@ -19,13 +20,13 @@ export default function SearchProperty() {
   const [propertyListTrigger, { data: propertyList, error, isLoading , isFetching}] = useLazyGetPropertyListQuery();
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
-  const [filterObj, setFilterObj] = useState({city: '', areaName: ''})
+  const [filterObj, setFilterObj] = useState({city: '', areaName: '', bedRooms: '', propertyType: '', bathRooms: ''})
   const [searchKey, setSearchKey] = useState('')
   const [filterInputData, setFilterInputData] = useState([])
   const [openDrawer, setOpenDrawer] = useState(false);
   const [priceRange, setPriceRange] = useState([0, 10000000]);
   const [sqrftRange, setSqrftRange] = useState([0, 5000]);
-
+ const [areaNameTrigger, { data: areaNameList}] = useLazyGetAreaNamesQuery();
 
   const priceRangeChange = (event, newValue) => {
     setPriceRange(newValue);
@@ -40,7 +41,7 @@ export default function SearchProperty() {
   };
 
   const propertyFetch = () => {
-    propertyListTrigger({ querys: `limit=${perPage}&page=${page}&status=active&searchKey=${searchKey}&city=${filterObj?.city}&areaName=${filterObj?.areaName }&maxPrice=${priceRange[1]}&minPrice=${priceRange[0]}&minSqft=${sqrftRange[0]}&maxSqft=${sqrftRange[1]}` });
+    propertyListTrigger({ querys: `limit=${perPage}&page=${page}&status=active&searchKey=${searchKey}&city=${filterObj?.city}&areaName=${filterObj?.areaName }&maxPrice=${priceRange[1]}&minPrice=${priceRange[0]}&minSqft=${sqrftRange[0]}&maxSqft=${sqrftRange[1]}&bedRooms=${filterObj?.bedRooms}&bathRooms=${filterObj?.bathRooms}&propertyType=${filterObj?.propertyType}` });
   }
 
   useEffect(() => {
@@ -48,14 +49,27 @@ export default function SearchProperty() {
   
       propertyFetch()
     }
-  }, [perPage, page]);
+  }, [perPage, page, filterObj?.city, filterObj?.areaName,filterObj?.bedRooms,filterObj?.propertyType, filterObj?.bathRooms]);
 
   useEffect(() => {
     setFilterInputData(filterFieldConfig)
   },[])
 
-  const filterChangeHandler = () => {
-    
+  const filterChangeHandler = (id, val) => {
+    let value = val ? val : ''
+  
+    setFilterObj({...filterObj, [id]: value})
+
+    if(id == 'city' || id == 'areaName'){
+        const addFilterValuToInput = filterInputData?.map((item) => {
+          if(item?.field_id == id){
+            return {...item,fieldValue:{value: value}}
+          }else{
+            return item;
+          }
+        })
+      setFilterInputData(addFilterValuToInput)
+    }
   }
    const handlePageChange = (event, value) => {
     setPage(value);
@@ -66,6 +80,36 @@ export default function SearchProperty() {
     setPage(1); 
   };
 
+  useEffect(() => {
+    if(filterObj?.city){
+      areaNameTrigger({ querys: `cityName=${filterObj?.city}` });
+    }
+  },[filterObj?.city])
+
+  useEffect(() => {
+    if(areaNameList?.data?.length > 0 && areaNameList){
+
+      const formatAreaNameData = areaNameList?.data?.map((item) => {
+        const newObj = {"label": item?.areaName, value: item?.areaName}
+        return newObj
+      })
+    
+      
+      const fieldsAddedValue = filterInputData?.map((item) => {
+        if(item?.field_id == 'areaName'){
+          const newObj = {...item, options: formatAreaNameData, suggestionText: ''}
+          return newObj
+        }
+        else{
+          return item
+        }
+      })
+      setFilterInputData(fieldsAddedValue)
+    }
+
+  },[areaNameList, areaNameList?.data?.length])
+
+  console.log('filter data', filterObj)
   return (
     <div className="w-full p-4 flex flex-col lg:flex-row justify-between">
           <div className="lg:hidden">

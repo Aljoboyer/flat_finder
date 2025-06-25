@@ -121,7 +121,7 @@ export default function SellerProperties() {
 
    useEffect(() => {
       if(filterObj?.city){
-        areaNameTrigger({ querys: `city=${filterObj?.city}` });
+        areaNameTrigger({ querys: `cityName=${filterObj?.city}` });
       }
     },[filterObj?.city])
 

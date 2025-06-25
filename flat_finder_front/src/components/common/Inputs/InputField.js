@@ -53,7 +53,8 @@ export default function InputField({
   placeholder,
   options,
   onChangeHandler,
-  fieldItem
+  fieldItem,
+  unSelectShow=false
 }) {
    const [showPassword, setShowPassword] = React.useState(false);
 
@@ -146,6 +147,7 @@ export default function InputField({
         value={field?.value ? field?.value : fieldItem?.value } 
         onChange={(e) => onChangeHandler(field_id, e.target.value)} 
       >
+         {unSelectShow && <MenuItem value={''}>Remove</MenuItem>} 
         {
           options?.map((item) => (
               <MenuItem value={item?.value}>{item?.label}</MenuItem>

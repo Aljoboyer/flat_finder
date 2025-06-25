@@ -28,6 +28,7 @@ export  const filterFieldConfig = [
            value: ""
         },
         field_id: 'areaName',
+        suggestionText: "Please Select City First"
       },
        {
         field_id: 'purpose',

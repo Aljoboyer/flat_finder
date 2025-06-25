@@ -35,7 +35,7 @@ export default function FilterAndSearch({
           {
             filterFieldConfig?.map((field) => (
                 <InputField 
-                key={field?.id}
+                key={field?.field_id}
                 otherStyle={{ marginTop: {xs: '10px', md: '0px'}}}
                 label={field?.label}
                 inputType={field?.inputType} 
@@ -44,6 +44,7 @@ export default function FilterAndSearch({
                 field={field.fieldValue}
                 field_id={field?.field_id}
                 fieldItem={field}
+                unSelectShow={true}
               />
             ))
           }
