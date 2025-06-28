@@ -10,6 +10,7 @@ export  const filterFieldConfig = [
           fieldValue: {
            value: ""
           },
+          value: ""
       },
       {
         options: cities,
@@ -45,6 +46,7 @@ export  const filterFieldConfig = [
         fieldValue: {
            value: ""
         },
+        value: ""
       },
        {
           field_id: 'bedRooms',
@@ -58,6 +60,7 @@ export  const filterFieldConfig = [
          fieldValue: {
            value: ""
         },
+          value: ""
       },
       {
             field_id: 'bathrooms',
@@ -71,5 +74,6 @@ export  const filterFieldConfig = [
               fieldValue: {
            value: ""
         },
+          value: ""
         },
     ]

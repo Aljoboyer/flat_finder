@@ -30,7 +30,10 @@ import { usePathname } from 'next/navigation';
 
 const navItems = [
     {label: 'Home', link: '/flat-finder-home'},
-    {label: 'Flat / Apartment', link: '/search-property',},
+    {label: 'Flat / Apartment', link: '/search-property', stateValue:  'flat'},
+    {label: 'Showroom', link: '/search-property', stateValue:  'showroom'},
+    {label: 'Resturant', link: '/search-property', stateValue:  'restaurant'},
+    {label: 'Office', link: '/search-property', stateValue:  'office'},
 ];
 
 const iconNavItems = [
@@ -50,7 +53,12 @@ const Navbar = () => {
 
   const pathname = usePathname();
 
-  const navigationHanlder = (url) => {
+  const navigationHanlder = (item) => {
+   console.log('item.link is not a valid string:', item)
+    const link = item?.link ?? '/'
+    const propertyType = item?.stateValue ?? ''
+
+    const url = `${link}?propertyType=${encodeURIComponent(propertyType)}`
     router.push(url)
   }
 
@@ -122,7 +130,7 @@ const Navbar = () => {
           <Toolbar sx={{ justifyContent: 'space-between', flexWrap: 'wrap' }}>
             <Box sx={{ display: 'flex', gap: 3 }}>
               {navItems.map((item) => (
-                <Button onClick={() => navigationHanlder(item?.link)} key={item?.label} sx={{ color: '#fff', fontWeight: '600', ":hover":{textDecoration: 'underline', color: COLORS.side_yellow} }}>{item?.label}</Button>
+                <Button onClick={() => navigationHanlder(item)} key={item?.label} sx={{ color: '#fff', fontWeight: '600', ":hover":{textDecoration: 'underline', color: COLORS.side_yellow} }}>{item?.label}</Button>
               ))}
             </Box>
             <Box sx={{ display: 'flex', gap: 3 }}>

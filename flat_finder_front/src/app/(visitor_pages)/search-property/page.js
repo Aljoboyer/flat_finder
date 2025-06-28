@@ -12,6 +12,9 @@ import SkeletonPropertyCard from "@/components/common/Loaders/SkeletonPropertyCa
 import PropertyCard from "@/components/common/PropertyCard/PropertyCard";
 import { filterFieldConfig } from "@/constant/formConfigs/filterConfig";
 import { COLORS } from "@/theme/colors";
+import { capitalizeFirstLetter } from "@/utils/stringHelper";
+import { ArrowForwardIosOutlined } from "@mui/icons-material";
+import {  useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { IoFilter } from "react-icons/io5";
 
@@ -26,7 +29,10 @@ export default function SearchProperty() {
   const [openDrawer, setOpenDrawer] = useState(false);
   const [priceRange, setPriceRange] = useState([0, 1000000]);
   const [sqrftRange, setSqrftRange] = useState([0, 5000]);
- const [areaNameTrigger, { data: areaNameList}] = useLazyGetAreaNamesQuery();
+  const [areaNameTrigger, { data: areaNameList}] = useLazyGetAreaNamesQuery();
+
+  const searchParams = useSearchParams()
+  const propertyType = searchParams.get('propertyType')
 
    const propertyFetch = () => {
     propertyListTrigger({ querys: `limit=${perPage}&page=${page}&status=active&searchKey=${searchKey}&city=${filterObj?.city}&areaName=${filterObj?.areaName }&minSqft=${filterObj?.minSqft}&maxSqft=${filterObj?.maxSqft}&bedRooms=${filterObj?.bedRooms}&bathRooms=${filterObj?.bathRooms}&propertyType=${filterObj?.propertyType}&minPrice=${filterObj?.minPrice}&maxPrice=${filterObj?.maxPrice}` });
@@ -117,7 +123,6 @@ export default function SearchProperty() {
         const newObj = {"label": item?.areaName, value: item?.areaName}
         return newObj
       })
-    
       
       const fieldsAddedValue = filterInputData?.map((item) => {
         if(item?.field_id == 'areaName'){
@@ -133,13 +138,26 @@ export default function SearchProperty() {
 
   },[areaNameList, areaNameList?.data?.length])
 
-  console.log('priceRange ==>', priceRange)
-  
+  useEffect(() => {
+    if(propertyType && filterInputData?.length > 0){
+       setFilterObj({...filterObj, propertyType: propertyType})
+       const addFilterValuToInput = filterInputData?.map((item) => {
+          if(item?.field_id == 'propertyType'){
+            return {...item, fieldValue:{value: propertyType}}
+          }else{
+            return item;
+          }
+        })
+      setFilterInputData(addFilterValuToInput)
+    }
+  },[propertyType, filterInputData?.length])
+
   return (
-    <div className="w-full p-4 flex flex-col lg:flex-row justify-between">
-          <div className="lg:hidden">
-            <Buttons onClickHandler={() => toggleDrawer(true)} other_style={{display: 'flex', width: {xs: '100%', sm: 200}, fontWeight: 'bold'}} icon={<IoFilter className="mx-2" size={30}/>} title="Filter" bgColor={COLORS.baseColor} textColor={COLORS.side_yellow} />
-          </div>
+    <div className="w-full p-4 flex flex-col lg:flex-row justify-between h-screen">
+        <div className="lg:hidden">
+          <Buttons onClickHandler={() => toggleDrawer(true)} other_style={{display: 'flex', width: {xs: '100%', sm: 200}, fontWeight: 'bold'}} icon={<IoFilter className="mx-2" size={30}/>} title="Filter" bgColor={COLORS.baseColor} textColor={COLORS.side_yellow} />
+        </div>
+
           <FFDrawer open={openDrawer} toggleDrawer={toggleDrawer}>
               <div className="property_card px-4 w-full">
                 <FilterAndSearch 
@@ -151,39 +169,46 @@ export default function SearchProperty() {
               />
             </div>
           </FFDrawer>
-          <div className="hidden lg:block w-1/5 property_card px-4 mt-7">
-              <FilterAndSearch 
-              createBtnShow={false}
-              filterFieldConfig={filterInputData}
-              onChangeHandler={filterChangeHandler}
-              searchInputShow={false}
-              gridStyle='md:grid-cols-1 lg:grid-cols-1'
-            />
-            <FFRangeSlider title={"Set Price Range"} handleChange={priceRangeChange} step={2} isPrice={true} value={priceRange} maxValue={60}/>
-            <FFRangeSlider title={"Set Size"} handleChange={SqrftRangeChange} step={50} isPrice={false} value={sqrftRange} maxValue={5000}/>
-          </div>
-        <div className="lg:w-w-4/5 w-full px-0 lg:px-4">
-            {
-            isFetching ? [1,2,3]?.map((item) => (
-              <SkeletonPropertyCard key={item}/>
-            )) : <>
-                {
-                  propertyList?.data?.length == 0 || !propertyList?.data ? <FFNodata/> : 
-                   propertyList?.data?.map((item) => (
-                    <PropertyCard key={item?._id} property={item}/>
-                ))
-                }
-            </>
-            }
-             <div className="flex flex-row justify-center my-4">
-                <FFPagination 
-                perPage={perPage}
-                handlePerPageChange={handlePerPageChange}
-                handlePageChange={handlePageChange}
-                totalPage={propertyList?.totalPage} />
-              </div>
+        <div className="hidden lg:block w-1/5 property_card px-4 mt-4">
+            <FilterAndSearch 
+            createBtnShow={false}
+            filterFieldConfig={filterInputData}
+            onChangeHandler={filterChangeHandler}
+            searchInputShow={false}
+            gridStyle='md:grid-cols-1 lg:grid-cols-1'
+          />
+          <FFRangeSlider title={"Set Price Range"} handleChange={priceRangeChange} step={2} isPrice={true} value={priceRange} maxValue={60}/>
+          <FFRangeSlider title={"Set Size"} handleChange={SqrftRangeChange} step={50} isPrice={false} value={sqrftRange} maxValue={5000}/>
         </div>
        
+       <div className="lg:w-w-4/5 w-full px-0 lg:px-4 overflow-scroll">
+              <div className='bg-white p-4 rounded-md my-4 flex flex-row items-start property_card'>
+                  <p className="text-p text-gray-500"><b>Showing result for </b>{capitalizeFirstLetter(filterObj?.propertyType)} </p>
+                  {filterObj?.city && <p className="text-p text-gray-500"><ArrowForwardIosOutlined fontSize="40px"/> {filterObj?.city} </p>}
+                  {filterObj?.areaName && <p className="text-p text-gray-500"><ArrowForwardIosOutlined fontSize="40px"/>  {filterObj?.areaName} </p>}  
+            </div>
+            <div className="">
+                {
+                isFetching ? [1,2,3]?.map((item) => (
+                  <SkeletonPropertyCard key={item}/>
+                )) : <>
+                    {
+                      propertyList?.data?.length == 0 || !propertyList?.data ? <FFNodata/> : 
+                      propertyList?.data?.map((item) => (
+                        <PropertyCard key={item?._id} property={item}/>
+                    ))
+                    }
+                </>
+                }
+                <div className="flex flex-row justify-center my-4">
+                    <FFPagination 
+                    perPage={perPage}
+                    handlePerPageChange={handlePerPageChange}
+                    handlePageChange={handlePageChange}
+                    totalPage={propertyList?.totalPage} />
+                  </div>
+            </div>
+       </div>
     </div>
   );
 }
