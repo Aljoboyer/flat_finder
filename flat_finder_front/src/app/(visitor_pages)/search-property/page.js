@@ -20,28 +20,46 @@ export default function SearchProperty() {
   const [propertyListTrigger, { data: propertyList, error, isLoading , isFetching}] = useLazyGetPropertyListQuery();
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
-  const [filterObj, setFilterObj] = useState({city: '', areaName: '', bedRooms: '', propertyType: '', bathRooms: '', maxSqft: '', minSqft: ''})
+  const [filterObj, setFilterObj] = useState({city: '', areaName: '', bedRooms: '', propertyType: '', bathRooms: '', maxSqft: '', minSqft: '',minPrice: '0', maxPrice: '10000000',  })
   const [searchKey, setSearchKey] = useState('')
   const [filterInputData, setFilterInputData] = useState([])
   const [openDrawer, setOpenDrawer] = useState(false);
-  const [priceRange, setPriceRange] = useState([0, 10000000]);
+  const [priceRange, setPriceRange] = useState([0, 1000000]);
   const [sqrftRange, setSqrftRange] = useState([0, 5000]);
  const [areaNameTrigger, { data: areaNameList}] = useLazyGetAreaNamesQuery();
 
    const propertyFetch = () => {
-    propertyListTrigger({ querys: `limit=${perPage}&page=${page}&status=active&searchKey=${searchKey}&city=${filterObj?.city}&areaName=${filterObj?.areaName }&maxPrice=${priceRange[1]}&minPrice=${priceRange[0]}&minSqft=${filterObj?.minSqft}&maxSqft=${filterObj?.maxSqft}&bedRooms=${filterObj?.bedRooms}&bathRooms=${filterObj?.bathRooms}&propertyType=${filterObj?.propertyType}` });
+    propertyListTrigger({ querys: `limit=${perPage}&page=${page}&status=active&searchKey=${searchKey}&city=${filterObj?.city}&areaName=${filterObj?.areaName }&minSqft=${filterObj?.minSqft}&maxSqft=${filterObj?.maxSqft}&bedRooms=${filterObj?.bedRooms}&bathRooms=${filterObj?.bathRooms}&propertyType=${filterObj?.propertyType}&minPrice=${filterObj?.minPrice}&maxPrice=${filterObj?.maxPrice}` });
   }
 
-
+  const countActualPrice = (sliderValue) => {
+     if (Number(sliderValue) <= 20) {
+        const newVal =  Number(sliderValue) * 5000;
+        return`${newVal}`; 
+      } else if (Number(sliderValue) <= 40) {
+        const newVal = (20 * 5000) + (Number(sliderValue) - 20) * 50000;
+        return`${newVal}`; 
+      } else {
+        const newVal = (20 * 5000) + (20 * 50000) + (Number(sliderValue) - 40) * 400000;
+        return `${newVal}`; 
+      }
+  }
   const priceRangeChange = (event, newValue) => {
     setPriceRange(newValue);
+      const [minSlider, maxSlider] = newValue;
+      const actualMin = countActualPrice(minSlider);
+      const actualMax = countActualPrice(maxSlider);
+
+    setTimeout(() => {
+      
+      setFilterObj({...filterObj, minPrice: actualMin, maxPrice: actualMax})
+    },1000)
   };
 
   const SqrftRangeChange = (event, newValue) => {
-    console.log(newValue)
+  
     setSqrftRange(newValue);
     setTimeout(() => {
-          console.log('calling 11')
       setFilterObj({...filterObj, maxSqft: newValue[1], minSqft: newValue[0]})
     },1000)
   };
@@ -55,7 +73,7 @@ export default function SearchProperty() {
       console.log('calling')
       propertyFetch()
     }
-  }, [perPage, page, filterObj?.city, filterObj?.areaName,filterObj?.bedRooms,filterObj?.propertyType, filterObj?.bathRooms, filterObj?.maxSqft, filterObj?.minSqft]);
+  }, [perPage, page, filterObj?.city, filterObj?.areaName,filterObj?.bedRooms,filterObj?.propertyType, filterObj?.bathRooms, filterObj?.maxSqft, filterObj?.minSqft, filterObj?.minPrice, filterObj?.maxPrice]);
 
   useEffect(() => {
     setFilterInputData(filterFieldConfig)
@@ -120,7 +138,7 @@ export default function SearchProperty() {
   return (
     <div className="w-full p-4 flex flex-col lg:flex-row justify-between">
           <div className="lg:hidden">
-            <Buttons onClickHandler={() => toggleDrawer(true)} other_style={{display: 'flex', width: 300, fontWeight: 'bold'}} icon={<IoFilter className="mx-2" size={30}/>} title="Filter" bgColor={COLORS.baseColor} textColor={COLORS.side_yellow} />
+            <Buttons onClickHandler={() => toggleDrawer(true)} other_style={{display: 'flex', width: {xs: '100%', sm: 200}, fontWeight: 'bold'}} icon={<IoFilter className="mx-2" size={30}/>} title="Filter" bgColor={COLORS.baseColor} textColor={COLORS.side_yellow} />
           </div>
           <FFDrawer open={openDrawer} toggleDrawer={toggleDrawer}>
               <div className="property_card px-4 w-full">
@@ -141,7 +159,7 @@ export default function SearchProperty() {
               searchInputShow={false}
               gridStyle='md:grid-cols-1 lg:grid-cols-1'
             />
-            <FFRangeSlider title={"Set Price Range"} handleChange={priceRangeChange} step={1} isPrice={true} value={priceRange} maxValue={1000}/>
+            <FFRangeSlider title={"Set Price Range"} handleChange={priceRangeChange} step={2} isPrice={true} value={priceRange} maxValue={60}/>
             <FFRangeSlider title={"Set Size"} handleChange={SqrftRangeChange} step={50} isPrice={false} value={sqrftRange} maxValue={5000}/>
           </div>
         <div className="lg:w-w-4/5 w-full px-0 lg:px-4">

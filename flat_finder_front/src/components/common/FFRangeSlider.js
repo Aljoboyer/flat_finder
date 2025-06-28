@@ -3,16 +3,6 @@ import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
 import { COLORS } from '@/theme/colors';
 
-function formatPriceValue(value) {
-  const newVal = Number(value) * 10000
-  return `${newVal.toLocaleString()} BDT`; 
-}
-
-
-function formatSqrftValue(value) {
-  return `${value.toLocaleString()} sqft`; 
-}
-
 
 export default function FFRangeSlider({
   handleChange,
@@ -23,7 +13,22 @@ export default function FFRangeSlider({
   title
 }) {
 
+function formatPriceValue(sliderValue) {
+  if (Number(sliderValue) <= 20) {
+    const newVal =  Number(sliderValue) * 5000;
+     return `${newVal.toLocaleString()} BDT`; 
+  } else if (Number(sliderValue) <= 40) {
+    const newVal = (20 * 5000) + (Number(sliderValue) - 20) * 50000;
+     return `${newVal.toLocaleString()} BDT`; 
+  } else {
+    const newVal = (20 * 5000) + (20 * 50000) + (Number(sliderValue) - 40) * 400000;
+     return `${newVal.toLocaleString()} BDT`; 
+  }
+}
 
+function formatSqrftValue(value) {
+  return `${value.toLocaleString()} sqft`; 
+}
   return (
     <Box sx={{ width: 300 , marginX: 2, marginTop: '20px'}}>
       <p className='mt-2 text-p font-medium'>{title}</p>
