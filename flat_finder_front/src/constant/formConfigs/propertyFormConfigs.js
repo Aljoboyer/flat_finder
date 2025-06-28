@@ -7,7 +7,7 @@ export const propertyFormFields =  [
         label: 'Title',
         placeholder: 'Enter property title',
         required:{
-            required: 'Please Enter property title',
+            required: 'Enter property title',
         },
         inputType: 'textfield'
     },
@@ -16,10 +16,10 @@ export const propertyFormFields =  [
         label: 'Advance Money',
         placeholder: 'Enter advance money',
         required:{
-            required: 'Please Enter advance money',
+            required: 'Enter advance money',
             pattern: {
                     value: numberRegex,
-                    message: "Please enter valid amount",
+                    message: "enter valid amount",
                 }
         },
         inputType: 'number'
@@ -29,10 +29,10 @@ export const propertyFormFields =  [
         label: 'Price',
         placeholder: 'Enter property price',
         required:{
-            required: 'Please Enter property price',
+            required: 'Enter property price',
             pattern: {
             value: numberRegex,
-            message: "Please enter valid amount",
+            message: "enter valid amount",
             }
         },
         inputType: 'number'
@@ -43,7 +43,7 @@ export const propertyFormFields =  [
         label: 'City Name',
         inputType: 'autocomplete',
         required:{
-            required: 'Please Enter city name',
+            required: 'Enter city name',
         },
     },
     {
@@ -52,9 +52,9 @@ export const propertyFormFields =  [
         label: 'Area Name',
         inputType: 'autocomplete',
         required:{
-            required: 'Please Enter area name',
+            required: 'Enter area name',
         },
-        suggestionText: "Please Select City First"
+        suggestionText: "Select City First"
     },
     {
         field_id: 'propertyType',
@@ -62,7 +62,7 @@ export const propertyFormFields =  [
         label: 'Property Type',
         placeholder: 'Enter property type',
         required:{
-            required: 'Please Enter property type',
+            required: 'Enter property type',
         },
         inputType: 'select',
          value: ""
@@ -72,10 +72,10 @@ export const propertyFormFields =  [
         label: 'Flat Measurement',
         placeholder: 'Enter Measurement',
         required:{
-            required: 'Please Enter Measurementy',
+            required: 'Enter Measurementy',
             pattern: {
                     value: numberRegex,
-                    message: "Please enter valid Measurement",
+                    message: "enter valid Measurement",
                 }
         },
         inputType: 'number'
@@ -86,7 +86,7 @@ export const propertyFormFields =  [
         label: 'Bed Rooms',
         placeholder: 'Enter total bedroom',
         required:{
-            required: 'Please Enter total bedroom',
+            required: 'Enter total bedroom',
         },
         inputType: 'select',
          value: ""
@@ -97,7 +97,7 @@ export const propertyFormFields =  [
         label: 'Bath Rooms',
         placeholder: 'Enter total bath room',
         required:{
-            required: 'Please Enter total bath room',
+            required: 'Enter total bath room',
         },
         inputType: 'select',
          value: ""
@@ -108,7 +108,7 @@ export const propertyFormFields =  [
         label: 'Balcony',
         placeholder: 'Enter total balcony',
         required:{
-            required: 'Please Enter total balcony',
+            required: 'Enter total balcony',
         },
         inputType: 'select',
         value: ""
@@ -119,7 +119,7 @@ export const propertyFormFields =  [
         label: 'Floor No.',
         placeholder: 'Enter total floor no',
         required:{
-            required: 'Please Enter floor no',
+            required: 'Enter floor no',
         },
         inputType: 'select',
         value: ""
@@ -133,7 +133,7 @@ export const propertyFormFields =  [
         label: 'Purpose',
         placeholder: 'Enter property purpose',
         required:{
-            required: 'Please Enter property purpose',
+            required: 'Enter property purpose',
         },
         inputType: 'select',
         value: ""
@@ -180,7 +180,7 @@ export const propertyFormFields =  [
         inputType: 'textarea',
         placeholder: 'Write Property Description...',
         required:{
-            required: 'Please Enter property Description',
+            required: 'Enter property Description',
         },
     },
 

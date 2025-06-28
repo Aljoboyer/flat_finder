@@ -106,7 +106,7 @@ export default function InputField({
  }
  else if (inputType == 'autocomplete'){
   return(
-    <div>
+    <div className='w-full'>
         <AutoCompletes 
         value={field?.value ? field?.value : fieldItem?.value}
         field_id={field_id} onChangeHandler={onChangeHandler}  

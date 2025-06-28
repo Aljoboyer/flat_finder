@@ -7,29 +7,22 @@ export  const filterFieldConfig = [
           label: 'Property Type',
           placeholder: 'Enter property type',
           inputType: 'select',
-          fieldValue: {
-           value: ""
-          },
-          value: ""
+          value: "",
       },
       {
         options: cities,
         label: 'City Name',
         inputType: 'autocomplete',
-        fieldValue: {
-           value: ""
-        },
+        value: "",
         field_id: 'city',
       },
       {
         options: [],
         label: 'Area Name',
         inputType: 'autocomplete',
-        fieldValue: {
-           value: ""
-        },
         field_id: 'areaName',
-        suggestionText: "Please Select City First"
+        suggestionText: "Select City First",
+        value: "",
       },
        {
         field_id: 'purpose',
@@ -43,9 +36,6 @@ export  const filterFieldConfig = [
             required: 'Please Enter property purpose',
         },
         inputType: 'select',
-        fieldValue: {
-           value: ""
-        },
         value: ""
       },
        {
@@ -57,9 +47,6 @@ export  const filterFieldConfig = [
               required: 'Please Enter total bedroom',
           },
           inputType: 'select',
-         fieldValue: {
-           value: ""
-        },
           value: ""
       },
       {
@@ -71,9 +58,6 @@ export  const filterFieldConfig = [
                 required: 'Please Enter total bath room',
             },
             inputType: 'select',
-              fieldValue: {
-           value: ""
-        },
-          value: ""
+            value: ""
         },
     ]

@@ -33,6 +33,8 @@ export default function SearchProperty() {
 
   const searchParams = useSearchParams()
   const propertyType = searchParams.get('propertyType')
+  const city = searchParams.get('city')
+  const areaName = searchParams.get('areaName')
 
    const propertyFetch = () => {
     propertyListTrigger({ querys: `limit=${perPage}&page=${page}&status=active&searchKey=${searchKey}&city=${filterObj?.city}&areaName=${filterObj?.areaName }&minSqft=${filterObj?.minSqft}&maxSqft=${filterObj?.maxSqft}&bedRooms=${filterObj?.bedRooms}&bathRooms=${filterObj?.bathRooms}&propertyType=${filterObj?.propertyType}&minPrice=${filterObj?.minPrice}&maxPrice=${filterObj?.maxPrice}` });
@@ -90,16 +92,14 @@ export default function SearchProperty() {
   
     setFilterObj({...filterObj, [id]: value})
 
-    if(id == 'city' || id == 'areaName'){
-        const addFilterValuToInput = filterInputData?.map((item) => {
+     const addFilterValuToInput = filterInputData?.map((item) => {
           if(item?.field_id == id){
-            return {...item,fieldValue:{value: value}}
+            return {...item, value:  value}
           }else{
             return item;
           }
         })
       setFilterInputData(addFilterValuToInput)
-    }
   }
    const handlePageChange = (event, value) => {
     setPage(value);
@@ -138,19 +138,30 @@ export default function SearchProperty() {
 
   },[areaNameList, areaNameList?.data?.length])
 
+  const addingUrlQueryValueToFilter = (id, value) => {
+    setFilterObj({...filterObj, [id]: value})
+        const addFilterValuToInput = filterFieldConfig?.map((item) => {
+      if(item?.field_id == id){
+        return {...item, value: value}
+      }else{
+        return item;
+      }
+    })
+
+    setFilterInputData(addFilterValuToInput)
+  }
+
   useEffect(() => {
-    if(propertyType && filterInputData?.length > 0){
-       setFilterObj({...filterObj, propertyType: propertyType})
-       const addFilterValuToInput = filterInputData?.map((item) => {
-          if(item?.field_id == 'propertyType'){
-            return {...item, fieldValue:{value: propertyType}}
-          }else{
-            return item;
-          }
-        })
-      setFilterInputData(addFilterValuToInput)
+    if(propertyType){
+      addingUrlQueryValueToFilter('propertyType', propertyType)
     }
-  },[propertyType, filterInputData?.length])
+    if (city){
+      addingUrlQueryValueToFilter('city', city)
+    }
+     if (areaName){
+      addingUrlQueryValueToFilter('areaName', areaName)
+    }
+  },[propertyType])
 
   return (
     <div className="w-full p-4 flex flex-col lg:flex-row justify-between h-screen">
@@ -183,7 +194,7 @@ export default function SearchProperty() {
        
        <div className="lg:w-w-4/5 w-full px-0 lg:px-4 overflow-scroll">
               <div className='bg-white p-4 rounded-md my-4 flex flex-row items-start property_card'>
-                  <p className="text-p text-gray-500"><b>Showing result for </b>{capitalizeFirstLetter(filterObj?.propertyType)} </p>
+                  <p className="text-p text-gray-500"><b>Showing result for </b>{filterObj?.propertyType && capitalizeFirstLetter(filterObj?.propertyType)} </p>
                   {filterObj?.city && <p className="text-p text-gray-500"><ArrowForwardIosOutlined fontSize="40px"/> {filterObj?.city} </p>}
                   {filterObj?.areaName && <p className="text-p text-gray-500"><ArrowForwardIosOutlined fontSize="40px"/>  {filterObj?.areaName} </p>}  
             </div>

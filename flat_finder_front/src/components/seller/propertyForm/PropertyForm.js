@@ -142,8 +142,6 @@ export default function PropertyForm({property}) {
       areaNameTrigger({ querys: `city=${city}` });
     }
   },[city])
-
-  console.log('property ===>', property)
   
   return (
       <div className=" w-full">

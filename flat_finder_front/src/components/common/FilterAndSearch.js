@@ -41,7 +41,7 @@ export default function FilterAndSearch({
                 inputType={field?.inputType} 
                 options={field?.options}
                 onChangeHandler={onChangeHandler}
-                field={field.fieldValue}
+                field={field}
                 field_id={field?.field_id}
                 fieldItem={field}
                 unSelectShow={true}

@@ -54,7 +54,7 @@ const Navbar = () => {
   const pathname = usePathname();
 
   const navigationHanlder = (item) => {
-   console.log('item.link is not a valid string:', item)
+ 
     const link = item?.link ?? '/'
     const propertyType = item?.stateValue ?? ''
 
