@@ -7,7 +7,7 @@ const router = require("express").Router();
 router.post("/post", verifyJWT(), propertyPostController);
 router.get("/all", getAllPropertyController);
 router.put("/update", verifyJWT(), updatePropertyController);
-router.get("/property", verifyJWT(), getSpecificProperty);
+router.get("/property",  getSpecificProperty);
 router.post("/like", verifyJWT(), addLikeOnPropertyontroller);
 
 module.exports = router;
