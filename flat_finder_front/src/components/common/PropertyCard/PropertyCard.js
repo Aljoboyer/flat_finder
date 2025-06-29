@@ -4,13 +4,15 @@ import { FaBath } from "react-icons/fa6";
 import { PiResizeFill } from "react-icons/pi";
 import { Buttons } from "../Buttons/Buttons";
 import { COLORS } from "@/theme/colors";
+import { useRouter } from "next/navigation";
 
 
 export default function PropertyCard({property}) {
+  const router = useRouter();
 
   return (
 
-      <div className="md:flex property_card jusity-between rounded  h-fit md:h-[350px]  w-full mt-7">
+      <div onClick={() => router.push(`/property-details/${property?._id}`)} className="md:flex property_card jusity-between rounded  h-fit md:h-[350px]  w-full mt-7 cursor-pointer">
         {/* Images */}
         <div className="w-full md:w-1/2 flex flex-row">
           <div className="h-full w-full">
