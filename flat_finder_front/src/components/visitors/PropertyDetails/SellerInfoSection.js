@@ -1,6 +1,7 @@
 import { Buttons } from '@/components/common/Buttons/Buttons';
 import { COLORS } from '@/theme/colors';
-import { Beenhere, BuildSharp, FollowTheSigns, LocationCity, LocationOn, MapOutlined } from '@mui/icons-material';
+import { capitalizeFirstLetter } from '@/utils/stringHelper';
+import { Beenhere, LocationCity, LocationOn } from '@mui/icons-material';
 import React from 'react';
 import { BsChat } from 'react-icons/bs';
 import { TbPhone } from 'react-icons/tb';
@@ -14,6 +15,9 @@ const SellerInfoSection = ({propertyDetails})=> {
     >
       <div className="w-full p-2 md:p-0 lg:p-0">
         <div className="w-fit">
+          <div className='w-[100px] bg-blue-800 flex flex-row justify-center items-center rounded h-[30px]'>
+            <p className='text-p text-white font-medium'>For {capitalizeFirstLetter(propertyDetails?.purpose)}</p>
+          </div>
           <p className="text-[#313C53] text-lg_title font-medium">
              {propertyDetails?.title}
           </p>{' '}

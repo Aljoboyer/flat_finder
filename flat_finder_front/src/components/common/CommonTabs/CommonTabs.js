@@ -4,7 +4,7 @@ import Tab from '@mui/material/Tab';
 import PhoneIcon from '@mui/icons-material/Phone';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import PersonPinIcon from '@mui/icons-material/PersonPin';
-import { Box } from '@mui/material';
+import { Box, useMediaQuery } from '@mui/material';
 import PropTypes from 'prop-types';
 import {useTheme } from '@mui/material/styles';
 import { COLORS } from '@/theme/colors';
@@ -46,15 +46,23 @@ function a11yProps(index) {
 
 export default function CommonTabs({
   handleTabChange, value, 
-  tabsData, tabWidth = 'auto', isPanelShow, polygonShape}) {
+  tabsData, tabWidth = 'auto',
+  isPanelShow, 
+  polygonShape,
+  otherStyle
+  }) {
  
   const theme = useTheme();
-
+  const isMediumScreen = useMediaQuery(theme.breakpoints.up('md'));
+  
   return (
     <Box>
         <Tabs sx={{width: '100%', height: '60px'}} 
-        value={value} onChange={handleTabChange} 
+        value={value}
+        onChange={handleTabChange} 
+        variant={!isMediumScreen  && "scrollable"}
         TabIndicatorProps={{ style: { backgroundColor: COLORS.baseColor } }}
+
         aria-label="icon label tabs example">
              {tabsData.map((tab, index) => (
                 <Tab
@@ -63,11 +71,9 @@ export default function CommonTabs({
                     label={tab.label}
                     {...a11yProps(index)}
                      sx={{
+                      ...otherStyle,
                       width: tabWidth,
-                    color: value === index ? COLORS.baseColor : 'gray', // text/icon color
-                    // '&.Mui-selected': {
-                    //   color: COLORS.baseColor,
-                    // },
+                      color: value === index ? COLORS.baseColor : 'gray',
                       marginLeft: '',
                      clipPath: polygonShape && 'polygon(0 0, 80% 0, 100% 80%, 80% 100%, 0 100%)',// angled bottom corners
                     transition: '0.3s ease',

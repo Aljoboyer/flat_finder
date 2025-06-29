@@ -1,8 +1,10 @@
 import BuyerRegistraton from "@/app/(visitor_pages)/(auth_pages)/register/_components/BuyerRegistration";
 import SellerRegistraton from "@/app/(visitor_pages)/(auth_pages)/register/_components/SellerRegistraton";
-import { BiSolidUserBadge } from "react-icons/bi";
+import { BiSolidUserBadge , BiSolidCommentDetail} from "react-icons/bi";
 import { FaBuildingUser, FaBuildingShield, FaHouseLock ,
-     FaBuildingCircleCheck,FaBuildingCircleXmark } from "react-icons/fa6";
+     FaBuildingCircleCheck,FaBuildingCircleXmark , FaLocationDot} from "react-icons/fa6";
+import { TbListDetails } from "react-icons/tb";
+import { FaBuffer } from "react-icons/fa";
 
 export const RegisterTabData = [
     {
@@ -36,6 +38,30 @@ export const PropertiesTabData = [
     {
         label: 'Rented/Sold',
         icon: <FaHouseLock size={22}/>,
+        content: '',
+    },
+]
+
+
+export const PropertyDetailsTabData = [
+    {
+        label: 'Overview',
+        icon: <TbListDetails size={24}/>,
+        content: '',
+    },
+    {
+        label: 'Features',
+        icon: <FaBuffer  size={24}/>,
+        content: '',
+    },
+    {
+        label: 'Locations',
+        icon: <FaLocationDot size={24}/>,
+        content: '',
+    },
+    {
+        label: 'Comments',
+        icon: <BiSolidCommentDetail size={24}/>,
         content: '',
     },
 ]

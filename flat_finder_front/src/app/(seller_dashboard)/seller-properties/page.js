@@ -164,7 +164,7 @@ export default function SellerProperties() {
             value={value}
             handleTabChange={handleTabChange}
             tabsData={PropertiesTabData} 
-            tabWidth={islargeScreen ? 'perPage%' : isMediumScreen ? '20%' : '50%'}
+            tabWidth={islargeScreen ? '10%' : isMediumScreen ? '20%' : '50%'}
             isPanelShow={false} polygonShape={true}/>
         <div className="bg-white rounded-b-md p-4">
           
