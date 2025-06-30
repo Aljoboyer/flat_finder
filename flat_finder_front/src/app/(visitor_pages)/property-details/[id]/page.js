@@ -1,8 +1,11 @@
 "use client"
 
-import { useLazyGetSinglePropertyQuery } from '@/app/redux/features/propertyApi';
+import { useLazyGetPropertyListQuery, useLazyGetSinglePropertyQuery } from '@/app/redux/features/propertyApi';
 import CommonTabs from '@/components/common/CommonTabs/CommonTabs';
+import FFNodata from '@/components/common/FFNodata';
 import FFLoader from '@/components/common/Loaders/FFLoader';
+import ApartmentCardSkeleton from '@/components/common/Loaders/PropertyCardSmallSkeleton';
+import ApartmentCard from '@/components/common/PropertyCard/PropertyCardSmall';
 import PropertyDetailsImgSlider from '@/components/visitors/Common/PropertyDetailsImgSlider'
 import { Feature } from '@/components/visitors/PropertyDetails/Feature';
 import OverView from '@/components/visitors/PropertyDetails/OverView';
@@ -17,8 +20,14 @@ export default function page({params}) {
   const islargeScreen = useMediaQuery(theme.breakpoints.up('lg'));
   const [tabValue, setTabValue] = useState(0);
   const [propertyTrigger, { data: property, error, isLoading , }] = useLazyGetSinglePropertyQuery();
+  const [propertyListTrigger, { data: propertyList,  isFetching}] = useLazyGetPropertyListQuery();
+  
   const { id } = params;
   
+    const sellerPropertyFetch = () => {
+    propertyListTrigger({ querys: `limit=${10}&page=${1}&status=active&seller=${property?.data?.seller?._id}` });
+  }
+
    useEffect(() => {
      if(id){
        propertyTrigger({querys: `id=${id}`})
@@ -28,7 +37,15 @@ export default function page({params}) {
     const handleTabChange = (event, newValue) => {
       setTabValue(newValue)
   }
-  console.log('property ==>', property)
+
+    useEffect(() => {
+     if(property?.data?._id){
+       sellerPropertyFetch()
+     }
+   },[property?.data?._id])
+
+   
+   console.log("propertyList ==>", propertyList)
   return (
     <div className='w-full'>
       {
@@ -61,6 +78,21 @@ export default function page({params}) {
                             tabValue == 1 && <Feature property={property?.data}/>
                           }
                       </div>
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-4">
+                    {
+                        isFetching ? [1,2,3, 4]?.map((item) => (
+                          <ApartmentCardSkeleton key={item}/>
+                        )) : <>
+                            {
+                              propertyList?.data?.length == 0 || !propertyList?.data ? <FFNodata/> : 
+                              propertyList?.data?.map((item) => (
+                                <ApartmentCard key={item?._id} property={item}/>
+                            ))
+                            }
+                        </>
+                        }
                 </div>
               </div>
         </div>
