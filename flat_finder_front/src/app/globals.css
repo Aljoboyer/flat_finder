@@ -14,7 +14,8 @@
   --color-grey700: #364152,
   --color-grey900: #121926,
   --color-successOverlay: #b9f6ca,
-  --color-greenMain: #00c853
+  --color-greenMain: #00c853,
+  --color-blackshade: #313C53
 
   /* ----------TEXT SIZE---------- */
   --text-xxl_title: 60px;
@@ -22,6 +23,7 @@
   --text-lg_title: 35px;
   --text-title: 25px;
   --text-title_sm: 20px;
+  --text-p_lg: 18px;
   --text-p: 16px;
   --text-psm: 14px;
 

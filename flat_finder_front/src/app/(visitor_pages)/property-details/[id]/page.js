@@ -4,6 +4,8 @@ import { useLazyGetSinglePropertyQuery } from '@/app/redux/features/propertyApi'
 import CommonTabs from '@/components/common/CommonTabs/CommonTabs';
 import FFLoader from '@/components/common/Loaders/FFLoader';
 import PropertyDetailsImgSlider from '@/components/visitors/Common/PropertyDetailsImgSlider'
+import { Feature } from '@/components/visitors/PropertyDetails/Feature';
+import OverView from '@/components/visitors/PropertyDetails/OverView';
 import SellerInfoSection from '@/components/visitors/PropertyDetails/SellerInfoSection'
 import { PropertyDetailsTabData } from '@/constant/tabsdata';
 import { useMediaQuery, useTheme } from '@mui/material';
@@ -26,6 +28,7 @@ export default function page({params}) {
     const handleTabChange = (event, newValue) => {
       setTabValue(newValue)
   }
+  console.log('property ==>', property)
   return (
     <div className='w-full'>
       {
@@ -49,6 +52,15 @@ export default function page({params}) {
                       isPanelShow={false}
                       otherStyle={{fontSize: '16px', fontWeight: '600'}}
                       />
+
+                      <div className='h-[80vh] p-4'>
+                          {
+                            tabValue == 0 && <OverView overview={property?.data?.description} />
+                          }
+                          {
+                            tabValue == 1 && <Feature property={property?.data}/>
+                          }
+                      </div>
                 </div>
               </div>
         </div>

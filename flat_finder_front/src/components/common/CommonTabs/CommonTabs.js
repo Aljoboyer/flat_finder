@@ -57,7 +57,7 @@ export default function CommonTabs({
   
   return (
     <Box>
-        <Tabs sx={{width: '100%', height: '60px'}} 
+        <Tabs sx={{width: '100%', height: '70px'}} 
         value={value}
         onChange={handleTabChange} 
         variant={!isMediumScreen  && "scrollable"}
@@ -75,7 +75,7 @@ export default function CommonTabs({
                       width: tabWidth,
                       color: value === index ? COLORS.baseColor : 'gray',
                       marginLeft: '',
-                     clipPath: polygonShape && 'polygon(0 0, 80% 0, 100% 80%, 80% 100%, 0 100%)',// angled bottom corners
+                     clipPath: polygonShape && 'polygon(0 0, 80% 0, 100% 100%, 80% 100%, 0 100%)',// angled bottom corners
                     transition: '0.3s ease',
                     backgroundColor: value === index ? '#f5f5f5' : '#fff',
                     '&.Mui-selected': {
