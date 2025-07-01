@@ -1,6 +1,7 @@
 
 const generateFilterQuery = (queryOptions) => {
-    const {    minPrice,
+    const {
+          minPrice,
           maxPrice,
           city,
           areaName,
@@ -12,7 +13,8 @@ const generateFilterQuery = (queryOptions) => {
           searchKey,
           status,
           cityName,
-          bathrooms
+          bathrooms,
+          purpose
         } = queryOptions;
 
           
@@ -38,7 +40,9 @@ const generateFilterQuery = (queryOptions) => {
          if (propertyType && typeof propertyType == "string"){
             query.propertyType = propertyType;
         }
-    
+        if(purpose && typeof propertyType == "string"){
+            query.purpose = purpose;
+        }
         // 3. Floor Square Feet Range
         if (minSqft && maxSqft) {
             query.flatMeasurement = { $gte: Number(minSqft), $lte: Number(maxSqft) };
