@@ -32,7 +32,11 @@ const getAllPropertyController = async (req, res) => {
     const query = generateFilterQuery(req.query)
 
     // Fetch filtered data with pagination
-    const  result = await PropertyCollection.find(query).select('-comments -likes -video -googleMapUrl -description').sort({ createdAt: -1 }).skip(skip).limit(Number(limit));
+    const  result = await PropertyCollection.find(query).select('-comments -likes -video -googleMapUrl -description').sort({ createdAt: -1 }).skip(skip).limit(Number(limit)).populate({
+    path: 'seller',
+    select: 'name propertyName image'
+  });;
+
     const  totalCount = await PropertyCollection.countDocuments(query);
 
     res.status(200).json({
@@ -74,14 +78,16 @@ const getSpecificProperty = async (req, res) => {
   try {
  
     const { id } = req.query
-
-     const Property = await PropertyCollection.findById({_id: new ObjectId(id)}).populate({
-        path: 'comments',
-        populate: {
-          path: 'commenter', 
-          select: 'name email image' 
-        }
-      });
+    const Property = await PropertyCollection.findById({_id: new ObjectId(id)}).populate([
+                {
+                path: 'comments',
+                select: 'name email image'
+                },
+                {
+                path: 'seller',
+                select: '_id name phone propertyName image address'
+                }
+            ]);
 
     res.status(200).json({
       data: Property
