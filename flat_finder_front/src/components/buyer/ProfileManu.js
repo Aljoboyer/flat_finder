@@ -1,6 +1,5 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -12,6 +11,9 @@ import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import { Typography } from '@mui/material';
 import { commonStyles } from '@/theme/commonStyle';
+import { COLORS } from '@/theme/colors';
+import { Avatar } from "@mui/material";
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 const manuItems = [
     {"label": "Profile", "link": "", "icon": <Avatar fontSize="small" />},
@@ -31,7 +33,7 @@ export default function ProfileManu() {
     <React.Fragment>
       <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
         <Tooltip title="Profile">
-          <IconButton
+          {/* <IconButton
             onClick={handleClick}
             size="small"
             sx={{ ml: 2 }}
@@ -39,8 +41,23 @@ export default function ProfileManu() {
             aria-haspopup="true"
             aria-expanded={open ? 'true' : undefined}
           >
-            <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
-          </IconButton>
+            <Avatar src='' alt='Ahan' sx={{ width: 34, height: 34 , bgcolor: COLORS.baseColor}}/>
+          </IconButton> */}
+          <IconButton
+          onClick={handleClick}
+          size="small"
+          sx={{ ml: 2, display: 'flex', alignItems: 'center', gap: '4px' }}
+          aria-controls={open ? 'account-menu' : undefined}
+          aria-haspopup="true"
+          aria-expanded={open ? 'true' : undefined}
+        >
+          <Avatar
+            src=''
+            alt='Ahan'
+            sx={{ width: 34, height: 34, bgcolor: COLORS.baseColor }}
+          />
+          <KeyboardArrowDownIcon sx={{ fontSize: 20, color: COLORS.baseColor }} />
+        </IconButton>
         </Tooltip>
       </Box>
       <Menu

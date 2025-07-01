@@ -18,7 +18,6 @@ import {
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import Notifications from '@mui/icons-material/Notifications';
-import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
 import FavoriteOutlined from '@mui/icons-material/FavoriteOutlined';
 import { TbHomeSearch } from "react-icons/tb";
 import { COLORS } from '@/theme/colors';
@@ -27,6 +26,9 @@ import { DropDownBtn } from './Buttons/DropDownBtn';
 import { languages } from '@/constant/dropdownData';
 import { useRouter } from 'next/navigation';
 import { usePathname } from 'next/navigation';
+import ProfileManu from '../buyer/ProfileManu';
+import { getAuthToken } from '@/utils/getAuthToken';
+import { AccountCircle } from '@mui/icons-material';
 
 const navItems = [
     {label: 'Home', link: '/flat-finder-home'},
@@ -37,7 +39,7 @@ const navItems = [
 ];
 
 const iconNavItems = [
-  { label: 'Your Dashboard', icon: <DirectionsCarIcon /> },
+  { label: 'My Account', icon: <AccountCircle /> },
 ];
 
 const Navbar = () => {
@@ -46,7 +48,8 @@ const Navbar = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
   const [drawerOpen, setDrawerOpen] = React.useState(false);
-
+  const isLoggedIn = getAuthToken();
+  
   const toggleDrawer = (open) => () => {
     setDrawerOpen(open);
   };
@@ -89,7 +92,8 @@ const Navbar = () => {
               </IconButton>
              <DropDownBtn manuArray={languages} buttonTitle='En'/>
 
-          <Button
+            {
+              isLoggedIn ?   <ProfileManu/> : <Button
               variant="contained"
               sx={{
                 backgroundColor: COLORS.overlay,
@@ -113,7 +117,8 @@ const Navbar = () => {
               <span className="divider">/</span>
               <span onClick={() => router.push('/register')} className="text-link">REGISTER</span>
             </Button>
-              {/* <ProfileManu/> */}
+            }
+            
             </>
           )}
           {isMobile && (
@@ -133,13 +138,15 @@ const Navbar = () => {
                 <Button onClick={() => navigationHanlder(item)} key={item?.label} sx={{ color: '#fff', fontWeight: '600', ":hover":{textDecoration: 'underline', color: COLORS.side_yellow} }}>{item?.label}</Button>
               ))}
             </Box>
-            <Box sx={{ display: 'flex', gap: 3 }}>
+              {
+                isLoggedIn &&  <Box sx={{ display: 'flex', gap: 3 }}>
               {iconNavItems.map(({ label, icon }) => (
-                <Button key={label} sx={{ color: '#fff' }} startIcon={icon}>
+                <Button key={label} sx={{ color: '#fff', fontWeight: '600', ":hover":{textDecoration: 'underline', color: COLORS.side_yellow} }} startIcon={icon}>
                   {label}
                 </Button>
               ))}
             </Box>
+              }
           </Toolbar>
         </Box>
       )}
@@ -153,14 +160,18 @@ const Navbar = () => {
           // onKeyDown={toggleDrawer(false)}
         >
           <List>
-            {navItems.map((text) => (
-              <ListItem button key={text}>
-                <ListItemText primary={text} />
+            {navItems.map((item) => (
+              <ListItem  button key={item?.label}>
+                <ListItemText onClick={() =>{
+                   navigationHanlder(item)
+                   setDrawerOpen(false)
+                }} primary={item?.label} />
               </ListItem>
             ))}
           </List>
           <Divider />
-          <List>
+          {
+            isLoggedIn && <List>
             {iconNavItems.map(({ label, icon }) => (
               <ListItem button key={label}>
                 <ListItemIcon>{icon}</ListItemIcon>
@@ -168,6 +179,7 @@ const Navbar = () => {
               </ListItem>
             ))}
           </List>
+          }
           <Divider />
           <List>
 
@@ -180,12 +192,23 @@ const Navbar = () => {
             <ListItem>
                 <DropDownBtn manuArray={languages} buttonTitle='En'/>
             </ListItem>
-            <ListItem>
-                  <Buttons title='LOGIN'/>
+
+           {
+            !isLoggedIn &&  <ListItem>
+                  <Buttons onClickHandler={() => {
+                    setDrawerOpen(false)
+                    router.push('/login')
+                  }} title='LOGIN'/>
             </ListItem>
-              <ListItem>
-                <Buttons title='REGISTER'/>
+           }
+             {
+              !isLoggedIn &&  <ListItem>
+                <Buttons onClickHandler={() => {
+                  setDrawerOpen(false)
+                  router.push('/register')
+                }} title='REGISTER'/>
             </ListItem>
+             }
           </List>
         </Box>
       </Drawer>
