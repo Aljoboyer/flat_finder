@@ -1,13 +1,25 @@
 import { Buttons } from '@/components/common/Buttons/Buttons';
 import { COLORS } from '@/theme/colors';
+import { getAuthToken } from '@/utils/getAuthToken';
 import { capitalizeFirstLetter } from '@/utils/stringHelper';
 import { Beenhere, LocationCity, LocationOn } from '@mui/icons-material';
+import { useRouter } from 'next/navigation';
 import React from 'react';
 import { BsChat } from 'react-icons/bs';
 import { TbPhone } from 'react-icons/tb';
 
 const SellerInfoSection = ({propertyDetails})=> {
- 
+  const router = useRouter()
+  const sendRequest = () => {
+
+     const authToken = getAuthToken()
+     if(authToken){
+      console.log('auth token here')
+     }
+     else{
+      router.push('/login')
+     }
+  }
   return (
     <div
       className="pl-0 lg:pl-4 sm:0 w-full lg:w-2/5 mt-4 lg:mt-0"
@@ -18,35 +30,35 @@ const SellerInfoSection = ({propertyDetails})=> {
           <div className='w-[100px] bg-blue-800 flex flex-row justify-center items-center rounded h-[30px]'>
             <p className='text-p text-white font-medium'>For {capitalizeFirstLetter(propertyDetails?.purpose)}</p>
           </div>
-          <p className="text-[#313C53] text-lg_title font-medium">
+          <p className="text-blackshade text-lg_title font-medium">
              {propertyDetails?.title}
           </p>{' '}
         </div>
 
         <div className="w-fit my-4">
-          <p className="text-[#313C53] text-xl_title font-bold">
+          <p className="text-blackshade text-xl_title font-bold">
               {propertyDetails?.price} BDT
           </p>
 
-           <p className="text-[#313C53] text-p font-bold">
+           <p className="text-blue-800 text-p font-bold">
               Advance pay:{' '} {propertyDetails?.advanceMoney} BDT
             </p>
         </div>
             <Buttons
-        onClick={() => console.log('Book Now clicked')}
-        title="Book Now"
-        bgColor={COLORS.overlay}
-        textColor={COLORS.baseColor}
-        other_style={{
-          marginTop: '12px',
-          fontWeight: '600',
-          fontSize: '16px',
-          width: '100%',
-          padding: '10px 0',
-          borderRadius: '4px',
-          border: `2px solid ${COLORS.baseColor}`,
-        }}
-      />
+              onClickHandler={() => sendRequest()}
+              title={`Send Request ${propertyDetails?.purpose == 'sell' ? 'To Buy' : 'For Rent'}`}
+              bgColor={COLORS.overlay}
+              textColor={COLORS.baseColor}
+              other_style={{
+                marginTop: '12px',
+                fontWeight: '600',
+                fontSize: '16px',
+                width: '100%',
+                padding: '10px 0',
+                borderRadius: '4px',
+                border: `2px solid ${COLORS.baseColor}`,
+              }}
+            />
         <div
           onClick={() => {}}
           className="bg-basecolor w-full h-[40px] flex flex-row justify-center items-center rounded-sm cursor-pointer mt-4"

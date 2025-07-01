@@ -23,7 +23,7 @@ export default function SearchProperty() {
   const [propertyListTrigger, { data: propertyList, error, isLoading , isFetching}] = useLazyGetPropertyListQuery();
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
-  const [filterObj, setFilterObj] = useState({city: '', areaName: '', bedRooms: '', propertyType: '', bathRooms: '', maxSqft: '', minSqft: '',minPrice: '0', maxPrice: '10000000',  })
+  const [filterObj, setFilterObj] = useState({city: '', areaName: '', bedRooms: '', propertyType: '', bathRooms: '', maxSqft: '', minSqft: '',minPrice: '0', maxPrice: '10000000',purpose: ''  })
   const [searchKey, setSearchKey] = useState('')
   const [filterInputData, setFilterInputData] = useState([])
   const [openDrawer, setOpenDrawer] = useState(false);
@@ -37,7 +37,7 @@ export default function SearchProperty() {
   const areaName = searchParams.get('areaName')
 
    const propertyFetch = () => {
-    propertyListTrigger({ querys: `limit=${perPage}&page=${page}&status=active&searchKey=${searchKey}&city=${filterObj?.city}&areaName=${filterObj?.areaName }&minSqft=${filterObj?.minSqft}&maxSqft=${filterObj?.maxSqft}&bedRooms=${filterObj?.bedRooms}&bathRooms=${filterObj?.bathRooms}&propertyType=${filterObj?.propertyType}&minPrice=${filterObj?.minPrice}&maxPrice=${filterObj?.maxPrice}` });
+    propertyListTrigger({ querys: `limit=${perPage}&page=${page}&status=active&searchKey=${searchKey}&city=${filterObj?.city}&areaName=${filterObj?.areaName }&minSqft=${filterObj?.minSqft}&maxSqft=${filterObj?.maxSqft}&bedRooms=${filterObj?.bedRooms}&bathRooms=${filterObj?.bathRooms}&propertyType=${filterObj?.propertyType}&minPrice=${filterObj?.minPrice}&maxPrice=${filterObj?.maxPrice}&purpose=${filterObj?.purpose}` });
   }
 
   const countActualPrice = (sliderValue) => {
@@ -78,10 +78,9 @@ export default function SearchProperty() {
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      console.log('calling')
       propertyFetch()
     }
-  }, [perPage, page, filterObj?.city, filterObj?.areaName,filterObj?.bedRooms,filterObj?.propertyType, filterObj?.bathRooms, filterObj?.maxSqft, filterObj?.minSqft, filterObj?.minPrice, filterObj?.maxPrice]);
+  }, [perPage, page, filterObj?.city, filterObj?.areaName,filterObj?.bedRooms,filterObj?.propertyType, filterObj?.bathRooms, filterObj?.maxSqft, filterObj?.minSqft, filterObj?.minPrice, filterObj?.maxPrice, filterObj?.purpose]);
 
   useEffect(() => {
     setFilterInputData(filterFieldConfig)

@@ -6,6 +6,7 @@ import FFNodata from '@/components/common/FFNodata';
 import FFLoader from '@/components/common/Loaders/FFLoader';
 import ApartmentCardSkeleton from '@/components/common/Loaders/PropertyCardSmallSkeleton';
 import ApartmentCard from '@/components/common/PropertyCard/PropertyCardSmall';
+import SectionTitle from '@/components/common/SectionTitle/SectionTitle';
 import PropertyDetailsImgSlider from '@/components/visitors/Common/PropertyDetailsImgSlider'
 import { Feature } from '@/components/visitors/PropertyDetails/Feature';
 import OverView from '@/components/visitors/PropertyDetails/OverView';
@@ -80,19 +81,22 @@ export default function page({params}) {
                       </div>
                 </div>
                 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-4">
-                    {
-                        isFetching ? [1,2,3, 4]?.map((item) => (
-                          <ApartmentCardSkeleton key={item}/>
-                        )) : <>
-                            {
-                              propertyList?.data?.length == 0 || !propertyList?.data ? <FFNodata/> : 
-                              propertyList?.data?.map((item) => (
-                                <ApartmentCard key={item?._id} property={item}/>
-                            ))
-                            }
-                        </>
-                        }
+                <div className=' mt-13'>
+                      <SectionTitle title="SIMILAR SELLER PROPERTIES" />
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-12">
+                      {
+                          isFetching ? [1,2,3, 4]?.map((item) => (
+                            <ApartmentCardSkeleton key={item}/>
+                          )) : <>
+                              {
+                                propertyList?.data?.length == 0 || !propertyList?.data ? <FFNodata/> : 
+                                propertyList?.data?.slice(0, 8)?.map((item) => (
+                                  <ApartmentCard key={item?._id} property={item}/>
+                              ))
+                              }
+                          </>
+                          }
+                  </div>
                 </div>
               </div>
         </div>
