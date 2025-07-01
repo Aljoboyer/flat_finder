@@ -5,6 +5,7 @@ import { PiResizeFill } from "react-icons/pi";
 import { Buttons } from "../Buttons/Buttons";
 import { COLORS } from "@/theme/colors";
 import { useRouter } from "next/navigation";
+import { capitalizeFirstLetter } from "@/utils/stringHelper";
 
 
 export default function PropertyCard({property}) {
@@ -57,19 +58,21 @@ export default function PropertyCard({property}) {
 
              
             <div className="flex items-center my-4">
-              <Avatar src="/charlie.jpg" alt="Charlie Maguire" className="mr-3" />
+              <Avatar src={property?.seller?.propertyName} alt={property?.seller?.name} className="mr-3" />
               <div>
-                <p className="font-medium">Charlie Maguire</p>
-                <p className="text-sm text-gray-500">Speaks English</p>
+                <p className="font-medium">{property?.seller?.name}</p>
+                <p className="text-sm text-gray-500">{property?.seller?.propertyName}</p>
               </div>
             </div>
 
              <h2 className=" text-lg_title font-bold">{property?.price} BDT</h2>
           </div>
-
+<div className='w-[100px] bg-blue-800 flex flex-row justify-center items-center rounded h-[30px]'>
+            <p className='text-p text-white font-medium'>For {capitalizeFirstLetter(property?.purpose)}</p>
+          </div>
           {/* Call to action button */}
           <div className="mt-4 md:mt-0 text-right">
-            <Buttons title="Book Now" bgColor={COLORS.side_yellow} textColor={COLORS.baseColor} other_style={{width: {xs: '100%', md: '50%', lg: '30%'}, fontWeight: "bold", fontSize: '16px'}}/>
+            <Buttons title="VIEW DETAILS" bgColor={COLORS.side_yellow} textColor={COLORS.baseColor} other_style={{width: {xs: '100%', md: '50%', lg: '30%'}, fontWeight: "bold", fontSize: '16px'}}/>
           </div>
         </div>
       </div>

@@ -32,10 +32,24 @@ const SellerInfoSection = ({propertyDetails})=> {
               Advance pay:{' '} {propertyDetails?.advanceMoney} BDT
             </p>
         </div>
-
+            <Buttons
+        onClick={() => console.log('Book Now clicked')}
+        title="Book Now"
+        bgColor={COLORS.overlay}
+        textColor={COLORS.baseColor}
+        other_style={{
+          marginTop: '12px',
+          fontWeight: '600',
+          fontSize: '16px',
+          width: '100%',
+          padding: '10px 0',
+          borderRadius: '4px',
+          border: `2px solid ${COLORS.baseColor}`,
+        }}
+      />
         <div
           onClick={() => {}}
-          className="bg-basecolor w-full h-[40px] flex flex-row justify-center items-center rounded-sm cursor-pointer "
+          className="bg-basecolor w-full h-[40px] flex flex-row justify-center items-center rounded-sm cursor-pointer mt-4"
         >
            <BsChat color={COLORS.side_yellow} size={24} /> 
           <p className="text-side_yellow text-p font-bold ml-2">
@@ -62,9 +76,9 @@ const SellerInfoSection = ({propertyDetails})=> {
                 />
               </div>
               <div className="ms-4">
-                <div className="w-full flex flex-row justify-start items-center">
+                <div className="w-full flex flex-row justify-start items-center cursor-pointer">
                   <TbPhone color={COLORS.baseColor} size={24} />
-                  <p className="text-basecolor text-p ms-2">
+                  <p className="text-basecolor text-p ">
                     {propertyDetails?.seller?.phone}
                   </p>
                 </div>
