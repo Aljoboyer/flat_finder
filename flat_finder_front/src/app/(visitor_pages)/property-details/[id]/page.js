@@ -7,6 +7,7 @@ import FFLoader from '@/components/common/Loaders/FFLoader';
 import ApartmentCardSkeleton from '@/components/common/Loaders/PropertyCardSmallSkeleton';
 import ApartmentCard from '@/components/common/PropertyCard/PropertyCardSmall';
 import SectionTitle from '@/components/common/SectionTitle/SectionTitle';
+import CommentBox from '@/components/visitors/CommentBox/CommentBox';
 import PropertyDetailsImgSlider from '@/components/visitors/Common/PropertyDetailsImgSlider'
 import { Feature } from '@/components/visitors/PropertyDetails/Feature';
 import OverView from '@/components/visitors/PropertyDetails/OverView';
@@ -71,12 +72,15 @@ export default function page({params}) {
                       otherStyle={{fontSize: '16px', fontWeight: '600'}}
                       />
 
-                      <div className='h-[80vh] p-4'>
+                      <div className='h-auto lg:h-[80vh] p-4'>
                           {
                             tabValue == 0 && <OverView overview={property?.data?.description} />
                           }
                           {
                             tabValue == 1 && <Feature property={property?.data}/>
+                          }
+                          {
+                            tabValue == 3 && <CommentBox/>
                           }
                       </div>
                 </div>
