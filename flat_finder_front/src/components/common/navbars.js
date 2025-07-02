@@ -26,7 +26,7 @@ import { DropDownBtn } from './Buttons/DropDownBtn';
 import { languages } from '@/constant/dropdownData';
 import { useRouter } from 'next/navigation';
 import { usePathname } from 'next/navigation';
-import ProfileManu from '../buyer/ProfileManu';
+import ProfileManu from './ProfileManu/ProfileManu';
 import { getAuthToken } from '@/utils/getAuthToken';
 import { AccountCircle } from '@mui/icons-material';
 import { getLocalStorageData } from '@/utils/getLocalStorageData';
@@ -37,10 +37,6 @@ const navItems = [
     {label: 'Showroom', link: '/search-property', stateValue:  'showroom'},
     {label: 'Resturant', link: '/search-property', stateValue:  'restaurant'},
     {label: 'Office', link: '/search-property', stateValue:  'office'},
-];
-
-const iconNavItems = [
-  { label: 'My Account', icon: <AccountCircle /> },
 ];
 
 const Navbar = () => {
@@ -66,6 +62,15 @@ const Navbar = () => {
     const url = `${link}?propertyType=${encodeURIComponent(propertyType)}`
     router.push(url)
   }
+
+  const manuItems = [
+    {"label": `${userData?.role == 'buyer' ? 'Account' : 'Dasboard'}`, "link": "", "icon": <Avatar fontSize="small" />},
+    {"label": "Logout", "link": "", "icon": <Logout fontSize="small"/>},
+  ]
+  
+  const iconNavItems = [
+    { label: `${userData?.role == 'buyer' ? 'My Account' : 'Dasboard'}`, icon: <AccountCircle /> },
+  ];
 
   return (
     <AppBar position="sticky" sx={{ backgroundColor: '#fff', color: '#000', boxShadow: 'none' }}>
@@ -95,7 +100,7 @@ const Navbar = () => {
              <DropDownBtn manuArray={languages} buttonTitle='En'/>
 
             {
-              isLoggedIn ?   <ProfileManu/> : <Button
+              isLoggedIn ?   <ProfileManu manuItems={manuItems}/> : <Button
               variant="contained"
               sx={{
                 backgroundColor: COLORS.overlay,

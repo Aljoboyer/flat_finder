@@ -78,12 +78,12 @@ export default function page() {
 
   return (
     <div className='bg-overlay  p-6 rounded-t-[20px]'>
-      <div className="min-h-screen bg-[#f9fafa] flex flex-col gap-6 p-6 rounded-md">
-        {/* Welcome Section */}
-        <section className="bg-[#017163] text-white p-6 rounded-2xl shadow-md flex flex-col sm:flex-row items-center justify-between gap-4 transition-all">
+      <div className="min-h-screen bg-white flex flex-col gap-6 p-6 rounded-md">
+       
+        <section className="bg-basecolor text-white p-6 rounded-2xl shadow-md flex flex-col sm:flex-row items-center justify-between gap-4 transition-all">
           <div>
-            <h1 className="text-3xl font-bold">Welcome back, {userData?.name} 👋</h1>
-            <p className="mt-1 text-[#fff000] text-lg">Ready to find your perfect flat?</p>
+            <h1 className="text-lg_title font-bold">Welcome back, {userData?.name} 👋</h1>
+            <p className="mt-1 text-[#fff000] text-title_sm">Ready to find your perfect flat?</p>
           </div>
           <Avatar alt={userData?.name} src={userData?.image} sx={{ width: 56, height: 56 }} />
         </section>

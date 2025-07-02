@@ -1,17 +1,17 @@
 import React from 'react'
 import Typography from '@mui/material/Typography';
 import Toolbar from '@mui/material/Toolbar';
-import Avatar from '@mui/material/Avatar';
-import Brightness5OutlinedIcon from '@mui/icons-material/Brightness5Outlined';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import LogoutSharpIcon from '@mui/icons-material/LogoutSharp';
-import { Box, Button } from '@mui/material';
+import { Avatar, Box, Button } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { COLORS } from '@/theme/colors';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { TbHomeSearch } from "react-icons/tb";
-import ProfileManu from '@/components/buyer/ProfileManu';
+import ProfileManu from '@/components/common/ProfileManu/ProfileManu';
+import Logout from '@mui/icons-material/Logout';
+
+const manuItems = [
+    {"label": "Profile", "link": "", "icon": <Avatar fontSize="small" />},
+    {"label": "Logout", "link": "", "icon": <Logout fontSize="small"/>},
+]
 
 export const LayoutNav = ({handleDrawerOpen}) => {
 
@@ -58,7 +58,7 @@ export const LayoutNav = ({handleDrawerOpen}) => {
     
       borderRadius: '40px', display: 'flex', justifyContent: 'center', alignItems: 'center', }}>
 
-      <ProfileManu/>
+      <ProfileManu manuItems={manuItems}/>
     </Box>
   </Box>
   )

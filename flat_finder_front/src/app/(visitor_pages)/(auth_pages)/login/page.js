@@ -50,8 +50,6 @@ export default function Login() {
     }
   };
 
-  console.log("Form errors:", errors);
-
   return (
  <div className="w-full max-w-md">
           <h2 className="text-title font-bold text-basecolor mb-4">Sign in</h2>
