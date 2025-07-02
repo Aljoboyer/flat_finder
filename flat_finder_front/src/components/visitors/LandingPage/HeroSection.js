@@ -1,9 +1,7 @@
-import { AutoCompletes } from '@/components/common/Inputs/AutoComplete'
 import { Buttons } from '@/components/common/Buttons/Buttons'
 import React, { useEffect, useState } from 'react'
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import { COLORS } from "@/theme/colors";
-import { cities } from '@/constant/dropdownData';
 import InputField from '@/components/common/Inputs/InputField';
 import { filterFieldConfig } from '@/constant/formConfigs/filterConfig';
 import { useLazyGetAreaNamesQuery } from '@/app/redux/features/dropDownApi';
