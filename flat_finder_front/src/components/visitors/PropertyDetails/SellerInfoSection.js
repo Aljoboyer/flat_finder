@@ -56,7 +56,7 @@ const SellerInfoSection = ({propertyDetails})=> {
                 width: '100%',
                 padding: '10px 0',
                 borderRadius: '4px',
-                border: `2px solid ${COLORS.baseColor}`,
+                border: `1px solid ${COLORS.baseColor}`,
               }}
             />
         <div

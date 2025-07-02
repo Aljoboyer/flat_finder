@@ -14,6 +14,7 @@ import { commonStyles } from '@/theme/commonStyle';
 import { COLORS } from '@/theme/colors';
 import { Avatar } from "@mui/material";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import { useRouter } from 'next/navigation';
 
 const manuItems = [
     {"label": "Profile", "link": "", "icon": <Avatar fontSize="small" />},
@@ -21,13 +22,18 @@ const manuItems = [
 ]
 
 export default function ProfileManu() {
+  const router = useRouter()
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
-  const handleClose = () => {
+  const handleClose = (action) => {
     setAnchorEl(null);
+    if(action == 'Logout'){
+      localStorage.removeItem('ff_user')
+      router.push('/login')
+    }
   };
   return (
     <React.Fragment>
@@ -99,7 +105,7 @@ export default function ProfileManu() {
       >
         {
             manuItems?.map((item) => (
-                <MenuItem sx={{...commonStyles.flexRowBetween, marginTop: '10px'}} onClick={handleClose}>
+                <MenuItem sx={{...commonStyles.flexRowBetween, marginTop: '10px'}} onClick={() => handleClose(item?.label)}>
                     <Box sx={{marginRight: '10px'}}>{item?.icon}</Box> <Typography>{item?.label}</Typography>
                 </MenuItem>
             ))

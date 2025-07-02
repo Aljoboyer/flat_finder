@@ -33,6 +33,11 @@ export const Feature = ({property}) => {
             label: `Floor area (sqft) ${value}`,
             icon: item.icon
             });
+        } else if (item.label === 'Floor No') {
+            acc.push({
+            label: `Floor No ${value}`,
+            icon: item.icon
+            });
         } else {
             acc.push({
             label: item.label,

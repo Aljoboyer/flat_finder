@@ -57,7 +57,7 @@ export const labelMap = {
   'Bedrooms': 'bedRooms',
   'Bathrooms': 'bathrooms',
   'Balcony': 'balcony',
-  'floor area (sqft)': 'flatMeasurement',
+  'Floor area (sqft)': 'flatMeasurement',
   'Generator': 'generator',
   'Govt. Gas': 'govtGas',
   'CCTV Security': 'cctvSecurity',

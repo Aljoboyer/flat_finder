@@ -1,21 +1,25 @@
 "use client"
-import * as React from 'react';
+import  React, { useState } from 'react';
 import {useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import { useMediaQuery } from '@mui/material';
 import { useEffect } from 'react';
 import { LayoutNav } from './layoutComponents/LayoutNav';
 import LayoutSidebar from './layoutComponents/LayoutSidebar';
+import { getLocalStorageData } from '@/utils/getLocalStorageData';
+import { BuyerSideManuList, SellerSideManuList } from '@/constant/sidebarManus';
 
 export default function LayoutContainer({children}) {
-    const theme = useTheme();
-    const isLargeScreen = useMediaQuery(theme.breakpoints.up('lg')); 
+  const theme = useTheme();
+  const isLargeScreen = useMediaQuery(theme.breakpoints.up('lg')); 
 
-    const [open, setOpen] = React.useState(isLargeScreen);
-  
-    React.useEffect(() => {
-      setOpen(isLargeScreen); // Automatically set drawer open for large screens
-    }, [isLargeScreen]);
+  const [open, setOpen] = React.useState(isLargeScreen);
+  const userData = getLocalStorageData()
+  const [sideManuList, setSideManuList] = useState([]);
+
+  React.useEffect(() => {
+    setOpen(isLargeScreen);
+  }, [isLargeScreen]);
 
   const handleDrawerOpen = () => {
     setOpen(!open);
@@ -26,11 +30,15 @@ export default function LayoutContainer({children}) {
   };
 
   useEffect(() => {
-    const token = localStorage.getItem('pixplayToken')
-    // if(!token){
-    //   navigate('/login')
-    // }
-  },[])
+    if(userData?.role){
+      if(userData?.role === "buyer"){
+        setSideManuList(BuyerSideManuList)
+      }
+      else{
+        setSideManuList(SellerSideManuList)
+      }
+    }
+  },[userData?.role])
 
   return (
     <Box sx={{width: '100%' ,position: 'relative'}}>
@@ -38,7 +46,7 @@ export default function LayoutContainer({children}) {
       <LayoutNav handleDrawerOpen={handleDrawerOpen} />
       <Box sx={{width: '100%',  display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
 
-          <LayoutSidebar open={open} handleDrawerClose={handleDrawerClose}/>
+          <LayoutSidebar sideManuList={sideManuList} open={open} handleDrawerClose={handleDrawerClose}/>
 
           <Box className='ease-in-out duration-500' sx={{width: open && isLargeScreen ? '85%' : '100%', marginX: 'auto',}}>
               {/* <DrawerHeader /> */}

@@ -11,21 +11,11 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { COLORS } from '@/theme/colors';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { TbHomeSearch } from "react-icons/tb";
+import ProfileManu from '@/components/buyer/ProfileManu';
 
 export const LayoutNav = ({handleDrawerOpen}) => {
-    const [anchorEl, setAnchorEl] = React.useState(null);
-  const manuOpen = Boolean(anchorEl);
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
 
-  const logOutHandler = () => {
-    handleClose()
-    localStorage.removeItem('pixplayToken')
-  }
+
   return (
     <Box sx={{position:'sticky',top: '0px', width: '100%', backgroundColor: 'white', height: '60px', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', paddingX: {md: '20px'}, alignItems: 'center' ,zIndex: 1}}>
         
@@ -68,54 +58,7 @@ export const LayoutNav = ({handleDrawerOpen}) => {
     
       borderRadius: '40px', display: 'flex', justifyContent: 'center', alignItems: 'center', }}>
 
-     <Avatar   sx={{ width: 35, height:35 , backgroundColor: COLORS.side_yellow, }} alt="Kemy Sharp" src="/static/images/avatar/1.jpg" />
-
-      <div>
-        <Button
-          sx={{ minWidth: 'auto', 
-            width: '30px',
-            height: '30px',
-          }}
-          className="basic-button"
-          aria-controls={manuOpen ? 'basic-menu' : undefined}
-          aria-haspopup="true"
-          aria-expanded={manuOpen ? 'true' : undefined}
-          onClick={handleClick}
-        >
-          <MoreVertIcon color="#1e88e5"/>
-        </Button>
-        
-        <Menu
-          id="basic-menu"
-          anchorEl={anchorEl}
-          open={manuOpen}
-          onClose={handleClose}
-          MenuListProps={{
-            'aria-labelledby': 'basic-button',
-          }}
-         disableScrollLock={true}
-          sx={{
-            '& .MuiPaper-root': {
-              width: '200px', 
-              height: '150px',
-              marginTop: '20px',
-              borderRadius: '10px',
-              padding: '15px'
-            }
-          }}
-        >
-          <MenuItem className='ease-in-out duration-300'  sx={{ borderRadius: '4px', height: '50px',  '&:hover': {
-        backgroundColor: COLORS.overlay,
-        }}} 
-        onClick={handleClose}><Brightness5OutlinedIcon sx={{width: '18px', marginRight: '10px'}} color="#364152"/><p className='font-roboto font-regular text-[15px] text-[#364152]'>Account Settings</p>
-        </MenuItem>
-
-          <MenuItem className='ease-in-out duration-300'  sx={{borderRadius: '4px', height: '50px',  '&:hover': {
-        backgroundColor: COLORS.overlay,
-        }}} onClick={logOutHandler}><LogoutSharpIcon sx={{width: '18px', marginRight: '10px'}} color="#364152"/><p className='font-roboto font-regular text-[15px] text-[#364152]'>Logout</p></MenuItem>
-        </Menu>
-      </div>
-
+      <ProfileManu/>
     </Box>
   </Box>
   )

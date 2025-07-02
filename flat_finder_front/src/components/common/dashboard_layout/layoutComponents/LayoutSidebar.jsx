@@ -10,7 +10,6 @@ import { Divider, Typography, useMediaQuery } from '@mui/material';
 import { styled, useTheme } from '@mui/material/styles';
 import CloseIcon from '@mui/icons-material/Close';
 import { useDispatch } from 'react-redux';
-import { sideManuList } from '@/constant/sidebarManus';
 import { COLORS } from '@/theme/colors';
 import { TbHomeSearch } from "react-icons/tb";
 import { usePathname, useRouter } from 'next/navigation';
@@ -25,7 +24,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   }));
   
 
-const LayoutSidebar = ({open, handleDrawerClose}) => {
+const LayoutSidebar = ({open, handleDrawerClose, sideManuList}) => {
     const router = useRouter()
     const theme = useTheme();
     const isLargeScreen = useMediaQuery(theme.breakpoints.up('lg')); 

@@ -30,7 +30,13 @@ export default function Login() {
    
       localStorage.setItem('ff_user', JSON.stringify(response.data))
       setLoading(false)
-      router.push('/flat-finder-home')
+      if(response?.data?.result?.role == 'buyer'){
+          router.push('/flat-finder-home')
+      }
+      else{
+        router.push('/seller-dashboard-home')
+      }
+      
     }
     else if(response?.error?.data?.message){
         setLoading(false)

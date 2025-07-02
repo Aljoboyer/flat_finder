@@ -141,7 +141,7 @@ const Navbar = () => {
               {
                 isLoggedIn &&  <Box sx={{ display: 'flex', gap: 3 }}>
               {iconNavItems.map(({ label, icon }) => (
-                <Button key={label} sx={{ color: '#fff', fontWeight: '600', ":hover":{textDecoration: 'underline', color: COLORS.side_yellow} }} startIcon={icon}>
+                <Button onClick={() => router.push('/buyer-dashboard-home')} key={label} sx={{ color: '#fff', fontWeight: '600', ":hover":{textDecoration: 'underline', color: COLORS.side_yellow} }} startIcon={icon}>
                   {label}
                 </Button>
               ))}
@@ -192,7 +192,11 @@ const Navbar = () => {
             <ListItem>
                 <DropDownBtn manuArray={languages} buttonTitle='En'/>
             </ListItem>
-
+           {
+            isLoggedIn &&  <ListItem>
+               <ProfileManu/>
+            </ListItem>
+           }
            {
             !isLoggedIn &&  <ListItem>
                   <Buttons onClickHandler={() => {
