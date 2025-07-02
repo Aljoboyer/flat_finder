@@ -29,6 +29,7 @@ import { usePathname } from 'next/navigation';
 import ProfileManu from '../buyer/ProfileManu';
 import { getAuthToken } from '@/utils/getAuthToken';
 import { AccountCircle } from '@mui/icons-material';
+import { getLocalStorageData } from '@/utils/getLocalStorageData';
 
 const navItems = [
     {label: 'Home', link: '/flat-finder-home'},
@@ -49,7 +50,8 @@ const Navbar = () => {
 
   const [drawerOpen, setDrawerOpen] = React.useState(false);
   const isLoggedIn = getAuthToken();
-  
+  const userData = getLocalStorageData()
+
   const toggleDrawer = (open) => () => {
     setDrawerOpen(open);
   };
@@ -141,7 +143,13 @@ const Navbar = () => {
               {
                 isLoggedIn &&  <Box sx={{ display: 'flex', gap: 3 }}>
               {iconNavItems.map(({ label, icon }) => (
-                <Button onClick={() => router.push('/buyer-dashboard-home')} key={label} sx={{ color: '#fff', fontWeight: '600', ":hover":{textDecoration: 'underline', color: COLORS.side_yellow} }} startIcon={icon}>
+                <Button onClick={() => {
+                  if(userData?.role  == 'buyer'){
+                    router.push('/buyer-dashboard-home')
+                  }else{
+                    router.push('/seller-dashboard-home')
+                  }
+                }} key={label} sx={{ color: '#fff', fontWeight: '600', ":hover":{textDecoration: 'underline', color: COLORS.side_yellow} }} startIcon={icon}>
                   {label}
                 </Button>
               ))}
@@ -175,7 +183,13 @@ const Navbar = () => {
             {iconNavItems.map(({ label, icon }) => (
               <ListItem button key={label}>
                 <ListItemIcon>{icon}</ListItemIcon>
-                <ListItemText primary={label} />
+                <ListItemText onClick={() => {
+                  if(userData?.role  == 'buyer'){
+                    router.push('/buyer-dashboard-home')
+                  }else{
+                    router.push('/seller-dashboard-home')
+                  }
+                }} primary={label} />
               </ListItem>
             ))}
           </List>
