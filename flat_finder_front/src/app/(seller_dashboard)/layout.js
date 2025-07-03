@@ -1,7 +1,7 @@
 "use client"
 import * as React from 'react';
 import LayoutContainer from '@/components/common/dashboard_layout/LayoutContainer';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { getLocalStorageData } from '@/utils/getLocalStorageData';
 import { useEffect } from 'react';
 import { useState } from 'react';
@@ -11,11 +11,12 @@ export default function Layout({children}) {
   const userData = getLocalStorageData();
   const router = useRouter();
   const [loading, setLoading] = useState(true)
+  const pathname = usePathname();
 
   useEffect(() => {
     if(userData?.name){
       if(userData?.role == 'seller'){
-        router.push('/seller-dashboard-home')
+        router.push(pathname)
          setLoading(false)
       }else{
           router.push('/flat-finder-home')

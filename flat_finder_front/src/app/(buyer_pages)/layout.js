@@ -2,7 +2,7 @@
 import * as React from 'react';
 import LayoutContainer from '@/components/common/dashboard_layout/LayoutContainer';
 import { getLocalStorageData } from '@/utils/getLocalStorageData';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import FFLoader from '@/components/common/Loaders/FFLoader';
@@ -11,11 +11,12 @@ export default function Layout({children}) {
   const userData = getLocalStorageData();
   const router = useRouter();
   const [loading, setLoading] = useState(true)
-
+ const pathname = usePathname();
+ 
   useEffect(() => {
     if(userData?.name){
       if(userData?.role == 'buyer'){
-          router.push('/buyer-dashboard-home')
+          router.push(pathname)
           setLoading(false)
       }else{
           router.push('/seller-dashboard-home')

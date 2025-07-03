@@ -45,6 +45,22 @@ export const profileFormConfigs =  [
         value: "",
     },
     {
+        options: cities,
+        label: 'City Name',
+        inputType: 'autocomplete',
+        value: "",
+        field_id: 'city',
+    },
+    {
+        options: [],
+        label: 'Area Name',
+        inputType: 'autocomplete',
+        field_id: 'areaName',
+        suggestionText: "Select City First",
+        value: "",
+        
+    },
+    {
         field_id: 'nidNo',
         label: 'NID No.',
         placeholder: 'Enter your NID number',
@@ -60,25 +76,54 @@ export const profileFormConfigs =  [
         label: 'Property Name',
         placeholder: 'Enter your Property Name',
          required:{
-            required: 'Please enter valid NID number',
+            required: 'Please enter valid Property Name',
             min: 4
         },
         inputType: 'textfield',
         value: "",
     },
+]
+
+export const settingsFormConfigs =  [
+   
     {
-        options: cities,
-        label: 'City Name',
-        inputType: 'autocomplete',
-        value: "",
-        field_id: 'city',
+        field_id: 'password',
+        label: 'Password',
+        placeholder: 'Enter your password',
+         required:{
+            required: 'Please enter valid password',
+            pattern: {
+                // value: passwordRegex,
+                message: "Please enter valid password",
+            }
+        },
+        inputType: 'password'
     },
-    {
-        options: [],
-        label: 'Area Name',
-        inputType: 'autocomplete',
-        field_id: 'areaName',
-        suggestionText: "Select City First",
-        value: "",
+     {
+        field_id: 'new_password',
+        label: 'New Password',
+        placeholder: 'Enter your new password',
+         required:{
+            required: 'Please enter valid password',
+            pattern: {
+                // value: passwordRegex,
+                message: "Please enter valid password",
+            }
+        },
+        inputType: 'password'
     },
+     {
+        field_id: 'new_password_2',
+        label: 'Re-Enter New Password',
+        placeholder: 'Re Enter your new password',
+         required:{
+            required: 'Please enter valid password',
+            pattern: {
+                // value: passwordRegex,
+                message: "Please enter valid password",
+            }
+        },
+        inputType: 'password'
+    },
+    
 ]

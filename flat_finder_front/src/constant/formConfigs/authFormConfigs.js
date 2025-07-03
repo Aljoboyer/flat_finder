@@ -45,7 +45,7 @@ export const authFormFields =  [
         label: 'Password',
         placeholder: 'Enter your password',
          required:{
-            required: 'Please enter valid phone number',
+            required: 'Please enter password',
             pattern: {
                 // value: passwordRegex,
                 message: "Please enter valid password",
@@ -68,7 +68,7 @@ export const authFormFields =  [
         label: 'Property Name',
         placeholder: 'Enter your Property Name',
          required:{
-            required: 'Please enter valid NID number',
+            required: 'Please enter valid Property Name',
             min: 4
         },
         inputType: 'textfield'

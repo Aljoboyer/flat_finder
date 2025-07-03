@@ -5,6 +5,10 @@ import { FaBuildingUser, FaBuildingShield, FaHouseLock ,
      FaBuildingCircleCheck,FaBuildingCircleXmark , FaLocationDot} from "react-icons/fa6";
 import { TbListDetails } from "react-icons/tb";
 import { FaBuffer } from "react-icons/fa";
+import { CgProfile } from "react-icons/cg";
+import { MdOutlineSettings } from "react-icons/md";
+import Profile from "@/components/common/ProfileAndSettings/Profile";
+import Settings from "@/components/common/ProfileAndSettings/Settings";
 
 export const RegisterTabData = [
     {
@@ -64,4 +68,17 @@ export const PropertyDetailsTabData = [
         icon: <BiSolidCommentDetail size={24}/>,
         content: '',
     },
+]
+
+export const ProfileSettingsTabData = [
+    {
+        label: 'Profile',
+        icon: <CgProfile size={22}/>,
+        content: <Profile/>,
+    },
+    {
+        label: 'Settings',
+        icon: <MdOutlineSettings  size={22}/>,
+        content: <Settings/>,
+    }
 ]

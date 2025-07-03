@@ -15,6 +15,7 @@ import {
   ListItemIcon,
   ListItemText,
   Divider,
+  Avatar,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import Notifications from '@mui/icons-material/Notifications';
@@ -28,7 +29,7 @@ import { useRouter } from 'next/navigation';
 import { usePathname } from 'next/navigation';
 import ProfileManu from './ProfileManu/ProfileManu';
 import { getAuthToken } from '@/utils/getAuthToken';
-import { AccountCircle } from '@mui/icons-material';
+import { AccountCircle, Logout } from '@mui/icons-material';
 import { getLocalStorageData } from '@/utils/getLocalStorageData';
 
 const navItems = [
@@ -47,12 +48,13 @@ const Navbar = () => {
   const [drawerOpen, setDrawerOpen] = React.useState(false);
   const isLoggedIn = getAuthToken();
   const userData = getLocalStorageData()
-
+ const pathname = usePathname();
+ 
   const toggleDrawer = (open) => () => {
     setDrawerOpen(open);
   };
 
-  const pathname = usePathname();
+ 
 
   const navigationHanlder = (item) => {
  

@@ -41,8 +41,11 @@ export default function ProfileManu({manuItems}) {
       if(userData?.role == 'buyer'){
        router.push('/buyer-profile')
       }else{
-        router.push('/seller-dashboard-home')
+        router.push('/seller-profile')
       }
+    }
+    else if (action == 'Dasboard'){
+          router.push('/seller-dashboard-home')
     }
   };
   return (

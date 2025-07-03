@@ -101,7 +101,7 @@ export default function page() {
                     inputType={field?.inputType} 
                     options={field?.options}
                     onChangeHandler={filterChangeHandler}
-                    field={field.fieldValue}
+                    field={field}
                     field_id={field?.field_id}
                     fieldItem={field}
                     unSelectShow={true}

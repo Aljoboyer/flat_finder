@@ -65,7 +65,7 @@ export default function InputField({
         <TextField
         {...field}
           fullWidth
-          label="Password"
+          label={label}
           variant="outlined"
           type={showPassword ? "text" : "password"}
           size="small"
