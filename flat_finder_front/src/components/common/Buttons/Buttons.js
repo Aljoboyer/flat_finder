@@ -11,10 +11,12 @@ export const Buttons = ({
     other_style = {},
     type = '',
     isLoading,
+    component= ''
 }) => {
 
   return (
     <Button 
+    component={component}
      loading={isLoading}
      type={type}
      onClick={onClickHandler} 

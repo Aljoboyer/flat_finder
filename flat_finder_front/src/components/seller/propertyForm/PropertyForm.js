@@ -139,7 +139,7 @@ export default function PropertyForm({property}) {
 
   useEffect(() => {
     if(city){
-      areaNameTrigger({ querys: `city=${city}` });
+      areaNameTrigger({ querys: `cityName=${city}` });
     }
   },[city])
   
