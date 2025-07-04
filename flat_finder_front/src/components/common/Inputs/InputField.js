@@ -212,6 +212,7 @@ export default function InputField({
               minRows={3}
               placeholder={placeholder}
               style={{
+                ...otherStyle,
                 width: '100%',
                 fontSize: '16px',
                 padding: '14px',
@@ -231,7 +232,7 @@ export default function InputField({
                 e.target.style.boxShadow = 'none';
               }}
       />
-       { errors[field_id] && <p className='text-psm text-red-500'>{errors[field_id].message}</p>}
+       {errors && <>{ errors[field_id] && <p className='text-psm text-red-500'>{errors[field_id].message}</p>}</>}
   </Box>
   )
  }

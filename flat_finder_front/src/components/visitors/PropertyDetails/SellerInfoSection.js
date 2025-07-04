@@ -4,22 +4,25 @@ import { getAuthToken } from '@/utils/getAuthToken';
 import { capitalizeFirstLetter } from '@/utils/stringHelper';
 import { Beenhere, LocationCity, LocationOn } from '@mui/icons-material';
 import { useRouter } from 'next/navigation';
-import React from 'react';
+import React, { useState } from 'react';
 import { BsChat } from 'react-icons/bs';
 import { TbPhone } from 'react-icons/tb';
 
-const SellerInfoSection = ({propertyDetails})=> {
-  const router = useRouter()
+const SellerInfoSection = ({propertyDetails, requestHandler})=> {
+  const router = useRouter();
+ 
+  const authToken = getAuthToken();
+
   const sendRequest = () => {
 
-     const authToken = getAuthToken()
      if(authToken){
-      console.log('auth token here')
+      requestHandler()
      }
      else{
       router.push('/login')
      }
   }
+
   return (
     <div
       className="pl-0 lg:pl-4 sm:0 w-full lg:w-2/5 mt-4 lg:mt-0"

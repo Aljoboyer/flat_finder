@@ -5,6 +5,7 @@ import CommonTabs from '@/components/common/CommonTabs/CommonTabs';
 import FFNodata from '@/components/common/FFNodata';
 import FFLoader from '@/components/common/Loaders/FFLoader';
 import ApartmentCardSkeleton from '@/components/common/Loaders/PropertyCardSmallSkeleton';
+import RentRequestModal from '@/components/common/Modals/RentReqModal';
 import ApartmentCard from '@/components/common/PropertyCard/PropertyCardSmall';
 import SectionTitle from '@/components/common/SectionTitle/SectionTitle';
 import CommentBox from '@/components/visitors/CommentBox/CommentBox';
@@ -23,7 +24,8 @@ export default function page({params}) {
   const [tabValue, setTabValue] = useState(0);
   const [propertyTrigger, { data: property, error, isLoading , }] = useLazyGetSinglePropertyQuery();
   const [propertyListTrigger, { data: propertyList,  isFetching}] = useLazyGetPropertyListQuery();
-  
+   const [reqModalShow, setReqModalShow] = useState(false)
+
   const { id } = params;
   
     const sellerPropertyFetch = () => {
@@ -46,10 +48,13 @@ export default function page({params}) {
      }
    },[property?.data?._id])
 
-   
-   console.log("propertyList ==>", propertyList)
+   const requestHandler = () => {
+    console.log('clicked ===>')
+    setReqModalShow(true)
+   }
+
   return (
-    <div className='w-full'>
+    <div className='w-full p-2 lg:p-6'>
       {
         !property?.data ? <FFLoader/> :  
         <div className='w-full'>
@@ -58,7 +63,7 @@ export default function page({params}) {
                     propertyDetails={property?.data} 
                     slideImgArr={property?.data?.images} />
 
-                <SellerInfoSection propertyDetails={property?.data}  />
+                <SellerInfoSection requestHandler={requestHandler} propertyDetails={property?.data}  />
               </div>
               
               <div className='p-4 md:p-6'>
@@ -87,7 +92,7 @@ export default function page({params}) {
                 
                 <div className=' mt-13'>
                       <SectionTitle title="SIMILAR SELLER PROPERTIES" />
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-12">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-12 mt-11">
                       {
                           isFetching ? [1,2,3, 4]?.map((item) => (
                             <ApartmentCardSkeleton key={item}/>
@@ -105,6 +110,7 @@ export default function page({params}) {
               </div>
         </div>
       }
+      <RentRequestModal open={reqModalShow} setOpen={setReqModalShow}/>
     </div>
   )
 }

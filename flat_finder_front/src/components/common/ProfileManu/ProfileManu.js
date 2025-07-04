@@ -62,7 +62,7 @@ export default function ProfileManu({manuItems}) {
           aria-expanded={open ? 'true' : undefined}
         >
           <Avatar
-            src=''
+            src={userData?.image}
             alt='Ahan'
             sx={{ width: 34, height: 34, bgcolor: COLORS.baseColor }}
           />
