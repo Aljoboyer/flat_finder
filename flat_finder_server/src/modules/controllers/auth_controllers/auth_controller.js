@@ -2,7 +2,6 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 const UserCollection = require("../../../models/user");
-const { successResponse, errorResponse } = require("../../../helper/responseHandler");
 
 const SecretKey = process.env.SECRETKEY;
 

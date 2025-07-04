@@ -4,6 +4,7 @@ const ReviewCollection = require("../../../models/review");
 const ConnectionCollection = require("../../../models/connection");
 const mongoose = require('mongoose');
 const ObjectId = mongoose.Types.ObjectId;
+const bcrypt = require("bcryptjs");
 
 // get A User
 const getSpecificUser = async (req, res) => {
@@ -43,6 +44,38 @@ const updateProfileController = async (req, res) => {
   }
 };
 
+
+// Updating user Account password
+const changePasswordController = async (req, res) => {
+  try {
+ 
+    const { _id, password, newPassword, oldPassword} = req.body
+
+    const isPasswordCorrect = await bcrypt.compare(oldPassword, password);
+    if(!isPasswordCorrect){
+        res.status(200).json({
+          msg: "Your current password is incorrect."
+        });
+    }
+    else{
+      const hashedPassword = await bcrypt.hash(newPassword, 12);
+       const updatedProperty = await UserCollection.findByIdAndUpdate(
+        _id,
+        {password: hashedPassword},
+        { new: true } 
+      );
+        res.status(200).json({
+          msg: "updated successfully",
+          newPassword: hashedPassword
+        });
+    }
+   
+  } catch (error) {
+
+    res.status(500).json({ message: "Update Failed", error });
+  }
+};
+
 //Seller review , property data
 const sellerDetailsController = async (req, res) => {
   try {
@@ -74,6 +107,7 @@ const sellerDetailsController = async (req, res) => {
 module.exports = {
   getSpecificUser,
   updateProfileController,
-  sellerDetailsController
+  sellerDetailsController,
+  changePasswordController
 };
   
