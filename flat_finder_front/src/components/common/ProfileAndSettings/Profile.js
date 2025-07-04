@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import {Button, CardContent } from "@mui/material";
+import { CardContent } from "@mui/material";
 import { Buttons } from "@/components/common/Buttons/Buttons";
 import { Upload } from "@mui/icons-material";
 import { COLORS } from "@/theme/colors";
@@ -11,6 +11,13 @@ import { useLazyGetAreaNamesQuery } from '@/app/redux/features/dropDownApi';
 import { useUpdateProfileMutation } from '@/app/redux/features/profileApi';
 import { successToast } from '@/utils/toaster/toaster';
 import { uploadImage } from '@/helper/uploadImage';
+
+ export const updateLocalStorage = (dataObj) => {
+      const userDataRaw = localStorage.getItem('ff_user');
+      const userDataLocal = JSON.parse(userDataRaw || '{}');
+      const newData = {...userDataLocal, result: dataObj}
+      localStorage.setItem('ff_user', JSON.stringify(newData))
+  }
 
 export default function Profile() {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -31,12 +38,7 @@ export default function Profile() {
     formState: { errors },
   } = useForm();
 
-  const updateLocalStorage = (dataObj) => {
-      const userDataRaw = localStorage.getItem('ff_user');
-      const userData = JSON.parse(userDataRaw || '{}');
-      const newData = {...userData, result: dataObj}
-      localStorage.setItem('ff_user', JSON.stringify(newData))
-  }
+ 
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -81,6 +83,14 @@ export default function Profile() {
         });
       setProfileFormFields(profileFormConfigs?.slice(0, 5))
     }else{
+            const userObj = {
+        ...userData,
+        city: userData?.address?.city,
+        areaName: userData?.address?.state
+      }
+       reset({
+            ...userObj
+        });
        setProfileFormFields(profileFormConfigs)
     }
   },[userData?.role])

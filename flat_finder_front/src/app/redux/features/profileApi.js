@@ -10,7 +10,14 @@ const ProfileApi = api.injectEndpoints({
       query: (requestBody) =>(
         mutationCall('/user/update-profile','PUT', requestBody)
       ),
-      invalidatesTags: ['propertyList'],
+    
+    }),
+
+    changePassword: builder.mutation({
+      query: (requestBody) =>(
+        mutationCall('/user/password-change','PUT', requestBody)
+      ),
+      
     }),
 
   }),
@@ -18,4 +25,5 @@ const ProfileApi = api.injectEndpoints({
 
 export const {
   useUpdateProfileMutation,
+  useChangePasswordMutation
 } = ProfileApi;

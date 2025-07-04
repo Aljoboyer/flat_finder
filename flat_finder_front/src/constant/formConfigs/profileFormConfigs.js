@@ -100,7 +100,7 @@ export const settingsFormConfigs =  [
         inputType: 'password'
     },
      {
-        field_id: 'new_password',
+        field_id: 'newPassword',
         label: 'New Password',
         placeholder: 'Enter your new password',
          required:{
@@ -113,7 +113,7 @@ export const settingsFormConfigs =  [
         inputType: 'password'
     },
      {
-        field_id: 'new_password_2',
+        field_id: 'newPassword_2',
         label: 'Re-Enter New Password',
         placeholder: 'Re Enter your new password',
          required:{
