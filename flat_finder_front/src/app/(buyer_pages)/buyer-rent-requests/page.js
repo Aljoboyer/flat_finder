@@ -31,12 +31,20 @@ export default function page() {
       if(userData?._id){
         fetchRentReq()
       }    
-    },[userData?._id])
+    },[userData?._id, page, perPage])
 
     const actionHandler = () => {
 
     }
 
+    const handlePageChange = (event, value) => {
+      setPage(value);
+    };
+
+    const handlePerPageChange = (event) => {
+      setPerPage(Number(event.target.value));
+      setPage(1); 
+    };
     console.log('rentReqList ===>' , rentReqList?.data)
 
   return (
@@ -55,15 +63,15 @@ export default function page() {
                   tableHeader={rentReqTableHeader} 
                   dataList={rentReqList?.data}/>
                 </div>
-                {/* {
-                  propertyList?.data?.length > 0 && <div className="flex flex-row justify-end">
+                {
+                  rentReqList?.data?.length > 0 && <div className="flex flex-row justify-end">
                   <FFPagination 
                   perPage={perPage}
                   handlePerPageChange={handlePerPageChange}
                   handlePageChange={handlePageChange}
-                  totalPage={propertyList?.totalPage} />
+                  totalPage={rentReqList?.totalPage} />
                 </div>
-                } */}
+                }
             </div>
         </div>
   )

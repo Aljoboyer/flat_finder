@@ -7,6 +7,7 @@ import { COLORS } from '@/theme/colors';
 import { TbHomeSearch } from "react-icons/tb";
 import ProfileManu from '@/components/common/ProfileManu/ProfileManu';
 import Logout from '@mui/icons-material/Logout';
+import { useRouter } from 'next/navigation';
 
 const manuItems = [
     {"label": "Profile", "link": "", "icon": <Avatar fontSize="small" />},
@@ -14,7 +15,7 @@ const manuItems = [
 ]
 
 export const LayoutNav = ({handleDrawerOpen}) => {
-
+  const router = useRouter()
 
   return (
     <Box sx={{position:'sticky',top: '0px', width: '100%', backgroundColor: 'white', height: '70px', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', paddingX: {md: '20px'}, alignItems: 'center' ,zIndex: 1,}}>

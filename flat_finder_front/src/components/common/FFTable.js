@@ -43,14 +43,14 @@ export default function FFTable({tableHeader,
               {tableHeader.map((col) => (
                 
                 <TableCell key={col?.id}  sx={col?.isImageShow ? {display: 'flex', flexDirection: 'row', } : {textAlign: 'center'}} >
-                  {col?.isImageShow && <Avatar sx={{marginRight: '5px'}} alt="Remy Sharp" src={row?.images ? row?.images[0] : row?.property?.images[0]} />}
+                  {col?.isImageShow && <Avatar sx={{marginRight: '5px'}} alt="Remy Sharp" src={row?.images ? row?.images[0] : col?.imageFieldKey ? getObjValue(row, col.imageFieldKey) : row?.property?.images[0] } />}
                   
                     <Box>
-                      {col?.id == 'status' ? <FFChip label={getObjValue(row, col.id)} /> : <p className=''>{col?.makeFirstLaterCapital ? capitalizeFirstLetter(getObjValue(row, col.id)) : getObjValue(row, col.id)}</p>}
+                      {col?.id == 'status' ? <FFChip label={getObjValue(row, col.id)} /> : <p className='text-psm font-medium'>{col?.makeFirstLaterCapital ? capitalizeFirstLetter(getObjValue(row, col.id)) : getObjValue(row, col.id)}</p>}
                         
                        {col?.secondField && <p className='mt-2 text-gray-500 font-medium text-[12px]'>{getObjValue(row, col?.secondField)}</p>} 
                     </Box>
-                      {col?.showActionbtn && <ActionButton itemId={row?._id} actionHandler={actionHandler} editBtnShow={col?.editBtnShow} tableitem={row} approveBtnShow={col?.approveBtnShow} statusBtn={col?.statusBtn}/>}
+                      {col?.showActionbtn && <ActionButton itemId={row?._id} actionHandler={actionHandler} editBtnShow={col?.editBtnShow} tableitem={row} approveBtnShow={col?.approveBtnShow} statusBtn={col?.statusBtn} cancelBtnShow={col?.cancelBtnShow}/>}
                 </TableCell>
               ))}
             </TableRow>

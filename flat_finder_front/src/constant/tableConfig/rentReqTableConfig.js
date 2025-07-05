@@ -10,24 +10,30 @@ export const rentReqTableHeader = [
         id: 'property.city',
         header_label: 'City'
     },
-    //   {
-    //     id: 'areaName',
-    //     header_label: 'Area Name'
-    // },
-    // {
-    //     id: 'price',
-    //     header_label: 'Price'
-    // },
-    // {
-    //     id: 'propertyType',
-    //     header_label: 'Property Type',
-    //     makeFirstLaterCapital: true
-    // },
-    // {
-    //     id: 'propertyType',
-    //     header_label: 'Property Type',
-    //     makeFirstLaterCapital: true
-    // },
+      {
+        id: 'property.areaName',
+        header_label: 'Area Name'
+    },
+    {
+        id: 'property.price',
+        header_label: 'Price'
+    },
+    {
+        id: 'property.advanceMoney',
+        header_label: 'AdvanceMoney',
+    },
+    {
+        id: 'property.propertyType',
+        header_label: 'PropertyType',
+        makeFirstLaterCapital: true
+    },
+    {
+        id: 'seller.name',
+        header_label: 'Seller',
+        isImageShow: true,
+        secondField: 'seller.propertyName',
+        imageFieldKey: 'seller.image'
+    },
     {
         id: 'status',
         header_label: 'Status',

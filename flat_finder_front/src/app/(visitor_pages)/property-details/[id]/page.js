@@ -41,10 +41,10 @@ export default function page({params}) {
   }
 
    useEffect(() => {
-     getSingleRentequest({querys: `buyer=${userdata?._id}`})
+     
      if(id){
        propertyTrigger({querys: `id=${id}`})
-  
+        getSingleRentequest({querys: `buyer=${userdata?._id}&property=${id}`})
      }
    },[id])
 
@@ -72,7 +72,7 @@ export default function page({params}) {
     }
 
     const reqRes = await requestForRent(reqObj)
-    console.log('res ===>', reqRes)
+   
     if(reqRes?.data?.msg == 'Rent request added Successfully'){
       successToast('Rent Request Sent Successfully!')
       setReqModalShow(false)
@@ -81,7 +81,7 @@ export default function page({params}) {
       setReqModalShow(false)
     }
    }
-
+console.log('specificRentRequest?.data', specificRentRequest?.data)
   return (
     <div className='w-full p-2 lg:p-6'>
       {

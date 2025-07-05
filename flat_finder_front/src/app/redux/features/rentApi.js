@@ -17,13 +17,14 @@ const RentApi = api.injectEndpoints({
       query: (requestBody) =>(
         mutationCall('/rent/request','POST', requestBody)
       ),
-      invalidatesTags: ['allrentRequest'],
+      invalidatesTags: ['allrentRequest', 'singlerentreq'],
     }),
     
     getSingleRequest: builder.query({
       query: (data) => (
         getListQueryCall('/rent/specific-request', data?.querys)
       ),
+      providesTags: ["singlerentreq"],
     }),
 
   }),
