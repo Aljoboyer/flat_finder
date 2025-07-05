@@ -1,7 +1,7 @@
 "use client"
 
 import { useLazyGetPropertyListQuery, useLazyGetSinglePropertyQuery } from '@/app/redux/features/propertyApi';
-import { useRequestForRentMutation } from '@/app/redux/features/rentApi';
+import { useLazyGetSingleRequestQuery, useRequestForRentMutation } from '@/app/redux/features/rentApi';
 import CommonTabs from '@/components/common/CommonTabs/CommonTabs';
 import FFNodata from '@/components/common/FFNodata';
 import FFLoader from '@/components/common/Loaders/FFLoader';
@@ -29,6 +29,7 @@ export default function page({params}) {
   const [propertyTrigger, { data: property }] = useLazyGetSinglePropertyQuery();
   const [propertyListTrigger, { data: propertyList,  isFetching}] = useLazyGetPropertyListQuery();
   const [requestForRent, { isLoading }] = useRequestForRentMutation();
+    const [getSingleRentequest, { data: specificRentRequest}] = useLazyGetSingleRequestQuery();
   const [reqModalShow, setReqModalShow] = useState(false)
   const [note, setNote] = useState(requestNote);
   const userdata = getLocalStorageData()
@@ -42,6 +43,7 @@ export default function page({params}) {
    useEffect(() => {
      if(id){
        propertyTrigger({querys: `id=${id}`})
+       getSingleRentequest({querys: `buyer=${userdata?._id}`})
      }
    },[id])
 
@@ -79,6 +81,7 @@ export default function page({params}) {
     }
    }
 
+   console.log('specificRentRequest ==> ', specificRentRequest)
   return (
     <div className='w-full p-2 lg:p-6'>
       {
@@ -89,7 +92,9 @@ export default function page({params}) {
                     propertyDetails={property?.data} 
                     slideImgArr={property?.data?.images} />
 
-                <SellerInfoSection requestHandler={requestHandler} propertyDetails={property?.data}  />
+                <SellerInfoSection  
+                specificRentRequest={specificRentRequest?.data}
+                requestHandler={requestHandler} propertyDetails={property?.data}  />
               </div>
               
               <div className='p-4 md:p-6'>

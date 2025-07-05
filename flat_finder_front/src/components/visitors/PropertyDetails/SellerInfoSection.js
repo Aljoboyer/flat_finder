@@ -1,21 +1,22 @@
 import { Buttons } from '@/components/common/Buttons/Buttons';
 import { COLORS } from '@/theme/colors';
-import { getAuthToken } from '@/utils/getAuthToken';
+import { getLocalStorageData } from '@/utils/getLocalStorageData';
 import { capitalizeFirstLetter } from '@/utils/stringHelper';
 import { Beenhere, LocationCity, LocationOn } from '@mui/icons-material';
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react';
+import React from 'react';
 import { BsChat } from 'react-icons/bs';
 import { TbPhone } from 'react-icons/tb';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 
-const SellerInfoSection = ({propertyDetails, requestHandler})=> {
+const SellerInfoSection = ({propertyDetails, requestHandler, specificRentRequest})=> {
   const router = useRouter();
  
-  const authToken = getAuthToken();
+  const userdata = getLocalStorageData();
 
   const sendRequest = () => {
 
-     if(authToken){
+     if(userdata?._id){
       requestHandler()
      }
      else{
@@ -47,7 +48,11 @@ const SellerInfoSection = ({propertyDetails, requestHandler})=> {
               Advance pay:{' '} {propertyDetails?.advanceMoney} BDT
             </p>
         </div>
-            <Buttons
+           {
+            specificRentRequest?.buyer?._id == userdata?._id ? <div className='flex flex-row items-center justify-center bg-successOverlay rounded-md py-2 text-blakshade'>
+                  <CheckCircleOutlineIcon color="white" />
+                  <p className='font-semibold text-p ms-2'>You’ve already requested this flat</p>
+            </div> : <Buttons
               onClickHandler={() => sendRequest()}
               title={`Send Request ${propertyDetails?.purpose == 'sell' ? 'To Buy' : 'For Rent'}`}
               bgColor={COLORS.overlay}
@@ -62,6 +67,7 @@ const SellerInfoSection = ({propertyDetails, requestHandler})=> {
                 border: `1px solid ${COLORS.baseColor}`,
               }}
             />
+           }
         <div
           onClick={() => {}}
           className="bg-basecolor w-full h-[40px] flex flex-row justify-center items-center rounded-sm cursor-pointer mt-4"

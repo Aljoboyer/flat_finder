@@ -10,13 +10,19 @@ const RentApi = api.injectEndpoints({
       query: (requestBody) =>(
         mutationCall('/rent/request','POST', requestBody)
       ),
-      invalidatesTags: ['rentRequest'],
+      invalidatesTags: ['allrentRequest'],
     }),
-
+    
+    getSingleRequest: builder.query({
+      query: (data) => (
+        getListQueryCall('/rent/specific-request', data?.querys)
+      ),
+    }),
 
   }),
 });
 
 export const {
   useRequestForRentMutation,
+  useLazyGetSingleRequestQuery
 } = RentApi;
