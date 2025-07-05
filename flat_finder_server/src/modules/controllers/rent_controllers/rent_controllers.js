@@ -27,7 +27,7 @@ const getAllRentReqController = async (req, res) => {
       const query = generateFilterQuery(req.query)
   
       // Fetch filtered data with pagination
-      const  result = await RentRequestCollection.find(query).skip(skip).limit(Number(limit)).populate([
+      const  result = await RentRequestCollection.find(query).sort({ createdAt: -1 }).skip(skip).limit(Number(limit)).populate([
           {
           path: 'property', 
           select: 'propertyId price city areaName advanceMoney title propertyType flatMeasurement images'
@@ -64,20 +64,19 @@ const RentRequestActionController = async (req, res) => {
     try {
 
     if (status === 'accepted') {
-      const rentRequestAction = await RentRequestCollection.findByIdAndUpdate(
-                        id,
-                        { status: status },);
+      const rentRequestAction = await RentRequestCollection.findByIdAndUpdate(id,{ status: status });
+
       const updatePropertyStatus = await PropertyCollection.findByIdAndUpdate(
         property_id,
         { status: "in_process" },
         { new: true }
       );
+    res.status(201).json({ "msg": `Rent request ${status} Successfully` });
     }
     else{
-      await RentRequestCollection.findByIdAndDelete(id)
+      await RentRequestCollection.findByIdAndDelete(id);
+      res.status(201).json({ "msg": `Rent request ${status} Successfully` });
     }
-
-    res.status(201).json({ "msg": `Rent request ${status} Successfully` });
 
     } catch (error) {
       res.status(500).json({ message: "Rent request Failed" , error});
