@@ -23,34 +23,33 @@ const RentRequestController = async (req, res) => {
 // Get all Rent Req with Pagination + Filters
 const getAllRentReqController = async (req, res) => {
   try {
-        if(req?.query?.seller){
-            const { skip , page, limit} = PaginationCalculate(req.query);
-            const query = generateFilterQuery(req.query)
-        
-            // Fetch filtered data with pagination
-            const  result = await RentRequestCollection.find(query).skip(skip).limit(Number(limit)).populate([
-                {
-                path: 'property', 
-                select: 'propertyId price city areaName advanceMoney'
-                },
-                {
-                path: 'buyer',
-                select: 'name phone address email'
-                }
-            ]);
-            const  totalCount = await RentRequestCollection.countDocuments(query);
+      const { skip , page, limit} = PaginationCalculate(req.query);
+      const query = generateFilterQuery(req.query)
+  
+      // Fetch filtered data with pagination
+      const  result = await RentRequestCollection.find(query).skip(skip).limit(Number(limit)).populate([
+          {
+          path: 'property', 
+          select: 'propertyId price city areaName advanceMoney title propertyType flatMeasurement'
+          },
+          {
+          path: 'buyer',
+          select: 'name phone address email'
+          },
+          {
+          path: 'seller',
+          select: 'name phone address propertyName email'
+          }
+      ]);
+      const  totalCount = await RentRequestCollection.countDocuments(query);
 
-            res.status(200).json({
-            data: result,
-            page: Number(page),
-            limit: Number(limit),
-            totalPage: Math.ceil(totalCount / limit),
-            totalData: totalCount
-            });
-        }
-        else{
-            res.status(200).json({ message: "Provide Seller Id" });
-        }
+      res.status(200).json({
+      data: result,
+      page: Number(page),
+      limit: Number(limit),
+      totalPage: Math.ceil(totalCount / limit),
+      totalData: totalCount
+      });
   } catch (error) {
 
     res.status(500).json({ message: "Rent Req Fetching Failed", error });
@@ -85,10 +84,40 @@ const RentRequestActionController = async (req, res) => {
     }
 };
 
+//Get Specific Rent Request
+const getSpecificRentReqController = async (req, res) => {
+  try {
+      const query = generateFilterQuery(req.query)
+  
+      // Fetch filtered data with pagination
+      const  result = await RentRequestCollection.findOne(query).populate([
+          {
+          path: 'property', 
+          select: 'propertyId price city areaName advanceMoney'
+          },
+          {
+          path: 'buyer',
+          select: 'name phone address email'
+          },
+              {
+          path: 'seller',
+          select: 'name phone address propertyName email'
+          }
+      ]);
+
+      res.status(200).json({
+      data: result,
+      });
+  } catch (error) {
+
+    res.status(500).json({ message: "Rent Req Fetching Failed", error });
+  }
+};
 
 module.exports = {
  RentRequestController,
  getAllRentReqController,
- RentRequestActionController
+ RentRequestActionController,
+ getSpecificRentReqController
 };
   
