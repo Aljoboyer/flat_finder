@@ -7,6 +7,7 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import { FaRegEdit } from "react-icons/fa";
 import { FiSlash } from "react-icons/fi";
 import { getLocalStorageData } from '@/utils/getLocalStorageData';
+import { Buttons } from './Buttons';
 
 const ActionManuItem = ({title, icon, clickHandler}) => {
   return (
@@ -26,7 +27,8 @@ export default function ActionButton({
     actionHandler,
     statusBtn,
     tableitem,
-    cancelBtnShow
+    cancelBtnShow,
+    payBtn = false,
 }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const manuOpen = Boolean(anchorEl);
@@ -41,7 +43,14 @@ export default function ActionButton({
 
   return (
       <div>
-        <Button
+
+       {
+        payBtn ?  <Buttons
+          bgColor={COLORS.side_yellow}
+          textColor={COLORS.baseColor}
+          other_style={{width: '100px'}}
+          title='Pay'
+        /> :  <Button
           sx={{ 
             width: '35px',
             height: '35px',
@@ -54,6 +63,7 @@ export default function ActionButton({
         >
           <BsThreeDotsVertical size={20} color="#017163"/>
         </Button>
+       }
         
         <Menu
           id="basic-menu"
@@ -79,7 +89,9 @@ export default function ActionButton({
             }
      
             {
-                approveBtnShow && <ActionManuItem  title="Approve" icon={<FaRegEdit className='mr-2'/>}/>
+                approveBtnShow && <ActionManuItem 
+                clickHandler={() => actionHandler('accepted', itemId)}
+                title="Accept" icon={<FaRegEdit className='mr-2'/>}/>
             }
             {
                 statusBtn && <ActionManuItem clickHandler={() => {
@@ -90,7 +102,7 @@ export default function ActionButton({
 
             {
                cancelBtnShow && <ActionManuItem clickHandler={() => {
-                  const actionName = (tableitem?.status == 'pending') && (userData?._id == tableitem?.buyer?._id )  ? "cancel" : "reject"
+                  const actionName = (tableitem?.status == 'pending') && (userData?._id == tableitem?.buyer?._id )  ? "cancel" : "rejected"
                   actionHandler(actionName, itemId)
                 }} title={(tableitem?.status == 'pending') && (userData?._id == tableitem?.buyer?._id )  ? "Cancel" : "Reject"} icon={<FiSlash className='mr-2'/>}/>
             }

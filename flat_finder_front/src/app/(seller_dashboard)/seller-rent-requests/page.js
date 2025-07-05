@@ -1,5 +1,5 @@
 "use client"
-import { useLazyGetRentReqListQuery } from '@/app/redux/features/rentApi'
+import { useLazyGetRentReqListQuery, useRentReqActionMutation } from '@/app/redux/features/rentApi'
 import CommonTabs from '@/components/common/CommonTabs/CommonTabs'
 import FFPagination from '@/components/common/FFPagination'
 import FFTable from '@/components/common/FFTable'
@@ -8,6 +8,8 @@ import { filterFieldConfig } from '@/constant/formConfigs/filterConfig'
 import { sellerRentTableHeader } from '@/constant/tableConfig/rentReqTableConfig'
 import { RentRequestTabData } from '@/constant/tabsdata'
 import { getLocalStorageData } from '@/utils/getLocalStorageData'
+import { capitalizeFirstLetter } from '@/utils/stringHelper'
+import { successToast } from '@/utils/toaster/toaster'
 import { useMediaQuery } from '@mui/material'
 import {  useTheme } from '@mui/material/styles';
 import React, { useEffect, useState } from 'react'
@@ -16,7 +18,8 @@ export default function page() {
     const theme = useTheme();
     const isMediumScreen = useMediaQuery(theme.breakpoints.up('md'));
     const islargeScreen = useMediaQuery(theme.breakpoints.up('lg'));
-    const [rentReqListTrigger, { data: rentReqList, error, isLoading , isFetching}] = useLazyGetRentReqListQuery();
+    const [rentReqListTrigger, { data: rentReqList, isFetching}] = useLazyGetRentReqListQuery();
+    const [rentReqAction ] = useRentReqActionMutation();
     const [value, setValue] = useState(0);
     const [perPage, setPerPage] = useState(10);
     const [page, setPage] = useState(1);
@@ -24,22 +27,42 @@ export default function page() {
     const [filterInputData, setFilterInputData] = useState([])
     const [searchKey, setSearchKey] = useState('')
     const [filterObj, setFilterObj] = useState({city: '', areaName: ''})
+    const [statusVal, setStatusVal] = useState('pending')
 
     const handleTabChange = (event, newValue) => {
         setValue(newValue);
+        if(newValue == 0){
+          setStatusVal('pending')
+        }
+        else{
+          setStatusVal('accepted')
+        }
     }
     
     const fetchRentReq = () => {
-      rentReqListTrigger({ querys: `limit=${perPage}&page=${page}&status=pending&buyer=${userData?._id}` });
+      rentReqListTrigger({ querys: `limit=${perPage}&page=${page}&status=${statusVal}&buyer=${userData?._id}` });
     }
+    
     useEffect(() => {
       if(userData?._id){
         fetchRentReq()
       }    
-    },[userData?._id, page, perPage])
+    },[userData?._id, page, perPage, value])
 
-    const actionHandler = () => {
+    const actionHandler = async (action, reqId) => {
+      const rentReq = rentReqList?.data?.find((item) => item?._id === reqId)
+      
+      const reqObj = {
+          "id": reqId,
+          "property_id": rentReq?.property?._id,
+          "status": action
+      }
+      
+      const actionres = await rentReqAction(reqObj)
 
+      if(actionres?.data?.msg){
+        successToast(`Request ${capitalizeFirstLetter(action)} Successfully!`)
+      }
     }
 
     const handlePageChange = (event, value) => {

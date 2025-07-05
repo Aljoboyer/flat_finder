@@ -29,7 +29,7 @@ export default function page({params}) {
   const [propertyTrigger, { data: property }] = useLazyGetSinglePropertyQuery();
   const [propertyListTrigger, { data: propertyList,  isFetching}] = useLazyGetPropertyListQuery();
   const [requestForRent, { isLoading }] = useRequestForRentMutation();
-    const [getSingleRentequest, { data: specificRentRequest}] = useLazyGetSingleRequestQuery();
+  const [getSingleRentequest, { data: specificRentRequest}] = useLazyGetSingleRequestQuery();
   const [reqModalShow, setReqModalShow] = useState(false)
   const [note, setNote] = useState(requestNote);
   const userdata = getLocalStorageData()
