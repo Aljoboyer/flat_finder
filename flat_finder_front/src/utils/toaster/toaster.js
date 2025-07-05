@@ -2,8 +2,8 @@ import toast from "react-hot-toast";
 
 
 
-export const errorToast = () => {
-    toast.error('Something went wrong pleae try again!');
+export const errorToast = (msg = 'Something went wrong pleae try again!') => {
+    toast.error(msg);
 }
 
 export const successToast = (msg) => {

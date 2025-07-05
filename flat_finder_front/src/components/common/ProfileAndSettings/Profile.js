@@ -24,7 +24,7 @@ export default function Profile() {
   const userData = getLocalStorageData();
   const [profileFormFields, setProfileFormFields] = useState([])
   const [areaNameTrigger, { data: areaNameList}] = useLazyGetAreaNamesQuery();
-  const [updateProfile, { isLoading }] = useUpdateProfileMutation();
+  const [updateProfile, {  }] = useUpdateProfileMutation();
   const [imgLoading , setImgLoading] = useState(false)
   const [loading, setLoading] = useState(false)
   

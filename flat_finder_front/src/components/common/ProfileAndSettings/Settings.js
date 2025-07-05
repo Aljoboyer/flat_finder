@@ -7,7 +7,7 @@ import { Buttons } from '../Buttons/Buttons';
 import { COLORS } from '@/theme/colors';
 import { useChangePasswordMutation } from '@/app/redux/features/profileApi';
 import { getLocalStorageData } from '@/utils/getLocalStorageData';
-import { errorToast, successToast } from '@/utils/toaster/toaster';
+import { successToast } from '@/utils/toaster/toaster';
 import { updateLocalStorage } from './Profile';
 
 export default function Settings() {
@@ -15,7 +15,6 @@ export default function Settings() {
   const userData = getLocalStorageData();
 
   const {
-    getValues,
       handleSubmit,
       control,
       setError,

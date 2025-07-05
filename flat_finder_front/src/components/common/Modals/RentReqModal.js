@@ -10,18 +10,9 @@ import { Buttons } from '../Buttons/Buttons';
 import { COLORS } from '@/theme/colors';
 import InputField from '../Inputs/InputField';
 
-export default function RentRequestModal({open, setOpen}) {
-  
-  const [note, setNote] = useState(
-    'Hi, I’m really interested in this property. Please let me know the next steps. Looking forward to your response!'
-  );
+export default function RentRequestModal({open, setOpen, confirmHandler, note, setNote, loading}) {
 
   const handleClose = () => setOpen(false);
-
-  const handleSend = () => {
-    console.log('Request note sent:', note);
-    handleClose();
-  };
 
   return (
 
@@ -78,9 +69,10 @@ export default function RentRequestModal({open, setOpen}) {
           <Buttons
             bgColor={COLORS.baseColor}
             textColor={COLORS.side_yellow}
-            onClickHandler={handleSend}
+            onClickHandler={confirmHandler}
             title='Send'
             other_style={{ width: '150px'}}
+            isLoading={loading}
           />
         </DialogActions>
       </Dialog>

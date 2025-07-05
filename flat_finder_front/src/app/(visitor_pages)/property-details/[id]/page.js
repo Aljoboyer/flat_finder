@@ -1,6 +1,7 @@
 "use client"
 
 import { useLazyGetPropertyListQuery, useLazyGetSinglePropertyQuery } from '@/app/redux/features/propertyApi';
+import { useRequestForRentMutation } from '@/app/redux/features/rentApi';
 import CommonTabs from '@/components/common/CommonTabs/CommonTabs';
 import FFNodata from '@/components/common/FFNodata';
 import FFLoader from '@/components/common/Loaders/FFLoader';
@@ -14,6 +15,9 @@ import { Feature } from '@/components/visitors/PropertyDetails/Feature';
 import OverView from '@/components/visitors/PropertyDetails/OverView';
 import SellerInfoSection from '@/components/visitors/PropertyDetails/SellerInfoSection'
 import { PropertyDetailsTabData } from '@/constant/tabsdata';
+import { requestNote } from '@/constant/textdata';
+import { getLocalStorageData } from '@/utils/getLocalStorageData';
+import { errorToast, successToast } from '@/utils/toaster/toaster';
 import { useMediaQuery, useTheme } from '@mui/material';
 import React, { useEffect, useState } from 'react'
 
@@ -22,9 +26,12 @@ export default function page({params}) {
   const isMediumScreen = useMediaQuery(theme.breakpoints.up('md'));
   const islargeScreen = useMediaQuery(theme.breakpoints.up('lg'));
   const [tabValue, setTabValue] = useState(0);
-  const [propertyTrigger, { data: property, error, isLoading , }] = useLazyGetSinglePropertyQuery();
+  const [propertyTrigger, { data: property }] = useLazyGetSinglePropertyQuery();
   const [propertyListTrigger, { data: propertyList,  isFetching}] = useLazyGetPropertyListQuery();
-   const [reqModalShow, setReqModalShow] = useState(false)
+  const [requestForRent, { isLoading }] = useRequestForRentMutation();
+  const [reqModalShow, setReqModalShow] = useState(false)
+  const [note, setNote] = useState(requestNote);
+  const userdata = getLocalStorageData()
 
   const { id } = params;
   
@@ -49,8 +56,27 @@ export default function page({params}) {
    },[property?.data?._id])
 
    const requestHandler = () => {
-    console.log('clicked ===>')
     setReqModalShow(true)
+   }
+
+   const requestSentHandler = async () => {
+    const reqObj = {
+      "property": property?.data?._id,
+      "buyer": userdata?._id,
+      "seller": property?.data?.seller?._id,
+      "message": note,
+      "status": "pending"
+    }
+
+    const reqRes = await requestForRent(reqObj)
+    console.log('res ===>', reqRes)
+    if(reqRes?.data?.msg == 'Rent request added Successfully'){
+      successToast('Rent Request Sent Successfully!')
+      setReqModalShow(false)
+    }else{
+      errorToast('Rent Request Failed!')
+      setReqModalShow(false)
+    }
    }
 
   return (
@@ -110,7 +136,12 @@ export default function page({params}) {
               </div>
         </div>
       }
-      <RentRequestModal open={reqModalShow} setOpen={setReqModalShow}/>
+      <RentRequestModal 
+      open={reqModalShow} setOpen={setReqModalShow}
+      note={note} setNote={setNote}
+      confirmHandler={requestSentHandler}
+      loading={isLoading}
+      />
     </div>
   )
 }
