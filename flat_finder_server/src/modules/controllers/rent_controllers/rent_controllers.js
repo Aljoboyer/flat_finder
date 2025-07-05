@@ -30,15 +30,15 @@ const getAllRentReqController = async (req, res) => {
       const  result = await RentRequestCollection.find(query).skip(skip).limit(Number(limit)).populate([
           {
           path: 'property', 
-          select: 'propertyId price city areaName advanceMoney title propertyType flatMeasurement'
+          select: 'propertyId price city areaName advanceMoney title propertyType flatMeasurement images'
           },
           {
           path: 'buyer',
-          select: 'name phone address email'
+          select: 'name phone address email image'
           },
           {
           path: 'seller',
-          select: 'name phone address propertyName email'
+          select: 'name phone address propertyName email image'
           }
       ]);
       const  totalCount = await RentRequestCollection.countDocuments(query);

@@ -14,7 +14,8 @@ const generateFilterQuery = (queryOptions) => {
           status,
           cityName,
           bathrooms,
-          purpose
+          purpose,
+          property
         } = queryOptions;
 
           
@@ -62,6 +63,9 @@ const generateFilterQuery = (queryOptions) => {
         }
         if(status){
             query.status = status
+        }
+        if(property){
+            query.property = property;
         }
     return query;
 }
