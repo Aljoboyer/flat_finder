@@ -48,7 +48,7 @@ export default function ActionButton({
         payBtn ?  <Buttons
           bgColor={COLORS.side_yellow}
           textColor={COLORS.baseColor}
-          other_style={{width: '100px'}}
+          other_style={{width: '60px', fontWeight: '700'}}
           title='Pay'
         /> :  <Button
           sx={{ 

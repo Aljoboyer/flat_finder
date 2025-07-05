@@ -3,7 +3,7 @@ import { useLazyGetRentReqListQuery, useRentReqActionMutation } from '@/app/redu
 import CommonTabs from '@/components/common/CommonTabs/CommonTabs'
 import FFPagination from '@/components/common/FFPagination'
 import FFTable from '@/components/common/FFTable'
-import { buyerRentTableHeader } from '@/constant/tableConfig/rentReqTableConfig'
+import { buyerRentTableHeader, tableHeaderActionObj } from '@/constant/tableConfig/rentReqTableConfig'
 import { RentRequestTabData } from '@/constant/tabsdata'
 import { getLocalStorageData } from '@/utils/getLocalStorageData'
 import { capitalizeFirstLetter } from '@/utils/stringHelper'
@@ -22,14 +22,21 @@ export default function page() {
     const [page, setPage] = useState(1);
     const userData = getLocalStorageData()
     const [statusVal, setStatusVal] = useState('pending')
+    const [tableHeader, setTableHeader] = useState([])
     
     const handleTabChange = (event, newValue) => {
         setValue(newValue);
         if(newValue == 0){
           setStatusVal('pending')
+          setTableHeader(buyerRentTableHeader)
         }
         else{
           setStatusVal('accepted')
+          const newTableHeader = buyerRentTableHeader.slice(0, -1)
+
+          newTableHeader.push({...tableHeaderActionObj, payBtn: true})
+
+          setTableHeader(newTableHeader)
         }
     }
     
@@ -67,8 +74,10 @@ export default function page() {
       setPage(1); 
     };
 
+    useEffect(() => {
+      setTableHeader(buyerRentTableHeader)
+    },[])
     
-    console.log('rentReqList ===>' , rentReqList?.data)
 
   return (
      <div className="bg-overlay  p-6 rounded-t-[20px]">
@@ -83,7 +92,7 @@ export default function page() {
                   <FFTable
                   actionHandler={actionHandler}
                   loading={isFetching}
-                  tableHeader={buyerRentTableHeader} 
+                  tableHeader={tableHeader} 
                   dataList={rentReqList?.data}/>
                 </div>
                 {

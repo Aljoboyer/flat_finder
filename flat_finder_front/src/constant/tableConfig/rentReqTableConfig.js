@@ -33,7 +33,14 @@
     },
 ]
 
-
+export const tableHeaderActionObj =      {
+        id: 'Action',
+        header_label: 'Action',
+        showActionbtn: true,
+        cancelBtnShow: true,
+        approveBtnShow: false
+    }
+    
 export const buyerRentTableHeader = [
     ...rentReqTableHeader,
     {
@@ -43,17 +50,15 @@ export const buyerRentTableHeader = [
         secondField: 'seller.propertyName',
         imageFieldKey: 'seller.image'
     },
-     {
-        id: 'Action',
-        header_label: 'Action',
-        showActionbtn: true,
-        cancelBtnShow: true,
-        approveBtnShow: false
-    }
+    tableHeaderActionObj
 ]
 
 export const sellerRentTableHeader = [
     ...rentReqTableHeader,
+    {
+        id: 'message',
+        header_label: 'Message'
+    },
     {
         id: 'buyer.name',
         header_label: 'Buyer',
@@ -61,13 +66,6 @@ export const sellerRentTableHeader = [
         secondField: 'buyer.phone',
         imageFieldKey: 'seller.image'
     },
-
-     {
-        id: 'Action',
-        header_label: 'Action',
-        showActionbtn: true,
-        cancelBtnShow: true,
-        approveBtnShow: true
-    }
+    {...tableHeaderActionObj, approveBtnShow: true}
 ]
 

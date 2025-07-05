@@ -50,7 +50,11 @@ export default function page() {
     },[userData?._id, page, perPage, value])
 
     const actionHandler = async (action, reqId) => {
-      const rentReq = rentReqList?.data?.find((item) => item?._id === reqId)
+      if(action == 'message'){
+        console.log('clicked')
+      }
+      else{
+        const rentReq = rentReqList?.data?.find((item) => item?._id === reqId)
       
       const reqObj = {
           "id": reqId,
@@ -62,6 +66,7 @@ export default function page() {
 
       if(actionres?.data?.msg){
         successToast(`Request ${capitalizeFirstLetter(action)} Successfully!`)
+      }
       }
     }
 
