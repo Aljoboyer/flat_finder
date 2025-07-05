@@ -1,5 +1,4 @@
-
-export const rentReqTableHeader = [
+ const rentReqTableHeader = [
     {
         id: 'property.title',
         header_label: 'Title',
@@ -28,17 +27,41 @@ export const rentReqTableHeader = [
         makeFirstLaterCapital: true
     },
     {
+        id: 'status',
+        header_label: 'Status',
+        
+    },
+]
+
+
+export const buyerRentTableHeader = [
+    ...rentReqTableHeader,
+    {
         id: 'seller.name',
         header_label: 'Seller',
         isImageShow: true,
         secondField: 'seller.propertyName',
         imageFieldKey: 'seller.image'
     },
+     {
+        id: 'Action',
+        header_label: 'Action',
+        showActionbtn: true,
+        cancelBtnShow: true,
+        approveBtnShow: false
+    }
+]
+
+export const sellerRentTableHeader = [
+    ...rentReqTableHeader,
     {
-        id: 'status',
-        header_label: 'Status',
-        
+        id: 'buyer.name',
+        header_label: 'Buyer',
+        isImageShow: true,
+        secondField: 'buyer.phone',
+        imageFieldKey: 'seller.image'
     },
+
      {
         id: 'Action',
         header_label: 'Action',
@@ -47,3 +70,4 @@ export const rentReqTableHeader = [
         approveBtnShow: true
     }
 ]
+

@@ -3,7 +3,9 @@ import { useLazyGetRentReqListQuery } from '@/app/redux/features/rentApi'
 import CommonTabs from '@/components/common/CommonTabs/CommonTabs'
 import FFPagination from '@/components/common/FFPagination'
 import FFTable from '@/components/common/FFTable'
-import { buyerRentTableHeader } from '@/constant/tableConfig/rentReqTableConfig'
+import FilterAndSearch from '@/components/common/FilterAndSearch'
+import { filterFieldConfig } from '@/constant/formConfigs/filterConfig'
+import { sellerRentTableHeader } from '@/constant/tableConfig/rentReqTableConfig'
 import { RentRequestTabData } from '@/constant/tabsdata'
 import { getLocalStorageData } from '@/utils/getLocalStorageData'
 import { useMediaQuery } from '@mui/material'
@@ -19,6 +21,9 @@ export default function page() {
     const [perPage, setPerPage] = useState(10);
     const [page, setPage] = useState(1);
     const userData = getLocalStorageData()
+    const [filterInputData, setFilterInputData] = useState([])
+    const [searchKey, setSearchKey] = useState('')
+    const [filterObj, setFilterObj] = useState({city: '', areaName: ''})
 
     const handleTabChange = (event, newValue) => {
         setValue(newValue);
@@ -45,6 +50,32 @@ export default function page() {
       setPerPage(Number(event.target.value));
       setPage(1); 
     };
+
+    useEffect(() => {
+    setFilterInputData(filterFieldConfig?.slice(1, 3))
+    },[])
+
+    const onSearchHandler = (searchVal) => {
+        setSearchKey(searchVal)
+        setTimeout(propertyFetch(), 1000)
+    }
+  
+  const filterChangeHandler = (id, val) => {
+   let value = val ? val : ''
+
+    const addFilterValuToInput = filterInputData?.map((item) => {
+        if(item?.field_id == id){
+          return {...item,fieldValue:{value: value}}
+        }else{
+          return item;
+        }
+    })
+    setFilterInputData(addFilterValuToInput)
+
+  
+    setFilterObj({...filterObj, [id]: value})
+    
+  }
     console.log('rentReqList ===>' , rentReqList?.data)
 
   return (
@@ -56,11 +87,17 @@ export default function page() {
                 tabWidth={islargeScreen ? '10%' : isMediumScreen ? '20%' : '50%'}
                 isPanelShow={false} polygonShape={true}/>
             <div className="bg-white rounded-b-md p-4">
+                 <FilterAndSearch 
+                    createBtnShow={false}
+                    filterFieldConfig={filterInputData}
+                    onChangeHandler={filterChangeHandler}
+                    onSearchHandler={onSearchHandler}
+                />
                 <div className="my-7">
                   <FFTable
                   actionHandler={actionHandler}
                   loading={isFetching}
-                  tableHeader={buyerRentTableHeader} 
+                  tableHeader={sellerRentTableHeader} 
                   dataList={rentReqList?.data}/>
                 </div>
                 {

@@ -8,7 +8,7 @@ import { MdOutlineForwardToInbox } from "react-icons/md";
 export const SellerSideManuList = [
     { title: 'Dashboard', link: '/seller-dashboard-home', icon: <DashboardIcon fontSize='20px'/>},
     { title: 'Properties', link: '/seller-properties', icon: <ApartmentIcon fontSize='20px'/>},
-    { title: 'Rent Request', link: '', icon: <TagRoundedIcon fontSize='20px'/>},
+    { title: 'Rent/Sell Request', link: '/seller-rent-requests', icon: <TagRoundedIcon fontSize='20px'/>},
     { title: 'Rent/Sell Hisory', link: '', icon: <BusinessCenterSharpIcon fontSize='20px'/> },
     { title: 'Inbox', link: '', icon: <MdOutlineForwardToInbox fontSize='20px'/>},
   ];
@@ -16,6 +16,6 @@ export const SellerSideManuList = [
 export const BuyerSideManuList = [
     { title: 'Dashboard', link: '/buyer-dashboard-home', icon: <DashboardIcon fontSize='20px'/>},
     { title: 'Your Requests', link: '/buyer-rent-requests', icon: <ApartmentIcon fontSize='20px'/>},
-    { title: 'Rent/Buy Hisory', link: '', icon: <BusinessCenterSharpIcon fontSize='20px'/> },
+    { title: 'Rent/Buy Hisory', link: '/', icon: <BusinessCenterSharpIcon fontSize='20px'/> },
     { title: 'Inbox', link: '', icon: <MdOutlineForwardToInbox fontSize='20px'/>},
   ];
