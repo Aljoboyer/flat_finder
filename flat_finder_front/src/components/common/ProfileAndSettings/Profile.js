@@ -1,3 +1,4 @@
+"use client"
 import React, { useEffect, useState } from 'react'
 import { CardContent } from "@mui/material";
 import { Buttons } from "@/components/common/Buttons/Buttons";

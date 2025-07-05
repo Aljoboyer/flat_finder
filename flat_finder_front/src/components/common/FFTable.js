@@ -13,6 +13,7 @@ import FFNodata from './FFNodata';
 import ActionButton from './Buttons/ActionButton';
 import FFChip from './FFChip';
 import { capitalizeFirstLetter } from '@/utils/stringHelper';
+import { getObjValue } from '@/utils/objectHelper';
 
 export default function FFTable({tableHeader, 
     dataList, 
@@ -42,12 +43,12 @@ export default function FFTable({tableHeader,
               {tableHeader.map((col) => (
                 
                 <TableCell key={col?.id}  sx={col?.isImageShow ? {display: 'flex', flexDirection: 'row', } : {textAlign: 'center'}} >
-                  {col?.isImageShow && <Avatar sx={{marginRight: '5px'}} alt="Remy Sharp" src={row?.images[0]} />}
+                  {col?.isImageShow && <Avatar sx={{marginRight: '5px'}} alt="Remy Sharp" src={row?.images ? row?.images[0] : row?.property?.images[0]} />}
                   
                     <Box>
-                      {col?.id == 'status' ? <FFChip label={row[col.id] } /> : <p className=''>{col?.makeFirstLaterCapital ? capitalizeFirstLetter(row[col.id]) : row[col.id]}</p>}
+                      {col?.id == 'status' ? <FFChip label={getObjValue(row, col.id)} /> : <p className=''>{col?.makeFirstLaterCapital ? capitalizeFirstLetter(getObjValue(row, col.id)) : getObjValue(row, col.id)}</p>}
                         
-                        <p className='mt-2 text-gray-500 font-medium text-[12px]'>{row[col.secondField]}</p>
+                       {col?.secondField && <p className='mt-2 text-gray-500 font-medium text-[12px]'>{getObjValue(row, col?.secondField)}</p>} 
                     </Box>
                       {col?.showActionbtn && <ActionButton itemId={row?._id} actionHandler={actionHandler} editBtnShow={col?.editBtnShow} tableitem={row} approveBtnShow={col?.approveBtnShow} statusBtn={col?.statusBtn}/>}
                 </TableCell>

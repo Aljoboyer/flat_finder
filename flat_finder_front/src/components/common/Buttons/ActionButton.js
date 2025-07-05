@@ -6,6 +6,7 @@ import { COLORS } from '@/theme/colors';
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { FaRegEdit } from "react-icons/fa";
 import { FiSlash } from "react-icons/fi";
+import { getLocalStorageData } from '@/utils/getLocalStorageData';
 
 const ActionManuItem = ({title, icon, clickHandler}) => {
   return (
@@ -24,10 +25,13 @@ export default function ActionButton({
     itemId,
     actionHandler,
     statusBtn,
-    tableitem
+    tableitem,
+    cancelBtnShow
 }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const manuOpen = Boolean(anchorEl);
+  const userData = getLocalStorageData();
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget)
   };
@@ -83,7 +87,14 @@ export default function ActionButton({
                   actionHandler(actionName, itemId)
                 }} title={tableitem?.status == 'active' ? "In Active" : "Active"} icon={<FiSlash className='mr-2'/>}/>
             }
-          
+
+            {
+               cancelBtnShow && <ActionManuItem clickHandler={() => {
+                  const actionName = (tableitem?.status == 'pending') && (userData?._id == tableitem?.buyer?._id )  ? "cancel" : "reject"
+                  actionHandler(actionName, itemId)
+                }} title={(tableitem?.status == 'pending') && (userData?._id == tableitem?.buyer?._id )  ? "Cancel" : "Reject"} icon={<FiSlash className='mr-2'/>}/>
+            }
+
         </Menu>
       </div>
   )

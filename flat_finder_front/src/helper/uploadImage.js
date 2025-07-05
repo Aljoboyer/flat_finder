@@ -3,8 +3,7 @@ import axios from 'axios';
 
 export const uploadImage = async (image, setLoading) => {
   setLoading(true);
-  console.log('Picture:', image);
-  // console.log("Set Icon Url", setIconUrl);
+
   var formData = new FormData();
 
   formData.append('media', image); 

@@ -41,9 +41,10 @@ export default function page({params}) {
   }
 
    useEffect(() => {
+     getSingleRentequest({querys: `buyer=${userdata?._id}`})
      if(id){
        propertyTrigger({querys: `id=${id}`})
-       getSingleRentequest({querys: `buyer=${userdata?._id}`})
+  
      }
    },[id])
 
@@ -81,7 +82,6 @@ export default function page({params}) {
     }
    }
 
-   console.log('specificRentRequest ==> ', specificRentRequest)
   return (
     <div className='w-full p-2 lg:p-6'>
       {

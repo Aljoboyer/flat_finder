@@ -64,7 +64,7 @@ export default function ProfileManu({manuItems}) {
           <Avatar
             src={userData?.image}
             alt='Ahan'
-            sx={{ width: 50, height: 50, bgcolor: COLORS.baseColor }}
+            sx={{ width: 44, height: 44, bgcolor: COLORS.baseColor }}
           />
           <KeyboardArrowDownIcon sx={{ fontSize: 20, color: COLORS.baseColor }} />
         </IconButton>

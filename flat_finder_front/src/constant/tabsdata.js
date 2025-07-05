@@ -6,9 +6,10 @@ import { FaBuildingUser, FaBuildingShield, FaHouseLock ,
 import { TbListDetails } from "react-icons/tb";
 import { FaBuffer } from "react-icons/fa";
 import { CgProfile } from "react-icons/cg";
-import { MdOutlineSettings } from "react-icons/md";
+import { MdOutlineSettings , MdPendingActions} from "react-icons/md";
 import Profile from "@/components/common/ProfileAndSettings/Profile";
 import Settings from "@/components/common/ProfileAndSettings/Settings";
+import { FcApproval } from "react-icons/fc";
 
 export const RegisterTabData = [
     {
@@ -80,5 +81,18 @@ export const ProfileSettingsTabData = [
         label: 'Settings',
         icon: <MdOutlineSettings  size={22}/>,
         content: <Settings/>,
+    }
+]
+
+export const RentRequestTabData = [
+    {
+        label: 'Pending',
+        icon: <MdPendingActions size={22}/>,
+        content: '',
+    },
+    {
+        label: 'Approved',
+        icon: <FcApproval  size={22}/>,
+        content: '',
     }
 ]

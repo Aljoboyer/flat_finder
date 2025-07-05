@@ -17,7 +17,7 @@ export const LayoutNav = ({handleDrawerOpen}) => {
 
 
   return (
-    <Box sx={{position:'sticky',top: '0px', width: '100%', backgroundColor: 'white', height: '60px', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', paddingX: {md: '20px'}, alignItems: 'center' ,zIndex: 1}}>
+    <Box sx={{position:'sticky',top: '0px', width: '100%', backgroundColor: 'white', height: '70px', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', paddingX: {md: '20px'}, alignItems: 'center' ,zIndex: 1,}}>
         
     <Box sx={{display: 'flex', 
       alignItems: 'center', 
@@ -54,9 +54,7 @@ export const LayoutNav = ({handleDrawerOpen}) => {
    
     </Box>
 
-    <Box className='ease-in-out duration-300'  sx={{ height: '50px', width: {xs: '80px', md: '100px'},
-    
-      borderRadius: '40px', display: 'flex', justifyContent: 'center', alignItems: 'center', }}>
+    <Box className='ease-in-out duration-300'  sx={{ marginRight: '15px' }}>
 
       <ProfileManu manuItems={manuItems}/>
     </Box>

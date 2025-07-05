@@ -18,7 +18,7 @@ import { useLazyGetAreaNamesQuery } from "@/app/redux/features/dropDownApi";
 
 export default function SellerProperties() {
   const router = useRouter()
-  const [propertyListTrigger, { data: propertyList, error, isLoading , isFetching}] = useLazyGetPropertyListQuery();
+  const [propertyListTrigger, { data: propertyList, isFetching}] = useLazyGetPropertyListQuery();
   const [updateProperty, { }] = useUpdatePropertyMutation();
   const theme = useTheme();
   const isMediumScreen = useMediaQuery(theme.breakpoints.up('md'));
