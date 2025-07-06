@@ -9,7 +9,8 @@ const paymentIntentController = async (req, res) => {
 
     try {
       const paymentAmount = req.body
-      const convertedAmount = parseInt(paymentAmount.totalamount) * 100;
+
+      const convertedAmount = parseInt(paymentAmount.totalamount) / 100;
 
       const paymentIntent = await stripe.paymentIntents.create({
           currency: 'usd',
