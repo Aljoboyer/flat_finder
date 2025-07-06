@@ -48,7 +48,8 @@ export default function ActionButton({
 
        {
         payBtn ?  <Buttons
-          onClickHandler={() => router.push(`/property-payment/${tableitem?.property?._id}`)}
+          // onClickHandler={() => router.push(`/property-payment/${tableitem?.property?._id}`)}
+          onClickHandler={() => actionHandler('payment', itemId)}
           bgColor={COLORS.side_yellow}
           textColor={COLORS.baseColor}
           other_style={{width: '60px', fontWeight: '700'}}

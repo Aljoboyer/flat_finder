@@ -4,7 +4,7 @@ import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 
 export default function Checkoutform() {
   return (
-    <div>
+    <div className=''>
         <CardElement
             options={{
             style: {

@@ -1,5 +1,6 @@
 "use client"
 import { useLazyGetRentReqListQuery, useRentReqActionMutation } from '@/app/redux/features/rentApi'
+import PaymentModal from '@/components/buyer/Payment/PaymentModal'
 import CommonTabs from '@/components/common/CommonTabs/CommonTabs'
 import FFPagination from '@/components/common/FFPagination'
 import FFTable from '@/components/common/FFTable'
@@ -23,6 +24,8 @@ export default function page() {
     const userData = getLocalStorageData()
     const [statusVal, setStatusVal] = useState('pending')
     const [tableHeader, setTableHeader] = useState([])
+    const [PaymentModalShow, setPaymentModalShow] = useState(false)
+    const [propertyToPay, setPropertyToPay] = useState(null)
     
     const handleTabChange = (event, newValue) => {
         setValue(newValue);
@@ -43,6 +46,7 @@ export default function page() {
     const fetchRentReq = () => {
       rentReqListTrigger({ querys: `limit=${perPage}&page=${page}&status=${statusVal}&buyer=${userData?._id}` });
     }
+
     useEffect(() => {
       if(userData?._id){
         fetchRentReq()
@@ -51,17 +55,23 @@ export default function page() {
 
     const actionHandler = async (action, reqId) => {
       const rentReq = rentReqList?.data?.find((item) => item?._id === reqId)
-      
-      const reqObj = {
-          "id": reqId,
-          "property_id": rentReq?.property?._id,
-          "status": 'canceled'
+      console.log('property ==>', rentReq)
+      if(action == 'payment'){
+        setPropertyToPay(rentReq?.property)
+        setTimeout(() => setPaymentModalShow(true), 1000)
       }
-      
-      const actionres = await rentReqAction(reqObj)
+      else{      
+        const reqObj = {
+            "id": reqId,
+            "property_id": rentReq?.property?._id,
+            "status": 'canceled'
+        }
+        
+        const actionres = await rentReqAction(reqObj)
 
-      if(actionres?.data?.msg){
-        successToast(`Request ${capitalizeFirstLetter(action)} Successfully!`)
+        if(actionres?.data?.msg){
+          successToast(`Request ${capitalizeFirstLetter(action)} Successfully!`)
+        }
       }
     }
 
@@ -105,6 +115,11 @@ export default function page() {
                 </div>
                 }
             </div>
+            <PaymentModal
+            open={PaymentModalShow}
+            setOpen={setPaymentModalShow}
+            property={propertyToPay}
+            />
         </div>
   )
 }
