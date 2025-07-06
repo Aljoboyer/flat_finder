@@ -6,7 +6,7 @@ import CommonTabs from '@/components/common/CommonTabs/CommonTabs';
 import FFNodata from '@/components/common/FFNodata';
 import FFLoader from '@/components/common/Loaders/FFLoader';
 import ApartmentCardSkeleton from '@/components/common/Loaders/PropertyCardSmallSkeleton';
-import RentRequestModal from '@/components/common/Modals/RentReqModal';
+import FFModal from '@/components/common/Modals/FFModal';
 import ApartmentCard from '@/components/common/PropertyCard/PropertyCardSmall';
 import SectionTitle from '@/components/common/SectionTitle/SectionTitle';
 import CommentBox from '@/components/visitors/CommentBox/CommentBox';
@@ -141,11 +141,12 @@ console.log('specificRentRequest?.data', specificRentRequest?.data)
               </div>
         </div>
       }
-      <RentRequestModal 
+      <FFModal 
       open={reqModalShow} setOpen={setReqModalShow}
       note={note} setNote={setNote}
       confirmHandler={requestSentHandler}
       loading={isLoading}
+      show='rentReq'
       />
     </div>
   )

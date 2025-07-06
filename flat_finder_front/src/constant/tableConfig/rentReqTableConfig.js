@@ -3,28 +3,34 @@
         id: 'property.title',
         header_label: 'Title',
         isImageShow: true,
-        secondField: 'property.propertyId'
+        secondField: 'property.propertyId',
+        fieldType: 'text'
     },
      {
         id: 'property.city',
-        header_label: 'City'
+        header_label: 'City',
+        fieldType: 'text'
     },
       {
         id: 'property.areaName',
-        header_label: 'Area Name'
+        header_label: 'AreaName',
+        fieldType: 'text'
     },
     {
         id: 'property.price',
-        header_label: 'Price'
+        header_label: 'Price',
+        fieldType: 'number',
     },
     {
         id: 'property.advanceMoney',
         header_label: 'AdvanceMoney',
+        fieldType: 'number'
     },
     {
         id: 'property.propertyType',
         header_label: 'PropertyType',
-        makeFirstLaterCapital: true
+        makeFirstLaterCapital: true,
+        fieldType: 'text'
     },
     {
         id: 'status',
@@ -48,7 +54,8 @@ export const buyerRentTableHeader = [
         header_label: 'Seller',
         isImageShow: true,
         secondField: 'seller.propertyName',
-        imageFieldKey: 'seller.image'
+        imageFieldKey: 'seller.image',
+        fieldType: 'text'
     },
     tableHeaderActionObj
 ]
@@ -57,14 +64,16 @@ export const sellerRentTableHeader = [
     ...rentReqTableHeader,
     {
         id: 'message',
-        header_label: 'Message'
+        header_label: 'Message',
+        fieldType: 'text'
     },
     {
         id: 'buyer.name',
         header_label: 'Buyer',
         isImageShow: true,
         secondField: 'buyer.phone',
-        imageFieldKey: 'seller.image'
+        imageFieldKey: 'seller.image',
+        fieldType: 'text'
     },
     {...tableHeaderActionObj, approveBtnShow: true}
 ]

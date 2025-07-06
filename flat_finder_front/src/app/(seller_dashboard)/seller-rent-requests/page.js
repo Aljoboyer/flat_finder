@@ -4,6 +4,7 @@ import CommonTabs from '@/components/common/CommonTabs/CommonTabs'
 import FFPagination from '@/components/common/FFPagination'
 import FFTable from '@/components/common/FFTable'
 import FilterAndSearch from '@/components/common/FilterAndSearch'
+import FFModal from '@/components/common/Modals/FFModal'
 import { filterFieldConfig } from '@/constant/formConfigs/filterConfig'
 import { sellerRentTableHeader } from '@/constant/tableConfig/rentReqTableConfig'
 import { RentRequestTabData } from '@/constant/tabsdata'
@@ -28,14 +29,23 @@ export default function page() {
     const [searchKey, setSearchKey] = useState('')
     const [filterObj, setFilterObj] = useState({city: '', areaName: ''})
     const [statusVal, setStatusVal] = useState('pending')
+    const [showMessageModal, setShowMessageModal] = useState(false);
+    const [msg, setMsg] = useState('')
+    const [tableHeader, setTableHeader] = useState([])
 
     const handleTabChange = (event, newValue) => {
         setValue(newValue);
         if(newValue == 0){
           setStatusVal('pending')
+          setTableHeader(sellerRentTableHeader)
         }
         else{
           setStatusVal('accepted')
+          const newTableHeader = sellerRentTableHeader.slice(0, -1)
+
+          newTableHeader.push({id: 'paymentLastDate', header_label: 'Payment EndDate', fieldType: 'date'},)
+
+          setTableHeader(newTableHeader)
         }
     }
     
@@ -50,12 +60,13 @@ export default function page() {
     },[userData?._id, page, perPage, value])
 
     const actionHandler = async (action, reqId) => {
+      const rentReq = rentReqList?.data?.find((item) => item?._id === reqId)
+
       if(action == 'message'){
-        console.log('clicked')
+        setMsg(rentReq?.message)
+        setTimeout(() => setShowMessageModal(true), 1000)
       }
       else{
-        const rentReq = rentReqList?.data?.find((item) => item?._id === reqId)
-      
       const reqObj = {
           "id": reqId,
           "property_id": rentReq?.property?._id,
@@ -80,7 +91,8 @@ export default function page() {
     };
 
     useEffect(() => {
-    setFilterInputData(filterFieldConfig?.slice(1, 3))
+      setTableHeader(sellerRentTableHeader)
+      setFilterInputData(filterFieldConfig?.slice(1, 3))
     },[])
 
     const onSearchHandler = (searchVal) => {
@@ -125,7 +137,7 @@ export default function page() {
                   <FFTable
                   actionHandler={actionHandler}
                   loading={isFetching}
-                  tableHeader={sellerRentTableHeader} 
+                  tableHeader={tableHeader} 
                   dataList={rentReqList?.data}/>
                 </div>
                 {
@@ -138,6 +150,13 @@ export default function page() {
                 </div>
                 }
             </div>
+            <FFModal 
+              open={showMessageModal} 
+              setOpen={setShowMessageModal}
+              note={msg}
+              show='message'
+              sendBtnShow={false}
+            />
         </div>
   )
 }
