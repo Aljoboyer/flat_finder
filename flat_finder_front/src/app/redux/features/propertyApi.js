@@ -1,5 +1,4 @@
 /* eslint-disable no-unused-vars */
-import { getAuthToken } from "@/utils/getAuthToken";
 import { api } from "../api/api";
 import { getListQueryCall, mutationCall } from "@/utils/reduxApiCallObj";
 

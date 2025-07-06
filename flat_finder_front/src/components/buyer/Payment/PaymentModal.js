@@ -65,8 +65,8 @@ export default function PaymentModal({
         <div className="grid md:grid-cols-2 m-4">
           <div className="w-full h-[200px] md:h-[450px] property_card">
             <img
-              src={property?.images[0]}
-              alt={property?.title}
+              src={property?.property?.images[0]}
+              alt={property?.property?.title}
               className="w-full h-full object-cover"
             />
           </div>
@@ -76,7 +76,7 @@ export default function PaymentModal({
             {/* Property Info */}
             <div>
               <Chip
-                label={capitalizeFirstLetter(property?.propertyType)}
+                label={capitalizeFirstLetter(property?.property?.propertyType)}
                 sx={{
                   backgroundColor: COLORS.overlay,
                   color: COLORS.baseColor,
@@ -85,31 +85,30 @@ export default function PaymentModal({
                 }}
               />
               
-              <p className='text-basecolor font-bold text-p_lg'>{property?.title} </p>
+              <p className='text-basecolor font-bold text-p_lg'>{property?.property?.title} </p>
 
               <div className='flex flex-row items-center my-2'>
                 <MdLocationOn className="text-basecolor" />
-                <p className='text-blackshade text-p font-medium'>{property?.areaName}</p>
+                <p className='text-blackshade text-p font-medium'>{property?.property?.city}, {property?.property?.areaName}</p>
               </div>
 
               {/* Pricing Section */}
               <div className="mt-6 space-y-2">
                 <div className="flex justify-between">
                   <p className='text-blackshade text-p_lg font-semibold'>Price:</p>
-                  <p className='text-blackshade text-p font-semibold'>{property?.price} BDT</p>
+                  <p className='text-blackshade text-p font-semibold'>{property?.property?.price} BDT</p>
                 </div>
                 <div className="flex justify-between">
                   <p className='text-blackshade text-p_lg font-semibold'>Advance Payment:</p>
-                  <p className='text-bluemain text-p font-semibold'>{property?.advanceMoney} BDT</p>
+                  <p className='text-bluemain text-p font-semibold'>{property?.property?.advanceMoney} BDT</p>
                 </div>
               </div>
             </div>
             
             <Elements  stripe={stripePromise}>
-                <CheckoutForm/>
+                <CheckoutForm property={property} handleClose={handleClose}/>
             </Elements>
-            
-            
+        
           </div>
         </div>
 

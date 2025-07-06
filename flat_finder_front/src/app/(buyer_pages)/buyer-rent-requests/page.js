@@ -57,7 +57,7 @@ export default function page() {
       const rentReq = rentReqList?.data?.find((item) => item?._id === reqId)
    
       if(action == 'payment'){
-        setPropertyToPay(rentReq?.property)
+        setPropertyToPay(rentReq)
         setTimeout(() => setPaymentModalShow(true), 1000)
       }
       else{      
@@ -90,7 +90,7 @@ export default function page() {
     
 
   return (
-     <div className="bg-overlay  p-6 rounded-t-[20px]">
+     <div className="bg-overlay  p-6 rounded-t-[20px] h-screen">
         <CommonTabs 
           value={value}
           handleTabChange={handleTabChange}
