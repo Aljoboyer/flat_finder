@@ -8,6 +8,7 @@ import { FaRegEdit } from "react-icons/fa";
 import { FiSlash } from "react-icons/fi";
 import { getLocalStorageData } from '@/utils/getLocalStorageData';
 import { Buttons } from './Buttons';
+import { useRouter } from 'next/navigation';
 
 const ActionManuItem = ({title, icon, clickHandler}) => {
   return (
@@ -33,6 +34,7 @@ export default function ActionButton({
   const [anchorEl, setAnchorEl] = React.useState(null);
   const manuOpen = Boolean(anchorEl);
   const userData = getLocalStorageData();
+  const router = useRouter();
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget)
@@ -46,6 +48,7 @@ export default function ActionButton({
 
        {
         payBtn ?  <Buttons
+          onClickHandler={() => router.push(`/property-payment/${tableitem?.property?._id}`)}
           bgColor={COLORS.side_yellow}
           textColor={COLORS.baseColor}
           other_style={{width: '60px', fontWeight: '700'}}

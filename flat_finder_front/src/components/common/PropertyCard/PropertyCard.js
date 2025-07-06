@@ -65,11 +65,13 @@ export default function PropertyCard({property}) {
               </div>
             </div>
 
-             <h2 className=" text-lg_title font-bold">{property?.price} BDT</h2>
+             <h2 className=" text-lg_title font-bold">{property?.price} BDT <span className=" text-p font-bold">{`${property?.purpose == 'rent' ? 'Per Month' : ''}`}</span></h2>
           </div>
-<div className='w-[100px] bg-blue-800 flex flex-row justify-center items-center rounded h-[30px]'>
+
+          <div className='w-[100px] bg-blue-800 flex flex-row justify-center items-center rounded h-[30px]'>
             <p className='text-p text-white font-medium'>For {capitalizeFirstLetter(property?.purpose)}</p>
           </div>
+
           {/* Call to action button */}
           <div className="mt-4 md:mt-0 text-right">
             <Buttons title="VIEW DETAILS" bgColor={COLORS.side_yellow} textColor={COLORS.baseColor} other_style={{width: {xs: '100%', md: '50%', lg: '30%'}, fontWeight: "bold", fontSize: '16px'}}/>

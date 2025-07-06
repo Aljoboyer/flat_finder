@@ -33,16 +33,16 @@ const ApartmentCard = ({property}) => {
 
         <p className="text-p_lg font-bold text-gray-800">{property?.title}</p>
         
-        <div className="text-p text-gray-600 font-medium">{property?.price} BDT | {property?.flatMeasurement} sqft</div>
+        <div className="text-p text-gray-600 font-medium">{property?.price} BDT <span className=" text-psm ">{`${property?.purpose == 'rent' ? '/Month' : ''}`}</span> | {property?.flatMeasurement} sqft</div>
 
         <div className="flex items-center gap-4 text-sm text-gray-700">
           <div className="flex items-center gap-1">
             <BedIcon fontSize="small" className="text-basecolor" />
-            3 Bed
+            {property?.bedRooms} Bed
           </div>
           <div className="flex items-center gap-1">
             <BathtubIcon fontSize="small" className="text-basecolor" />
-            3 Bath
+            {property?.bathrooms} Bath
           </div>
         </div>
 

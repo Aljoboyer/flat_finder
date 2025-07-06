@@ -49,17 +49,19 @@ export default function FFTable({tableHeader,
                     <Box>
                       {col?.id == 'status' && <FFChip label={getObjValue(row, col.id)} />}
                       
-                      {col.id == 'message' || col.id == 'description' ?  <p className='text-psm font-medium'>{getObjValue(row, col.id)?.slice(0, 20)}... <span onClick={() => actionHandler('message', row?._id)} className='cursor-pointer text-bluemain'>View</span></p> : ''}
-                      
                       {
-                        col?.fieldType == 'date' && <p className='text-psm font-medium'>moment(getObjValue(row, col.id)).format('DD/MM/YYYY')</p>  
+                        col?.fieldType == 'date' && <p className='text-psm font-medium'>{moment(getObjValue(row, col.id)).format('DD/MM/YYYY')}</p>  
                       }
                       {
                         col?.fieldType == 'number' &&  <p className='text-psm font-medium'>{`${getObjValue(row, col.id)} ${col?.fieldType == 'number' && 'BDT'}`}</p>
                       }
                       
                       {
-                        col?.fieldType == 'text' && <p className='text-psm font-medium'>{col?.makeFirstLaterCapital ? capitalizeFirstLetter(getObjValue(row, col.id)) : getObjValue(row, col.id)}</p>
+                        col?.fieldType == 'text' && <>
+                        {
+                           col?.id == 'message' ? <p className='text-psm font-medium'>{getObjValue(row, col.id)?.slice(0, 20)}... <span onClick={() => actionHandler('message', row?._id)} className='cursor-pointer text-bluemain'>View</span></p> : <p className='text-psm font-medium'>{col?.makeFirstLaterCapital ? capitalizeFirstLetter(getObjValue(row, col.id)) : getObjValue(row, col.id)}</p>
+                        }
+                        </> 
                       }
 
                        {col?.secondField && <p className='mt-2 text-gray-500 font-medium text-[12px]'>{getObjValue(row, col?.secondField)}</p>} 

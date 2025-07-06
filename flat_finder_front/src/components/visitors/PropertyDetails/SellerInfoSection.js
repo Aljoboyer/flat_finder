@@ -41,7 +41,7 @@ const SellerInfoSection = ({propertyDetails, requestHandler, specificRentRequest
 
         <div className="w-fit my-4">
           <p className="text-blackshade text-xl_title font-bold">
-              {propertyDetails?.price} BDT
+              {propertyDetails?.price} BDT <span className=" text-p font-bold">{`${propertyDetails?.purpose == 'rent' ? 'Per Month' : ''}`}</span>
           </p>
 
            <p className="text-blue-800 text-p font-bold">
