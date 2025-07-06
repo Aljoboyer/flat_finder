@@ -10,6 +10,7 @@ const rentRouter = require('./rent_route');
 const userRouter = require('./user_route');
 const reviewRouter = require('./review_route');
 const dataManageRouter = require('./data_manage_route');
+const paymentRouter = require('./payment_route');
 
 // Use them with prefixes if needed
 router.use('/auth', authRouter);
@@ -20,5 +21,6 @@ router.use('/rent', rentRouter);
 router.use('/user', userRouter);
 router.use('/review', reviewRouter);
 router.use('/dm', dataManageRouter);
+router.use('/payment', paymentRouter);
 
 module.exports = router;

@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const ObjectId = mongoose.Types.ObjectId;
 const RentRequestCollection = require("../../../models/rentRequest");
 const PropertyCollection = require("../../../models/property");
 const { PaginationCalculate } = require('../../../helper/pagination');
@@ -30,15 +29,15 @@ const getAllRentReqController = async (req, res) => {
       const  result = await RentRequestCollection.find(query).sort({ createdAt: -1 }).skip(skip).limit(Number(limit)).populate([
           {
           path: 'property', 
-          select: 'propertyId price city areaName advanceMoney title propertyType flatMeasurement images'
+          select: '_id propertyId price city areaName advanceMoney title propertyType flatMeasurement images'
           },
           {
           path: 'buyer',
-          select: 'name phone address email image'
+          select: 'name phone address email image _id'
           },
           {
           path: 'seller',
-          select: 'name phone address propertyName email image'
+          select: 'name phone address propertyName email image _id'
           }
       ]);
       const  totalCount = await RentRequestCollection.countDocuments(query);
