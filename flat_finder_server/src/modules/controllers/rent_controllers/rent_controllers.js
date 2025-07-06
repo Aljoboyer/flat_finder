@@ -64,7 +64,11 @@ const RentRequestActionController = async (req, res) => {
     try {
 
     if (status === 'accepted') {
-      const rentRequestAction = await RentRequestCollection.findByIdAndUpdate(id,{ status: status });
+      const today = new Date(); // e.g., '7/6/2025'
+      const oneWeekLater = new Date();
+      oneWeekLater.setDate(today.getDate() + 7);
+
+      const rentRequestAction = await RentRequestCollection.findByIdAndUpdate(id,{ status: status ,paymentLastDate: oneWeekLater});
 
       const updatePropertyStatus = await PropertyCollection.findByIdAndUpdate(
         property_id,
