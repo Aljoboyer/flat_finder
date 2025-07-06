@@ -43,7 +43,7 @@ const paymentController = async (req, res) => {
       res.status(201).json({msg: 'payment success'});
 
     } catch (error) {
-      res.status(500).json({ message: "payment request Failed" , error});
+      res.status(500).json({ message: "payment request Failed !" , error});
     }
 };
 
