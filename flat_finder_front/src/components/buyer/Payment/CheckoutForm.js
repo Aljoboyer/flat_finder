@@ -16,7 +16,7 @@ export default function CheckoutForm({property, handleClose}) {
   
   const createIntent = async () => {
     const intentRes = await createPaymentIntent({totalamount: property?.property?.advanceMoney})
-    console.log('checking ===>', intentRes)
+
     setClientSecret(intentRes?.data?.clientSecret)
   }
 
@@ -45,10 +45,10 @@ export default function CheckoutForm({property, handleClose}) {
       if(error){
           setProcessing(false)
           errorToast(error.message)
+          return;
       }
       else{
           setProcessing(false)
-          console.log(paymentMethod)
       }
 
         //payment intent
@@ -68,6 +68,7 @@ export default function CheckoutForm({property, handleClose}) {
         {
           setProcessing(false)
           errorToast(intentError.message)
+          return;
         }
         else{
             const reqObj = {
@@ -79,12 +80,11 @@ export default function CheckoutForm({property, handleClose}) {
               paymentIntentId: paymentIntent.client_secret.slice('_secret')[0],
               paidAt: new Date().toLocaleDateString()
             }
-            console.log('checking ===>', reqObj)
             
           const paymentRes = await completePayment(reqObj)
-          console.log('paymentRes ===>', paymentRes)
+
           if(paymentRes?.data?.msg == 'payment success'){
-            successToast('Payment Succesfull')
+            successToast('Payment Succesfull!')
             setProcessing(false)
             handleClose()
           }

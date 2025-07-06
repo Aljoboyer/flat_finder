@@ -16,7 +16,7 @@ const paymentApi = api.injectEndpoints({
       query: (requestBody) =>(
         mutationCall('/payment/complete','POST', requestBody)
       ),
-      invalidatesTags: ['historylist'],
+      invalidatesTags: ['allrentRequest'],
     }),
     
   }),

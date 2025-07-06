@@ -15,7 +15,7 @@ import { Buttons } from '@/components/common/Buttons/Buttons';
 import { capitalizeFirstLetter } from '@/utils/stringHelper';
 import CheckoutForm from './CheckoutForm';
 
-const stripePromise =  loadStripe('pk_test_51Jw2mpBSwbB9BMbhsyE9VsMWMbgeGoz35VdXDYoB2C1QGFkx7JTaEG4FFXG3pyBkqupeooBX2z3nPu0zERZuO1Tw00ZtAW0Wtx');
+const stripePromise =  loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
 
 export default function PaymentModal({
   open, setOpen, 
@@ -25,7 +25,7 @@ export default function PaymentModal({
 }) {
 
   const handleClose = () => setOpen(false);
-
+ 
   return (
 
       <Dialog
