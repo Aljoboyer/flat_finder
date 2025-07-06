@@ -6,15 +6,14 @@ import {
   IconButton
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-
 import { COLORS } from '@/theme/colors';
-import Checkoutform from '../Checkoutform/Checkoutform';
 import {loadStripe} from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
 import { CardContent, Chip } from '@mui/material';
 import { MdLocationOn } from "react-icons/md";
 import { Buttons } from '@/components/common/Buttons/Buttons';
 import { capitalizeFirstLetter } from '@/utils/stringHelper';
+import CheckoutForm from './CheckoutForm';
 
 const stripePromise =  loadStripe('pk_test_51Jw2mpBSwbB9BMbhsyE9VsMWMbgeGoz35VdXDYoB2C1QGFkx7JTaEG4FFXG3pyBkqupeooBX2z3nPu0zERZuO1Tw00ZtAW0Wtx');
 
@@ -63,8 +62,8 @@ export default function PaymentModal({
           </IconButton>
         </DialogTitle>
 
-        <div className="grid md:grid-cols-2">
-          <div className="w-full h-[200px] md:h-[400px]">
+        <div className="grid md:grid-cols-2 m-4">
+          <div className="w-full h-[200px] md:h-[450px] property_card">
             <img
               src={property?.images[0]}
               alt={property?.title}
@@ -73,7 +72,7 @@ export default function PaymentModal({
           </div>
 
           {/* Right: Payment Info */}
-          <CardContent className="bg-white px-6 py-8 flex flex-col justify-between">
+          <div className="bg-white px-6 py-8 flex flex-col justify-between property_card">
             {/* Property Info */}
             <div>
               <Chip
@@ -86,7 +85,7 @@ export default function PaymentModal({
                 }}
               />
               
-              <p className='text-basecolor font-semibold text-title'>{property?.title}</p>
+              <p className='text-basecolor font-bold text-p_lg'>{property?.title} </p>
 
               <div className='flex flex-row items-center my-2'>
                 <MdLocationOn className="text-basecolor" />
@@ -105,33 +104,17 @@ export default function PaymentModal({
                 </div>
               </div>
             </div>
-
-            <Elements  stripe={stripePromise}>
-                <Checkoutform />
-            </Elements>
-
             
-            <p className='text-psm text-gray-500 text-center'> Secure payment powered by Stripe</p>
-          </CardContent>
+            <Elements  stripe={stripePromise}>
+                <CheckoutForm/>
+            </Elements>
+            
+            
+          </div>
         </div>
 
-        <DialogActions sx={{ px: 3, pb: 2 }}>
-            <Buttons
-            bgColor={'white'}
-            textColor={COLORS.baseColor}
-            onClickHandler={handleClose}
-            title='Cancel'
-            other_style={{ border: `1px solid ${COLORS.baseColor}`, width: '150px'}}
-          />
+        <DialogActions sx={{ px: 3, pb: 2 ,}}>
 
-        <Buttons
-            bgColor={COLORS.baseColor}
-            textColor={COLORS.side_yellow}
-            // onClickHandler={confirmHandler}
-            title={'Pay Now'}
-            other_style={{ width: '150px'}}
-            isLoading={loading}
-          />
         </DialogActions>
       </Dialog>
   );

@@ -55,7 +55,7 @@ export default function page() {
 
     const actionHandler = async (action, reqId) => {
       const rentReq = rentReqList?.data?.find((item) => item?._id === reqId)
-      console.log('property ==>', rentReq)
+   
       if(action == 'payment'){
         setPropertyToPay(rentReq?.property)
         setTimeout(() => setPaymentModalShow(true), 1000)
@@ -91,35 +91,35 @@ export default function page() {
 
   return (
      <div className="bg-overlay  p-6 rounded-t-[20px]">
-              <CommonTabs 
-                value={value}
-                handleTabChange={handleTabChange}
-                tabsData={RentRequestTabData} 
-                tabWidth={islargeScreen ? '10%' : isMediumScreen ? '20%' : '50%'}
-                isPanelShow={false} polygonShape={true}/>
-            <div className="bg-white rounded-b-md p-4">
-                <div className="my-7">
-                  <FFTable
-                  actionHandler={actionHandler}
-                  loading={isFetching}
-                  tableHeader={tableHeader} 
-                  dataList={rentReqList?.data}/>
-                </div>
-                {
-                  rentReqList?.data?.length > 0 && <div className="flex flex-row justify-end">
-                  <FFPagination 
-                  perPage={perPage}
-                  handlePerPageChange={handlePerPageChange}
-                  handlePageChange={handlePageChange}
-                  totalPage={rentReqList?.totalPage} />
-                </div>
-                }
-            </div>
-            <PaymentModal
-            open={PaymentModalShow}
-            setOpen={setPaymentModalShow}
-            property={propertyToPay}
-            />
-        </div>
+        <CommonTabs 
+          value={value}
+          handleTabChange={handleTabChange}
+          tabsData={RentRequestTabData} 
+          tabWidth={islargeScreen ? '10%' : isMediumScreen ? '20%' : '50%'}
+          isPanelShow={false} polygonShape={true}/>
+          <div className="bg-white rounded-b-md p-4">
+              <div className="my-7">
+                <FFTable
+                actionHandler={actionHandler}
+                loading={isFetching}
+                tableHeader={tableHeader} 
+                dataList={rentReqList?.data}/>
+              </div>
+              {
+                rentReqList?.data?.length > 0 && <div className="flex flex-row justify-end">
+                <FFPagination 
+                perPage={perPage}
+                handlePerPageChange={handlePerPageChange}
+                handlePageChange={handlePageChange}
+                totalPage={rentReqList?.totalPage} />
+              </div>
+              }
+          </div>
+          <PaymentModal
+          open={PaymentModalShow}
+          setOpen={setPaymentModalShow}
+          property={propertyToPay}
+          />
+      </div>
   )
 }
