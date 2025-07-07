@@ -41,7 +41,7 @@
     {
         id: 'status',
         header_label: 'Status',
-        width: '150px'
+        width: '120px'
         
     },
 ]
@@ -76,7 +76,7 @@ export const sellerRentTableHeader = [
         id: 'message',
         header_label: 'Message',
         fieldType: 'text',
-        width: '300px'
+        width: '100px'
     },
     {
         id: 'buyer.name',

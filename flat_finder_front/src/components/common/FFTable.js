@@ -35,7 +35,7 @@ export default function FFTable({tableHeader,
         loading ?  <FFLoader/> : 
       <> 
         {
-         dataList?.length == 0  || !dataList ? <FFNodata/> : <Table sx={{ minWidth: 1000, tableLayout: 'fixed' }}aria-label="simple table">
+         dataList?.length == 0  || !dataList ? <FFNodata/> : <Table sx={{ minWidth: 800, tableLayout: 'fixed' }}aria-label="simple table">
         <TableHead sx={{backgroundColor: COLORS.overlay}}>
           <TableRow>
             {

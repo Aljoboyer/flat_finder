@@ -13,7 +13,6 @@ import { capitalizeFirstLetter } from '@/utils/stringHelper'
 import { successToast } from '@/utils/toaster/toaster'
 import { useMediaQuery } from '@mui/material'
 import {  useTheme } from '@mui/material/styles';
-import moment from 'moment'
 import React, { useEffect, useState } from 'react'
 
 export default function page() {
@@ -45,21 +44,21 @@ export default function page() {
           setStatusVal('accepted')
           const newTableHeader = sellerRentTableHeader.slice(0, -1)
 
-          newTableHeader.push({id: 'paymentLastDate', header_label: 'Payment EndDate', fieldType: 'date', width: '150px'},)
+          newTableHeader.push({id: 'paymentLastDate', header_label: 'Payment EndDate', fieldType: 'text', width: '150px'},)
 
           setTableHeader(newTableHeader)
         }
     }
     
     const fetchRentReq = () => {
-      rentReqListTrigger({ querys: `limit=${perPage}&page=${page}&status=${statusVal}&buyer=${userData?._id}&paymentLastDate=${selectedDate ? moment(selectedDate).format('YYYY-MM-DD') : ''}` });
+      rentReqListTrigger({ querys: `limit=${perPage}&page=${page}&status=${statusVal}&buyer=${userData?._id}&paymentLastDate=${selectedDate ? selectedDate?.format('DD/MM/YYYY') : ''}` });
     }
     
     useEffect(() => {
       if(userData?._id){
         fetchRentReq()
       }    
-    },[userData?._id, page, perPage, value,selectedDate])
+    },[userData?._id, page, perPage, value, selectedDate])
 
     const actionHandler = async (action, reqId) => {
       const rentReq = rentReqList?.data?.find((item) => item?._id === reqId)
@@ -118,9 +117,10 @@ export default function page() {
     setFilterObj({...filterObj, [id]: value})
     
   }
-  console.log(moment(selectedDate).format('YYYY-MM-DD'))
+console.log(selectedDate?.format('DD/MM/YYYY'));
+
   return (
-     <div className="bg-overlay  p-6 rounded-t-[20px]">
+     <div className="bg-overlay  p-6 rounded-t-[20px] h-screen">
               <CommonTabs 
                 value={value}
                 handleTabChange={handleTabChange}
