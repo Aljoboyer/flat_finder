@@ -81,7 +81,7 @@ export default function page({params}) {
       setReqModalShow(false)
     }
    }
-console.log('specificRentRequest?.data', specificRentRequest?.data)
+
   return (
     <div className='w-full p-2 lg:p-6'>
       {

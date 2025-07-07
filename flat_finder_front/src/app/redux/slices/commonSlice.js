@@ -6,17 +6,16 @@ import {createSlice} from '@reduxjs/toolkit';
 export const commonSlice = createSlice({
   name: 'commonstoreslice',
   initialState: {
-    count: 0,
+    profileImage: null,
   },
   reducers: {
-    setcounterHandler: (state, action) => {
-      console.log("Actions", action?.payload)
-      state.count += action.payload ;
+    setProfileImage: (state, action) => {
+      state.profileImage = action.payload ;
     },
   },
 });
 
-export const {setcounterHandler} =
+export const {setProfileImage} =
   commonSlice.actions;
 
 export const commonSliceReducer = commonSlice.reducer;

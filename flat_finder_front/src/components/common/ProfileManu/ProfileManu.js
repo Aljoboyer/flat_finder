@@ -11,6 +11,7 @@ import { Avatar } from "@mui/material";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { useRouter } from 'next/navigation';
 import { getLocalStorageData } from '@/utils/getLocalStorageData';
+import { useSelector } from 'react-redux';
 
 
 
@@ -19,7 +20,8 @@ export default function ProfileManu({manuItems}) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const userData = getLocalStorageData();
-  
+  const profileImage = useSelector((state) => state.commonstore.profileImage)
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -62,7 +64,7 @@ export default function ProfileManu({manuItems}) {
           aria-expanded={open ? 'true' : undefined}
         >
           <Avatar
-            src={userData?.image}
+            src={profileImage}
             alt='Ahan'
             sx={{ width: 44, height: 44, bgcolor: COLORS.baseColor }}
           />

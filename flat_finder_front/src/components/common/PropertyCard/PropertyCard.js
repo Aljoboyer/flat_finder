@@ -58,7 +58,7 @@ export default function PropertyCard({property}) {
 
              
             <div className="flex items-center my-4">
-              <Avatar src={property?.seller?.propertyName} alt={property?.seller?.name} className="mr-3" />
+              <Avatar src={property?.seller?.image} alt={property?.seller?.name} className="mr-3" />
               <div>
                 <p className="font-medium">{property?.seller?.name}</p>
                 <p className="text-sm text-gray-500">{property?.seller?.propertyName}</p>

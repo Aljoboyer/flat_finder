@@ -6,15 +6,20 @@ import { getLocalStorageData } from '@/utils/getLocalStorageData';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import FFLoader from '@/components/common/Loaders/FFLoader';
+import { useDispatch } from 'react-redux';
+import { setProfileImage } from '../redux/slices/commonSlice';
 
 export default function Layout({children}) {
   const userData = getLocalStorageData();
   const router = useRouter();
   const [loading, setLoading] = useState(true)
   const pathname = usePathname();
+  const dispatch = useDispatch()
 
   useEffect(() => {
     if(userData?.name){
+      dispatch(setProfileImage(userData?.image))
+
       if(userData?.role == 'seller'){
         router.push(pathname)
          setLoading(false)

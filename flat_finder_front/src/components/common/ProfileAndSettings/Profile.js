@@ -12,6 +12,8 @@ import { useLazyGetAreaNamesQuery } from '@/app/redux/features/dropDownApi';
 import { useUpdateProfileMutation } from '@/app/redux/features/profileApi';
 import { successToast } from '@/utils/toaster/toaster';
 import { uploadImage } from '@/helper/uploadImage';
+import { useDispatch } from 'react-redux';
+import { setProfileImage } from '@/app/redux/slices/commonSlice';
 
  export const updateLocalStorage = (dataObj) => {
       const userDataRaw = localStorage.getItem('ff_user');
@@ -28,7 +30,8 @@ export default function Profile() {
   const [updateProfile, {  }] = useUpdateProfileMutation();
   const [imgLoading , setImgLoading] = useState(false)
   const [loading, setLoading] = useState(false)
-  
+  const dispatch = useDispatch()
+
   const {
     handleSubmit,
     control,
@@ -45,9 +48,12 @@ export default function Profile() {
     if (file) {
       setSelectedImage(URL.createObjectURL(file));
       const uploadedData = await uploadImage(file, setImgLoading)
-      updateLocalStorage({...userData, image: uploadedData?.url})
+
       const profileUpdateRes = await updateProfile({_id: userData?._id, image: uploadedData?.url});
+
       if(profileUpdateRes?.data?.msg == 'updated successfully'){
+        updateLocalStorage({...userData, image: uploadedData?.url})
+        dispatch(setProfileImage(uploadedData?.url))
         successToast('Successfully Profile Picture Updated!')
       }
     }
@@ -66,7 +72,7 @@ export default function Profile() {
     const profileUpdateRes = await updateProfile(reqObj);
 
     if(profileUpdateRes?.data?.msg == 'updated successfully'){
-      updateLocalStorage(reqObj)
+      updateLocalStorage({...reqObj, image: userData?.image})
       successToast('Successfully Profile Updated!')
       setLoading(false)
     }
