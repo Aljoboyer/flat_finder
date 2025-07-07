@@ -33,6 +33,14 @@ const RentApi = api.injectEndpoints({
       invalidatesTags: ['allrentRequest'],
     }),
 
+    getRentBuyHistoryList: builder.query({
+      query: (data) => (
+        getListQueryCall('/rent/buy-history', data?.querys)
+      ),
+      providesTags: ["historylist"],
+    }),
+
+
   }),
 });
 
@@ -40,5 +48,6 @@ export const {
   useRequestForRentMutation,
   useLazyGetSingleRequestQuery,
   useLazyGetRentReqListQuery,
-  useRentReqActionMutation
+  useRentReqActionMutation,
+  useLazyGetRentBuyHistoryListQuery
 } = RentApi;

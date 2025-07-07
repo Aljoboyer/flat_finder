@@ -16,6 +16,6 @@ export const SellerSideManuList = [
 export const BuyerSideManuList = [
     { title: 'Dashboard', link: '/buyer-dashboard-home', icon: <DashboardIcon fontSize='20px'/>},
     { title: 'Your Requests', link: '/buyer-rent-requests', icon: <ApartmentIcon fontSize='20px'/>},
-    { title: 'Rent/Buy Hisory', link: '/', icon: <BusinessCenterSharpIcon fontSize='20px'/> },
+    { title: 'Rent/Buy Hisory', link: '/buyer-history', icon: <BusinessCenterSharpIcon fontSize='20px'/> },
     { title: 'Inbox', link: '', icon: <MdOutlineForwardToInbox fontSize='20px'/>},
   ];
