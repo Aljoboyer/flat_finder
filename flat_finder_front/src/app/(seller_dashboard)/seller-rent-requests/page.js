@@ -13,6 +13,7 @@ import { capitalizeFirstLetter } from '@/utils/stringHelper'
 import { successToast } from '@/utils/toaster/toaster'
 import { useMediaQuery } from '@mui/material'
 import {  useTheme } from '@mui/material/styles';
+import moment from 'moment'
 import React, { useEffect, useState } from 'react'
 
 export default function page() {
@@ -32,6 +33,7 @@ export default function page() {
     const [showMessageModal, setShowMessageModal] = useState(false);
     const [msg, setMsg] = useState('')
     const [tableHeader, setTableHeader] = useState([])
+    const [selectedDate, setSelectedDate] = useState(null);
 
     const handleTabChange = (event, newValue) => {
         setValue(newValue);
@@ -50,14 +52,14 @@ export default function page() {
     }
     
     const fetchRentReq = () => {
-      rentReqListTrigger({ querys: `limit=${perPage}&page=${page}&status=${statusVal}&buyer=${userData?._id}` });
+      rentReqListTrigger({ querys: `limit=${perPage}&page=${page}&status=${statusVal}&buyer=${userData?._id}&paymentLastDate=${selectedDate ? moment(selectedDate).format('YYYY-MM-DD') : ''}` });
     }
     
     useEffect(() => {
       if(userData?._id){
         fetchRentReq()
       }    
-    },[userData?._id, page, perPage, value])
+    },[userData?._id, page, perPage, value,selectedDate])
 
     const actionHandler = async (action, reqId) => {
       const rentReq = rentReqList?.data?.find((item) => item?._id === reqId)
@@ -116,7 +118,7 @@ export default function page() {
     setFilterObj({...filterObj, [id]: value})
     
   }
-
+  console.log(moment(selectedDate).format('YYYY-MM-DD'))
   return (
      <div className="bg-overlay  p-6 rounded-t-[20px]">
               <CommonTabs 
@@ -131,6 +133,9 @@ export default function page() {
                     filterFieldConfig={filterInputData}
                     onChangeHandler={filterChangeHandler}
                     onSearchHandler={onSearchHandler}
+                    datePickerShow={true}
+                    selectedDate={selectedDate}
+                    setSelectedDate={setSelectedDate} 
                 />
                 <div className="my-7">
                   <FFTable

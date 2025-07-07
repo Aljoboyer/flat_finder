@@ -3,6 +3,7 @@ import InputField from "@/components/common/Inputs/InputField";
 import { Buttons } from "@/components/common/Buttons/Buttons";
 import { COLORS } from "@/theme/colors";
 import AddHomeIcon from '@mui/icons-material/AddHome';
+import CustomDatePicker from './FFDatePicker/FFDatePicker';
 
 export default function FilterAndSearch({
     createBtnShow = true,
@@ -11,7 +12,9 @@ export default function FilterAndSearch({
     onChangeHandler,
     onSearchHandler,
     searchInputShow = true,
-    gridStyle = 'md:grid-cols-3'
+    gridStyle = 'md:grid-cols-3',
+    datePickerShow = false,
+    selectedDate, setSelectedDate,
 }) {
   return (
     <div>
@@ -28,7 +31,12 @@ export default function FilterAndSearch({
                 textColor={COLORS.side_yellow} other_style={{paddingY: '10px', marginTop: {xs: '15px',md: '0px'}, }}/>
             </div>
             }
-            
+            {
+              datePickerShow && <div className='mt-4 md:mt-0 w-full md:w-fit'>
+                <CustomDatePicker selectedDate={selectedDate} 
+                setSelectedDate={setSelectedDate}  />
+              </div>
+            }
         </div>
 
       <div className={`grid grid-cols-1 sm:grid-cols-2 ${gridStyle} gap-4`}>
