@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const RentRequestCollection = require("../../../models/rentRequest");
+const PaymentCollection = require("../../../models/payment");
 const PropertyCollection = require("../../../models/property");
 const { PaginationCalculate } = require('../../../helper/pagination');
 const { generateFilterQuery } = require('../../../helper/generateFilterQuery');
@@ -116,10 +117,48 @@ const getSpecificRentReqController = async (req, res) => {
   }
 };
 
+//get all rent history
+const getRentBuyHistoryController = async (req, res) => {
+  try {
+      const { skip , page, limit} = PaginationCalculate(req.query);
+      const query = generateFilterQuery(req.query)
+  
+      // Fetch filtered data with pagination
+      const  result = await PaymentCollection.find(query).sort({ createdAt: -1 }).skip(skip).limit(Number(limit)).populate([
+          {
+          path: 'property', 
+          select: '_id propertyId price city areaName advanceMoney title propertyType flatMeasurement images'
+          },
+          {
+          path: 'buyer',
+          select: 'name phone address email image _id'
+          },
+          {
+          path: 'seller',
+          select: 'name phone address propertyName email image _id'
+          }
+      ]);
+      const  totalCount = await PaymentCollection.countDocuments(query);
+
+      res.status(200).json({
+      data: result,
+      page: Number(page),
+      limit: Number(limit),
+      totalPage: Math.ceil(totalCount / limit),
+      totalData: totalCount
+      });
+  } catch (error) {
+
+    res.status(500).json({ message: "Rent Req Fetching Failed", error });
+  }
+};
+
+
 module.exports = {
  RentRequestController,
  getAllRentReqController,
  RentRequestActionController,
- getSpecificRentReqController
+ getSpecificRentReqController,
+ getRentBuyHistoryController
 };
   
