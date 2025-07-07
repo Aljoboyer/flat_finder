@@ -22,18 +22,25 @@ export default function FFTable({tableHeader,
     actionHandler
   }) {
   return (
-    <TableContainer component={Paper}  sx={{ overflowX: 'auto' }}>
+    <TableContainer component={Paper}  sx={{ overflowX: 'auto' ,
+       '&::-webkit-scrollbar': {
+      height: '8px', // Smaller height for horizontal scrollbar
+    },
+    '&::-webkit-scrollbar-thumb': {
+      backgroundColor: '#c1c1c1', // Scrollbar color
+      borderRadius: '8px',
+    }, }}>
       
       {
         loading ?  <FFLoader/> : 
       <> 
         {
-         dataList?.length == 0  || !dataList ? <FFNodata/> : <Table sx={{ minWidth: 1000 }} aria-label="simple table">
+         dataList?.length == 0  || !dataList ? <FFNodata/> : <Table sx={{ minWidth: 1000, tableLayout: 'fixed' }}aria-label="simple table">
         <TableHead sx={{backgroundColor: COLORS.overlay}}>
           <TableRow>
             {
               tableHeader?.map((header) => (
-                <TableCell sx={{fontWeight: '700' , fontSize: '16px', textAlign: 'center',}} key={header?.id}>{header?.header_label}</TableCell>
+                <TableCell sx={{fontWeight: '700' , fontSize: '16px', textAlign: 'center', width: header?.width}} key={header?.id}>{header?.header_label}</TableCell>
               ))
             }
           </TableRow>
@@ -43,7 +50,7 @@ export default function FFTable({tableHeader,
             <TableRow  key={row?._id}>
               {tableHeader.map((col) => (
                 
-                <TableCell key={col?.id}  sx={col?.isImageShow ? {display: 'flex', flexDirection: 'row', } : {textAlign: 'center',}} >
+                <TableCell key={col?.id}  sx={col?.isImageShow ? {display: 'flex', flexDirection: 'row', width: col?.width} : {textAlign: 'center', width: col?.width}} >
                   {col?.isImageShow && <Avatar sx={{marginRight: '5px'}} alt="Remy Sharp" src={row?.images ? row?.images[0] : col?.imageFieldKey ? getObjValue(row, col.imageFieldKey) : row?.property?.images[0] } />}
                   
                     <Box>

@@ -35,9 +35,12 @@ export default function page() {
         }
         else{
           setStatusVal('accepted')
-          const newTableHeader = buyerRentTableHeader.slice(0, -1)
-
-          newTableHeader.push({...tableHeaderActionObj, payBtn: true})
+          const sliceTableHeader = buyerRentTableHeader.slice(0, -1)
+          
+          const newTableHeader = [...sliceTableHeader, 
+            {id: 'paymentLastDate', header_label: 'Payment EndDate', fieldType: 'date', width: '150px'},
+            {...tableHeaderActionObj, payBtn: true, width: '150px'}
+          ] 
 
           setTableHeader(newTableHeader)
         }

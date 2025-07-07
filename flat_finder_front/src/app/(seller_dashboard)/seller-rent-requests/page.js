@@ -43,7 +43,7 @@ export default function page() {
           setStatusVal('accepted')
           const newTableHeader = sellerRentTableHeader.slice(0, -1)
 
-          newTableHeader.push({id: 'paymentLastDate', header_label: 'Payment EndDate', fieldType: 'date'},)
+          newTableHeader.push({id: 'paymentLastDate', header_label: 'Payment EndDate', fieldType: 'date', width: '150px'},)
 
           setTableHeader(newTableHeader)
         }
@@ -116,7 +116,6 @@ export default function page() {
     setFilterObj({...filterObj, [id]: value})
     
   }
-    console.log('rentReqList ===>' , rentReqList?.data)
 
   return (
      <div className="bg-overlay  p-6 rounded-t-[20px]">

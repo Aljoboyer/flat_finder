@@ -4,37 +4,44 @@
         header_label: 'Title',
         isImageShow: true,
         secondField: 'property.propertyId',
-        fieldType: 'text'
+        fieldType: 'text',
+        width: '300px'
     },
      {
         id: 'property.city',
         header_label: 'City',
-        fieldType: 'text'
+        fieldType: 'text',
+        width: '150px'
     },
       {
         id: 'property.areaName',
         header_label: 'AreaName',
-        fieldType: 'text'
+        fieldType: 'text',
+        width: '200px'
     },
     {
         id: 'property.price',
         header_label: 'Price',
         fieldType: 'number',
+        width: '200px'
     },
     {
         id: 'property.advanceMoney',
         header_label: 'AdvanceMoney',
-        fieldType: 'number'
+        fieldType: 'number',
+        width: '200px'     
     },
     {
         id: 'property.propertyType',
         header_label: 'PropertyType',
         makeFirstLaterCapital: true,
-        fieldType: 'text'
+        fieldType: 'text',
+        width: '100px'
     },
     {
         id: 'status',
         header_label: 'Status',
+        width: '150px'
         
     },
 ]
@@ -44,7 +51,8 @@ export const tableHeaderActionObj =      {
         header_label: 'Action',
         showActionbtn: true,
         cancelBtnShow: true,
-        approveBtnShow: false
+        approveBtnShow: false,
+        width: '80px'
     }
     
 export const buyerRentTableHeader = [
@@ -55,8 +63,10 @@ export const buyerRentTableHeader = [
         isImageShow: true,
         secondField: 'seller.propertyName',
         imageFieldKey: 'seller.image',
-        fieldType: 'text'
+        fieldType: 'text',
+        width: '200px'
     },
+     {id: 'createdAt', header_label: 'Request Date', fieldType: 'date', width: '150px'},
     tableHeaderActionObj
 ]
 
@@ -65,7 +75,8 @@ export const sellerRentTableHeader = [
     {
         id: 'message',
         header_label: 'Message',
-        fieldType: 'text'
+        fieldType: 'text',
+        width: '300px'
     },
     {
         id: 'buyer.name',
@@ -73,7 +84,8 @@ export const sellerRentTableHeader = [
         isImageShow: true,
         secondField: 'buyer.phone',
         imageFieldKey: 'seller.image',
-        fieldType: 'text'
+        fieldType: 'text',
+        width: '200px'
     },
     {...tableHeaderActionObj, approveBtnShow: true}
 ]
