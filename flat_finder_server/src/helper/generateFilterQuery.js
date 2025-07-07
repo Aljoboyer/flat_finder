@@ -15,7 +15,8 @@ const generateFilterQuery = (queryOptions) => {
           cityName,
           bathrooms,
           purpose,
-          property
+          property,
+          paymentLastDate
         } = queryOptions;
 
           
@@ -66,6 +67,10 @@ const generateFilterQuery = (queryOptions) => {
         }
         if(property){
             query.property = property;
+        }
+        console.log('checking ', paymentLastDate, typeof paymentLastDate)
+        if(paymentLastDate && paymentLastDate !== 'null' &&  paymentLastDate !== 'undefined'){
+            query.paymentLastDate = paymentLastDate
         }
     return query;
 }

@@ -4,6 +4,7 @@ const PaymentCollection = require("../../../models/payment");
 const PropertyCollection = require("../../../models/property");
 const { PaginationCalculate } = require('../../../helper/pagination');
 const { generateFilterQuery } = require('../../../helper/generateFilterQuery');
+const moment = require('moment');
 
 //Requesting For Rent
 const RentRequestController = async (req, res) => {
@@ -25,12 +26,13 @@ const getAllRentReqController = async (req, res) => {
   try {
       const { skip , page, limit} = PaginationCalculate(req.query);
       const query = generateFilterQuery(req.query)
-  
+    console.log('query ',query)
       // Fetch filtered data with pagination
       const  result = await RentRequestCollection.find(query).sort({ createdAt: -1 }).skip(skip).limit(Number(limit)).populate([
           {
           path: 'property', 
-          select: '_id propertyId price city areaName advanceMoney title propertyType flatMeasurement images'
+          select: '_id propertyId price city areaName advanceMoney title propertyType flatMeasurement images',
+
           },
           {
           path: 'buyer',
@@ -41,6 +43,7 @@ const getAllRentReqController = async (req, res) => {
           select: 'name phone address propertyName email image _id'
           }
       ]);
+
       const  totalCount = await RentRequestCollection.countDocuments(query);
 
       res.status(200).json({
@@ -68,7 +71,7 @@ const RentRequestActionController = async (req, res) => {
       const oneWeekLater = new Date();
       oneWeekLater.setDate(today.getDate() + 7);
 
-      const rentRequestAction = await RentRequestCollection.findByIdAndUpdate(id,{ status: status ,paymentLastDate: oneWeekLater});
+      const rentRequestAction = await RentRequestCollection.findByIdAndUpdate(id,{ status: status ,paymentLastDate: moment(oneWeekLater).format('DD/MM/YYYY')});
 
       const updatePropertyStatus = await PropertyCollection.findByIdAndUpdate(
         property_id,

@@ -30,7 +30,7 @@ const RentalRequestSchema = new mongoose.Schema({
     default: false
   },
   paymentLastDate:{
-    type: Date,
+    type: String,
     default: null
   },
 }, { timestamps: true });
