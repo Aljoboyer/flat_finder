@@ -113,6 +113,9 @@ export default function SellerProperties() {
     if(action == 'edit'){
       router.push(`/edit-property/${itemId}`)
     }
+    else if(action == 'view'){
+      router.push(`/property-details/${itemId}`)
+    }
     else if(action == 'active' || action == 'inactive'){
       const updatePropertyRes = await updateProperty({_id: itemId, status: action})
       console.log("updatePropertyRes", updatePropertyRes)

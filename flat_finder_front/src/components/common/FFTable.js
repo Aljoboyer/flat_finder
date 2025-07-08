@@ -63,6 +63,10 @@ export default function FFTable({tableHeader,
                       {
                         col?.fieldType == 'number' &&  <p className='text-psm font-medium'>{`${getObjValue(row, col.id)} ${col?.fieldType == 'number' && 'BDT'}`}</p>
                       }
+
+                       {
+                        col?.fieldType == 'size' &&  <p className='text-psm font-medium'>{`${getObjValue(row, col.id)} sqft`}</p>
+                      }
                       
                       {
                         col?.fieldType == 'text' && <>
@@ -74,7 +78,17 @@ export default function FFTable({tableHeader,
 
                        {col?.secondField && <p className='mt-2 text-gray-500 font-medium text-[12px]'>{getObjValue(row, col?.secondField)}</p>} 
                     </Box>
-                      {col?.showActionbtn && <ActionButton itemId={row?._id} actionHandler={actionHandler} editBtnShow={col?.editBtnShow} tableitem={row} approveBtnShow={col?.approveBtnShow} statusBtn={col?.statusBtn} cancelBtnShow={col?.cancelBtnShow} payBtn={col.payBtn}/>}
+                      {col?.showActionbtn && 
+                      <ActionButton 
+                      itemId={row?._id} 
+                      actionHandler={actionHandler} 
+                      editBtnShow={col?.editBtnShow} tableitem={row} 
+                      approveBtnShow={col?.approveBtnShow} 
+                      statusBtn={col?.statusBtn} 
+                      cancelBtnShow={col?.cancelBtnShow} 
+                      payBtn={col.payBtn}
+                      viewBtnShow={col.viewBtnShow}
+                      />}
                 </TableCell>
               ))}
             </TableRow>

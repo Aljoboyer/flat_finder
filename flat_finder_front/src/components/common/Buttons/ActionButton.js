@@ -3,7 +3,7 @@ import React from 'react'
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { COLORS } from '@/theme/colors';
-import { BsThreeDotsVertical } from "react-icons/bs";
+import { BsEye, BsThreeDotsVertical } from "react-icons/bs";
 import { FaRegEdit } from "react-icons/fa";
 import { FiSlash } from "react-icons/fi";
 import { getLocalStorageData } from '@/utils/getLocalStorageData';
@@ -30,6 +30,7 @@ export default function ActionButton({
     tableitem,
     cancelBtnShow,
     payBtn = false,
+    viewBtnShow
 }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const manuOpen = Boolean(anchorEl);
@@ -91,7 +92,9 @@ export default function ActionButton({
             {
                 editBtnShow && <ActionManuItem clickHandler={() => actionHandler('edit', itemId)} title="Edit" icon={<FaRegEdit className='mr-2'/>}/>
             }
-     
+            {
+                viewBtnShow && <ActionManuItem clickHandler={() => actionHandler('view', itemId)} title="View" icon={<BsEye className='mr-2'/>}/>
+            }
             {
                 approveBtnShow && <ActionManuItem 
                 clickHandler={() => actionHandler('accepted', itemId)}

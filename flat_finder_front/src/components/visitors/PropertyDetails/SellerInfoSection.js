@@ -52,7 +52,11 @@ const SellerInfoSection = ({propertyDetails, requestHandler, specificRentRequest
             specificRentRequest?.buyer?._id == userdata?._id ? <div className='flex flex-row items-center justify-center bg-successOverlay rounded-md py-2 text-blakshade'>
                   <CheckCircleOutlineIcon color="white" />
                   <p className='font-semibold text-p ms-2'>You’ve requested this property</p>
-            </div> : <Buttons
+            </div> : 
+            
+            <>
+              {
+                userdata?._id !== propertyDetails?.seller?._id && <Buttons
               onClickHandler={() => sendRequest()}
               title={`Send Request ${propertyDetails?.purpose == 'sell' ? 'To Buy' : 'For Rent'}`}
               bgColor={COLORS.overlay}
@@ -67,6 +71,8 @@ const SellerInfoSection = ({propertyDetails, requestHandler, specificRentRequest
                 border: `1px solid ${COLORS.baseColor}`,
               }}
             />
+              }
+            </>
            }
         <div
           onClick={() => {}}
