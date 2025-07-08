@@ -26,7 +26,7 @@ const getAllRentReqController = async (req, res) => {
   try {
       const { skip , page, limit} = PaginationCalculate(req.query);
       const query = generateFilterQuery(req.query)
-    console.log('query ',query)
+
       // Fetch filtered data with pagination
       const  result = await RentRequestCollection.find(query).sort({ createdAt: -1 }).skip(skip).limit(Number(limit)).populate([
           {

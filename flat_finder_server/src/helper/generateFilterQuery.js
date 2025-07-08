@@ -16,7 +16,8 @@ const generateFilterQuery = (queryOptions) => {
           bathrooms,
           purpose,
           property,
-          paymentLastDate
+          paymentLastDate,
+          createdAt
         } = queryOptions;
 
           
@@ -68,9 +69,15 @@ const generateFilterQuery = (queryOptions) => {
         if(property){
             query.property = property;
         }
-        console.log('checking ', paymentLastDate, typeof paymentLastDate)
+   
         if(paymentLastDate && paymentLastDate !== 'null' &&  paymentLastDate !== 'undefined'){
             query.paymentLastDate = paymentLastDate
+        }
+        if(createdAt  && createdAt !== 'null' &&  createdAt !== 'undefined'){
+              const start = new Date(createdAt); 
+            const end = new Date(new Date(createdAt).getTime() + 24 * 60 * 60 * 1000); 
+
+            query.createdAt = { $gte: start, $lt: end };
         }
     return query;
 }
