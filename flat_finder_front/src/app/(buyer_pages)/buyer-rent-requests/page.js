@@ -38,7 +38,7 @@ export default function page() {
           const sliceTableHeader = buyerRentTableHeader.slice(0, -1)
           
           const newTableHeader = [...sliceTableHeader, 
-            {id: 'paymentLastDate', header_label: 'Payment EndDate', fieldType: 'date', width: '150px'},
+            {id: 'paymentLastDate', header_label: 'Payment EndDate', fieldType: 'text', width: '150px'},
             {...tableHeaderActionObj, payBtn: true, width: '150px'}
           ] 
 

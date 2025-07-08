@@ -3,6 +3,7 @@ import { useLazyGetRentBuyHistoryListQuery } from '@/app/redux/features/rentApi'
 import PaymentModal from '@/components/buyer/Payment/PaymentModal'
 import FFPagination from '@/components/common/FFPagination'
 import FFTable from '@/components/common/FFTable'
+import FilterAndSearch from '@/components/common/FilterAndSearch'
 import { historyTableHeader } from '@/constant/tableConfig/historyTableConfig'
 import { buyerRentTableHeader, tableHeaderActionObj } from '@/constant/tableConfig/rentReqTableConfig'
 import { getLocalStorageData } from '@/utils/getLocalStorageData'
@@ -14,16 +15,17 @@ export default function page() {
     const [perPage, setPerPage] = useState(10);
     const [page, setPage] = useState(1);
     const userData = getLocalStorageData()
- 
+    const [selectedDate, setSelectedDate] = useState(null);
+
     const fetchRentReq = () => {
-      getRentBuyHistory({ querys: `limit=${perPage}&page=${page}&buyer=${userData?._id}` });
+      getRentBuyHistory({ querys: `limit=${perPage}&page=${page}&buyer=${userData?._id}&createdAt=${selectedDate ? selectedDate?.format('YYYY-MM-DD') : ''}` });
     }
 
     useEffect(() => {
       if(userData?._id){
         fetchRentReq()
       }    
-    },[userData?._id, page, perPage])
+    },[userData?._id, page, perPage, selectedDate])
 
     const actionHandler = () => {
         
@@ -42,6 +44,13 @@ export default function page() {
      <div className="bg-overlay  p-6 rounded-t-[20px] h-screen">
 
           <div className="bg-white rounded-b-md p-4">
+             <FilterAndSearch 
+                searchInputShow={false}
+                createBtnShow={false}
+                datePickerShow={true}
+                selectedDate={selectedDate}
+                setSelectedDate={setSelectedDate} 
+              />
               <div className="my-7">
                 <FFTable
                 actionHandler={actionHandler}

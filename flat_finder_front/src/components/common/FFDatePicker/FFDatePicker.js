@@ -15,18 +15,26 @@ const CustomDatePicker = ({
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
         <DesktopDatePicker
-          label="Select Date"
+          label="Search by Date"
           value={selectedDate}
           onChange={(newValue) => {
               setSelectedDate(newValue);
           }}
-          slotProps={{
+           slotProps={{
             textField: {
-              
               variant: 'outlined',
+              InputProps: {
+                sx: {
+                  height: '50px', 
+                  '& input': {
+                    height: '100%', 
+                    padding: '0 14px',
+                    boxSizing: 'border-box',
+                  },
+                },
+              },
               sx: {
-                
-                width: {xs: '100%', md: '100%', lg: '100%'},
+                width: { xs: '100%', md: '100%', lg: '100%' },
                 '& label.Mui-focused': {
                   color: '#017163',
                 },
@@ -44,6 +52,7 @@ const CustomDatePicker = ({
               },
             },
           }}
+            
         />
         {selectedDate && (
           <IconButton

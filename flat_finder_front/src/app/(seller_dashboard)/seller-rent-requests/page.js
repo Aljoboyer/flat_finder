@@ -51,7 +51,7 @@ export default function page() {
     }
     
     const fetchRentReq = () => {
-      rentReqListTrigger({ querys: `limit=${perPage}&page=${page}&status=${statusVal}&buyer=${userData?._id}&paymentLastDate=${selectedDate ? selectedDate?.format('DD/MM/YYYY') : ''}` });
+      rentReqListTrigger({ querys: `limit=${perPage}&page=${page}&status=${statusVal}&buyer=${userData?._id}&paymentLastDate=${(selectedDate && value == 1) ? selectedDate?.format('DD/MM/YYYY') : ''}&createdAt=${(selectedDate && value == 0) ? selectedDate?.format('YYYY-MM-DD') : ''}` });
     }
     
     useEffect(() => {
@@ -117,7 +117,7 @@ export default function page() {
     setFilterObj({...filterObj, [id]: value})
     
   }
-console.log(selectedDate?.format('DD/MM/YYYY'));
+
 
   return (
      <div className="bg-overlay  p-6 rounded-t-[20px] h-screen">

@@ -38,8 +38,9 @@ export default function FilterAndSearch({
               </div>
             }
         </div>
-
-      <div className={`grid grid-cols-1 sm:grid-cols-2 ${gridStyle} gap-4`}>
+        
+        {
+          filterFieldConfig && <div className={`grid grid-cols-1 sm:grid-cols-2 ${gridStyle} gap-4`}>
           {
             filterFieldConfig?.map((field) => (
                 <InputField 
@@ -57,6 +58,8 @@ export default function FilterAndSearch({
             ))
           }
         </div>
+        }
+
     </div>
   )
 }

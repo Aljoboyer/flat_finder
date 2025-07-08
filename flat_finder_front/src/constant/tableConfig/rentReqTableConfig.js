@@ -66,17 +66,24 @@ export const buyerRentTableHeader = [
         fieldType: 'text',
         width: '200px'
     },
-     {id: 'createdAt', header_label: 'Request Date', fieldType: 'date', width: '150px'},
+
     tableHeaderActionObj
 ]
 
 export const sellerRentTableHeader = [
     ...rentReqTableHeader,
+
     {
         id: 'message',
         header_label: 'Message',
         fieldType: 'text',
-        width: '100px'
+        width: '200px'
+    },
+    {
+        id: 'createdAt',
+        header_label: 'Requested Date',
+        fieldType: 'date',
+        width: '200px'
     },
     {
         id: 'buyer.name',

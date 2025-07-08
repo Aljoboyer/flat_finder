@@ -50,7 +50,8 @@ export default function FFTable({tableHeader,
             <TableRow  key={row?._id}>
               {tableHeader.map((col) => (
                 
-                <TableCell key={col?.id}  sx={col?.isImageShow ? {display: 'flex', flexDirection: 'row', width: col?.width} : {textAlign: 'center', width: col?.width}} >
+                <TableCell key={col?.id}  sx={col?.isImageShow ? {display: 'flex', flexDirection: 'row', width: col?.width, } : {textAlign: 'center', width: col?.width}} >
+                  
                   {col?.isImageShow && <Avatar sx={{marginRight: '5px'}} alt="Remy Sharp" src={row?.images ? row?.images[0] : col?.imageFieldKey ? getObjValue(row, col.imageFieldKey) : row?.property?.images[0] } />}
                   
                     <Box>
