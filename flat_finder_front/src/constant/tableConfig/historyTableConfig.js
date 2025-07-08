@@ -23,7 +23,7 @@ export const historyTableHeader = [
     {
         id: 'property.price',
         header_label: 'Price',
-        fieldType: 'text',
+        fieldType: 'number',
         width: '200px'
     },
     {
@@ -44,6 +44,38 @@ export const historyTableHeader = [
         id: 'createdAt',
         header_label: 'Payment Date',
         fieldType: 'date',
+        width: '200px'
+    },
+]
+
+export const buyerHistoryTableHeader = [
+    ...historyTableHeader,
+        {
+        id: 'seller.name',
+        header_label: 'Seller',
+        isImageShow: true,
+        secondField: 'seller.propertyName',
+        imageFieldKey: 'seller.image',
+        fieldType: 'text',
+        width: '200px'
+    },
+]
+
+export const sellerHistoryTableHeader = [
+    ...historyTableHeader,
+    {
+        id: 'paymentIntentId',
+        header_label: 'Transaction ID',
+        fieldType: 'text',
+        width: '200px'
+    },
+    {
+        id: 'buyer.name',
+        header_label: 'Buyer',
+        isImageShow: true,
+        secondField: 'buyer.phone',
+        imageFieldKey: 'buyer.image',
+        fieldType: 'text',
         width: '200px'
     },
 ]

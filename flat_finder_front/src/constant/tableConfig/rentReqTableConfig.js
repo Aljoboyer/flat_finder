@@ -90,7 +90,7 @@ export const sellerRentTableHeader = [
         header_label: 'Buyer',
         isImageShow: true,
         secondField: 'buyer.phone',
-        imageFieldKey: 'seller.image',
+        imageFieldKey: 'buyer.image',
         fieldType: 'text',
         width: '200px'
     },

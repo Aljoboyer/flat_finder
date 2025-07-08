@@ -22,12 +22,12 @@ export default function FFTable({tableHeader,
     actionHandler
   }) {
   return (
-    <TableContainer component={Paper}  sx={{ overflowX: 'auto' ,
+    <TableContainer component={Paper}  sx={{ overflowX: 'scroll' ,
        '&::-webkit-scrollbar': {
-      height: '8px', // Smaller height for horizontal scrollbar
+      height: '8px',
     },
     '&::-webkit-scrollbar-thumb': {
-      backgroundColor: '#c1c1c1', // Scrollbar color
+      backgroundColor: '#c1c1c1', 
       borderRadius: '8px',
     }, }}>
       
@@ -35,7 +35,7 @@ export default function FFTable({tableHeader,
         loading ?  <FFLoader/> : 
       <> 
         {
-         dataList?.length == 0  || !dataList ? <FFNodata/> : <Table sx={{ minWidth: 800, tableLayout: 'fixed' }}aria-label="simple table">
+         dataList?.length == 0  || !dataList ? <FFNodata/> : <Table sx={{ minWidth: 1000, tableLayout: 'fixed' }}aria-label="simple table">
         <TableHead sx={{backgroundColor: COLORS.overlay}}>
           <TableRow>
             {

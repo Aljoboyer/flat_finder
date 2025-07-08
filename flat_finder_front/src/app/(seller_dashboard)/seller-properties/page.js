@@ -176,7 +176,6 @@ export default function SellerProperties() {
               filterFieldConfig={filterInputData}
               onChangeHandler={filterChangeHandler}
               onSearchHandler={onSearchHandler}
-
             />
             <div className="my-7">
               <FFTable

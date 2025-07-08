@@ -41,7 +41,7 @@ export default function LayoutContainer({children}) {
   },[userData?.role])
 
   return (
-    <Box sx={{width: '100%' ,position: 'relative'}}>
+    <Box sx={{width: '100%' ,position: 'relative',}}>
       {/* <CssBaseline /> */}
       <LayoutNav handleDrawerOpen={handleDrawerOpen} />
       <Box sx={{width: '100%',  display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
