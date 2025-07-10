@@ -1,83 +1,90 @@
 import { getLocalStorageData } from '@/utils/getLocalStorageData'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Card, CardContent } from "@mui/material";
-import { Button } from "@mui/material";
 import { Avatar } from "@mui/material";
 import { Delete } from "@mui/icons-material";
+import { Buttons } from '../Buttons/Buttons';
+import { COLORS } from '@/theme/colors';
+import { useLazyGetFollowListQuery } from '@/app/redux/features/profileApi';
+import FFLoader from '../Loaders/FFLoader';
+import FFNodata from '../FFNodata';
 
-const followers = [
-  {
-    id: 1,
-    name: "Tanvir Ahmed",
-    phone: "+8801845702501",
-    avatar:
-      "https://randomuser.me/api/portraits/men/32.jpg",
-  },
-  {
-    id: 2,
-    name: "Ayesha Siddiqua",
-    phone: "+8801712345678",
-    avatar:
-      "https://randomuser.me/api/portraits/women/65.jpg",
-  },
-  
-  // Add more dummy followers...
-];
+export default function Follow({}) {
+  const userData = getLocalStorageData();
+  const [page, setPage] = useState(1);
+  const [perPage, setPerPage] = useState(10);
+  const [followListTrigger, { data: FollowList, isFetching}] = useLazyGetFollowListQuery();
 
-export default function Follow() {
   const handleRemove = (id) => {
     console.log("Remove follower with ID:", id);
   };
 
+  const handlePageChange = (event, value) => {
+    setPage(value);
+  };
+
+  const handlePerPageChange = (event) => {
+    setPerPage(Number(event.target.value));
+    setPage(1); 
+  };
+
+  useEffect(() => {
+    if(userData?.role == 'buyer'){
+         followListTrigger({ querys: `limit=${perPage}&page=${page}&buyer=${userData?._id}` });
+    }
+    else{
+        followListTrigger({ querys: `limit=${perPage}&page=${page}&seller=${userData?._id}` });
+    }
+  },[userData?.role])
+
   return (
-    <section className="p-6 bg-gray-50 min-h-screen">
-      <h2 className="text-2xl font-semibold mb-6 text-gray-800">Followers</h2>
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {followers.map((follower) => (
+     <div className=" p-4 bg-white rounded p-0 md:p-4 lg:p-6 ">
+          {
+            isFetching ? <FFLoader/> : <>
+              {
+                FollowList?.data?.length == 0 ? <FFNodata/> : <div className={`grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 ${userData?.role == 'buyer' ? 'lg:grid-cols-3' : 'lg:grid-cols-4'}  gap-4`}>
+        { FollowList?.data?.map((item) => (
           <Card
-            key={follower.id}
-            className="w-full shadow-md rounded-2xl"
+            key={item?._id}
+            className="w-full shadow-md rounded-xl"
             sx={{
               borderRadius: "1rem",
-            //   transition: "all 0.3s",
-            //   ":hover": {
-            //     boxShadow: 6,
-            //   },
+              padding: '0px'
             }}
           >
             <CardContent className="flex items-center justify-between">
-              <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-4 ">
                 <Avatar
-                  src={follower.avatar}
-                  alt={follower.name}
+                  src={userData?.role == 'buyer' ? item?.seller?.image : item?.buyer?.image}
+                  alt={userData?.role == 'buyer' ? item?.seller?.name : item?.buyer?.name}
                   sx={{ width: 56, height: 56 }}
                 />
                 <div>
-                  <h3 className="text-lg font-medium text-gray-900">
-                    {follower.name}
+                  <h3 className="text-p_lg font-medium text-basecolor">
+                    {userData?.role == 'buyer' ? item?.seller?.name : item?.buyer?.name}
                   </h3>
-                  <p className="text-sm text-gray-600">{follower.phone}</p>
+                  <p className="text-sm text-gray-600">{userData?.role == 'buyer' ? item?.seller?.propertyName : item?.buyer?.address?.city}</p>
                 </div>
               </div>
-              <Button
-                variant="outlined"
-                color="error"
-                startIcon={<Delete />}
-                onClick={() => handleRemove(follower.id)}
-                sx={{
-                  transition: "all 0.3s ease",
-                  "&:hover": {
-                    boxShadow: 4,
-                    transform: "scale(1.0)",
-                  },
-                }}
-              >
-                Remove
-              </Button>
+
+             {
+              userData?.role == 'buyer' &&  <Buttons
+              title='Remove'
+              bgColor='white'
+              textColor={COLORS.baseColor}
+              icon={<Delete color='red'/>}
+              onClickHandler={() => handleRemove(item._id)}
+              other_style={{width: '110px'}}
+              />
+             }
             </CardContent>
           </Card>
         ))}
       </div>
-    </section>
+              }
+            </>
+          }
+     </div>
+    
   );
 }
