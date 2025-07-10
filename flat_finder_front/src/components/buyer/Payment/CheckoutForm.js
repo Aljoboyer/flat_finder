@@ -71,16 +71,17 @@ export default function CheckoutForm({property, handleClose}) {
           return;
         }
         else{
+            const secretArray =  paymentIntent.client_secret.split('_')
             const reqObj = {
               _id: property?._id,
               property: property?.property?._id,
               buyer: property?.buyer?._id,
               seller: property?.seller?._id,
               amount: property?.property?.advanceMoney,
-              paymentIntentId: paymentIntent.client_secret.slice('_secret')[0],
+              paymentIntentId: secretArray[secretArray.length - 1],
               paidAt: new Date().toLocaleDateString()
             }
-            
+
           const paymentRes = await completePayment(reqObj)
 
           if(paymentRes?.data?.msg == 'payment success'){
@@ -115,16 +116,14 @@ export default function CheckoutForm({property, handleClose}) {
         </div>
       }
 
-        
         <div className='my-4'>
-
-        <Buttons
-            bgColor={COLORS.baseColor}
-            textColor={COLORS.side_yellow}
-            title={'Pay Now'}
-            other_style={{ fontWeigth: 'bold'}}
-            isLoading={processing}
-          />
+          <Buttons
+              bgColor={COLORS.baseColor}
+              textColor={COLORS.side_yellow}
+              title={'Pay Now'}
+              other_style={{ fontWeigth: 'bold'}}
+              isLoading={processing}
+            />
             <p className='text-psm text-gray-500 my-2 text-center'> Secure payment powered by Stripe</p>
         </div>
     </form>

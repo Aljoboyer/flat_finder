@@ -9,7 +9,6 @@ import ListItemText from '@mui/material/ListItemText';
 import { Divider, Typography, useMediaQuery } from '@mui/material';
 import { styled, useTheme } from '@mui/material/styles';
 import CloseIcon from '@mui/icons-material/Close';
-import { useDispatch } from 'react-redux';
 import { COLORS } from '@/theme/colors';
 import { TbHomeSearch } from "react-icons/tb";
 import { usePathname, useRouter } from 'next/navigation';
@@ -18,7 +17,6 @@ const DrawerHeader = styled('div')(({ theme }) => ({
     display: 'flex',
     alignItems: 'center',
     padding: theme.spacing(0, 1),
-    // necessary for content to be below app bar
     ...theme.mixins.toolbar,
     justifyContent: 'flex-end',
   }));
@@ -30,8 +28,7 @@ const LayoutSidebar = ({open, handleDrawerClose, sideManuList}) => {
     const isLargeScreen = useMediaQuery(theme.breakpoints.up('lg')); 
     const isMediumScreen = useMediaQuery(theme.breakpoints.up('md'));
     const isXtraScreen = useMediaQuery(theme.breakpoints.up('xl'));
-    const dispatch = useDispatch()
-      const pathname = usePathname();
+    const pathname = usePathname();
 
   return (
     <Drawer

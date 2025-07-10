@@ -42,14 +42,12 @@ export default function LayoutContainer({children}) {
 
   return (
     <Box sx={{width: '100%' ,position: 'relative',}}>
-      {/* <CssBaseline /> */}
       <LayoutNav handleDrawerOpen={handleDrawerOpen} />
       <Box sx={{width: '100%',  display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
 
           <LayoutSidebar sideManuList={sideManuList} open={open} handleDrawerClose={handleDrawerClose}/>
 
           <Box className='ease-in-out duration-500' sx={{width: open && isLargeScreen ? '85%' : '100%', marginX: 'auto',}}>
-              {/* <DrawerHeader /> */}
             {children}
           </Box>
       </Box>

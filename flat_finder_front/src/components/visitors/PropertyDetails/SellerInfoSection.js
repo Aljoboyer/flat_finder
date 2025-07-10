@@ -49,7 +49,7 @@ const SellerInfoSection = ({propertyDetails, requestHandler, specificRentRequest
             </p>
         </div>
            {
-            specificRentRequest?.buyer?._id == userdata?._id ? <div className='flex flex-row items-center justify-center bg-successOverlay rounded-md py-2 text-blakshade'>
+           ( specificRentRequest?.buyer?._id == userdata?._id && userdata?._id) ? <div className='flex flex-row items-center justify-center bg-successOverlay rounded-md py-2 text-blakshade'>
                   <CheckCircleOutlineIcon color="white" />
                   <p className='font-semibold text-p ms-2'>You’ve requested this property</p>
             </div> : 

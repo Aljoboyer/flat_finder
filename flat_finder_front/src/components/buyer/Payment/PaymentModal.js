@@ -92,7 +92,6 @@ export default function PaymentModal({
                 <p className='text-blackshade text-p font-medium'>{property?.property?.city}, {property?.property?.areaName}</p>
               </div>
 
-              {/* Pricing Section */}
               <div className="mt-6 space-y-2">
                 <div className="flex justify-between">
                   <p className='text-blackshade text-p_lg font-semibold'>Price:</p>
