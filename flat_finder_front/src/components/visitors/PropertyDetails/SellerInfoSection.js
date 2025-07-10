@@ -9,7 +9,9 @@ import { BsChat } from 'react-icons/bs';
 import { TbPhone } from 'react-icons/tb';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 
-const SellerInfoSection = ({propertyDetails, requestHandler, specificRentRequest})=> {
+const SellerInfoSection = ({propertyDetails, 
+  requestHandler, specificRentRequest, 
+  followHandler, followLoading})=> {
   const router = useRouter();
  
   const userdata = getLocalStorageData();
@@ -56,7 +58,7 @@ const SellerInfoSection = ({propertyDetails, requestHandler, specificRentRequest
             
             <>
               {
-                userdata?._id !== propertyDetails?.seller?._id && <Buttons
+               userdata?.role == 'buyer' &&<Buttons
               onClickHandler={() => sendRequest()}
               title={`Send Request ${propertyDetails?.purpose == 'sell' ? 'To Buy' : 'For Rent'}`}
               bgColor={COLORS.overlay}
@@ -74,7 +76,8 @@ const SellerInfoSection = ({propertyDetails, requestHandler, specificRentRequest
               }
             </>
            }
-        <div
+           {
+           userdata?.role == 'buyer' && <div
           onClick={() => {}}
           className="bg-basecolor w-full h-[40px] flex flex-row justify-center items-center rounded-sm cursor-pointer mt-4"
         >
@@ -83,6 +86,8 @@ const SellerInfoSection = ({propertyDetails, requestHandler, specificRentRequest
            Message merchant
           </p>
         </div>
+           }
+
       </div>
 
       <div className="w-full bg-overlay p-2 md:p-4 lg:p-4 mt-4 h-[370px]">
@@ -128,12 +133,19 @@ const SellerInfoSection = ({propertyDetails, requestHandler, specificRentRequest
                   <LocationOn color={COLORS.baseColor}/> {propertyDetails?.seller?.address?.city} , {propertyDetails?.seller?.address?.country}
                 </p>
               </div>
-              <Buttons 
+
+              {
+              userdata?.role == 'buyer' && <Buttons 
+              onClickHandler={followHandler}
               other_style={{fontSize: '16px', fontWeight: '600', marginTop: '80px'}}
               icon={<Beenhere style={{marginRight: '5px'}}/>}
               title='Follow Seller for Updates' 
               bgColor={COLORS.side_yellow} 
-              textColor={COLORS.baseColor} />
+              textColor={COLORS.baseColor} 
+              isLoading={followLoading}
+              />
+              }
+
           </div>
       </div>
     </div>

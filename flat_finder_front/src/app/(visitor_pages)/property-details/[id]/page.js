@@ -1,5 +1,6 @@
 "use client"
 
+import { useFollowCheckMutation, useFollowSellerMutation } from '@/app/redux/features/profileApi';
 import { useLazyGetPropertyListQuery, useLazyGetSinglePropertyQuery } from '@/app/redux/features/propertyApi';
 import { useLazyGetSingleRequestQuery, useRequestForRentMutation } from '@/app/redux/features/rentApi';
 import CommonTabs from '@/components/common/CommonTabs/CommonTabs';
@@ -30,6 +31,8 @@ export default function page({params}) {
   const [propertyListTrigger, { data: propertyList,  isFetching}] = useLazyGetPropertyListQuery();
   const [requestForRent, { isLoading }] = useRequestForRentMutation();
   const [getSingleRentequest, { data: specificRentRequest}] = useLazyGetSingleRequestQuery();
+  const [followCheckTrigger, {  }] = useFollowCheckMutation();
+  const [followSeller, { isLoading: followLoading }] = useFollowSellerMutation();
   const [reqModalShow, setReqModalShow] = useState(false)
   const [note, setNote] = useState(requestNote);
   const userdata = getLocalStorageData()
@@ -44,7 +47,7 @@ export default function page({params}) {
      
      if(id){
        propertyTrigger({querys: `id=${id}`})
-        getSingleRentequest({querys: `buyer=${userdata?._id}&property=${id}`})
+       getSingleRentequest({querys: `buyer=${userdata?._id}&property=${id}`})
      }
    },[id])
 
@@ -82,6 +85,36 @@ export default function page({params}) {
     }
    }
 
+   const followCheck = async () => {
+    const followCheckRes = await followCheckTrigger({
+      buyer: userdata?._id,
+      seller: property?.data?.seller?._id, 
+      unFollow: false
+    })
+    console.log('checking ===>', followCheckRes)
+   }
+   
+   useEffect(() => {
+      if(userdata?.role == 'buyer'){
+        followCheck()
+      }
+   },[userdata?.role])
+
+   const followHandler = async () => {
+    const reqObj = {
+      connectionRoamId: property?.data?.seller?._id,
+      buyer: userdata?._id,
+      seller: property?.data?.seller?._id
+    }
+    const followRes = await followSeller(reqObj)
+     console.log('checking ===>', followCheckRes)
+
+    if(followRes?.data?.msg == 'Connection posted Successfully'){
+      successToast('Following Successfull')
+      followCheck()
+    }
+   }
+
   return (
     <div className='w-full p-2 lg:p-6'>
       {
@@ -94,7 +127,12 @@ export default function page({params}) {
 
                 <SellerInfoSection  
                 specificRentRequest={specificRentRequest?.data}
-                requestHandler={requestHandler} propertyDetails={property?.data}  />
+                requestHandler={requestHandler} 
+                propertyDetails={property?.data}  
+                followHandler={followHandler}
+                followLoading={followLoading}
+                />
+
               </div>
               
               <div className='p-4 md:p-6'>

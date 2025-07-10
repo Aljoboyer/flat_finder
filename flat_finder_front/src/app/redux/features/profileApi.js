@@ -19,10 +19,27 @@ const ProfileApi = api.injectEndpoints({
       
     }),
 
+    followSeller: builder.mutation({
+      query: (requestBody) =>(
+        mutationCall('/user/follow','POST', requestBody)
+      ),
+    
+    }),
+
+    followCheck: builder.mutation({
+      query: (requestBody) =>(
+        mutationCall('/user/check-follow','POST', requestBody)
+      ),
+    
+    }),
+
+
   }),
 });
 
 export const {
   useUpdateProfileMutation,
-  useChangePasswordMutation
+  useChangePasswordMutation,
+  useFollowCheckMutation,
+  useFollowSellerMutation,
 } = ProfileApi;
