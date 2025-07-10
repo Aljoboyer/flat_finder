@@ -1,5 +1,5 @@
 const verifyJWT = require("../../middlewares/authChecker");
-const { ConnectionController, followCheckController } = require("../controllers/user_controllers/follow_controllers");
+const { ConnectionController, followCheckController, getAllFollowController } = require("../controllers/user_controllers/follow_controllers");
 const { getSpecificUser, updateProfileController, 
     sellerDetailsController, changePasswordController } = require("../controllers/user_controllers/profile_controllers");
 
@@ -11,5 +11,6 @@ router.get("/seller-details", verifyJWT(), sellerDetailsController);
 router.post("/follow", verifyJWT(), ConnectionController);
 router.put("/password-change", verifyJWT(), changePasswordController);
 router.post("/check-follow", verifyJWT(), followCheckController);
+router.get("/all-follow", verifyJWT(), getAllFollowController);
 
 module.exports = router;
