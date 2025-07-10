@@ -17,7 +17,8 @@ const generateFilterQuery = (queryOptions) => {
           purpose,
           property,
           paymentLastDate,
-          createdAt
+          createdAt,
+          buyer,
         } = queryOptions;
 
           
@@ -59,6 +60,9 @@ const generateFilterQuery = (queryOptions) => {
         }
         if(seller){
             query.seller = seller
+        }
+        if(buyer){
+            query.buyer = buyer
         }
         if (searchKey) {
             query.propertyId = { $regex: searchKey, $options: 'i' }; 

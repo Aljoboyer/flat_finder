@@ -1,5 +1,7 @@
 const ConnectionCollection = require("../../../models/connection");
 const { ObjectId } = require('mongodb');
+const { PaginationCalculate } = require("../../../helper/pagination");
+const { generateFilterQuery } = require("../../../helper/generateFilterQuery");
 
 //Creating Connection
 const ConnectionController = async (req, res) => {
@@ -48,23 +50,32 @@ const followCheckController = async (req, res) => {
   };
 
 const getAllFollowController = async (req, res) => {
-  
-    const query= req.query;
+    
+    const query = generateFilterQuery(req.query)
+    const { skip , page, limit} = PaginationCalculate(req.query);
 
     try {
-      if(query?.seller){
-        const seller = ObjectId.createFromHexString(query?.seller);
+        const  result = await ConnectionCollection.find(query).sort({ createdAt: -1 }).skip(skip).limit(Number(limit)).populate([
+          {
+          path: 'buyer',
+          select: 'name phone address image _id'
+          },
+          {
+          path: 'seller',
+          select: 'name address propertyName image _id'
+          }
+      ]);
       
-        const result = await ConnectionCollection.find({seller: seller});
+      const  totalCount = await ConnectionCollection.countDocuments(query);
+  
+      res.status(200).json({
+        data: result,
+        page: Number(page),
+        limit: Number(limit),
+        totalPage: Math.ceil(totalCount / limit),
+        totalData: totalCount
+      });
 
-         res.status(201).json({ result });
-      }else{
-        const buyer = ObjectId.createFromHexString(query?.buyer);
-      
-        const result = await ConnectionCollection.find({buyer: buyer});
-
-        res.status(201).json({ result });
-      }
     } catch (error) {
       res.status(500).json({ message: "Connection get Failed" , error});
       console.log(error);
