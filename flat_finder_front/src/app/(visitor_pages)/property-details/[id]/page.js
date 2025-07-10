@@ -36,7 +36,8 @@ export default function page({params}) {
   const [reqModalShow, setReqModalShow] = useState(false)
   const [note, setNote] = useState(requestNote);
   const userdata = getLocalStorageData()
-
+  const [followData, setFollowData] = useState({});
+  
   const { id } = params;
   
     const sellerPropertyFetch = () => {
@@ -91,14 +92,15 @@ export default function page({params}) {
       seller: property?.data?.seller?._id, 
       unFollow: false
     })
-    console.log('checking ===>', followCheckRes)
+    
+    setFollowData(followCheckRes?.data?.result)
    }
    
    useEffect(() => {
-      if(userdata?.role == 'buyer'){
+      if(userdata?.role == 'buyer' &&  property?.data?.seller?._id){
         followCheck()
       }
-   },[userdata?.role])
+   },[userdata?.role,  property?.data?.seller?._id])
 
    const followHandler = async () => {
     const reqObj = {
@@ -107,7 +109,7 @@ export default function page({params}) {
       seller: property?.data?.seller?._id
     }
     const followRes = await followSeller(reqObj)
-     console.log('checking ===>', followCheckRes)
+     console.log('checking ===>', followRes)
 
     if(followRes?.data?.msg == 'Connection posted Successfully'){
       successToast('Following Successfull')
@@ -131,6 +133,7 @@ export default function page({params}) {
                 propertyDetails={property?.data}  
                 followHandler={followHandler}
                 followLoading={followLoading}
+                followData={followData}
                 />
 
               </div>

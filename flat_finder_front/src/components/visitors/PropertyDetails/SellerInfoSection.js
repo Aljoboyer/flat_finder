@@ -8,10 +8,13 @@ import React from 'react';
 import { BsChat } from 'react-icons/bs';
 import { TbPhone } from 'react-icons/tb';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import { IoShieldCheckmark } from "react-icons/io5";
 
 const SellerInfoSection = ({propertyDetails, 
   requestHandler, specificRentRequest, 
-  followHandler, followLoading})=> {
+  followHandler, followLoading,followData
+
+})=> {
   const router = useRouter();
  
   const userdata = getLocalStorageData();
@@ -135,7 +138,12 @@ const SellerInfoSection = ({propertyDetails,
               </div>
 
               {
-              userdata?.role == 'buyer' && <Buttons 
+              userdata?.role == 'buyer' &&  <>
+              {
+               followData?.buyer == userdata?._id ? <div className='flex flex-row items-center justify-center bg-blue-800  rounded-md py-2  mt-[80px] w-[200px] mx-auto'>
+                  <IoShieldCheckmark color="white" />
+                  <p className='font-semibold text-p ms-2 text-white '>Following</p>
+            </div>  : <Buttons 
               onClickHandler={followHandler}
               other_style={{fontSize: '16px', fontWeight: '600', marginTop: '80px'}}
               icon={<Beenhere style={{marginRight: '5px'}}/>}
@@ -144,6 +152,8 @@ const SellerInfoSection = ({propertyDetails,
               textColor={COLORS.baseColor} 
               isLoading={followLoading}
               />
+              }
+              </>
               }
 
           </div>
