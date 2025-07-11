@@ -40,7 +40,7 @@ export default function PropertyFormImg({
             
             {/* Image */}
            {
-            currentDeletingImg == item  ? <FFLoader2/> : <img
+            currentDeletingImg == item  ? <div className='w-[100px] h-[50px] mx-auto'><FFLoader2/> </div> : <img
               src={item}
               alt="Sample"
               className="w-full h-28 sm:h-32 md:h-36 lg:h-40 object-contain"

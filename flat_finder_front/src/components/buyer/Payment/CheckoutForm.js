@@ -95,7 +95,7 @@ export default function CheckoutForm({property, handleClose}) {
   return (
     <form className="w-full" onSubmit={handleSubmit}>
       {
-        intentLoading ? <FFLoader2/> : <div className="border border-gray-300 rounded-md p-4 bg-white">
+        intentLoading ? <div className='w-[100px] h-[50px] mx-auto'><FFLoader2/> </div> : <div className="border border-gray-300 rounded-md p-4 bg-white">
         <CardElement
           options={{
             style: {

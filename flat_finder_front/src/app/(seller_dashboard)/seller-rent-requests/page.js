@@ -51,7 +51,7 @@ export default function page() {
     }
     
     const fetchRentReq = () => {
-      rentReqListTrigger({ querys: `limit=${perPage}&page=${page}&status=${statusVal}&buyer=${userData?._id}&paymentLastDate=${(selectedDate && value == 1) ? selectedDate?.format('DD/MM/YYYY') : ''}&createdAt=${(selectedDate && value == 0) ? selectedDate?.format('YYYY-MM-DD') : ''}` });
+      rentReqListTrigger({ querys: `limit=${perPage}&page=${page}&status=${statusVal}&seller=${userData?._id}&paymentLastDate=${(selectedDate && value == 1) ? selectedDate?.format('DD/MM/YYYY') : ''}&createdAt=${(selectedDate && value == 0) ? selectedDate?.format('YYYY-MM-DD') : ''}` });
     }
     
     useEffect(() => {

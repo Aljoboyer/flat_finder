@@ -149,7 +149,7 @@ export default function PropertyForm({property}) {
            <div className="bg-white rounded-md p-4">
 
             {
-              imgLoading ? <FFLoader2 /> : <ImageUpload 
+              imgLoading ? <div className='w-[100px] h-[50px] mx-auto'><FFLoader2/> </div> : <ImageUpload 
              
               imageUploadHandler={imageUploadHandler} 
               ImageResolution={2000}
