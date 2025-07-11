@@ -1,7 +1,7 @@
 "use client"
 
 import { useFollowCheckMutation, useFollowSellerMutation } from '@/app/redux/features/profileApi';
-import { useLazyGetPropertyListQuery, useLazyGetSinglePropertyQuery } from '@/app/redux/features/propertyApi';
+import { useLazyGetPropertyListQuery, useLazyGetSinglePropertyQuery, useSavePropertyMutation } from '@/app/redux/features/propertyApi';
 import { useLazyGetSingleRequestQuery, useRequestForRentMutation } from '@/app/redux/features/rentApi';
 import CommonTabs from '@/components/common/CommonTabs/CommonTabs';
 import FFNodata from '@/components/common/FFNodata';
@@ -33,6 +33,7 @@ export default function page({params}) {
   const [getSingleRentequest, { data: specificRentRequest}] = useLazyGetSingleRequestQuery();
   const [followCheckTrigger, {  }] = useFollowCheckMutation();
   const [followSeller, { isLoading: followLoading }] = useFollowSellerMutation();
+  const [saveProperty, { isLoading: saveLoading }] = useSavePropertyMutation();
   const [reqModalShow, setReqModalShow] = useState(false)
   const [note, setNote] = useState(requestNote);
   const userdata = getLocalStorageData()
@@ -116,6 +117,21 @@ export default function page({params}) {
     }
    }
 
+   const propertySave = async(id) => {
+      const reqObj = {
+        seller: property?.data?.seller?._id,
+        buyer: userdata?._id,
+        property: id
+      }
+      const saveRes = await saveProperty(reqObj);
+
+      if(saveRes?.data?.msg == 'Property Saved Successfully'){
+        successToast('Property Saved Successfully')
+      }else{
+        errorToast('Saving Failed')
+      }
+   }
+
   return (
     <div className='w-full p-2 lg:p-6'>
       {
@@ -133,6 +149,8 @@ export default function page({params}) {
                 followHandler={followHandler}
                 followLoading={followLoading}
                 followData={followData}
+                propertySave={propertySave}
+                saveLoading={saveLoading}
                 />
 
               </div>

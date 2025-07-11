@@ -1,7 +1,7 @@
 "use client"
 
 import { useLazyGetAreaNamesQuery } from "@/app/redux/features/dropDownApi";
-import { useLazyGetPropertyListQuery } from "@/app/redux/features/propertyApi";
+import { useLazyGetPropertyListQuery, useSavePropertyMutation } from "@/app/redux/features/propertyApi";
 import { Buttons } from "@/components/common/Buttons/Buttons";
 import FFDrawer from "@/components/common/FFDrawer/FFDrawer";
 import FFNodata from "@/components/common/FFNodata";
@@ -12,7 +12,9 @@ import SkeletonPropertyCard from "@/components/common/Loaders/SkeletonPropertyCa
 import PropertyCard from "@/components/common/PropertyCard/PropertyCard";
 import { filterFieldConfig } from "@/constant/formConfigs/filterConfig";
 import { COLORS } from "@/theme/colors";
+import { getLocalStorageData } from "@/utils/getLocalStorageData";
 import { capitalizeFirstLetter } from "@/utils/stringHelper";
+import { errorToast, successToast } from "@/utils/toaster/toaster";
 import { ArrowForwardIosOutlined } from "@mui/icons-material";
 import {  useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -30,11 +32,14 @@ export default function SearchProperty() {
   const [priceRange, setPriceRange] = useState([0, 1000000]);
   const [sqrftRange, setSqrftRange] = useState([0, 5000]);
   const [areaNameTrigger, { data: areaNameList}] = useLazyGetAreaNamesQuery();
+  const [saveProperty, { isLoading: saveLoading }] = useSavePropertyMutation();
+  const [savingPropertyId, setSavingPropertyId] = useState('')
 
   const searchParams = useSearchParams()
   const propertyType = searchParams.get('propertyType')
   const city = searchParams.get('city')
   const areaName = searchParams.get('areaName')
+  const userdata = getLocalStorageData();
 
    const propertyFetch = () => {
     propertyListTrigger({ querys: `limit=${perPage}&page=${page}&status=active&searchKey=${searchKey}&city=${filterObj?.city}&areaName=${filterObj?.areaName }&minSqft=${filterObj?.minSqft}&maxSqft=${filterObj?.maxSqft}&bedRooms=${filterObj?.bedRooms}&bathRooms=${filterObj?.bathRooms}&propertyType=${filterObj?.propertyType}&minPrice=${filterObj?.minPrice}&maxPrice=${filterObj?.maxPrice}&purpose=${filterObj?.purpose}` });
@@ -162,6 +167,27 @@ export default function SearchProperty() {
     }
   },[propertyType])
 
+  const propertySaveHandler = async (e, property) => {
+      e.stopPropagation();
+      
+      setSavingPropertyId(property?._id)
+
+      const reqObj = {
+        seller: property?.seller?._id,
+        buyer: userdata?._id,
+        property: property?._id
+      }
+      const saveRes = await saveProperty(reqObj);
+
+      if(saveRes?.data?.msg == 'Property Saved Successfully'){
+        setSavingPropertyId('')
+        successToast('Property Saved Successfully')
+      }else{
+        errorToast('Saving Failed')
+      }
+
+  }
+
   return (
     <div className="w-full p-4 flex flex-col lg:flex-row justify-between h-screen">
         <div className="lg:hidden">
@@ -205,7 +231,9 @@ export default function SearchProperty() {
                     {
                       propertyList?.data?.length == 0 || !propertyList?.data ? <FFNodata/> : 
                       propertyList?.data?.map((item) => (
-                        <PropertyCard key={item?._id} property={item}/>
+                        <PropertyCard 
+                        savingPropertyId={savingPropertyId} 
+                        saveProperty={propertySaveHandler} key={item?._id} property={item}/>
                     ))
                     }
                 </>

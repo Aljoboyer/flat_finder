@@ -37,6 +37,13 @@ const PropertyApi = api.injectEndpoints({
       invalidatesTags: ['propertyList'],
     }),
 
+    saveProperty: builder.mutation({
+      query: (requestBody) =>(
+        mutationCall('/property/save','POST', requestBody)
+      ),
+      invalidatesTags: ['savedList'],
+    }),
+
   }),
 });
 
@@ -45,5 +52,6 @@ export const {
   useCreatePropertyMutation,
   useDeletePropertyImgMutation,
   useLazyGetSinglePropertyQuery,
-  useUpdatePropertyMutation
+  useUpdatePropertyMutation,
+  useSavePropertyMutation
 } = PropertyApi;

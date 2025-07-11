@@ -8,10 +8,12 @@ import { useRouter } from "next/navigation";
 import { capitalizeFirstLetter } from "@/utils/stringHelper";
 import FavoriteOutlined from '@mui/icons-material/FavoriteOutlined';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import { getLocalStorageData } from "@/utils/getLocalStorageData";
 
-export default function PropertyCard({property}) {
+export default function PropertyCard({property, saveProperty, savingPropertyId}) {
   const router = useRouter();
-
+  const userdata = getLocalStorageData();
+  
   return (
 
       <div onClick={() => router.push(`/property-details/${property?._id}`)} className="md:flex property_card jusity-between rounded  h-fit md:h-[350px]  w-full mt-7 cursor-pointer">
@@ -73,15 +75,19 @@ export default function PropertyCard({property}) {
             <p className='text-p text-white font-medium'>For {capitalizeFirstLetter(property?.purpose)}</p>
           </div>
 
-          {/* Call to action button */}
-          <div className="mt-4 md:mt-0 text-right">
-            <Buttons 
+          {
+            userdata?.role == 'buyer' && <div className="mt-4 md:mt-0 text-right">
+            <Buttons
+            onClickHandler={(e) => saveProperty(e,property)}
             icon={<FavoriteBorderIcon style={{marginRight: '5px'}} />}
             title="Save" 
             bgColor={COLORS.overlay} 
             textColor={COLORS.baseColor} 
+            isLoading={savingPropertyId == property?._id ? true : false}
             other_style={{width: {xs: '100%', md: '40%', lg: '20%'}, fontWeight: "bold", fontSize: '16px'}}/>
           </div>
+          }
+
         </div>
       </div>
 

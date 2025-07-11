@@ -14,8 +14,8 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
 const SellerInfoSection = ({propertyDetails, 
   requestHandler, specificRentRequest, 
-  followHandler, followLoading,followData
-
+  followHandler, followLoading,followData,
+  propertySave,saveLoading
 })=> {
   const router = useRouter();
  
@@ -44,11 +44,15 @@ const SellerInfoSection = ({propertyDetails,
             <p className='text-p text-white font-medium'>For {capitalizeFirstLetter(propertyDetails?.purpose)}</p>
           </div>
 
-          <Buttons 
+          { userdata?.role == 'buyer'  && <Buttons 
+            onClickHandler={() => propertySave(propertyDetails?._id)}
             icon={<FavoriteBorderIcon style={{marginRight: '5px'}} />}
             bgColor={COLORS.overlay} 
             textColor={COLORS.baseColor} 
-            other_style={{ width: '20px', fontWeight: "bold", fontSize: '12px'}}/>
+            other_style={{ width: '20px', fontWeight: "bold", fontSize: '12px'}}
+            isLoading={saveLoading}
+            />
+            }
 
           </div>
 
