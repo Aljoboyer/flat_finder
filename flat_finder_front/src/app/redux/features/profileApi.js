@@ -27,13 +27,21 @@ const ProfileApi = api.injectEndpoints({
       query: (requestBody) =>(
         mutationCall('/user/check-follow','POST', requestBody)
       ),
+    
     }),
 
     getFollowList: builder.query({
       query: (data) => (
         getListQueryCall('/user/all-follow', data?.querys)
       ),
-      
+       providesTags: ["followlist"],
+    }),
+
+    unFollowSeller: builder.mutation({
+      query: (requestBody) =>(
+        mutationCall('/user/un-follow','PUT', requestBody)
+      ),
+      invalidatesTags: ['followlist'],
     }),
 
   }),
@@ -45,4 +53,5 @@ export const {
   useFollowCheckMutation,
   useFollowSellerMutation,
   useLazyGetFollowListQuery,
+  useUnFollowSellerMutation
 } = ProfileApi;

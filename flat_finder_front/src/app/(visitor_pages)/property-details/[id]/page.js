@@ -109,7 +109,6 @@ export default function page({params}) {
       seller: property?.data?.seller?._id
     }
     const followRes = await followSeller(reqObj)
-     console.log('checking ===>', followRes)
 
     if(followRes?.data?.msg == 'Connection posted Successfully'){
       successToast('Following Successfull')

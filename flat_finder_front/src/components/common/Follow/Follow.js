@@ -5,18 +5,33 @@ import { Avatar } from "@mui/material";
 import { Delete } from "@mui/icons-material";
 import { Buttons } from '../Buttons/Buttons';
 import { COLORS } from '@/theme/colors';
-import { useLazyGetFollowListQuery } from '@/app/redux/features/profileApi';
+import { useFollowCheckMutation, useLazyGetFollowListQuery, useUnFollowSellerMutation } from '@/app/redux/features/profileApi';
 import FFLoader from '../Loaders/FFLoader';
 import FFNodata from '../FFNodata';
+import FFPagination from '../FFPagination';
+import FFLoader2 from '../Loaders/FFLoader-2';
+import { errorToast, successToast } from '@/utils/toaster/toaster';
 
 export default function Follow({}) {
   const userData = getLocalStorageData();
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
   const [followListTrigger, { data: FollowList, isFetching}] = useLazyGetFollowListQuery();
+  const [unFollowTrigger, { isLoading }] = useUnFollowSellerMutation();
+  const [unFollowId, setUnfollowId] = useState('')
 
-  const handleRemove = (id) => {
-    console.log("Remove follower with ID:", id);
+  const handleRemove = async(id) => {
+    setUnfollowId(id)
+    const unFollowRes = await unFollowTrigger({
+      id: id,
+    })
+    if(unFollowRes?.data?.msg == 'Unfollowed Succussfully'){
+      successToast('Unfollowed Succussfully')
+      setUnfollowId(id)
+    }
+    else{
+      errorToast('Unfollowed Failed')
+    }
   };
 
   const handlePageChange = (event, value) => {
@@ -68,14 +83,18 @@ export default function Follow({}) {
               </div>
 
              {
-              userData?.role == 'buyer' &&  <Buttons
-              title='Remove'
+              userData?.role == 'buyer' &&  <>
+                  {
+                    (item?._id == unFollowId && isLoading ) ? <div className='w-[100px] h-[50px]'><FFLoader2/> </div>: <Buttons
+              title='Unfollow'
               bgColor='white'
-              textColor={COLORS.baseColor}
-              icon={<Delete color='red'/>}
+              textColor={COLORS.bluemain}
+              icon={<Delete />}
               onClickHandler={() => handleRemove(item._id)}
-              other_style={{width: '110px'}}
+              other_style={{width: '120px', fontWeight: '600'}}
               />
+                  }
+              </>
              }
             </CardContent>
           </Card>
@@ -84,6 +103,15 @@ export default function Follow({}) {
               }
             </>
           }
+                  {
+          FollowList?.data?.length > 0 && <div className="flex flex-row justify-end">
+          <FFPagination 
+          perPage={perPage}
+          handlePerPageChange={handlePerPageChange}
+          handlePageChange={handlePageChange}
+          totalPage={FollowList?.totalPage} />
+        </div>
+        }
      </div>
     
   );
