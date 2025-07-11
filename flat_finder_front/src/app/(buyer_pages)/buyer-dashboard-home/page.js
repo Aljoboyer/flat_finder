@@ -9,6 +9,7 @@ import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import { useRouter } from 'next/navigation';
 import { COLORS } from '@/theme/colors';
 import { getLocalStorageData } from '@/utils/getLocalStorageData';
+import SavedFlatList from '@/components/buyer/SavedFlatList/SavedFlatList';
 
 export default function page() {
   const router = useRouter()
@@ -88,7 +89,6 @@ export default function page() {
           <Avatar alt={userData?.name} src={userData?.image} sx={{ width: 56, height: 56 }} />
         </section>
 
-        {/* Search Section */}
         <section className="bg-overlay p-6 rounded-2xl shadow-md">
           <p className='my-4 text-title font-medium text-basecolor'>Start searching for your perfect home</p>
           <div className="flex flex-col sm:flex-row gap-4 ">
@@ -117,6 +117,9 @@ export default function page() {
                other_style={{width: '200px', height: '45px'}} bgColor={COLORS.baseColor} textColor="white"/>
           </div>
         </section>
+
+        <SavedFlatList/>
+        
       </div>
     </div>
   )
