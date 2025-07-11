@@ -16,7 +16,7 @@ const ConnectionController = async (req, res) => {
 
     } catch (error) {
       res.status(500).json({ message: "Connection Posting Failed" , error});
-      console.log(error);
+      
     }
   };
 
@@ -29,23 +29,15 @@ const followCheckController = async (req, res) => {
       const sellerId = ObjectId.createFromHexString(requestData?.seller);
       const buyerId = ObjectId.createFromHexString(requestData?.buyer);
 
-        if (requestData?.unFollow) {
-          const result = await ConnectionCollection.deleteOne({
-            seller: sellerId,
-            buyer: buyerId,
-          });
-          res.status(201).json({ "msg": "Connection removed Successfully" });
-        } else {
-          const result = await ConnectionCollection.findOne({
-            seller: sellerId,
-            buyer: buyerId,
-          });
-          res.status(201).json({ result});
-        }
+      const result = await ConnectionCollection.findOne({
+          seller: sellerId,
+          buyer: buyerId,
+        });
+        res.status(201).json({ result});
 
     } catch (error) {
       res.status(500).json({ message: "Get Specific Connection failed" , error});
-      console.log(error);
+      
     }
   };
 
@@ -78,13 +70,29 @@ const getAllFollowController = async (req, res) => {
 
     } catch (error) {
       res.status(500).json({ message: "Connection get Failed" , error});
-      console.log(error);
+      
+    }
+  };
+
+  const UnfollowController = async (req, res) => {
+  
+    const query = req.body;
+
+    try {
+      const result = await ConnectionCollection.deleteOne({_id: query?.id});
+        res.status(201).json({ msg: 'Unfollowed Succussfully'});
+
+    } catch (error) {
+      console.log(error)
+      res.status(500).json({ message: "Unfollowed failed" , error});
+      
     }
   };
 
   module.exports = {
     ConnectionController,
     followCheckController,
-    getAllFollowController
+    getAllFollowController,
+    UnfollowController
   };
     
