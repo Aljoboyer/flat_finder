@@ -1,6 +1,5 @@
 const UserCollection = require("../../../models/user");
 const PropertyCollection = require("../../../models/property");
-const ReviewCollection = require("../../../models/review");
 const ConnectionCollection = require("../../../models/connection");
 const mongoose = require('mongoose');
 const ObjectId = mongoose.Types.ObjectId;
@@ -90,9 +89,6 @@ const sellerDetailsController = async (req, res) => {
         path: 'buyer',
         select: 'name email image' 
       });
-    }
-    else{
-     detailsData = await ReviewCollection.find({seller: seller_id})
     }
 
     res.status(200).json({

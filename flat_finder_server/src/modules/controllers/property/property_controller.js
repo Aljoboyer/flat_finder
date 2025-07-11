@@ -2,6 +2,7 @@ const { generateFilterQuery } = require("../../../helper/generateFilterQuery");
 const { generatePropertyId } = require("../../../helper/generatePropertyId");
 const { PaginationCalculate } = require("../../../helper/pagination");
 const PropertyCollection = require("../../../models/property");
+const PropertySavedCollection = require("../../../models/savedProperty");
 const mongoose = require('mongoose');
 const ObjectId = mongoose.Types.ObjectId;
 
@@ -34,7 +35,7 @@ const getAllPropertyController = async (req, res) => {
     // Fetch filtered data with pagination
     const  result = await PropertyCollection.find(query).select('-comments -likes -video -googleMapUrl -description').sort({ createdAt: -1 }).skip(skip).limit(Number(limit)).populate({
     path: 'seller',
-    select: 'name propertyName image'
+    select: 'name propertyName image _id'
   });;
 
     const  totalCount = await PropertyCollection.countDocuments(query);
@@ -98,26 +99,22 @@ const getSpecificProperty = async (req, res) => {
   }
 };
 
-//Adding Like on A Property
-const addLikeOnPropertyontroller = async (req, res) => {
+//Saving Property
+const propertySavedController = async (req, res) => {
   
-    const {liker_id, property_id} = req.body;
+    const requestData = req.body;
 
     try {
-      
-         await PropertyCollection.findByIdAndUpdate(
-            property_id,
-            { $push: { likes: liker_id } },
-            { new: true }
-          );
 
-          
-      res.status(201).json({ "msg": "Like Added Successfully" });
+      const result = await PropertySavedCollection.create(requestData);
+
+      res.status(201).json({ "msg": "Property Saved Successfully" });
 
     } catch (error) {
-      res.status(500).json({ message: "Like Posting Failed" , error});
+      res.status(500).json({ message: "Propert Saved Failed" , error});
+      
     }
-};
+  };
 
 
 module.exports = {
@@ -125,7 +122,6 @@ module.exports = {
   getAllPropertyController,
   updatePropertyController,
   getSpecificProperty,
-  addLikeOnPropertyontroller,
-  
+  propertySavedController
 };
   
