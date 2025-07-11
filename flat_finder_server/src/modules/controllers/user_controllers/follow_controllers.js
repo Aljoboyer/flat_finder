@@ -74,20 +74,20 @@ const getAllFollowController = async (req, res) => {
     }
   };
 
-  const UnfollowController = async (req, res) => {
-  
-    const query = req.body;
+const UnfollowController = async (req, res) => {
 
-    try {
-      const result = await ConnectionCollection.deleteOne({_id: query?.id});
-        res.status(201).json({ msg: 'Unfollowed Succussfully'});
+  const query = req.body;
 
-    } catch (error) {
-      console.log(error)
-      res.status(500).json({ message: "Unfollowed failed" , error});
-      
-    }
-  };
+  try {
+    const result = await ConnectionCollection.deleteOne({_id: query?.id});
+      res.status(201).json({ msg: 'Unfollowed Succussfully'});
+
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ message: "Unfollowed failed" , error});
+    
+  }
+};
 
   module.exports = {
     ConnectionController,

@@ -2,7 +2,8 @@ const verifyJWT = require("../../middlewares/authChecker");
 const { ConnectionController, followCheckController, 
     getAllFollowController, UnfollowController } = require("../controllers/user_controllers/follow_controllers");
 const { getSpecificUser, updateProfileController, 
-    sellerDetailsController, changePasswordController } = require("../controllers/user_controllers/profile_controllers");
+    sellerDetailsController, changePasswordController, 
+    getSavedPropertiesController} = require("../controllers/user_controllers/profile_controllers");
 
 const router = require("express").Router();
 
@@ -14,5 +15,6 @@ router.put("/password-change", verifyJWT(), changePasswordController);
 router.post("/check-follow", verifyJWT(), followCheckController);
 router.get("/all-follow", verifyJWT(), getAllFollowController);
 router.put("/un-follow", verifyJWT(), UnfollowController);
+router.get("/saved-properties", verifyJWT(), getSavedPropertiesController);
 
 module.exports = router;

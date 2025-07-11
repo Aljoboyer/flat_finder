@@ -1,9 +1,12 @@
 const UserCollection = require("../../../models/user");
 const PropertyCollection = require("../../../models/property");
 const ConnectionCollection = require("../../../models/connection");
+const PropertySavedCollection = require("../../../models/savedProperty");
 const mongoose = require('mongoose');
 const ObjectId = mongoose.Types.ObjectId;
 const bcrypt = require("bcryptjs");
+const { generateFilterQuery } = require("../../../helper/generateFilterQuery");
+const { PaginationCalculate } = require("../../../helper/pagination");
 
 // get A User
 const getSpecificUser = async (req, res) => {
@@ -100,10 +103,45 @@ const sellerDetailsController = async (req, res) => {
   }
 };
 
+//getting buyer saved property
+const getSavedPropertiesController = async (req, res) => {
+    
+    const query = generateFilterQuery(req.query)
+    const { skip , page, limit} = PaginationCalculate(req.query);
+
+    try {
+        const  result = await PropertySavedCollection.find(query).sort({ createdAt: -1 }).skip(skip).limit(Number(limit)).populate([
+          {
+          path: 'property', 
+          select: 'title propertyId price city areaName advanceMoney images bedRooms flatMeasurement propertyType'
+          },
+          {
+          path: 'seller',
+          select: 'name address propertyName image _id'
+          }
+      ]);
+      
+      const  totalCount = await PropertySavedCollection.countDocuments(query);
+  
+      res.status(200).json({
+        data: result,
+        page: Number(page),
+        limit: Number(limit),
+        totalPage: Math.ceil(totalCount / limit),
+        totalData: totalCount
+      });
+
+    } catch (error) {
+      res.status(500).json({ message: "Connection get Failed" , error});
+      
+    }
+  };
+
 module.exports = {
   getSpecificUser,
   updateProfileController,
   sellerDetailsController,
-  changePasswordController
+  changePasswordController,
+  getSavedPropertiesController
 };
   
