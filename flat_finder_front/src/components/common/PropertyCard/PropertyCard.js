@@ -6,7 +6,8 @@ import { Buttons } from "../Buttons/Buttons";
 import { COLORS } from "@/theme/colors";
 import { useRouter } from "next/navigation";
 import { capitalizeFirstLetter } from "@/utils/stringHelper";
-
+import FavoriteOutlined from '@mui/icons-material/FavoriteOutlined';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
 export default function PropertyCard({property}) {
   const router = useRouter();
@@ -74,7 +75,12 @@ export default function PropertyCard({property}) {
 
           {/* Call to action button */}
           <div className="mt-4 md:mt-0 text-right">
-            <Buttons title="VIEW DETAILS" bgColor={COLORS.side_yellow} textColor={COLORS.baseColor} other_style={{width: {xs: '100%', md: '50%', lg: '30%'}, fontWeight: "bold", fontSize: '16px'}}/>
+            <Buttons 
+            icon={<FavoriteBorderIcon style={{marginRight: '5px'}} />}
+            title="Save" 
+            bgColor={COLORS.overlay} 
+            textColor={COLORS.baseColor} 
+            other_style={{width: {xs: '100%', md: '40%', lg: '20%'}, fontWeight: "bold", fontSize: '16px'}}/>
           </div>
         </div>
       </div>

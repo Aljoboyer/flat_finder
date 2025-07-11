@@ -4,7 +4,7 @@ import { Button } from '@mui/material'
 import React from 'react'
 
 export const Buttons = ({
-    onClickHandler, title = 'Test', 
+    onClickHandler, title = '', 
     bgColor = COLORS.overlay, textColor = COLORS.baseColor,
     variant = 'contained',
     icon = '',

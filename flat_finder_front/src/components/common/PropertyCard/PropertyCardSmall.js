@@ -5,6 +5,10 @@ import ImageIcon from '@mui/icons-material/Image';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { capitalizeFirstLetter } from '@/utils/stringHelper';
 import { useRouter } from 'next/navigation';
+import FavoriteOutlined from '@mui/icons-material/FavoriteOutlined';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import { Buttons } from '../Buttons/Buttons';
+import { COLORS } from '@/theme/colors';
 
 const ApartmentCard = ({property}) => {
   const router = useRouter();
@@ -46,9 +50,16 @@ const ApartmentCard = ({property}) => {
           </div>
         </div>
 
-        <div className="flex items-center text-gray-500 text-sm gap-1">
-          <LocationOnIcon fontSize="small" />
-          {property?.city}, {property?.areaName}
+        <div className='flex flex-row justify-between'>
+            <div className="flex items-center text-gray-500 text-sm gap-1">
+            <LocationOnIcon fontSize="small" />
+            {property?.city}, {property?.areaName}
+          </div>
+            <Buttons 
+            icon={<FavoriteBorderIcon style={{marginRight: '5px'}} />}
+            bgColor={COLORS.overlay} 
+            textColor={COLORS.baseColor} 
+            other_style={{ width: '20px', fontWeight: "bold", fontSize: '12px'}}/>
         </div>
       </div>
     </div>

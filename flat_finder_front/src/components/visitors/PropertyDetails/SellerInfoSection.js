@@ -9,6 +9,8 @@ import { BsChat } from 'react-icons/bs';
 import { TbPhone } from 'react-icons/tb';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import { IoShieldCheckmark } from "react-icons/io5";
+import FavoriteOutlined from '@mui/icons-material/FavoriteOutlined';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
 const SellerInfoSection = ({propertyDetails, 
   requestHandler, specificRentRequest, 
@@ -35,10 +37,21 @@ const SellerInfoSection = ({propertyDetails,
 
     >
       <div className="w-full p-2 md:p-0 lg:p-0">
-        <div className="w-fit">
-          <div className='w-[100px] bg-blue-800 flex flex-row justify-center items-center rounded h-[30px]'>
+        <div className="w-full">
+
+          <div className='flex flex-row justify-between'>
+            <div className='w-[100px] bg-blue-800 flex flex-row justify-center items-center rounded h-[30px]'>
             <p className='text-p text-white font-medium'>For {capitalizeFirstLetter(propertyDetails?.purpose)}</p>
           </div>
+
+          <Buttons 
+            icon={<FavoriteBorderIcon style={{marginRight: '5px'}} />}
+            bgColor={COLORS.overlay} 
+            textColor={COLORS.baseColor} 
+            other_style={{ width: '20px', fontWeight: "bold", fontSize: '12px'}}/>
+
+          </div>
+
           <p className="text-blackshade text-lg_title font-medium">
              {propertyDetails?.title}
           </p>{' '}
