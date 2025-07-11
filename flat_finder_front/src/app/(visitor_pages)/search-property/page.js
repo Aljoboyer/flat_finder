@@ -1,6 +1,7 @@
 "use client"
 
 import { useLazyGetAreaNamesQuery } from "@/app/redux/features/dropDownApi";
+import { useLazyBuyerSavedPropertyListQuery } from "@/app/redux/features/profileApi";
 import { useLazyGetPropertyListQuery, useSavePropertyMutation } from "@/app/redux/features/propertyApi";
 import { Buttons } from "@/components/common/Buttons/Buttons";
 import FFDrawer from "@/components/common/FFDrawer/FFDrawer";
@@ -25,14 +26,17 @@ export default function SearchProperty() {
   const [propertyListTrigger, { data: propertyList, error, isLoading , isFetching}] = useLazyGetPropertyListQuery();
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
-  const [filterObj, setFilterObj] = useState({city: '', areaName: '', bedRooms: '', propertyType: '', bathRooms: '', maxSqft: '', minSqft: '',minPrice: '0', maxPrice: '10000000',purpose: ''  })
-  const [searchKey, setSearchKey] = useState('')
+  const [filterObj, setFilterObj] = useState({
+    city: '', areaName: '', bedRooms: '', 
+    propertyType: '', bathRooms: '', maxSqft: '', minSqft: '',
+    minPrice: '0', maxPrice: '10000000',purpose: ''  })
   const [filterInputData, setFilterInputData] = useState([])
   const [openDrawer, setOpenDrawer] = useState(false);
   const [priceRange, setPriceRange] = useState([0, 1000000]);
   const [sqrftRange, setSqrftRange] = useState([0, 5000]);
   const [areaNameTrigger, { data: areaNameList}] = useLazyGetAreaNamesQuery();
-  const [saveProperty, { isLoading: saveLoading }] = useSavePropertyMutation();
+  const [saveProperty, {  }] = useSavePropertyMutation();
+  const [propertySavedList, { data: savedList, }] = useLazyBuyerSavedPropertyListQuery();
   const [savingPropertyId, setSavingPropertyId] = useState('')
 
   const searchParams = useSearchParams()
@@ -42,7 +46,10 @@ export default function SearchProperty() {
   const userdata = getLocalStorageData();
 
    const propertyFetch = () => {
-    propertyListTrigger({ querys: `limit=${perPage}&page=${page}&status=active&searchKey=${searchKey}&city=${filterObj?.city}&areaName=${filterObj?.areaName }&minSqft=${filterObj?.minSqft}&maxSqft=${filterObj?.maxSqft}&bedRooms=${filterObj?.bedRooms}&bathRooms=${filterObj?.bathRooms}&propertyType=${filterObj?.propertyType}&minPrice=${filterObj?.minPrice}&maxPrice=${filterObj?.maxPrice}&purpose=${filterObj?.purpose}` });
+    propertyListTrigger({ querys: `limit=${perPage}&page=${page}&status=active&city=${filterObj?.city}&areaName=${filterObj?.areaName }&minSqft=${filterObj?.minSqft}&maxSqft=${filterObj?.maxSqft}&bedRooms=${filterObj?.bedRooms}&bathRooms=${filterObj?.bathRooms}&propertyType=${filterObj?.propertyType}&minPrice=${filterObj?.minPrice}&maxPrice=${filterObj?.maxPrice}&purpose=${filterObj?.purpose}` });
+  }
+   const buyerSavedList = () => {
+       propertySavedList({ querys: `limit=${100}&page=${1}&buyer=${userdata?._id}` });
   }
 
   const countActualPrice = (sliderValue) => {
@@ -89,6 +96,7 @@ export default function SearchProperty() {
 
   useEffect(() => {
     setFilterInputData(filterFieldConfig)
+    buyerSavedList()
   },[])
 
   const filterChangeHandler = (id, val) => {
@@ -232,6 +240,7 @@ export default function SearchProperty() {
                       propertyList?.data?.length == 0 || !propertyList?.data ? <FFNodata/> : 
                       propertyList?.data?.map((item) => (
                         <PropertyCard 
+                        savedList={savedList?.data}
                         savingPropertyId={savingPropertyId} 
                         saveProperty={propertySaveHandler} key={item?._id} property={item}/>
                     ))

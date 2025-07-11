@@ -1,6 +1,6 @@
 "use client"
 
-import { useFollowCheckMutation, useFollowSellerMutation } from '@/app/redux/features/profileApi';
+import { useLazyBuyerSavedPropertyListQuery, useFollowCheckMutation, useFollowSellerMutation } from '@/app/redux/features/profileApi';
 import { useLazyGetPropertyListQuery, useLazyGetSinglePropertyQuery, useSavePropertyMutation } from '@/app/redux/features/propertyApi';
 import { useLazyGetSingleRequestQuery, useRequestForRentMutation } from '@/app/redux/features/rentApi';
 import CommonTabs from '@/components/common/CommonTabs/CommonTabs';
@@ -34,6 +34,7 @@ export default function page({params}) {
   const [followCheckTrigger, {  }] = useFollowCheckMutation();
   const [followSeller, { isLoading: followLoading }] = useFollowSellerMutation();
   const [saveProperty, { isLoading: saveLoading }] = useSavePropertyMutation();
+  const [propertySavedList, { data: savedList, }] = useLazyBuyerSavedPropertyListQuery();
   const [reqModalShow, setReqModalShow] = useState(false)
   const [note, setNote] = useState(requestNote);
   const userdata = getLocalStorageData()
@@ -44,9 +45,12 @@ export default function page({params}) {
     const sellerPropertyFetch = () => {
     propertyListTrigger({ querys: `limit=${10}&page=${1}&status=active&seller=${property?.data?.seller?._id}` });
   }
+  const buyerSavedList = () => {
+       propertySavedList({ querys: `limit=${100}&page=${1}&buyer=${userdata?._id}` });
+  }
 
    useEffect(() => {
-     
+     buyerSavedList()
      if(id){
        propertyTrigger({querys: `id=${id}`})
        getSingleRentequest({querys: `buyer=${userdata?._id}&property=${id}`})
@@ -151,6 +155,7 @@ export default function page({params}) {
                 followData={followData}
                 propertySave={propertySave}
                 saveLoading={saveLoading}
+                savedList={savedList?.data}
                 />
 
               </div>
@@ -172,6 +177,9 @@ export default function page({params}) {
                           }
                           {
                             tabValue == 1 && <Feature property={property?.data}/>
+                          }
+                           {
+                            tabValue == 2 && <div><p className='text-title font-medium text-blackshade'>{property?.data?.city} {property?.data?.areaName}</p></div>
                           }
                           {
                             tabValue == 3 && <CommentBox/>

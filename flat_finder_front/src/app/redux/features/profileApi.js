@@ -44,6 +44,13 @@ const ProfileApi = api.injectEndpoints({
       invalidatesTags: ['followlist'],
     }),
 
+    buyerSavedPropertyList: builder.query({
+      query: (data) => (
+        getListQueryCall('/user/saved-properties', data?.querys)
+      ),
+       providesTags: ["savedList"],
+    }),
+
   }),
 });
 
@@ -53,5 +60,6 @@ export const {
   useFollowCheckMutation,
   useFollowSellerMutation,
   useLazyGetFollowListQuery,
-  useUnFollowSellerMutation
+  useUnFollowSellerMutation,
+  useLazyBuyerSavedPropertyListQuery
 } = ProfileApi;

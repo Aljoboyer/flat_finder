@@ -9,8 +9,10 @@ import { capitalizeFirstLetter } from "@/utils/stringHelper";
 import FavoriteOutlined from '@mui/icons-material/FavoriteOutlined';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { getLocalStorageData } from "@/utils/getLocalStorageData";
+import { isPropertySaved } from "@/helper/savePropertyCheck";
 
-export default function PropertyCard({property, saveProperty, savingPropertyId}) {
+export default function PropertyCard({property, saveProperty,
+   savingPropertyId, savedList}) {
   const router = useRouter();
   const userdata = getLocalStorageData();
   
@@ -79,10 +81,9 @@ export default function PropertyCard({property, saveProperty, savingPropertyId})
             userdata?.role == 'buyer' && <div className="mt-4 md:mt-0 text-right">
             <Buttons
             onClickHandler={(e) => saveProperty(e,property)}
-            icon={<FavoriteBorderIcon style={{marginRight: '5px'}} />}
-            title="Save" 
-            bgColor={COLORS.overlay} 
-            textColor={COLORS.baseColor} 
+            title={isPropertySaved(savedList, property?._id)  ? 'Saved' : 'Save'}
+            icon={isPropertySaved(savedList, property?._id) ? <FavoriteOutlined style={{marginRight: '5px'}}/> : <FavoriteBorderIcon style={{marginRight: '5px'}}/>}
+            bgColor={isPropertySaved(savedList, property?._id) ? COLORS.side_yellow : COLORS.overlay} 
             isLoading={savingPropertyId == property?._id ? true : false}
             other_style={{width: {xs: '100%', md: '40%', lg: '20%'}, fontWeight: "bold", fontSize: '16px'}}/>
           </div>

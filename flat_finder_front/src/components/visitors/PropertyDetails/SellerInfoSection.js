@@ -11,11 +11,12 @@ import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import { IoShieldCheckmark } from "react-icons/io5";
 import FavoriteOutlined from '@mui/icons-material/FavoriteOutlined';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import { isPropertySaved } from '@/helper/savePropertyCheck';
 
 const SellerInfoSection = ({propertyDetails, 
   requestHandler, specificRentRequest, 
   followHandler, followLoading,followData,
-  propertySave,saveLoading
+  propertySave,saveLoading, savedList
 })=> {
   const router = useRouter();
  
@@ -46,8 +47,8 @@ const SellerInfoSection = ({propertyDetails,
 
           { userdata?.role == 'buyer'  && <Buttons 
             onClickHandler={() => propertySave(propertyDetails?._id)}
-            icon={<FavoriteBorderIcon style={{marginRight: '5px'}} />}
-            bgColor={COLORS.overlay} 
+            icon={isPropertySaved(savedList, propertyDetails?._id) ? <FavoriteOutlined/> : <FavoriteBorderIcon/>}
+            bgColor={isPropertySaved(savedList, propertyDetails?._id) ? COLORS.side_yellow : COLORS.overlay} 
             textColor={COLORS.baseColor} 
             other_style={{ width: '20px', fontWeight: "bold", fontSize: '12px'}}
             isLoading={saveLoading}
