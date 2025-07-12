@@ -121,21 +121,27 @@ export default function page({params}) {
     }
    }
 
-   const propertySave = async(id) => {
+  const propertySaveHandler = async (propertyId, action) => {
+      
       const reqObj = {
         seller: property?.data?.seller?._id,
         buyer: userdata?._id,
-        property: id
+        property: propertyId,
+        save: action == 'save' ? true : false
       }
       const saveRes = await saveProperty(reqObj);
 
       if(saveRes?.data?.msg == 'Property Saved Successfully'){
         successToast('Property Saved Successfully')
-      }else{
+      }
+      else if(saveRes?.data?.msg == 'Property Unsaved Successfully'){
+        successToast('Property Unsaved Successfully')
+      }
+      else{
         errorToast('Saving Failed')
       }
-   }
 
+  }
   return (
     <div className='w-full p-2 lg:p-6'>
       {
@@ -153,7 +159,7 @@ export default function page({params}) {
                 followHandler={followHandler}
                 followLoading={followLoading}
                 followData={followData}
-                propertySave={propertySave}
+                propertySave={propertySaveHandler}
                 saveLoading={saveLoading}
                 savedList={savedList?.data}
                 />

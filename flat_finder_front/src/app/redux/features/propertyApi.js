@@ -39,7 +39,7 @@ const PropertyApi = api.injectEndpoints({
 
     saveProperty: builder.mutation({
       query: (requestBody) =>(
-        mutationCall('/property/save','POST', requestBody)
+        mutationCall('/property/save-unsave','POST', requestBody)
       ),
       invalidatesTags: ['savedList'],
     }),

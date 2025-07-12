@@ -46,7 +46,13 @@ const SellerInfoSection = ({propertyDetails,
           </div>
 
           { userdata?.role == 'buyer'  && <Buttons 
-            onClickHandler={() => propertySave(propertyDetails?._id)}
+            onClickHandler={() => {
+              if(isPropertySaved(savedList, propertyDetails?._id)){
+                propertySave(propertyDetails?._id, 'unsave')
+              }else{
+                propertySave(propertyDetails?._id, 'save')
+              }
+            }}
             icon={isPropertySaved(savedList, propertyDetails?._id) ? <FavoriteOutlined/> : <FavoriteBorderIcon/>}
             bgColor={isPropertySaved(savedList, propertyDetails?._id) ? COLORS.side_yellow : COLORS.overlay} 
             textColor={COLORS.baseColor} 

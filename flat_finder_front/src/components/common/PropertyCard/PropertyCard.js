@@ -80,7 +80,13 @@ export default function PropertyCard({property, saveProperty,
           {
             userdata?.role == 'buyer' && <div className="mt-4 md:mt-0 text-right">
             <Buttons
-            onClickHandler={(e) => saveProperty(e,property)}
+            onClickHandler={(e) => {
+              if(isPropertySaved(savedList, property?._id)){
+                saveProperty(e,property, 'unsave')
+              }else{
+                saveProperty(e,property, 'save')
+              }
+            }}
             title={isPropertySaved(savedList, property?._id)  ? 'Saved' : 'Save'}
             icon={isPropertySaved(savedList, property?._id) ? <FavoriteOutlined style={{marginRight: '5px'}}/> : <FavoriteBorderIcon style={{marginRight: '5px'}}/>}
             bgColor={isPropertySaved(savedList, property?._id) ? COLORS.side_yellow : COLORS.overlay} 

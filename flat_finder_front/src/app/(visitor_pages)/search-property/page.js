@@ -175,7 +175,7 @@ export default function SearchProperty() {
     }
   },[propertyType])
 
-  const propertySaveHandler = async (e, property) => {
+  const propertySaveHandler = async (e, property, action) => {
       e.stopPropagation();
       
       setSavingPropertyId(property?._id)
@@ -183,14 +183,21 @@ export default function SearchProperty() {
       const reqObj = {
         seller: property?.seller?._id,
         buyer: userdata?._id,
-        property: property?._id
+        property: property?._id,
+        save: action == 'save' ? true : false
       }
       const saveRes = await saveProperty(reqObj);
 
       if(saveRes?.data?.msg == 'Property Saved Successfully'){
         setSavingPropertyId('')
         successToast('Property Saved Successfully')
-      }else{
+      }
+      else if(saveRes?.data?.msg == 'Property Unsaved Successfully'){
+        setSavingPropertyId('')
+        successToast('Property Unsaved Successfully')
+      }
+      else{
+        setSavingPropertyId('')
         errorToast('Saving Failed')
       }
 
