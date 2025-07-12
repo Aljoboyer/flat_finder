@@ -88,6 +88,7 @@ export default function FFTable({tableHeader,
                       cancelBtnShow={col?.cancelBtnShow} 
                       payBtn={col.payBtn}
                       viewBtnShow={col.viewBtnShow}
+                      unSaveBtnShow={col.unSaveBtnShow}
                       />}
                 </TableCell>
               ))}

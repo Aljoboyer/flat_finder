@@ -9,6 +9,7 @@ import { FiSlash } from "react-icons/fi";
 import { getLocalStorageData } from '@/utils/getLocalStorageData';
 import { Buttons } from './Buttons';
 import { useRouter } from 'next/navigation';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
 const ActionManuItem = ({title, icon, clickHandler}) => {
   return (
@@ -30,7 +31,8 @@ export default function ActionButton({
     tableitem,
     cancelBtnShow,
     payBtn = false,
-    viewBtnShow
+    viewBtnShow,
+    unSaveBtnShow
 }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const manuOpen = Boolean(anchorEl);
@@ -49,7 +51,6 @@ export default function ActionButton({
 
        {
         payBtn ?  <Buttons
-          // onClickHandler={() => router.push(`/property-payment/${tableitem?.property?._id}`)}
           onClickHandler={() => actionHandler('payment', itemId)}
           bgColor={COLORS.side_yellow}
           textColor={COLORS.baseColor}
@@ -113,7 +114,9 @@ export default function ActionButton({
                   actionHandler(actionName, itemId)
                 }} title={(tableitem?.status == 'pending') && (userData?._id == tableitem?.buyer?._id )  ? "Cancel" : "Reject"} icon={<FiSlash className='mr-2'/>}/>
             }
-
+            {
+                unSaveBtnShow && <ActionManuItem clickHandler={() => actionHandler('unsave', itemId)} title="UnSave" icon={<FavoriteBorderIcon className='mr-2'/>}/>
+            }
         </Menu>
       </div>
   )

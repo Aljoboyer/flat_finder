@@ -60,6 +60,7 @@
         editBtnShow: false,
         statusBtn: false,
         viewBtnShow:true,
+        unSaveBtnShow: true,
         width: '80px',
     }
 ]
