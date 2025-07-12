@@ -1,5 +1,6 @@
 "use client"
 import CommonTabs from '@/components/common/CommonTabs/CommonTabs';
+import Notification from '@/components/common/Notification/Notification';
 import { NotificationsTabData } from '@/constant/tabsdata';
 import { useMediaQuery } from '@mui/material'
 import {  useTheme } from '@mui/material/styles';
@@ -16,13 +17,14 @@ export default function page() {
     }
 
   return (
-     <div className="bg-overlay  p-6 rounded-t-[20px] h-screen">
+     <div className="bg-overlay  p-6 rounded-t-[20px] ">
         <CommonTabs 
           value={value}
           handleTabChange={handleTabChange}
           tabsData={NotificationsTabData} 
           tabWidth={islargeScreen ? '10%' : isMediumScreen ? '20%' : '50%'}
           isPanelShow={false} polygonShape={true}/>
+          <Notification/>
     </div>
   )
 }

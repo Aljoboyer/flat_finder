@@ -22,7 +22,7 @@ const notificationsMock = [
     title: "Store Verification Done",
     message: "We have successfully received your request.",
     time: "2 min ago",
-    icon: <Home className="text-basecolor"/>,
+    icon: <Home className="text-bluemain"/>,
     unread: false,
   },
   {
@@ -30,7 +30,7 @@ const notificationsMock = [
     title: "Check Your Mail.",
     message: "All done! Now check your inbox as you’re in for a sweet treat!",
     time: "2 min ago",
-    icon: <Home className="text-basecolor"/>,
+    icon: <Home className="text-bluemain"/>,
     unread: true,
   },
     {
