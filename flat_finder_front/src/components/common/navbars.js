@@ -32,7 +32,7 @@ import ProfileManu from './ProfileManu/ProfileManu';
 import { getAuthToken } from '@/utils/getAuthToken';
 import { AccountCircle, Logout } from '@mui/icons-material';
 import { getLocalStorageData } from '@/utils/getLocalStorageData';
-import NotificationMenu from './FFNotification';
+import NotificationMenu from './Notification/FFNotification';
 
 const navItems = [
     {label: 'Home', link: '/flat-finder-home'},

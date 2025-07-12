@@ -8,7 +8,7 @@ import { TbHomeSearch } from "react-icons/tb";
 import ProfileManu from '@/components/common/ProfileManu/ProfileManu';
 import Logout from '@mui/icons-material/Logout';
 import { useRouter } from 'next/navigation';
-import NotificationMenu from '../../FFNotification';
+import NotificationMenu from '../../Notification/FFNotification';
 import { Notifications } from '@mui/icons-material';
 
 const manuItems = [

@@ -6,10 +6,12 @@ import { FaBuildingUser, FaBuildingShield, FaHouseLock ,
 import { TbListDetails } from "react-icons/tb";
 import { FaBuffer } from "react-icons/fa";
 import { CgProfile } from "react-icons/cg";
-import { MdOutlineSettings , MdPendingActions} from "react-icons/md";
+import { MdOutlineSettings , MdPendingActions, MdEditNotifications} from "react-icons/md";
 import Profile from "@/components/common/ProfileAndSettings/Profile";
 import Settings from "@/components/common/ProfileAndSettings/Settings";
 import { FcApproval } from "react-icons/fc";
+import { Notifications } from "@mui/icons-material";
+import { IoMdNotificationsOff } from "react-icons/io";
 
 export const RegisterTabData = [
     {
@@ -93,6 +95,24 @@ export const RentRequestTabData = [
     {
         label: 'Approved',
         icon: <FcApproval  size={22}/>,
+        content: '',
+    }
+]
+
+export const NotificationsTabData = [
+    {
+        label: 'All',
+        icon: <Notifications size={22}/>,
+        content: '',
+    },
+    {
+        label: 'Read',
+        icon: <MdEditNotifications  size={22}/>,
+        content: '',
+    },
+    {
+        label: 'Un-Read',
+        icon: <IoMdNotificationsOff  size={22}/>,
         content: '',
     }
 ]

@@ -5,6 +5,8 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import CloseIcon from "@mui/icons-material/Close";
 import { Home } from "@mui/icons-material";
 import { COLORS } from "@/theme/colors";
+import { useRouter } from "next/navigation";
+import { getLocalStorageData } from "@/utils/getLocalStorageData";
 
 const notificationsMock = [
   {
@@ -82,8 +84,10 @@ const notificationsMock = [
 ];
 
 export default function NotificationMenu() {
+  const router = useRouter()
   const [open, setOpen] = useState(false);
   const [notifications, setNotifications] = useState(notificationsMock);
+  const userData = getLocalStorageData();
 
   const toggleMenu = () => setOpen((prev) => !prev);
 
@@ -154,7 +158,15 @@ export default function NotificationMenu() {
           </div>
 
           <div className="text-center p-3">
-            <button className="w-full text-blue-800 hover:underline text-p font-medium cursor-pointer">
+            <button 
+            onClick={() => {
+              if(userData.role == 'buyer'){
+                router.push('/buyer-notifications')
+              }else{
+                router.push('/seller-notifications')
+              }
+            }}
+            className="w-full text-blue-800 hover:underline text-p font-medium cursor-pointer">
                 View All
             </button>
           </div>

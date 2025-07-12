@@ -1,6 +1,7 @@
+"use client"
 import { settingsFormConfigs } from '@/constant/formConfigs/profileFormConfigs'
 import React from 'react'
-import { useForm, Controller } from "react-hook-form";
+import { Controller, useForm } from 'react-hook-form'
 import InputField from '../Inputs/InputField';
 import { CardContent } from '@mui/material';
 import { Buttons } from '../Buttons/Buttons';
