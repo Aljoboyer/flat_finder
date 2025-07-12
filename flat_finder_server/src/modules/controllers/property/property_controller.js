@@ -99,19 +99,27 @@ const getSpecificProperty = async (req, res) => {
   }
 };
 
-//Saving Property
-const propertySavedController = async (req, res) => {
+//Save and unsave Property
+const propertySaveAndUnsave = async (req, res) => {
   
     const requestData = req.body;
 
     try {
 
-      const result = await PropertySavedCollection.create(requestData);
+      if(requestData?.save){
+        const result = await PropertySavedCollection.create(requestData);
+        res.status(201).json({ "msg": "Property Saved Successfully" });
+      }
+      else{
+        const propertyId = ObjectId.createFromHexString(requestData?.property);
+        const buyerId = ObjectId.createFromHexString(requestData?.buyer);
 
-      res.status(201).json({ "msg": "Property Saved Successfully" });
+        const result = await PropertySavedCollection.deleteOne({property: propertyId, buyer: buyerId});
+        res.status(201).json({ "msg": "Property Unsaved Successfully" });
+      }
 
     } catch (error) {
-      res.status(500).json({ message: "Propert Saved Failed" , error});
+      res.status(500).json({ message: "Propert Saved/Unsave Failed" , error});
       
     }
   };
@@ -122,6 +130,6 @@ module.exports = {
   getAllPropertyController,
   updatePropertyController,
   getSpecificProperty,
-  propertySavedController
+  propertySaveAndUnsave
 };
   
