@@ -118,6 +118,10 @@ const getSavedPropertiesController = async (req, res) => {
           {
           path: 'seller',
           select: 'name address propertyName image _id'
+          },
+          {
+          path: 'buyer',
+          select: '_id'
           }
       ]);
       
