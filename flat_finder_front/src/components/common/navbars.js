@@ -16,6 +16,7 @@ import {
   ListItemText,
   Divider,
   Avatar,
+  Badge,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import Notifications from '@mui/icons-material/Notifications';
@@ -94,11 +95,11 @@ const Navbar = () => {
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
           {!isMobile && (
             <>
-              <IconButton>
-                <FavoriteOutlined />
+              {
+                userData?.role == 'buyer' && <IconButton onClick={() => router.push('/buyer-dashboard-home')}>
+                <FavoriteOutlined className='text-basecolor'/>
               </IconButton>
-              
-              {/* NOTICACTION BUTTON */}
+              }
               
               <NotificationMenu />
 
@@ -188,6 +189,10 @@ const Navbar = () => {
             ))}
           </List>
           <Divider />
+            <ListItem>
+                <DropDownBtn manuArray={languages} buttonTitle='En'/>
+            </ListItem>
+
           {
             isLoggedIn && <List>
             {iconNavItems.map(({ label, icon }) => (
@@ -209,16 +214,19 @@ const Navbar = () => {
 
             <ListItem>
               <ListItemIcon>
-                <Notifications />
+                 <Badge badgeContent={4} color="warning">
+                  <Notifications fontSize="medium" className="text-bluemain" />
+                </Badge>
               </ListItemIcon>
               <ListItemText primary="Notification" />
             </ListItem>
-            <ListItem>
-                <DropDownBtn manuArray={languages} buttonTitle='En'/>
-            </ListItem>
+
            {
-            isLoggedIn &&  <ListItem>
-               <ProfileManu/>
+            isLoggedIn &&          <ListItem>
+              <ListItemIcon>
+                <Logout />
+              </ListItemIcon>
+              <ListItemText primary="Logout" />
             </ListItem>
            }
            {

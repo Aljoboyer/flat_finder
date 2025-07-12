@@ -3,6 +3,8 @@ import { useState } from "react";
 import { IconButton, Badge, Avatar, Divider } from "@mui/material";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import CloseIcon from "@mui/icons-material/Close";
+import { Home } from "@mui/icons-material";
+import { COLORS } from "@/theme/colors";
 
 const notificationsMock = [
   {
@@ -18,7 +20,7 @@ const notificationsMock = [
     title: "Store Verification Done",
     message: "We have successfully received your request.",
     time: "2 min ago",
-    icon: "🏬",
+    icon: <Home className="text-basecolor"/>,
     unread: false,
   },
   {
@@ -26,7 +28,7 @@ const notificationsMock = [
     title: "Check Your Mail.",
     message: "All done! Now check your inbox as you’re in for a sweet treat!",
     time: "2 min ago",
-    icon: "📬",
+    icon: <Home className="text-basecolor"/>,
     unread: true,
   },
     {
@@ -99,12 +101,17 @@ export default function NotificationMenu() {
 
       {open && (
         <div className="absolute right-0 mt-2 w-[360px] bg-white shadow-xl rounded-xl z-50">
+
           <div className="flex items-center justify-between p-4 border-b">
-            <p className="text-p_lg text-blackshade font-semibold">All Notification</p>
-            
-            <span className="bg-yellowOverlay text-blackshade text-xs font-bold px-2 py-0.5 rounded-full">
+            <p className="text-p_lg text-blackshade font-semibold">All Notification<span className="bg-successOverlay text-blackshade text-psm font-bold px-2 py-0.5 rounded-full ms-2">
               {notifications.length.toString().padStart(2, "0")}
-            </span>
+            </span></p>
+             <button
+             onClick={toggleMenu}
+              className="text-basecolor cursor-pointer"
+              >
+              <CloseIcon fontSize="small" />
+              </button>
           </div>
 
           <div className="max-h-[400px] overflow-y-auto custom-scroll">
@@ -118,7 +125,7 @@ export default function NotificationMenu() {
                 >
                     <button
                     onClick={() => removeNotification(item.id)}
-                    className="absolute top-2 right-2 text-red-500 cursor-pointer"
+                    className="absolute top-0 right-2 text-basecolor cursor-pointer"
                     >
                     <CloseIcon fontSize="small" />
                     </button>
@@ -127,14 +134,14 @@ export default function NotificationMenu() {
                     {item.avatar ? (
                         <Avatar src={item.avatar} alt={item.title} />
                     ) : (
-                        <div className="w-10 h-10 rounded-full bg-overlay text-xl flex items-center justify-center">
+                        <div className="w-10 h-10 rounded-full bg-yellowOverlay  flex items-center justify-center">
                         {item.icon}
                         </div>
                     )}
                     <div className="flex-1">
                         <div className="flex justify-between items-center mb-1">
                         <p className="font-medium text-blackshade text-p">{item.title}</p>
-                        {/* <span className="text-xs text-gray-400">{item.time}</span> */}
+                        <span className="text-[12px] text-gray-400">{item.time}</span>
                         </div>
                         <p className="text-psm text-gray-600">{item.message}</p>
                     </div>

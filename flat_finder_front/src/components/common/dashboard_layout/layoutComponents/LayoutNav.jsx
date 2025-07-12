@@ -1,13 +1,15 @@
 import React from 'react'
 import Typography from '@mui/material/Typography';
 import Toolbar from '@mui/material/Toolbar';
-import { Avatar, Box, Button } from '@mui/material';
+import { Avatar, Badge, Box, Button } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { COLORS } from '@/theme/colors';
 import { TbHomeSearch } from "react-icons/tb";
 import ProfileManu from '@/components/common/ProfileManu/ProfileManu';
 import Logout from '@mui/icons-material/Logout';
 import { useRouter } from 'next/navigation';
+import NotificationMenu from '../../FFNotification';
+import { Notifications } from '@mui/icons-material';
 
 const manuItems = [
     {"label": "Profile", "link": "", "icon": <Avatar fontSize="small" />},
@@ -55,7 +57,15 @@ export const LayoutNav = ({handleDrawerOpen}) => {
    
     </Box>
 
-    <Box className='ease-in-out duration-300'  sx={{ marginRight: '15px' }}>
+    <Box className='flex flex-row items-center'  sx={{ marginRight: '15px' }}>
+
+         <Badge sx={{display: {xs: 'block', md: 'none'}}} badgeContent={4} color="warning">
+            <Notifications fontSize="medium" className="text-bluemain"  />
+        </Badge>
+
+        <div className='hidden md:block'>
+          <NotificationMenu />
+        </div>
 
       <ProfileManu manuItems={manuItems}/>
     </Box>
