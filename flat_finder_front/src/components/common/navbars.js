@@ -31,6 +31,7 @@ import ProfileManu from './ProfileManu/ProfileManu';
 import { getAuthToken } from '@/utils/getAuthToken';
 import { AccountCircle, Logout } from '@mui/icons-material';
 import { getLocalStorageData } from '@/utils/getLocalStorageData';
+import NotificationMenu from './FFNotification';
 
 const navItems = [
     {label: 'Home', link: '/flat-finder-home'},
@@ -96,9 +97,11 @@ const Navbar = () => {
               <IconButton>
                 <FavoriteOutlined />
               </IconButton>
-              <IconButton>
-                <Notifications />
-              </IconButton>
+              
+              {/* NOTICACTION BUTTON */}
+              
+              <NotificationMenu />
+
              <DropDownBtn manuArray={languages} buttonTitle='En'/>
 
             {

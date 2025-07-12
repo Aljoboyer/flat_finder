@@ -17,7 +17,8 @@
   --color-greenMain: #00c853;
   --color-blackshade: #313C53;
   --color-bluemain: #4c96f3;
-
+  --color-yellowOverlay: #fff9e6;
+  --color-blueOverlay: #e3f2fd;
   /* ----------TEXT SIZE---------- */
   --text-xxl_title: 60px;
   --text-xl_title: 40px;
