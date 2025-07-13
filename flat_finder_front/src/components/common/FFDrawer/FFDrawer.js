@@ -9,10 +9,10 @@ export default function FFDrawer({
     
   return (
     <Drawer sx={{
-          width: 240,
+          width: 300,
           flexShrink: 0,
           '& .MuiDrawer-paper': {
-            width: 240,
+            width: 300,
             boxSizing: 'border-box',
           },
         }} open={open} onClose={() => toggleDrawer(false)}>

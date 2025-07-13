@@ -3,6 +3,8 @@ import React from 'react'
 
 export default function page() {
   return (
-    <NoChatSelected/>
+     <div className="w-full  lg:w-3/4 flex flex-col bg-gray-50 h-screen">
+        <NoChatSelected/>
+     </div>
   )
 }

@@ -34,12 +34,12 @@ const LayoutSidebar = ({open, handleDrawerClose, sideManuList}) => {
     <Drawer
             className='ease-in-out duration-500'
             sx={{
-              width: isXtraScreen && !open ? '4%' : isXtraScreen && open ? '15%' : isLargeScreen && !open ? '5%' :  isLargeScreen && open ? '18%' : isMediumScreen ? '22%' : '5%',
+              width: isXtraScreen && !open ? '4%' : isXtraScreen && open ? '15%' : isLargeScreen && !open ? '5%' :  isLargeScreen && open ? '18%' : isMediumScreen ? '30%' : '70%',
               flexShrink: 0,
               marginTop:  isLargeScreen ? '80px' : '0px',
               border: 'none',
               '& .MuiDrawer-paper': {
-                width: isXtraScreen && !open ? '3%' : isXtraScreen && open ? '15%' : isLargeScreen && !open ? '5%' :  isLargeScreen && open ? '18%' : isMediumScreen ? '22%' : '45%',
+                width: isXtraScreen && !open ? '3%' : isXtraScreen && open ? '15%' : isLargeScreen && !open ? '5%' :  isLargeScreen && open ? '18%' : isMediumScreen ? '30%' : '70%',
                 // boxSizing: 'border-box',
                 marginTop: isLargeScreen ? '80px' : '0px',
               border: 'none',

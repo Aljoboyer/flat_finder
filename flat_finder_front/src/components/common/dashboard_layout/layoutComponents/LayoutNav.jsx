@@ -35,9 +35,10 @@ export const LayoutNav = ({handleDrawerOpen}) => {
          <TbHomeSearch color={COLORS.side_yellow} size={28} className='mx-[4px] font-bold' />
         <Typography sx={{ fontWeight: 'bold', color: COLORS.baseColor , fontSize: {xs: '18px', md: '24px'}}}>Finder</Typography>
        </div>
-        {/* <Button
+        <Button
             onClick={handleDrawerOpen}
             sx={{
+              display: {lg: 'none'},
               marginLeft: {xsm: '0px', md: '20px'},
               backgroundColor: COLORS.overlay,
               padding: '5px',
@@ -52,7 +53,7 @@ export const LayoutNav = ({handleDrawerOpen}) => {
             }}
           >
             <MenuIcon color="#fff000"/>
-        </Button> */}
+        </Button>
       </Toolbar>
    
     </Box>

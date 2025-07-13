@@ -1,6 +1,7 @@
 import React from 'react'
-import { Avatar, TextField, Typography, Badge } from '@mui/material';
+import { Avatar, TextField, Typography, Badge, Divider } from '@mui/material';
 import { useRouter } from 'next/navigation';
+import { Close } from '@mui/icons-material';
 
 function cn(...classes) {
   return classes.filter(Boolean).join(' ');
@@ -14,46 +15,55 @@ const conversations = [
   { id: 5, name: 'Herman Essertg', role: 'Co-ordinator', time: '4/25/2021', avatar: '/avatar5.png' },
   { id: 6, name: 'Wilhelmine Durg', role: 'Monitor Evaluator', time: '4/25/2021', avatar: '/avatar6.png' },
   { id: 7, name: 'Agilulf Fuxg', role: 'Specialist', time: '4/25/2021', avatar: '/avatar7.png' },
+  
 ];
 
-export default function InboxSideManu() {
+export default function InboxSideManu({
+  closeDrawer
+}) {
   const router = useRouter();
 
   return (
-       <div className="w-full md:w-1/3 lg:w-1/4 border-r border-gray-200 overflow-y-auto bg-white">
+       <div className="w-full p-2">
         <div className="p-4 border-b border-gray-100">
-          <div className="flex items-center gap-2">
-            <Avatar src="/user.png" />
-            <div>
-              <Typography variant="subtitle1">JWT User</Typography>
-              <div className="w-2 h-2 bg-green-500 rounded-full" />
-            </div>
+          <div className="flex flex row justify-between gap-2 my-4">
+              <div className="flex items-center gap-2">
+                <Avatar src="/user.png" />
+                <div>
+                  <p className='text-psm md:text-p font-bold text-blackshade'>Ahan Chowdhury Tanveee</p>
+                  <div className="w-2 h-2 bg-green-500 rounded-full" />
+                </div>
+              </div>
+              <p onClick={() => closeDrawer()} className='cursor-pointer lg:hidden'>
+                <Close className=' '/>
+                </p>
           </div>
           <TextField size="small" fullWidth className="mt-4" placeholder="Search Mail" />
         </div>
+        <Divider/>
         {conversations.map((conv) => (
-          <div
-            key={conv.id}
-            onClick={() => {
-              router.push(`/buyer-inbox/${2}`)
-            }}
-            className={cn(
-              'flex items-center gap-2 p-4 cursor-pointer hover:bg-gray-100 '
-            )}
-          >
-            <Avatar src={conv.avatar} />
-            <div className="flex-1">
-              <Typography variant="subtitle2">{conv.name}</Typography>
-              <Typography variant="caption" className="text-gray-500">
-                {conv.role}
-              </Typography>
+          <div className='w-full'>
+            <div
+              key={conv.id}
+              onClick={() => {
+                router.push(`/buyer-inbox/${2}`)
+              }}
+              className="flex justify-between items-center gap-2 p-4 cursor-pointer hover:bg-gray-100"
+            >
+              <div className='flex flex-row'>
+                <Avatar src={conv.avatar} />
+                <div className="ms-2">
+                  <p className='text-psm md:text-p font-semibold'>{conv.name}</p>
+                  <p className='text-xsm fontmedium text-gray100'>{conv.role}</p>
+                </div>
+              </div>
+
+              <div className="flex flex-col ">
+                {conv.unread && <Badge badgeContent={conv.unread} color="success"  />}
+                <p  className='text-xsm fontmedium text-gray100 mt-4'>{conv.time}</p>
+              </div>
             </div>
-            <div className="flex flex-col items-end">
-              <Typography variant="caption" className="text-gray-400">
-                {conv.time}
-              </Typography>
-              {conv.unread && <Badge badgeContent={conv.unread} color="secondary" />}
-            </div>
+            <Divider/>
           </div>
         ))}
       </div>
