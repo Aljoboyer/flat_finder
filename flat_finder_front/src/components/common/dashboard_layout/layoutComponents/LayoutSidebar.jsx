@@ -30,6 +30,7 @@ const LayoutSidebar = ({open, handleDrawerClose, sideManuList}) => {
     const isXtraScreen = useMediaQuery(theme.breakpoints.up('xl'));
     const pathname = usePathname();
 
+    console.log('pathname ===>', pathname?.split('/')[1])
   return (
     <Drawer
             className='ease-in-out duration-500'
@@ -70,25 +71,27 @@ const LayoutSidebar = ({open, handleDrawerClose, sideManuList}) => {
                 sideManuList?.map((item) => (
                   <ListItem key={item?.title}  disablePadding>
                   <ListItemButton
-                  onClick={() => router.push(item?.link)}
+                  onClick={() => {
+                    router.push(item?.link)
+                  }}
                   className='ease-in-out duration-300'
                     sx={{
                     marginTop: '6px',
                       borderRadius: '8px',
-                      backgroundColor: pathname == item?.link ? COLORS.baseColor : 'white',
+                      backgroundColor: pathname?.split('/')[1] == item?.link.split('/')[1] ? COLORS.baseColor : 'white',
                       '&:hover': {
                         backgroundColor: COLORS.overlay,
                       },
                     }}
                   >
-                    <ListItemIcon sx={{ minWidth: '0px' , color: pathname == item?.link ? COLORS.side_yellow : 'black'}}>
+                    <ListItemIcon sx={{ minWidth: '0px' , color: pathname?.split('/')[1] == item?.link.split('/')[1] ? COLORS.side_yellow : 'black'}}>
                         {item.icon}
                     </ListItemIcon>
   
                     <ListItemText
                       primary={item.title}
                       className="font-normal font-roboto"
-                      sx={{color: pathname == item?.link ? COLORS.side_yellow : COLORS.baseColor, marginLeft: '16px', '& .MuiListItemText-primary': {fontSize: '14px'}}}
+                      sx={{color: pathname?.split('/')[1] == item?.link.split('/')[1] ? COLORS.side_yellow : COLORS.baseColor, marginLeft: '16px', '& .MuiListItemText-primary': {fontSize: '14px'}}}
                     />
                   </ListItemButton>
                 </ListItem>

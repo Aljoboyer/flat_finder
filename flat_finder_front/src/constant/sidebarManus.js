@@ -11,7 +11,7 @@ export const SellerSideManuList = [
     { title: 'Properties', link: '/seller-properties', icon: <ApartmentIcon fontSize='20px'/>},
     { title: 'Rent/Sell Request', link: '/seller-rent-requests', icon: <TagRoundedIcon fontSize='20px'/>},
     { title: 'Rent/Sell Hisory', link: '/seller-rent-sell-history', icon: <BusinessCenterSharpIcon fontSize='20px'/> },
-    { title: 'Inbox', link: '', icon: <MdOutlineForwardToInbox fontSize='20px'/>},
+    { title: 'Inbox', link: '/seller-inbox', icon: <MdOutlineForwardToInbox fontSize='20px'/>},
     { title: 'Profile', link: '/seller-profile', icon: <CgProfile fontSize='20px'/>},
   ];
 

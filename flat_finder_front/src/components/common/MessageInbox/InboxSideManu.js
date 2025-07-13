@@ -12,7 +12,7 @@ const conversations = [
   { id: 2, name: 'Keefe', role: 'Support Executive', time: '1:20 AM', unread: 3, avatar: '/avatar2.png' },
   { id: 3, name: 'Lazaro', role: 'Resource Investigator', time: 'Yesterday', unread: 1, avatar: '/avatar3.png' },
   { id: 4, name: 'Hazle', role: 'Teamworker', time: '4/25/2021', avatar: '/avatar4.png' },
-  { id: 5, name: 'Herman Essertg', role: 'Co-ordinator', time: '4/25/2021', avatar: '/avatar5.png' },
+  { id: 5, name: 'Herman Essertg ', role: 'Co-ordinator', time: '4/25/2021', avatar: '/avatar5.png' },
   { id: 6, name: 'Wilhelmine Durg', role: 'Monitor Evaluator', time: '4/25/2021', avatar: '/avatar6.png' },
   { id: 7, name: 'Agilulf Fuxg', role: 'Specialist', time: '4/25/2021', avatar: '/avatar7.png' },
   

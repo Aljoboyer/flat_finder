@@ -1,6 +1,6 @@
 "use client"
 import { useState } from 'react';
-import { Avatar, IconButton, TextField, Typography, Badge } from '@mui/material';
+import { Avatar, IconButton, TextField, Typography, Badge, InputBase, Paper } from '@mui/material';
 import { Send, Phone, VideoCall, Info, MoreVert, InsertEmoticon, AttachFile } from '@mui/icons-material';
 
 function cn(...classes) {
@@ -31,10 +31,9 @@ const messages = [
 ];
 
 export default function ChatInbox() {
-  const [selectedChat, setSelectedChat] = useState(null);
-
+  const [message, setMessage] = useState('');
   return (
-    <div className="w-full lg:w-3/4 flex flex-col bg-white">
+    <div className="w-full lg:w-3/4 flex flex-col bg-white pb-13 md:pb-0 ">
 
         <div className="p-4 border-b flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -72,13 +71,18 @@ export default function ChatInbox() {
         </div>
 
         {/* Input */}
-        <div className="p-4 border-t flex items-center gap-2">
-          <IconButton><InsertEmoticon /></IconButton>
-          <IconButton><AttachFile /></IconButton>
-          <TextField fullWidth size="small" placeholder="Type a Message" />
-          <IconButton color="primary">
-            <Send />
-          </IconButton>
+        <div className="p-4 border-t flex items-center flex-wrap md:flex-nowrap gap-2 h-[90px]">
+          <div className='flex items-center'>
+            <IconButton><InsertEmoticon /></IconButton>
+             <IconButton><AttachFile /></IconButton>
+          </div>
+          <div className='flex items-center w-full'>
+            <TextField multiline maxRows={6} fullWidth size="small" placeholder="Type a Message" />
+            <IconButton color="success">
+              <Send />
+            </IconButton>
+          </div>
+          
         </div>
 
     </div>

@@ -10,6 +10,7 @@ import Logout from '@mui/icons-material/Logout';
 import { useRouter } from 'next/navigation';
 import NotificationMenu from '../../Notification/FFNotification';
 import { Notifications } from '@mui/icons-material';
+import { getLocalStorageData } from '@/utils/getLocalStorageData';
 
 const manuItems = [
     {"label": "Profile", "link": "", "icon": <Avatar fontSize="small" />},
@@ -17,7 +18,8 @@ const manuItems = [
 ]
 
 export const LayoutNav = ({handleDrawerOpen}) => {
-  const router = useRouter()
+  const router = useRouter();
+  const userData = getLocalStorageData()
 
   return (
     <Box sx={{position:'sticky',top: '0px', width: '100%', backgroundColor: 'white', height: '70px', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', paddingX: {md: '20px'}, alignItems: 'center' ,zIndex: 1,}}>
@@ -60,9 +62,17 @@ export const LayoutNav = ({handleDrawerOpen}) => {
 
     <Box className='flex flex-row items-center'  sx={{ marginRight: '15px' }}>
 
-         <Badge sx={{display: {xs: 'block', md: 'none'}}} badgeContent={4} color="warning">
-            <Notifications fontSize="medium" className="text-bluemain"  />
-        </Badge>
+        <div onClick={() => {
+          if(userData?.role == 'buyer'){
+            router.push('/buyer-notifications')
+          }else{
+            router.push('/seller-notifications')
+          }
+        }}>
+           <Badge sx={{display: {xs: 'block', md: 'none'}}} badgeContent={4} color="warning">
+              <Notifications fontSize="medium" className="text-bluemain"  />
+          </Badge>
+        </div>
 
         <div className='hidden md:block'>
           <NotificationMenu />
