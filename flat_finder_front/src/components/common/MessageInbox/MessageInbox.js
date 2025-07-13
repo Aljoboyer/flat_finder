@@ -34,22 +34,23 @@ export default function ChatInbox() {
   const [selectedChat, setSelectedChat] = useState(null);
 
   return (
-    <div className="w-full md:w-2/3 lg:w-3/4 flex flex-col bg-gray-50">
+    <div className="w-full lg:w-3/4 flex flex-col bg-white">
 
         <div className="p-4 border-b flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Avatar src={''} alt='Jhon Snow' />
             <div>
-              <Typography variant="subtitle1">Jhon Snow</Typography>
-              <Typography variant="caption" className="text-gray-500">
-                Last seen 2h ago
-              </Typography>
+              <div className='flex flex-row items-center'>
+                <p className='text-p md:text-p_lg font-bold text-basecolor'>Jhon Snow</p>
+                <div className="w-2 h-2 bg-green-500 rounded-full ms-2" />
+              </div>
+              <p className='text-gray-400 font-medium text-xsm md:text-psm'>Last seen 2h ago</p>
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <IconButton><Phone /></IconButton>
+            {/* <IconButton><Phone /></IconButton>
             <IconButton><VideoCall /></IconButton>
-            <IconButton><Info /></IconButton>
+            <IconButton><Info /></IconButton> */}
             <IconButton><MoreVert /></IconButton>
           </div>
         </div>
@@ -61,11 +62,11 @@ export default function ChatInbox() {
               key={i}
               className={cn(
                 'max-w-xs p-3 rounded-lg text-sm shadow-md',
-                msg.from === 'me' ? 'bg-blue-100 ml-auto' : 'bg-purple-100'
+                msg.from === 'me' ? 'bg-overlay ml-auto' : 'bg-basecolor'
               )}
             >
-              {msg.text}
-              <div className="text-[10px] text-right text-gray-500 mt-1">{msg.time}</div>
+              <p className={`${msg.from === 'me' ? 'text-basecolor ' : 'text-side_yellow'}`}>{msg.text}</p>
+              <div className={`${msg.from === 'me' ? 'text-gray-600' : 'text-white'} mt-1 text-[10px] text-right `}>{msg.time}</div>
             </div>
           ))}
         </div>

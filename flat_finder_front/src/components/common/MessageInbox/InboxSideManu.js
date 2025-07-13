@@ -25,7 +25,7 @@ export default function InboxSideManu({
 
   return (
        <div className="w-full p-2">
-        <div className="p-4 border-b border-gray-100">
+        <div className="px-4 border-b border-gray-100 mb-4">
           <div className="flex flex row justify-between gap-2 my-4">
               <div className="flex items-center gap-2">
                 <Avatar src="/user.png" />
@@ -53,7 +53,7 @@ export default function InboxSideManu({
               <div className='flex flex-row'>
                 <Avatar src={conv.avatar} />
                 <div className="ms-2">
-                  <p className='text-psm md:text-p font-semibold'>{conv.name}</p>
+                  <p className='text-p font-semibold'>{conv.name}</p>
                   <p className='text-xsm fontmedium text-gray100'>{conv.role}</p>
                 </div>
               </div>
