@@ -39,11 +39,11 @@ export default function Notification() {
                     <div className='flex flex-row'>
                         { item == 1 || item == 3 || item == 6 ? <Avatar sizes='30px' alt='Image'/> :
                             <div className="w-10 h-10 rounded-full bg-yellowOverlay  flex items-center justify-center">
-                                <Home className='text-bluemain'/>
+                                <Home className='text-bluemain' />
                             </div>
                         }
                             <div className='ms-2'>
-                                <p className='text-blackshade font-medium text-title_sm'>Your proposal for Experienced React Native Developer Needed for Mobile App was viewed.</p>
+                                <p className='text-blackshade font-medium text-psm md:title_sm '>Your proposal for Experienced React Native Developer Needed for Mobile App was viewed.</p>
                                 <p className='text-psm text-gray-600 my-2'>Jul 6 2025</p>
                             </div>
                         </div>
