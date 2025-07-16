@@ -34,6 +34,10 @@
   --breakpoint-xsm: 330px;
 }
 
+.inbox_sidemanue :hover{
+  background: rgba(237, 237, 237, 0.482);
+}
+
 .landing_hero_section{
   background-image: url('/assets/hero-img.webp');
   background-repeat: no-repeat;

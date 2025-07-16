@@ -33,6 +33,7 @@ import { getAuthToken } from '@/utils/getAuthToken';
 import { AccountCircle, Logout } from '@mui/icons-material';
 import { getLocalStorageData } from '@/utils/getLocalStorageData';
 import NotificationMenu from './Notification/FFNotification';
+import MailIcon from '@mui/icons-material/Mail';
 
 const navItems = [
     {label: 'Home', link: '/flat-finder-home'},
@@ -55,8 +56,6 @@ const Navbar = () => {
   const toggleDrawer = (open) => () => {
     setDrawerOpen(open);
   };
-
- 
 
   const navigationHanlder = (item) => {
  
@@ -97,9 +96,22 @@ const Navbar = () => {
             <>
               {
                 userData?.role == 'buyer' && <IconButton onClick={() => router.push('/buyer-dashboard-home')}>
-                <FavoriteOutlined className='text-basecolor'/>
+                <FavoriteOutlined className='text-blackshade'/>
               </IconButton>
               }
+              
+              <IconButton onClick={() => {
+                if(userData?.role == 'buyer'){
+                  router.push('/buyer-inbox')
+                }
+                else{
+                  router.push('/seller-inbox')
+                }
+              }}>
+              <Badge badgeContent={4} color="info">
+                <MailIcon sx={{fontSize: '30px'}} color="secondary"/>
+              </Badge>
+              </IconButton>
               
               <NotificationMenu />
 
@@ -212,6 +224,22 @@ const Navbar = () => {
           <Divider />
           <List>
 
+          <ListItem>
+             <ListItemIcon onClick={() => {
+                if(userData?.role == 'buyer'){
+                  router.push('/buyer-inbox')
+                }
+                else{
+                  router.push('/seller-inbox')
+                }
+              }}>
+                <Badge badgeContent={4} color="info">
+                <MailIcon sx={{fontSize: '30px'}} color="secondary"/>
+              </Badge>
+             </ListItemIcon>
+               <ListItemText primary="Inbox" />
+          </ListItem>
+          
             <ListItem>
               <ListItemIcon>
                  <Badge badgeContent={4} color="warning">

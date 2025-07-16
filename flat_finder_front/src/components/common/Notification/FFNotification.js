@@ -99,7 +99,7 @@ export default function NotificationMenu() {
     <div className="relative">
       <IconButton onClick={toggleMenu}>
         <Badge badgeContent={notifications.length} color="warning">
-          <NotificationsIcon fontSize="medium" className="text-bluemain" />
+          <NotificationsIcon fontSize="medium" className="text-bluemain" sx={{fontSize: '30px'}} />
         </Badge>
       </IconButton>
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import Typography from '@mui/material/Typography';
 import Toolbar from '@mui/material/Toolbar';
-import { Avatar, Badge, Box, Button } from '@mui/material';
+import { Avatar, Badge, Box, Button, IconButton } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { COLORS } from '@/theme/colors';
 import { TbHomeSearch } from "react-icons/tb";
@@ -11,6 +11,7 @@ import { useRouter } from 'next/navigation';
 import NotificationMenu from '../../Notification/FFNotification';
 import { Notifications } from '@mui/icons-material';
 import { getLocalStorageData } from '@/utils/getLocalStorageData';
+import MailIcon from '@mui/icons-material/Mail';
 
 const manuItems = [
     {"label": "Profile", "link": "", "icon": <Avatar fontSize="small" />},
@@ -61,6 +62,18 @@ export const LayoutNav = ({handleDrawerOpen}) => {
     </Box>
 
     <Box className='flex flex-row items-center'  sx={{ marginRight: '15px' }}>
+        <IconButton onClick={() => {
+          if(userData?.role == 'buyer'){
+            router.push('/buyer-inbox')
+          }
+          else{
+            router.push('/seller-inbox')
+          }
+        }}>
+        <Badge badgeContent={4} color="info">
+          <MailIcon sx={{fontSize: '30px'}} color="secondary"/>
+        </Badge>
+        </IconButton>
 
         <div onClick={() => {
           if(userData?.role == 'buyer'){
@@ -70,7 +83,7 @@ export const LayoutNav = ({handleDrawerOpen}) => {
           }
         }}>
            <Badge sx={{display: {xs: 'block', md: 'none'}}} badgeContent={4} color="warning">
-              <Notifications fontSize="medium" className="text-bluemain"  />
+              <Notifications fontSize="medium" className="text-bluemain" sx={{fontSize: '30px'}} />
           </Badge>
         </div>
 

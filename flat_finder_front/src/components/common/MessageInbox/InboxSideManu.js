@@ -42,13 +42,14 @@ export default function InboxSideManu({
         </div>
         <Divider/>
         {conversations.map((conv) => (
-          <div className='w-full'>
+          <div className='w-full inbox_sidemanue'>
             <div
               key={conv.id}
               onClick={() => {
                 router.push(`/buyer-inbox/${2}`)
               }}
-              className="flex justify-between items-center gap-2 p-4 cursor-pointer hover:bg-gray-100"
+              className="flex justify-between items-center gap-2 p-4 cursor-pointer "
+             
             >
               <div className='flex flex-row'>
                 <Avatar src={conv.avatar} />
