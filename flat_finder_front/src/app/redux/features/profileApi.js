@@ -51,6 +51,13 @@ const ProfileApi = api.injectEndpoints({
        providesTags: ["savedList"],
     }),
 
+    getDashboardDataCount: builder.query({
+      query: (data) => (
+        getListQueryCall('/dm/total-count', data?.querys)
+      ),
+       providesTags: ["savedList"],
+    }),
+
   }),
 });
 
@@ -61,5 +68,6 @@ export const {
   useFollowSellerMutation,
   useLazyGetFollowListQuery,
   useUnFollowSellerMutation,
-  useLazyBuyerSavedPropertyListQuery
+  useLazyBuyerSavedPropertyListQuery,
+  useLazyGetDashboardDataCountQuery
 } = ProfileApi;
