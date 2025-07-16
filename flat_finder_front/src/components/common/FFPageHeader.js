@@ -5,7 +5,8 @@ import { Buttons } from './Buttons/Buttons';
 import { COLORS } from '@/theme/colors';
 import { Chat } from '@mui/icons-material';
 
-export default function FFPageHeader({
+export default function FFPageHeader({  
+    backBtnShow = true, 
     pageTitle,
     rightBtnShow = false,
     rightBtnTitle = '',
@@ -14,7 +15,10 @@ export default function FFPageHeader({
     const router = useRouter()
   return (
     <div className='bg-white p-4 rounded-md my-4 flex flex-row items-center'>
-        <MdArrowBackIosNew onClick={() => router.back()} className='cursor-pointer' size={22}/>
+      {
+        backBtnShow && <MdArrowBackIosNew onClick={() => router.back()} className='cursor-pointer' size={22}/>
+      }
+        
         <p className='text-title_sm font-bold ms-2'>{pageTitle}</p>
 
         <div className='lg:hidden ml-auto'>
