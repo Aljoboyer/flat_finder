@@ -1,4 +1,3 @@
-const mongoose = require('mongoose');
 const RentRequestCollection = require("../../../models/rentRequest");
 const PaymentCollection = require("../../../models/payment");
 const PropertyCollection = require("../../../models/property");

@@ -1,6 +1,10 @@
 const AreaNameCollection = require("../../../models/areaNames");
+const PropertyCollection = require("../../../models/property");
 const { generateFilterQuery } = require("../../../helper/generateFilterQuery");
-
+const RentRequestCollection = require("../../../models/rentRequest");
+const ConnectionCollection = require("../../../models/connection");
+const mongoose = require('mongoose');
+const ObjectId = mongoose.Types.ObjectId;
 
 //updating all data in porperty
 const updateAllData = async (req, res) => {
@@ -24,7 +28,6 @@ const updateAllData = async (req, res) => {
       res.status(500).json({ message: "Like Posting Failed" , error});
     }
 };
-
 
 //add area name
 const addAreaName = async (req, res) => {
@@ -57,10 +60,35 @@ const getAreaNameByCity = async (req, res) => {
     }
 };
 
+const getDashboardDataCount = async (req, res) => {
+  
+    try {
+      const sellerid = ObjectId.createFromHexString(req.query.seller);
+      
+      const totalProperty = await PropertyCollection.countDocuments({seller: sellerid});
+      const totalSold = await PropertyCollection.countDocuments({seller: sellerid, status: 'in_process'});
+      const totalRequest = await RentRequestCollection.countDocuments({seller: sellerid, status: 'pending'});
+      const totalPendingPayment = await RentRequestCollection.countDocuments({seller: sellerid, status: 'accepted'});
+       const totalFollwers = await ConnectionCollection.countDocuments({seller: sellerid});
+
+      res.status(200).json({
+      totalProperty,
+      totalSold,
+      totalRequest,
+      totalPendingPayment,
+      totalFollwers
+    });
+
+    } catch (error) {
+      res.status(500).json({ message: "addAreaName get Failed" , error});
+    }
+};
+
 
 module.exports = {
   updateAllData,
   addAreaName,
-  getAreaNameByCity
+  getAreaNameByCity,
+  getDashboardDataCount
 };
   
