@@ -23,7 +23,7 @@ export default function Layout({children}) {
 
         <div className="flex flex-col md:flex-row h-screen w-full">
           {/* Sidebar */}
-          <div className='hidden lg:block w-full  lg:w-1/4 border-r border-gray-200 overflow-y-auto bg-white'>
+          <div className='hidden lg:block w-full  lg:w-1/4 border-r border-gray-200 overflow-y-auto bg-white chat_sidebar'>
               <InboxSideManu />
           </div>
           

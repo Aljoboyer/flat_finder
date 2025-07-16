@@ -37,6 +37,9 @@
 .inbox_sidemanue :hover{
   background: rgba(237, 237, 237, 0.482);
 }
+.chat_sidebar{
+box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
+}
 
 .landing_hero_section{
   background-image: url('/assets/hero-img.webp');

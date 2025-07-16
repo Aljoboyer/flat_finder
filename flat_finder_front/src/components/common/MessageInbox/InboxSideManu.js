@@ -2,6 +2,7 @@ import React from 'react'
 import { Avatar, TextField, Typography, Badge, Divider } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import { Close } from '@mui/icons-material';
+import NoChatSelected from './NoChatSelected';
 
 function cn(...classes) {
   return classes.filter(Boolean).join(' ');
@@ -41,7 +42,7 @@ export default function InboxSideManu({
           <TextField size="small" fullWidth className="mt-4" placeholder="Search Mail" />
         </div>
         <Divider/>
-        {conversations.map((conv) => (
+          {conversations.map((conv) => (
           <div className='w-full inbox_sidemanue'>
             <div
               key={conv.id}
@@ -67,6 +68,11 @@ export default function InboxSideManu({
             <Divider/>
           </div>
         ))}
+        {/* <NoChatSelected
+        from='sidebar'
+        title="No Conversations"
+        subText="It all starts with hello."
+        /> */}
       </div>
   )
 }
