@@ -24,7 +24,7 @@ const loginController = async (req, res) => {
       return res.status(400).json({ message: "Incorrect password" });
 
     const token = jwt.sign({ email: oldUser.email, id: oldUser._id }, SecretKey,  {
-      expiresIn: "8h",
+      expiresIn: "24h",
     });
 
     res.status(201).json({ result: oldUser, msg: "Successfully LoggedIn", token });
@@ -81,9 +81,10 @@ const signUpController = async (req, res) => {
 //Sending reset password link 
 const resetLinkController =  async (req, res) => {
     try {
-      console.log('hitted', req.body.email)
+    
       const userEmail = req.body.email;
       const userWithEmail = await UserCollection.findOne({email: userEmail})
+      const tempPassExists = await TempPasswordCollection.findOne({email: userEmail})
 
       if(!userWithEmail?.email){
         res.send({msg: "User Doesn't Exist with this email"})
@@ -103,7 +104,16 @@ const resetLinkController =  async (req, res) => {
       <p>If you did not request for a password reset, you can safely ignore this email. Only a person with access to your email can reset your account password.</p>
       </div>`
 
-      const addTempPassToDB = await TempPasswordCollection.create({email: userEmail, temp_password: temp_password})
+      if(!tempPassExists?.email){
+         const addTempPassToDB = await TempPasswordCollection.create({email: userEmail, temp_password: temp_password})
+      }else{
+           const updatedTempPass = await TempPasswordCollection.findByIdAndUpdate(
+            tempPassExists?._id,
+            {temp_password: temp_password},
+            { new: true } 
+          );
+      }
+
 
       const emailSendRes = await sendEmail(userEmail, subject, email_Body)
     
@@ -114,9 +124,36 @@ const resetLinkController =  async (req, res) => {
     }
 }
 
-  module.exports = {
-    signUpController,
-    loginController,
-    resetLinkController
-  };
+//Reset Password
+const resetPasswordController = async(req, res) => {
+  try {
+    const {temp_password, newPassword, email} = req.body;
+    const tempPassData = await TempPasswordCollection.findOne({email: email})
+
+    if (temp_password !== tempPassData?.temp_password){
+       res.send({ msg: "Temporary password Incorrect" });
+       return;
+    }
+    else{
+      const hashedPassword = await bcrypt.hash(newPassword, 12);
+        const result = await UserCollection.findOneAndUpdate(
+        {email},
+        { $set: { password: hashedPassword } },
+      );
+   
+      res.send({msg: 'Password Reset Successfully'})
+    }
+
+  } catch (error) {
+    console.log(error)
+    res.send({msg: 'Password Reset Failed', error})
+  }
+}
+
+module.exports = {
+  signUpController,
+  loginController,
+  resetLinkController,
+  resetPasswordController
+};
   

@@ -24,7 +24,6 @@ const propertyPostController = async (req, res) => {
     }
   };
 
-
 // Get all Properties with Pagination + Filters
 const getAllPropertyController = async (req, res) => {
   try {
