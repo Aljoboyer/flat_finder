@@ -8,11 +8,11 @@ import { authFormFields } from "@/constant/formConfigs/authFormConfigs";
 import { useRouter } from 'next/navigation';
 import { useLogInMutation } from "@/app/redux/features/authApi";
 
-export default function Login() {
+export default function page({params}) {
   const router = useRouter()
   const [useLoginHandler, { }] = useLogInMutation();
   const [loading, setLoading] = useState(false)
-
+  const {id} = params
   const {
     handleSubmit,
     control,
@@ -26,8 +26,10 @@ export default function Login() {
     
   };
 
-const newPassword = watch('newPassword');
+  const newPassword = watch('newPassword');
 
+  console.log('id ===>', id)
+  
   return (
     <div className="w-full max-w-md">
 

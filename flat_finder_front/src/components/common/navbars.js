@@ -100,7 +100,8 @@ const Navbar = () => {
               </IconButton>
               }
               
-              <IconButton onClick={() => {
+              {
+                isLoggedIn && <IconButton onClick={() => {
                 if(userData?.role == 'buyer'){
                   router.push('/buyer-inbox')
                 }
@@ -112,8 +113,11 @@ const Navbar = () => {
                 <MailIcon sx={{fontSize: '30px'}} color="info"/>
               </Badge>
               </IconButton>
+              }
               
-              <NotificationMenu />
+              {
+                isLoggedIn && <NotificationMenu />
+              }
 
              <DropDownBtn manuArray={languages} buttonTitle='En'/>
 
@@ -224,7 +228,8 @@ const Navbar = () => {
           <Divider />
           <List>
 
-          <ListItem>
+          {
+            isLoggedIn && <ListItem>
              <ListItemIcon onClick={() => {
                 if(userData?.role == 'buyer'){
                   router.push('/buyer-inbox')
@@ -239,8 +244,10 @@ const Navbar = () => {
              </ListItemIcon>
                <ListItemText primary="Inbox" />
           </ListItem>
+          }
           
-            <ListItem>
+            {
+              isLoggedIn && <ListItem>
               <ListItemIcon>
                  <Badge badgeContent={4} color="warning">
                   <Notifications fontSize="medium" className="text-bluemain" />
@@ -248,6 +255,7 @@ const Navbar = () => {
               </ListItemIcon>
               <ListItemText primary="Notification" />
             </ListItem>
+            }
 
            {
             isLoggedIn &&          <ListItem>
