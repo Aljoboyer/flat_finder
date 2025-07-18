@@ -81,7 +81,7 @@ export default function SellerRegistraton() {
 
       </form>
 
-          <p className="text-sm text-center mt-4">
+          <p className="text-p text-center mt-4">
             Already have an account?{" "}
             <span onClick={() => router.push('/login')} className="font-bold text-teal-800 cursor-pointer">Sign In</span>
           </p>

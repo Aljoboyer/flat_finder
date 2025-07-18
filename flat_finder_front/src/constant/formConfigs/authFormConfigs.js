@@ -6,10 +6,10 @@ export const authFormFields =  [
         label: 'Name',
         placeholder: 'Enter your name',
         required:{
-            required: 'Please Enter Your Name',
+            required: 'Enter Your Name',
             pattern: {
                 value: nameRegex,
-                message: "Please enter name without special character or number",
+                message: "Enter name without special character or number",
             }
         },
         inputType: 'textfield'
@@ -19,10 +19,10 @@ export const authFormFields =  [
         label: 'Phone',
         placeholder: 'Enter your phone',
          required:{
-            required: 'Please enter valid phone number',
+            required: 'Enter valid phone number',
             pattern: {
                 value: phoneRegex,
-                message: "Please enter valid phone number",
+                message: "Enter valid phone number",
             }
         },
         inputType: 'textfield'
@@ -32,10 +32,10 @@ export const authFormFields =  [
         label: 'Email',
         placeholder: 'Enter your email',
          required:{
-            required: 'Please Enter Valid Email',
+            required: 'Enter Valid Email',
             pattern: {
                 value: emailRegex,
-                message: "Please Enter Valid Email",
+                message: "Enter Valid Email",
             }
         },
         inputType: 'textfield'
@@ -45,10 +45,10 @@ export const authFormFields =  [
         label: 'Password',
         placeholder: 'Enter your password',
          required:{
-            required: 'Please enter password',
+            required: 'Enter password',
             pattern: {
                 // value: passwordRegex,
-                message: "Please enter valid password",
+                message: "Enter valid password",
             }
         },
         inputType: 'password'
@@ -58,7 +58,7 @@ export const authFormFields =  [
         label: 'NID No.',
         placeholder: 'Enter your NID number',
          required:{
-            required: 'Please enter valid NID number',
+            required: 'Enter valid NID number',
             min: 4
         },
         inputType: 'textfield'
@@ -68,7 +68,7 @@ export const authFormFields =  [
         label: 'Property Name',
         placeholder: 'Enter your Property Name',
          required:{
-            required: 'Please enter valid Property Name',
+            required: 'Enter valid Property Name',
             min: 4
         },
         inputType: 'textfield'

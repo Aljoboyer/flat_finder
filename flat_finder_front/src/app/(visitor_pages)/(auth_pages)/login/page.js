@@ -54,50 +54,49 @@ export default function Login() {
  <div className="w-full max-w-md">
           <h2 className="text-title font-bold text-basecolor mb-4">Sign in</h2>
 
-        <form className="space-y-4" onSubmit={handleSubmit(onSubmit)} noValidate>
-            {
-              authFormFields.slice(2, 4)?.map((fieldItem) => (
-                <Controller
-                    key={fieldItem?.field_id}
-                    name={fieldItem?.field_id}
-                    control={control}
-                    defaultValue=""
-                    rules={{
-                      ...fieldItem?.required
-                    }}
-                    render={({ field }) => (
-                        <InputField
-                        otherStyle={{marginTop: '14px'}}
-                        label={fieldItem?.label} 
-                        field={field}
-                        field_id={fieldItem?.field_id}
-                        errors={errors}
-                        placeholder={fieldItem?.placeholder}
-                        inputType={fieldItem?.inputType}
-                        />
-                    )}
-                  />
-              ))
-            }
+          <form className="space-y-4" onSubmit={handleSubmit(onSubmit)} noValidate>
+              {
+                authFormFields.slice(2, 4)?.map((fieldItem) => (
+                  <Controller
+                      key={fieldItem?.field_id}
+                      name={fieldItem?.field_id}
+                      control={control}
+                      defaultValue=""
+                      rules={{
+                        ...fieldItem?.required
+                      }}
+                      render={({ field }) => (
+                          <InputField
+                          otherStyle={{marginTop: '14px'}}
+                          label={fieldItem?.label} 
+                          field={field}
+                          field_id={fieldItem?.field_id}
+                          errors={errors}
+                          placeholder={fieldItem?.placeholder}
+                          inputType={fieldItem?.inputType}
+                          />
+                      )}
+                    />
+                ))
+              }
 
-            <div className="flex justify-between items-center">
-              {/* <FormControlLabel control={<Checkbox defaultChecked />} label="Stay signed in" /> */}
-              <a href="#" className="text-basecolor font-semibold text-psm mt-2">Forgot Password?</a>
-            </div>
+              <div className="flex justify-between items-center">
+                <p onClick={() => router.push('/forgot-password')} className="text-basecolor font-bold text-psm mt-2 cursor-pointer">Forgot Password?</p>
+              </div>
 
-          <Buttons
-           isLoading={loading}
-           type='submit' title="Login" 
-           bgColor={COLORS.side_yellow} textColor="black" 
-           other_style={{fontWeight: '700', marginTop: '10px'}} />
-      </form>
+            <Buttons
+            isLoading={loading}
+            type='submit' title="Login" 
+            bgColor={COLORS.side_yellow} textColor="black" 
+            other_style={{fontWeight: '700', marginTop: '10px'}} />
+        </form>
 
-            <p className="text-sm text-center mt-4">
-              New to My FlatFinder?{" "}
-              <span onClick={() => router.push('/register')} className="font-bold text-teal-800 cursor-pointer">Create Account</span>
+            <p className="text-p text-center mt-4">
+              New to FlatFinder?{" "}
+              <span onClick={() => router.push('/register')} className="font-bold text-basecolor cursor-pointer">Create Account</span>
             </p>
 
-            <p className="text-xs text-center mt-4 text-gray-600 mt-21">
+            <p className="text-sm text-center mt-4 text-gray-600 mt-21">
               Signing in will use a <a className="underline text-teal-800" href="#">cookie</a>. You can review our <a className="underline text-teal-800" href="#">privacy policy</a>.
             </p>
         </div>
