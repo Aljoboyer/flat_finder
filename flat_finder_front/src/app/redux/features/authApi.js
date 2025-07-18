@@ -1,3 +1,4 @@
+import { reqHeaders } from "@/constant/textdata";
 import { api } from "../api/api";
 
 const authApi = api.injectEndpoints({
@@ -6,10 +7,7 @@ const authApi = api.injectEndpoints({
       query: (data) => ({
         url: "/auth/signup",
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Accept-Language": "en",
-        },
+        headers: reqHeaders,
         body: data,
       }),
 
@@ -19,13 +17,18 @@ const authApi = api.injectEndpoints({
       query: (data) => ({
         url: "/auth/login",
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Accept-Language": "en",
-        },
+        headers: reqHeaders,
         body: data,
       }),
-   
+    }),
+
+    sendResetPassLink: builder.mutation({
+      query: (data) => ({
+        url: "/auth/send-reset-link",
+        method: "POST",
+        headers: reqHeaders,
+        body: data,
+      }),
     }),
 
 
@@ -35,4 +38,5 @@ const authApi = api.injectEndpoints({
 export const {
   useSignUpMutation,
   useLogInMutation,
+  useSendResetPassLinkMutation
 } = authApi;

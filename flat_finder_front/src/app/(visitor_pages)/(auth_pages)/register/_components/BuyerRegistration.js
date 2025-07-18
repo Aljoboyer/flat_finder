@@ -3,7 +3,7 @@ import { Buttons } from '@/components/common/Buttons/Buttons';
 import InputField from '@/components/common/Inputs/InputField'
 import { authFormFields } from '@/constant/formConfigs/authFormConfigs';
 import { COLORS } from '@/theme/colors';
-import { errorToast } from '@/utils/toaster/toaster';
+import { errorToast, successToast } from '@/utils/toaster/toaster';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react'
 import { useForm, Controller } from "react-hook-form";
@@ -27,7 +27,9 @@ export default function BuyerRegistraton() {
     let response = await signUpHandler({...data, 'role': 'buyer'});
   
     if(response?.data?.token){
-       setLoading(false)
+      setLoading(false)
+      localStorage.setItem('ff_user', JSON.stringify(response.data))
+      successToast('Account Created Successfully')
       router.push('/flat-finder-home')
     }
     else if(response?.error?.data?.message){

@@ -29,7 +29,9 @@ export default function SellerRegistraton() {
   
     if(response?.data?.token){
       setLoading(false)
-      router.push('/flat-finder-home')
+      localStorage.setItem('ff_user', JSON.stringify(response.data))
+      successToast('Account Created Successfully')
+      router.push('/seller-dashboard-home')
     }
     else if(response?.error?.data?.message){
       setLoading(false);

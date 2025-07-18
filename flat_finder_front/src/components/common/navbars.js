@@ -108,8 +108,8 @@ const Navbar = () => {
                   router.push('/seller-inbox')
                 }
               }}>
-              <Badge badgeContent={4} color="info">
-                <MailIcon sx={{fontSize: '30px'}} color="secondary"/>
+              <Badge badgeContent={4} color="warning">
+                <MailIcon sx={{fontSize: '30px'}} color="info"/>
               </Badge>
               </IconButton>
               
@@ -233,8 +233,8 @@ const Navbar = () => {
                   router.push('/seller-inbox')
                 }
               }}>
-                <Badge badgeContent={4} color="info">
-                <MailIcon sx={{fontSize: '30px'}} color="secondary"/>
+                <Badge badgeContent={4} color="warning">
+                <MailIcon sx={{fontSize: '30px'}} color="info"/>
               </Badge>
              </ListItemIcon>
                <ListItemText primary="Inbox" />
