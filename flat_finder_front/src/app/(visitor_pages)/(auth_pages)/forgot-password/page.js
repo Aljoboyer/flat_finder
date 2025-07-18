@@ -6,16 +6,18 @@ import InputField from "@/components/common/Inputs/InputField";
 import { useForm, Controller } from "react-hook-form";
 import { authFormFields } from "@/constant/formConfigs/authFormConfigs";
 import { useRouter } from 'next/navigation';
-import { authErrorchecker } from "../_helper/authErrorcheck";
 import { errorToast, successToast } from "@/utils/toaster/toaster";
 import { useSendResetPassLinkMutation } from "@/app/redux/features/authApi";
 import { ArrowBack } from "@mui/icons-material";
+import { FaCheckCircle } from "react-icons/fa";
 
 export default function Login() {
   const router = useRouter()
   const [sendResetPassLink, { }] = useSendResetPassLinkMutation();
   const [loading, setLoading] = useState(false)
-
+  const [linkSent, setLinkSent] = useState(false);
+  
+  
   const {
     handleSubmit,
     control,
@@ -28,6 +30,7 @@ export default function Login() {
     const sendLinkRes = await sendResetPassLink({email: data?.email});
     
     if(sendLinkRes?.data?.msg == 'Link Send Successfully'){
+      setLinkSent(true)
       setLoading(false)
       successToast('Successfully Link Sent')
     }
@@ -44,41 +47,52 @@ export default function Login() {
   return (
     <div className="w-full max-w-md">
         <p onClick={() => router.push('/login')} className="text-bluemain font-semibold mb-7 cursor-pointer"><ArrowBack/> Back To Login</p>
-        <p className="text-title font-bold text-basecolor mb-4">Enter Your Email Address</p>
-        <p className="text-p font-medium text-blackshade mb-4">We will send a temporary password and a reset link to your email.</p>
+        
+        {
+          linkSent ? <div className="flex p-4 bg-blue-50 border border-blue-300 text-blue-800 rounded-md shadow-md">
+            <FaCheckCircle color={COLORS.greenMain} size={30}/>
+          <p className="ms-2">
+            <strong>Password Reset Link Sent.</strong> Check your inbox and follow the instructions to reset your password.
+          </p>
+        </div> : <div>
+            <p className="text-title font-bold text-basecolor mb-4">Enter Your Email Address</p>
+            <p className="text-p font-medium text-blackshade mb-4">We will send a temporary password and a reset link to your email.</p>
 
+            <form className="space-y-4" onSubmit={handleSubmit(onSubmit)} noValidate>
+                  {
+                  authFormFields.slice(2, 3)?.map((fieldItem) => (
+                      <Controller
+                          key={fieldItem?.field_id}
+                          name={fieldItem?.field_id}
+                          control={control}
+                          defaultValue=""
+                          rules={{
+                          ...fieldItem?.required
+                          }}
+                          render={({ field }) => (
+                              <InputField
+                              otherStyle={{marginTop: '14px'}}
+                              label={fieldItem?.label} 
+                              field={field}
+                              field_id={fieldItem?.field_id}
+                              errors={errors}
+                              placeholder={fieldItem?.placeholder}
+                              inputType={fieldItem?.inputType}
+                              />
+                          )}
+                      />
+                  ))
+                  }
+              <Buttons
+              isLoading={loading}
+              type='submit' title="Send Link" 
+              bgColor={COLORS.side_yellow} textColor="black" 
+              other_style={{fontWeight: '700', marginTop: '10px'}} />
+          </form>
+        </div>
 
-        <form className="space-y-4" onSubmit={handleSubmit(onSubmit)} noValidate>
-                {
-                authFormFields.slice(2, 3)?.map((fieldItem) => (
-                    <Controller
-                        key={fieldItem?.field_id}
-                        name={fieldItem?.field_id}
-                        control={control}
-                        defaultValue=""
-                        rules={{
-                        ...fieldItem?.required
-                        }}
-                        render={({ field }) => (
-                            <InputField
-                            otherStyle={{marginTop: '14px'}}
-                            label={fieldItem?.label} 
-                            field={field}
-                            field_id={fieldItem?.field_id}
-                            errors={errors}
-                            placeholder={fieldItem?.placeholder}
-                            inputType={fieldItem?.inputType}
-                            />
-                        )}
-                    />
-                ))
-                }
-            <Buttons
-            isLoading={loading}
-            type='submit' title="Send Link" 
-            bgColor={COLORS.side_yellow} textColor="black" 
-            other_style={{fontWeight: '700', marginTop: '10px'}} />
-        </form>
+        }
+
     </div>
   );
 }
