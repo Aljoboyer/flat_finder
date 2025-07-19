@@ -1,6 +1,7 @@
 "use client"
 
 import { setProfileImage } from "@/app/redux/slices/commonSlice";
+import FutureSection from "@/components/visitors/LandingPage/FutureSection";
 import { HeroSection } from "@/components/visitors/LandingPage/HeroSection";
 import { getLocalStorageData } from "@/utils/getLocalStorageData";
 import { useEffect } from "react";
@@ -19,6 +20,7 @@ export default function LandingHome() {
   return (
     <div className="w-full">
         <HeroSection/>
+        <FutureSection/>
     </div>
   );
 }
