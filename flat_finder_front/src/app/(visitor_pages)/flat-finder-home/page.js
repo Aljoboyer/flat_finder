@@ -3,6 +3,7 @@
 import { setProfileImage } from "@/app/redux/slices/commonSlice";
 import FutureSection from "@/components/visitors/LandingPage/FutureSection";
 import { HeroSection } from "@/components/visitors/LandingPage/HeroSection";
+import RecentProperties from "@/components/visitors/LandingPage/RecentProperties";
 import { getLocalStorageData } from "@/utils/getLocalStorageData";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -21,6 +22,7 @@ export default function LandingHome() {
     <div className="w-full">
         <HeroSection/>
         <FutureSection/>
+        <RecentProperties/>
     </div>
   );
 }

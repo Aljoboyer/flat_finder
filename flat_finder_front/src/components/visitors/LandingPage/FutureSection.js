@@ -22,7 +22,7 @@ const FutureCard = ({imgUrl, title, subText}) => {
 }
 export default function FutureSection() {
   return (
-    <section className="px-4 py-12 md:py-20 bg-white text-center w-full">
+    <section className="px-4 py-7 md:py-20 bg-white text-center w-full">
       {/* Header */}
       <div className="max-w-3xl mx-auto mb-12">
         <h1 className="text-lg_title md:text-xl_title font-semibold text-blackshade mb-6">

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import BedIcon from '@mui/icons-material/Bed';
 import BathtubIcon from '@mui/icons-material/Bathtub';
 import ImageIcon from '@mui/icons-material/Image';
@@ -9,9 +9,42 @@ import FavoriteOutlined from '@mui/icons-material/FavoriteOutlined';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { Buttons } from '../Buttons/Buttons';
 import { COLORS } from '@/theme/colors';
+import { errorToast, successToast } from '@/utils/toaster/toaster';
+import { useSavePropertyMutation } from '@/app/redux/features/propertyApi';
+import { getLocalStorageData } from '@/utils/getLocalStorageData';
+import { isPropertySaved } from '@/helper/savePropertyCheck';
 
-const ApartmentCard = ({property}) => {
+const ApartmentCard = ({property, savedList}) => {
+  const [savePropertyHanlder, {  }] = useSavePropertyMutation();
   const router = useRouter();
+  const userData = getLocalStorageData();
+   const [savingPropertyId, setSavingPropertyId] = useState('')
+
+  const propertySaveHandler = async (e, saveProperty, action) => {
+      e.stopPropagation();
+      setSavingPropertyId(saveProperty?._id)
+      const reqObj = {
+        seller: saveProperty?.seller?._id,
+        buyer: userData?._id,
+        property: saveProperty?._id,
+        save: action == 'save' ? true : false
+      }
+      const saveRes = await savePropertyHanlder(reqObj);
+
+      if(saveRes?.data?.msg == 'Property Saved Successfully'){
+         setSavingPropertyId('')
+        successToast('Property Saved Successfully')
+      }
+      else if(saveRes?.data?.msg == 'Property Unsaved Successfully'){
+         setSavingPropertyId('')
+        successToast('Property Unsaved Successfully')
+      }
+      else{
+         setSavingPropertyId('')
+        errorToast('Saving Failed')
+      }
+
+  }
 
   return (
     <div onClick={() => router.push(`/property-details/${property?._id}`)} className="rounded-2xl overflow-hidden shadow-md w-full max-w-sm md:max-w-md lg:max-w-lg mx-auto cursor-pointer">
@@ -55,11 +88,22 @@ const ApartmentCard = ({property}) => {
             <LocationOnIcon fontSize="small" />
             {property?.city}, {property?.areaName}
           </div>
-            <Buttons 
-            icon={<FavoriteBorderIcon style={{marginRight: '5px'}} />}
-            bgColor={COLORS.overlay} 
+          {
+              userData?.role == 'buyer' && <Buttons 
+              onClickHandler={(e) => {
+              if(isPropertySaved(savedList, property?._id)){
+                propertySaveHandler(e,property, 'unsave')
+              }else{
+                propertySaveHandler(e,property, 'save')
+              }
+            }}
+            icon={isPropertySaved(savedList, property?._id) ? <FavoriteOutlined/> : <FavoriteBorderIcon/>}
+            bgColor={isPropertySaved(savedList, property?._id) ? COLORS.side_yellow : COLORS.overlay} 
             textColor={COLORS.baseColor} 
-            other_style={{ width: '20px', fontWeight: "bold", fontSize: '12px'}}/>
+            other_style={{ width: '20px', fontWeight: "bold", fontSize: '12px'}}
+            isLoading={savingPropertyId == property?._id ? true : false}
+            />
+          }
         </div>
       </div>
     </div>

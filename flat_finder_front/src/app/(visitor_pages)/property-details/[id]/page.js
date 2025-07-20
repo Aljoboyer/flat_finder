@@ -203,7 +203,7 @@ export default function page({params}) {
                               {
                                 propertyList?.data?.length == 0 || !propertyList?.data ? <FFNodata/> : 
                                 propertyList?.data?.slice(0, 8)?.map((item) => (
-                                  <ApartmentCard key={item?._id} property={item}/>
+                                  <ApartmentCard key={item?._id} property={item} savedList={savedList?.data}/>
                               ))
                               }
                           </>
