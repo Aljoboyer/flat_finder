@@ -1,5 +1,6 @@
 "use client"
 
+import ExploreBenifits from "@/components/visitors/Services/ExploreBenifits"
 import ServiceSection from "@/components/visitors/Services/ServiceSection"
 
 export default function page() {
@@ -10,6 +11,7 @@ export default function page() {
             <p className="text-p md:text-p_lg  text-white text-center">Home/Services</p>
         </div>
         <ServiceSection/>
+        <ExploreBenifits/>
     </div>
   )
 }
