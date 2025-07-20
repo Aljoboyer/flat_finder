@@ -1,4 +1,3 @@
-import { Typography } from "@mui/material";
 import { FaSearch, FaLaptop, FaClipboardCheck, FaCouch } from "react-icons/fa";
 
 const ShowUpCard = ({icon, title, subText}) => {
@@ -12,7 +11,7 @@ const ShowUpCard = ({icon, title, subText}) => {
             </div>
     )
 }
-export default function ShowUpPage() {
+export default function ShowUpSection() {
   return (
     <div className="bg-[#1e2d4a] min-h-screen px-4 py-11  text-white flex items-center justify-center">
       <div className="max-w-5xl w-full">

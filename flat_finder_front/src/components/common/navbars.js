@@ -41,6 +41,7 @@ const navItems = [
     {label: 'Showroom', link: '/search-property', stateValue:  'showroom'},
     {label: 'Resturant', link: '/search-property', stateValue:  'restaurant'},
     {label: 'Office', link: '/search-property', stateValue:  'office'},
+    {label: 'Services', link: '/services', stateValue:  ''},
 ];
 
 const Navbar = () => {
