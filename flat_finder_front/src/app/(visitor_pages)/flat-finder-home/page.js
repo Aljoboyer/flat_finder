@@ -8,6 +8,7 @@ import PropertyCards from "@/components/visitors/LandingPage/InforSection";
 import { getLocalStorageData } from "@/utils/getLocalStorageData";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
+import ShowUpPage from "@/components/visitors/LandingPage/ShowUpSection";
 
 export default function LandingHome() {
   const dispatch = useDispatch()
@@ -24,6 +25,7 @@ export default function LandingHome() {
         <HeroSection/>
         <FutureSection/>
         <RecentProperties/>
+        <ShowUpPage/>
         <PropertyCards/>
     </div>
   );

@@ -1,9 +1,11 @@
 "use client";
 import { Buttons } from "@/components/common/Buttons/Buttons";
+import FFModal from "@/components/common/Modals/FFModal";
 import { COLORS } from "@/theme/colors";
 import { getLocalStorageData } from "@/utils/getLocalStorageData";
 import { Button } from "@mui/material";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 const cardData = [
   {
@@ -28,9 +30,12 @@ const cardData = [
 
 export default function PropertyCards() {
   const userData = getLocalStorageData();
-
+  const [open, setOpen] = useState(false)
   const router = useRouter();
 
+  const toggoleModal = () => {
+    setOpen(!open)
+  }
   return (
     <section className="px-4 py-16 bg-white">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
@@ -53,6 +58,12 @@ export default function PropertyCards() {
                 if(userData?._id){
                   if(item?.title == 'Rent a Property' || item?.title == "Buy a Property"){
                   router.push('/search-property')
+                  }else{
+                    if(userData?.role == 'buyer'){
+                      toggoleModal()
+                    }else{
+                      router.push('/create-property')
+                    }
                   }
                 }
                 else{
@@ -69,6 +80,15 @@ export default function PropertyCards() {
           </div>
         ))}
       </div>
+      <FFModal
+      show="message"
+      modalTitle="Selling a Property? Let’s Get Started"
+      note="You’ll need a seller account to post your property. It only takes a minute to register and start listing!"
+      title1="Create"
+      confirmHandler={() => router.push('/register')}
+      open={open}
+      setOpen={setOpen}
+      />
     </section>
   );
 }

@@ -65,7 +65,7 @@ export default function FFModal({
         }
         {
           show == 'message' && <div className='p-4 w-full md:w-[400px] lg:w-[500px]'>
-            <p className='my-2 text-basecolor font-medium text-p_lg'>{note}</p>
+            <p className='my-2 text-blackshade font-medium text-p_lg'>{note}</p>
           </div>
         }
 
