@@ -72,6 +72,7 @@ export default function page() {
   useEffect(() => {
     if(filterObj?.city){
       areaNameTrigger({ querys: `cityName=${filterObj?.city}` });
+      setFilterObj({...filterObj, areaName: ''})
     }
   },[filterObj?.city])
   
