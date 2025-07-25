@@ -1,3 +1,5 @@
+const { ObjectId } = require('mongodb');
+
 
 const generateFilterQuery = (queryOptions) => {
     const {
@@ -59,10 +61,10 @@ const generateFilterQuery = (queryOptions) => {
             query.bathrooms = Number(bathrooms);
         }
         if(seller){
-            query.seller = seller
+            query.seller =  ObjectId.createFromHexString(seller);
         }
         if(buyer){
-            query.buyer = buyer
+            query.buyer = ObjectId.createFromHexString(buyer);
         }
         if (searchKey) {
             query.propertyId = { $regex: searchKey, $options: 'i' }; 

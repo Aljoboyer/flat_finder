@@ -4,6 +4,8 @@ const PropertyCollection = require("../../../models/property");
 const { PaginationCalculate } = require('../../../helper/pagination');
 const { generateFilterQuery } = require('../../../helper/generateFilterQuery');
 const moment = require('moment');
+const { ObjectId } = require('mongodb');
+const { getPipeLine } = require("../../../helper/generatePipeline");
 
 //Requesting For Rent
 const RentRequestController = async (req, res) => {
@@ -23,35 +25,24 @@ const RentRequestController = async (req, res) => {
 // Get all Rent Req with Pagination + Filters
 const getAllRentReqController = async (req, res) => {
   try {
-      const { skip , page, limit} = PaginationCalculate(req.query);
-      const query = generateFilterQuery(req.query)
-      
-      // Fetch filtered data with pagination
-      const  result = await RentRequestCollection.find(query).sort({ createdAt: -1 }).skip(skip).limit(Number(limit)).populate([
-          {
-          path: 'property', 
-          select: '_id propertyId price city areaName advanceMoney title propertyType flatMeasurement images',
+    const { skip, page, limit } = PaginationCalculate(req.query);
+    const { city, areaName } = req.query;
 
-          },
-          {
-          path: 'buyer',
-          select: 'name phone address email image _id'
-          },
-          {
-          path: 'seller',
-          select: 'name phone address propertyName email image _id'
-          }
-      ]);
+    const {city: cityNames, areaName: areaNames, ...matchQuery} = generateFilterQuery(req.query)
 
-      const  totalCount = await RentRequestCollection.countDocuments(query);
+    const pipeline = getPipeLine(skip, limit, matchQuery, city, areaName)
 
-      res.status(200).json({
-      data: result,
+    const result = await RentRequestCollection.aggregate(pipeline);
+
+    const totalCount = result[0]?.totalCount[0]?.count || 0;
+
+    res.status(200).json({
+      data: result[0].paginatedData,
       page: Number(page),
       limit: Number(limit),
       totalPage: Math.ceil(totalCount / limit),
       totalData: totalCount
-      });
+    });
   } catch (error) {
 
     res.status(500).json({ message: "Rent Req Fetching Failed", error });
@@ -123,32 +114,24 @@ const getSpecificRentReqController = async (req, res) => {
 const getRentBuyHistoryController = async (req, res) => {
   try {
       const { skip , page, limit} = PaginationCalculate(req.query);
-      const query = generateFilterQuery(req.query)
-  
+      const { city, areaName } = req.query;
+
+      const {city: cityNames, areaName: areaNames, ...matchQuery} = generateFilterQuery(req.query)
+
+      const pipeline = getPipeLine(skip, limit, matchQuery, city, areaName)
+    
       // Fetch filtered data with pagination
-      const  result = await PaymentCollection.find(query).sort({ createdAt: -1 }).skip(skip).limit(Number(limit)).populate([
-          {
-          path: 'property', 
-          select: '_id propertyId price city areaName advanceMoney title propertyType flatMeasurement images'
-          },
-          {
-          path: 'buyer',
-          select: 'name phone address email image _id'
-          },
-          {
-          path: 'seller',
-          select: 'name phone address propertyName email image _id'
-          }
-      ]);
-      const  totalCount = await PaymentCollection.countDocuments(query);
+      const  result = await PaymentCollection.aggregate(pipeline);
+
+      const totalCount = result[0]?.totalCount[0]?.count || 0;
 
       res.status(200).json({
-      data: result,
+      data: result[0].paginatedData,
       page: Number(page),
       limit: Number(limit),
       totalPage: Math.ceil(totalCount / limit),
       totalData: totalCount
-      });
+    });
   } catch (error) {
 
     res.status(500).json({ message: "Rent Req Fetching Failed", error });

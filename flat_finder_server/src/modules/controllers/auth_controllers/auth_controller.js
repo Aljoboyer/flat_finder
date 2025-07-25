@@ -136,10 +136,13 @@ const resetPasswordController = async(req, res) => {
     }
     else{
       const hashedPassword = await bcrypt.hash(newPassword, 12);
-        const result = await UserCollection.findOneAndUpdate(
-        {email},
-        { $set: { password: hashedPassword } },
-      );
+      const result = await UserCollection.findOneAndUpdate(
+      {email},
+      { $set: { password: hashedPassword } },
+    );
+     await TempPasswordCollection.findOneAndDelete(
+      {email}
+    );
    
       res.send({msg: 'Password Reset Successfully'})
     }

@@ -1,4 +1,5 @@
 "use client"
+import { useLazyGetAreaNamesQuery } from '@/app/redux/features/dropDownApi'
 import { useLazyGetRentBuyHistoryListQuery } from '@/app/redux/features/rentApi'
 import FFPagination from '@/components/common/FFPagination'
 import FFTable from '@/components/common/FFTable'
@@ -15,16 +16,18 @@ export default function page() {
     const userData = getLocalStorageData()
     const [selectedDate, setSelectedDate] = useState(null);
     const [filterInputData, setFilterInputData] = useState([])
+    const [filterObj, setFilterObj] = useState({city: '', areaName: ''})
+    const [areaNameTrigger, { data: areaNameList}] = useLazyGetAreaNamesQuery();
 
     const fetchRentReq = () => {
-      getRentBuyHistory({ querys: `limit=${perPage}&page=${page}&buyer=${userData?._id}&createdAt=${selectedDate ? selectedDate?.format('YYYY-MM-DD') : ''}` });
+      getRentBuyHistory({ querys: `limit=${perPage}&page=${page}&seller=${userData?._id}&createdAt=${selectedDate ? selectedDate?.format('YYYY-MM-DD') : ''}&city=${filterObj?.city}&areaName=${filterObj?.areaName}` });
     }
 
     useEffect(() => {
       if(userData?._id){
         fetchRentReq()
       }    
-    },[userData?._id, page, perPage, selectedDate])
+    },[userData?._id, page, perPage, selectedDate, filterObj?.city, filterObj?.areaName])
 
     const actionHandler = () => {
         
@@ -65,6 +68,34 @@ export default function page() {
         setTimeout(propertyFetch(), 1000)
     }
 
+
+  useEffect(() => {
+    if(filterObj?.city){
+      areaNameTrigger({ querys: `cityName=${filterObj?.city}` });
+    }
+  },[filterObj?.city])
+  
+  useEffect(() => {
+    if(areaNameList?.data?.length > 0 && areaNameList){
+
+      const formatAreaNameData = areaNameList?.data?.map((item) => {
+        const newObj = {"label": item?.areaName, value: item?.areaName}
+        return newObj
+      })
+      
+      const fieldsAddedValue = filterInputData?.map((item) => {
+        if(item?.field_id == 'areaName'){
+          const newObj = {...item, options: formatAreaNameData, suggestionText: ''}
+          return newObj
+        }
+        else{
+          return item
+        }
+      })
+      setFilterInputData(fieldsAddedValue)
+    }
+
+  },[areaNameList, areaNameList?.data?.length])
   return (
      <div className="bg-overlay  p-6 rounded-t-[20px] h-screen">
 
@@ -77,6 +108,7 @@ export default function page() {
                 datePickerShow={true}
                 selectedDate={selectedDate}
                 setSelectedDate={setSelectedDate} 
+                searchInputShow={false}
             />
               <div className="my-7">
                 <FFTable

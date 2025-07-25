@@ -1,4 +1,5 @@
 "use client"
+import { useLazyGetAreaNamesQuery } from '@/app/redux/features/dropDownApi'
 import { useLazyGetRentReqListQuery, useRentReqActionMutation } from '@/app/redux/features/rentApi'
 import CommonTabs from '@/components/common/CommonTabs/CommonTabs'
 import FFPagination from '@/components/common/FFPagination'
@@ -33,6 +34,7 @@ export default function page() {
     const [msg, setMsg] = useState('')
     const [tableHeader, setTableHeader] = useState([])
     const [selectedDate, setSelectedDate] = useState(null);
+    const [areaNameTrigger, { data: areaNameList}] = useLazyGetAreaNamesQuery();
 
     const handleTabChange = (event, newValue) => {
         setValue(newValue);
@@ -51,14 +53,14 @@ export default function page() {
     }
     
     const fetchRentReq = () => {
-      rentReqListTrigger({ querys: `limit=${perPage}&page=${page}&status=${statusVal}&seller=${userData?._id}&paymentLastDate=${(selectedDate && value == 1) ? selectedDate?.format('DD/MM/YYYY') : ''}&createdAt=${(selectedDate && value == 0) ? selectedDate?.format('YYYY-MM-DD') : ''}` });
+      rentReqListTrigger({ querys: `limit=${perPage}&page=${page}&status=${statusVal}&&seller=${userData?._id}&paymentLastDate=${(selectedDate && value == 1) ? selectedDate?.format('DD/MM/YYYY') : ''}&createdAt=${(selectedDate && value == 0) ? selectedDate?.format('YYYY-MM-DD') : ''}&city=${filterObj?.city}&areaName=${filterObj?.areaName}` });
     }
     
     useEffect(() => {
       if(userData?._id){
         fetchRentReq()
       }    
-    },[userData?._id, page, perPage, value, selectedDate])
+    },[userData?._id, page, perPage, value, selectedDate, filterObj?.city, filterObj?.areaName])
 
     const actionHandler = async (action, reqId) => {
       const rentReq = rentReqList?.data?.find((item) => item?._id === reqId)
@@ -118,6 +120,33 @@ export default function page() {
     
   }
 
+    useEffect(() => {
+      if(filterObj?.city){
+        areaNameTrigger({ querys: `cityName=${filterObj?.city}` });
+      }
+    },[filterObj?.city])
+    
+    useEffect(() => {
+      if(areaNameList?.data?.length > 0 && areaNameList){
+  
+        const formatAreaNameData = areaNameList?.data?.map((item) => {
+          const newObj = {"label": item?.areaName, value: item?.areaName}
+          return newObj
+        })
+        
+        const fieldsAddedValue = filterInputData?.map((item) => {
+          if(item?.field_id == 'areaName'){
+            const newObj = {...item, options: formatAreaNameData, suggestionText: ''}
+            return newObj
+          }
+          else{
+            return item
+          }
+        })
+        setFilterInputData(fieldsAddedValue)
+      }
+  
+    },[areaNameList, areaNameList?.data?.length])
 
   return (
      <div className="bg-overlay  p-6 rounded-t-[20px] h-screen">
@@ -135,7 +164,8 @@ export default function page() {
                     onSearchHandler={onSearchHandler}
                     datePickerShow={true}
                     selectedDate={selectedDate}
-                    setSelectedDate={setSelectedDate} 
+                    setSelectedDate={setSelectedDate}
+                    searchInputShow={false}
                 />
                 <div className="my-7">
                   <FFTable

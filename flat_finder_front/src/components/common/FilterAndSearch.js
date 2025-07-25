@@ -43,14 +43,14 @@ export default function FilterAndSearch({
           filterFieldConfig && <div className={`grid grid-cols-1 sm:grid-cols-2 ${gridStyle} gap-4`}>
           {
             filterFieldConfig?.map((field) => (
-                <InputField 
+              <InputField 
                 key={field?.field_id}
                 otherStyle={{ marginTop: {xs: '10px', md: '0px'}}}
                 label={field?.label}
                 inputType={field?.inputType} 
                 options={field?.options}
                 onChangeHandler={onChangeHandler}
-                field={field}
+                field={field.fieldValue}
                 field_id={field?.field_id}
                 fieldItem={field}
                 unSelectShow={true}

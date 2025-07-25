@@ -36,7 +36,7 @@ export default function SellerProperties() {
   const [filterObj, setFilterObj] = useState({city: '', areaName: ''})
   
   const propertyFetch = () => {
-    propertyListTrigger({ querys: `limit=${perPage}&page=${page}&status=${tabValue}&seller=${userData?._id}&searchKey=${searchKey}&city=${filterObj?.city}&areaName=${filterObj?.areaName }` });
+    propertyListTrigger({ querys: `limit=${perPage}&page=${page}&status=${tabValue}&seller=${userData?._id}&searchKey=${searchKey}&city=${filterObj?.city}&areaName=${filterObj?.areaName}` });
   }
   const handlePageChange = (event, value) => {
     setPage(value);
@@ -76,7 +76,7 @@ export default function SellerProperties() {
  
       propertyFetch()
     }
-  }, [perPage, page]);
+  }, [perPage, page, filterObj?.city, filterObj?.areaName]);
 
   const filterChangeHandler = (id, val) => {
    let value = val ? val : ''
@@ -92,21 +92,6 @@ export default function SellerProperties() {
 
   
     setFilterObj({...filterObj, [id]: value})
-    if(id == 'city'){
-        if(value){
-          propertyListTrigger({ querys: `limit=${10}&page=${1}&status=${tabValue}&seller=${userData?._id}&searchKey=${searchKey}&city=${value}` });
-        }else{
-          propertyListTrigger({ querys: `limit=${10}&page=${1}&status=${tabValue}&seller=${userData?._id}&searchKey=${searchKey}` });
-        }
-    }
-    else if (id == 'areaName'){
-      if(value){
-        propertyListTrigger({ querys: `limit=${10}&page=${1}&status=${tabValue}&seller=${userData?._id}&searchKey=${searchKey}&city=${filterObj?.city}&areaName=${value}` });
-      }
-      else{
-        propertyListTrigger({ querys: `limit=${10}&page=${1}&status=${tabValue}&seller=${userData?._id}&searchKey=${searchKey}&city=${filterObj?.city}` });
-      }
-    }
   }
   
   const actionHandler = async (action,itemId) => {
