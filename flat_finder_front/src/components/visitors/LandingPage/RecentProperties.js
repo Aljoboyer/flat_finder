@@ -9,6 +9,18 @@ import { COLORS } from '@/theme/colors'
 import { getLocalStorageData } from '@/utils/getLocalStorageData';
 import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react'
+import Slider from "react-slick";
+
+function ArrowButton(props) {
+  const { className, style, onClick } = props;
+  return (
+    <div
+      className={className}
+      style={{ ...style, display: "block", backgroundColor: COLORS.baseColor , height: '40px', display: 'flex', justifyContent: 'center', alignItems: 'center',}}
+      onClick={onClick}
+    />
+  );
+}
 
 export default function RecentProperties() {
     const router = useRouter();
@@ -21,29 +33,57 @@ export default function RecentProperties() {
         propertySavedList({ querys: `limit=${100}&page=${1}&buyer=${userdata?._id}` });
     },[])
 
+    const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 3,
+    nextArrow: <ArrowButton />,
+    prevArrow: <ArrowButton />
+  };
+
   return (
-    <div className='p-4 md:-p-11 lg:p-13 w-full'>
+    <div className='p-4 md:-px-11 lg:px-13 w-full  my-11'>
         <SectionTitle title="Recently Posted" />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-12 pt-7">
+        <div className="  pt-7 ">
             {
                 isFetching ? [1,2,3, 4]?.map((item) => (
                 <ApartmentCardSkeleton key={item}/>
                 )) : <>
                     {
                     propertyList?.data?.length == 0 || !propertyList?.data ? <FFNodata/> : 
-                    propertyList?.data?.map((item) => (
-                        <ApartmentCard key={item?._id} 
-                        property={item}
-                        savedList={savedList?.data}
-                        />
-                    ))
+                        <>
+                            <div className='hidden lg:block bg-overlay py-4'>
+                                <Slider  {...settings}>
+                                {
+                                    propertyList?.data?.map((item) => (
+                                        <ApartmentCard sliderWidth={true} key={item?._id} 
+                                        property={item}
+                                        savedList={savedList?.data}
+                                        />
+                                        ))
+                                    }
+                                </Slider>
+                            </div>
+                            <div className='lg:hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-12'>
+                                {
+                                    propertyList?.data?.map((item) => (
+                                        <ApartmentCard sliderWidth={true} key={item?._id} 
+                                        property={item}
+                                        savedList={savedList?.data}
+                                        />
+                                        ))
+                                    }
+                            </div>
+                        </>
                     }
                 </>
             }
         </div>
 
-        <div className='flex flex-row justify-center pt-7'>
+        <div className='flex flex-row justify-center py-7 '>
             <Buttons
             onClickHandler={() => router.push('/search-property')}
             textColor={COLORS.baseColor}

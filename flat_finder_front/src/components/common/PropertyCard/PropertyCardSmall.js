@@ -14,7 +14,7 @@ import { useSavePropertyMutation } from '@/app/redux/features/propertyApi';
 import { getLocalStorageData } from '@/utils/getLocalStorageData';
 import { isPropertySaved } from '@/helper/savePropertyCheck';
 
-const ApartmentCard = ({property, savedList}) => {
+const ApartmentCard = ({property, savedList, sliderWidth}) => {
   const [savePropertyHanlder, {  }] = useSavePropertyMutation();
   const router = useRouter();
   const userData = getLocalStorageData();
@@ -47,7 +47,7 @@ const ApartmentCard = ({property, savedList}) => {
   }
 
   return (
-    <div onClick={() => router.push(`/property-details/${property?._id}`)} className="rounded-2xl overflow-hidden shadow-md w-full max-w-sm md:max-w-md lg:max-w-lg mx-auto cursor-pointer">
+    <div onClick={() => router.push(`/property-details/${property?._id}`)} className={`rounded-2xl overflow-hidden shadow-md w-full max-w-sm md:max-w-md lg:max-w-lg mx-auto cursor-pointer bg-white ${sliderWidth ? 'md:w-[450px]' : ''}`}>
       <div className="relative">
         <img
           src={property?.images[0]} 
