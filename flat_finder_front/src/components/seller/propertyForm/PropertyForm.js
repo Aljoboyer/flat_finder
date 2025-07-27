@@ -29,7 +29,8 @@ export default function PropertyForm({property}) {
   const [propertyFields, setPropertyFields] = useState(propertyFormFields)
   const [areaNameTrigger, { data: areaNameList}] = useLazyGetAreaNamesQuery();
   const [deleteUrls, setDeletedUrls] = useState([])
-
+  const [imgErr, setImgErr] = useState('')
+  
   const {
     handleSubmit,
     control,
@@ -66,6 +67,11 @@ export default function PropertyForm({property}) {
            if(deleteUrls?.length > 0){
             await deleteImgApiCall(deleteUrls)
           }
+          if(images?.length == 0){
+            setLoading(false)
+            setImgErr('Add at least one image')
+            return
+          }
           const postPropertyData = await postProperty({...data, images: images, seller: userData?._id})
 
           if(postPropertyData?.data?.msg == 'Poperty posted Successfully'){
@@ -95,53 +101,53 @@ export default function PropertyForm({property}) {
 
   }
 
-  useEffect(() => {
-    if(property?._id){
-      setImages(property?.images)
-          reset({
-            ...property
-        });
-      const fieldsAddedValue = propertyFormFields?.map((item) => {
-        if(item?.inputType == 'select' || item?.inputType == 'autocomplete'){
-          const newObj = {...item, value: property[item?.field_id]}
+    useEffect(() => {
+      if(property?._id){
+        setImages(property?.images)
+            reset({
+              ...property
+          });
+        const fieldsAddedValue = propertyFormFields?.map((item) => {
+          if(item?.inputType == 'select' || item?.inputType == 'autocomplete'){
+            const newObj = {...item, value: property[item?.field_id]}
+            return newObj
+          }
+          else{
+            return item
+          }
+        })
+        
+        setPropertyFields(fieldsAddedValue)
+      }
+    },[property?._id]) 
+
+    const {city} = getValues();
+
+    useEffect(() => {
+      if(areaNameList?.data?.length > 0 && areaNameList){
+        const formatAreaNameData = areaNameList?.data?.map((item) => {
+          const newObj = {"label": item?.areaName, value: item?.areaName}
           return newObj
-        }
-        else{
-          return item
-        }
-      })
-      
-      setPropertyFields(fieldsAddedValue)
-    }
-  },[property?._id]) 
+        })
+        const fieldsAddedValue = propertyFields?.map((item) => {
+          if(item?.field_id == 'areaName'){
+            const newObj = {...item, options: formatAreaNameData, suggestionText: ''}
+            return newObj
+          }
+          else{
+            return item
+          }
+        })
+        setPropertyFields(fieldsAddedValue)
+      }
 
-  const {city} = getValues();
+    },[areaNameList, areaNameList?.data?.length])
 
-  useEffect(() => {
-    if(areaNameList?.data?.length > 0 && areaNameList){
-      const formatAreaNameData = areaNameList?.data?.map((item) => {
-        const newObj = {"label": item?.areaName, value: item?.areaName}
-        return newObj
-      })
-      const fieldsAddedValue = propertyFields?.map((item) => {
-        if(item?.field_id == 'areaName'){
-          const newObj = {...item, options: formatAreaNameData, suggestionText: ''}
-          return newObj
-        }
-        else{
-          return item
-        }
-      })
-      setPropertyFields(fieldsAddedValue)
-    }
-
-  },[areaNameList, areaNameList?.data?.length])
-
-  useEffect(() => {
-    if(city){
-      areaNameTrigger({ querys: `cityName=${city}` });
-    }
-  },[city])
+    useEffect(() => {
+      if(city){
+        areaNameTrigger({ querys: `cityName=${city}` });
+      }
+    },[city])
   
   return (
       <div className=" w-full">
@@ -155,7 +161,7 @@ export default function PropertyForm({property}) {
               ImageResolution={2000}
               />
             }
-            
+            <p className='my-2 text-red-600 text-p text-center'>{imgErr}</p>
             <PropertyFormImg
               onDeleteHandler={onImgDeleteHandler}
               currentDeletingImg={currentDeletingImg}
