@@ -1,4 +1,5 @@
 const { Server } = require("socket.io");
+const { commentHandlers } = require("./handlers/commentHandlers");
 
 let io;
 const userSocketMap = {}; 
@@ -12,11 +13,10 @@ const init = (server) => {
 
   io.on("connection", (socket) => {
     const userId = socket.handshake.query.userId;
-    console.log('checked', userId)
+    console.log('connected ==>', userId)
 
-    socket.on('socketcheck', (msg) => {
-      console.log('msg --->', msg)
-    })
+    //Socket Handlers
+     commentHandlers(io, socket, userSocketMap);
 
     socket.on("disconnect", () => {
       // Find and remove user from userSocketMap

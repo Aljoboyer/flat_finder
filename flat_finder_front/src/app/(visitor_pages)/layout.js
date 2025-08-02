@@ -6,6 +6,7 @@ import { getLocalStorageData } from "@/utils/getLocalStorageData";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setProfileImage } from "../redux/slices/commonSlice";
+import { getSocket } from "@/utils/socket/socket";
 
 
 export default function VisitorLayout({ children }) {
@@ -14,6 +15,7 @@ export default function VisitorLayout({ children }) {
 
   useEffect(() => {
       if(userData?.name){
+         getSocket();
         dispatch(setProfileImage(userData?.image))
       }
     },[userData?.name])

@@ -8,10 +8,10 @@ import { useEffect } from "react";
 export default function Home() {
   const userData = getLocalStorageData();
   const router = useRouter();
-  const socket = getSocket();
   
   useEffect(() => {
     if(userData?.name){
+      getSocket();
       if(userData?.role == 'seller'){
           router.push('/seller-dashboard-home')
       }else{
@@ -23,12 +23,7 @@ export default function Home() {
     }
   },[userData?.name])
 
-  useEffect(() => {
-    socket.on('userOnline', (msg) => {
-      console.log('check ==>', msg)
-    })
 
-  },[])
 
   return (
     <div className="w-full h-screen bg-basecolor">

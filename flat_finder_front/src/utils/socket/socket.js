@@ -11,7 +11,7 @@ export const getSocket = () => {
   if (!socket) {
     if (typeof window !== "undefined") {
       const userData = getLocalStorageData();
-      console.log('userData?._id', userData?._id)
+   
       if (userData?._id) {
         socket = io(SERVER, {
           query: { userId: userData._id },

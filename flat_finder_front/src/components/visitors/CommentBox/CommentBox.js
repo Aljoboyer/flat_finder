@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import { Buttons } from '@/components/common/Buttons/Buttons';
 import { COLORS } from '@/theme/colors';
@@ -7,27 +7,57 @@ import CommentIcon from '@mui/icons-material/Comment';
 import { getLocalStorageData } from '@/utils/getLocalStorageData';
 import { getSocket } from '@/utils/socket/socket';
 
-export default function CommentBox() {
+export default function CommentBox({property}) {
   const [comments, setComments] = useState([]);
   const [commentText, setCommentText] = useState('');
   const userData = getLocalStorageData();
-  const socket = getSocket()
+  const socket = getSocket();
+  const commentRef = useRef(null);
+
   const handleSubmit = () => {
-    console.log('clikced ==>', socket)
-    socket.emit('socketcheck', "Hello boss")
-    if (commentText.trim()) {
-      setComments(prev => [
-        ...prev,
-        {
-          id: Date.now(),
-          name: 'New User',
-          text: commentText,
-          avatar: 'https://i.pravatar.cc/150?img=4',
-        },
-      ]);
-      setCommentText('');
+    if(userData?.role == 'buyer'){
+      const commentObj = {
+        profileImg: userData?.image,
+        text: commentText,
+        name: userData?.name,
+        commenterId: userData?._id,
+        fromAuthor: false
+      }
+      socket.emit('addComments', commentObj)
+    }
+    else{
+
     }
   };
+
+  useEffect(() => {
+    if(property?.comments > 0){
+      setComments(property?.comments)
+    }
+  },[])
+
+    useEffect(() => {
+    const handleAddComnt = (comnt) => {
+
+      const currentCommentData = commentRef.current
+      
+      setComments([...currentCommentData, comnt])
+    }
+    socket.on("receivedcomments", handleAddComnt)
+
+    return () =>{
+      socket.off("receivedcomments")
+    }
+  },[])
+
+
+    useEffect(() => {
+    if(comments?.length > 0){
+      commentRef.current = comments
+    }else {
+      commentRef.current = []
+    }
+  },[comments])
 
   return (
     <div className="w-full max-w-xl mx-auto h-[550px] rounded-xl border border-gray-200 shadow-sm bg-white flex flex-col overflow-hidden">
@@ -39,12 +69,12 @@ export default function CommentBox() {
           placeholder="Add a comment..."
           value={commentText}
           onChange={(e) => setCommentText(e.target.value)}
-          disabled={!userData?.email}
+          disabled={userData?.role == 'seller' || !userData?.email}
         />
         <div className="flex items-center justify-between mt-2">
           <div className="space-x-2  flex flex-row items-center">
                 <p className='text-p font-bold text-blackshade'>Comments</p>
-                <FFbadge icon={<CommentIcon sx={{color: COLORS.baseColor}}/>} count={10} />
+                <FFbadge icon={<CommentIcon sx={{color: COLORS.baseColor}}/>} count={comments?.length} />
           </div>
 
           <Buttons
@@ -53,7 +83,7 @@ export default function CommentBox() {
             bgColor={COLORS.baseColor}
             textColor={COLORS.side_yellow}
             other_style={{width: '20%'}}
-            disabled={!userData?.email}
+            disabled={userData?.role == 'seller' || !userData?.email}
           />
         </div>
       </div>
@@ -61,14 +91,14 @@ export default function CommentBox() {
       {/* Scrollable Comments */}
       <div className="overflow-y-auto flex-1 p-4 space-y-4 custom-scroll">
         {comments.length === 0 ? (
-          <p className="text-sm text-gray-400">No comments yet.</p>
+          <p className="text-xl_title text-gray-400 ">No comments yet.</p>
         ) : (
           comments.map((comment) => (
             <div key={comment.id} className="flex gap-3 bg-gray-50 p-3 rounded-md shadow-sm">
-              <Avatar src={comment.avatar} alt={comment.name} sx={{ width: 36, height: 36 }} />
+              <Avatar src={comment?.profileImg} alt={comment.name} sx={{ width: 36, height: 36 }} />
               <div>
-                <p className="font-medium text-sm text-gray-800">{comment.name}</p>
-                <p className="text-sm text-gray-700 mt-1">{comment.text}</p>
+                <p className="font-medium text-sm text-gray-800">{comment?.fromAuthor ? 'Author' : comment?.name}</p>
+                <p className="text-sm text-gray-700 mt-1">{comment?.text}</p>
               </div>
             </div>
           ))

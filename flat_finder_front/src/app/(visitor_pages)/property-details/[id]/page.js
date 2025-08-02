@@ -188,7 +188,7 @@ export default function page({params}) {
                             tabValue == 2 && <div><p className='text-title font-medium text-blackshade'>{property?.data?.city} {property?.data?.areaName}</p></div>
                           }
                           {
-                            tabValue == 3 && <CommentBox/>
+                            tabValue == 3 && <CommentBox property={property?.data}/>
                           }
                       </div>
                 </div>
