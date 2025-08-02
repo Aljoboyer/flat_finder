@@ -4,16 +4,17 @@ import { Buttons } from '@/components/common/Buttons/Buttons';
 import { COLORS } from '@/theme/colors';
 import FFbadge from '@/components/common/FFbadge';
 import CommentIcon from '@mui/icons-material/Comment';
+import { getLocalStorageData } from '@/utils/getLocalStorageData';
+import { getSocket } from '@/utils/socket/socket';
 
 export default function CommentBox() {
-  const [comments, setComments] = useState([
-    { id: 1, name: 'Noah Pierre', text: 'I’m a bit unclear about how condensation forms...', avatar: 'https://i.pravatar.cc/150?img=1' },
-    { id: 2, name: 'Mollie Hall', text: 'Really enjoyed today’s lesson on the water cycle!', avatar: 'https://i.pravatar.cc/150?img=2' },
-    { id: 3, name: 'Lyle Kauffman', text: 'How do we measure water vapor in the air?', avatar: 'https://i.pravatar.cc/150?img=3' },
-  ]);
+  const [comments, setComments] = useState([]);
   const [commentText, setCommentText] = useState('');
-
+  const userData = getLocalStorageData();
+  const socket = getSocket()
   const handleSubmit = () => {
+    console.log('clikced ==>', socket)
+    socket.emit('socketcheck', "Hello boss")
     if (commentText.trim()) {
       setComments(prev => [
         ...prev,
@@ -31,7 +32,6 @@ export default function CommentBox() {
   return (
     <div className="w-full max-w-xl mx-auto h-[550px] rounded-xl border border-gray-200 shadow-sm bg-white flex flex-col overflow-hidden">
       
-      {/* Sticky Input */}
       <div className="sticky top-0 z-10 bg-white border-b p-4">
         <textarea
           className="w-full resize-none border rounded-md p-2 text-sm focus:outline-none focus:ring-2 focus:ring-basecolor bg-[#f2f2f2]"
@@ -39,6 +39,7 @@ export default function CommentBox() {
           placeholder="Add a comment..."
           value={commentText}
           onChange={(e) => setCommentText(e.target.value)}
+          disabled={!userData?.email}
         />
         <div className="flex items-center justify-between mt-2">
           <div className="space-x-2  flex flex-row items-center">
@@ -52,6 +53,7 @@ export default function CommentBox() {
             bgColor={COLORS.baseColor}
             textColor={COLORS.side_yellow}
             other_style={{width: '20%'}}
+            disabled={!userData?.email}
           />
         </div>
       </div>

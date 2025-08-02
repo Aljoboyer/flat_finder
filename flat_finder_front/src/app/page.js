@@ -1,13 +1,15 @@
 'use client'
 
 import { getLocalStorageData } from "@/utils/getLocalStorageData";
+import { getSocket } from "@/utils/socket/socket";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 export default function Home() {
   const userData = getLocalStorageData();
   const router = useRouter();
-
+  const socket = getSocket();
+  
   useEffect(() => {
     if(userData?.name){
       if(userData?.role == 'seller'){
@@ -20,6 +22,13 @@ export default function Home() {
       router.push('/flat-finder-home')
     }
   },[userData?.name])
+
+  useEffect(() => {
+    socket.on('userOnline', (msg) => {
+      console.log('check ==>', msg)
+    })
+
+  },[])
 
   return (
     <div className="w-full h-screen bg-basecolor">
