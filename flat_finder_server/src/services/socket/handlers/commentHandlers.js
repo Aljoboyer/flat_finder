@@ -1,9 +1,19 @@
 
 const commentHandlers = (io, socket, userSocketMap) => {
     socket.on("addComments", (comment) => {
-      console.log('here')
+        const targetSocketId = userSocketMap[comment?.sellerId];
+
+        //sending comment to everyone
         io.emit("receivedcomments", comment)
-        // socket.broadcast.emit("notifyuser", `${comment.commenter_id} Has commented on post`)
+
+        //Creating comment roam for buyer so that they can get seller notification on comment
+        if(!comment?.fromAuthor){
+          socket.join(comment?.propertyId);
+          socket.to(targetSocketId).emit("notifyseller", `buyer: ${comment?.name} Commented on your Blog`);
+        }else{
+          
+        }
+        
       })
 };
 
