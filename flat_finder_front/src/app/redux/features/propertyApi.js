@@ -50,6 +50,12 @@ const PropertyApi = api.injectEndpoints({
       ),
     }),
 
+    getSinglePropertyComments: builder.query({
+      query: (data) => (
+        getListQueryCall('/property/property', data?.querys)
+      ),
+    }),
+
   }),
 });
 
@@ -60,5 +66,6 @@ export const {
   useLazyGetSinglePropertyQuery,
   useUpdatePropertyMutation,
   useSavePropertyMutation,
-  useAddCommentMutation
+  useAddCommentMutation,
+  getSinglePropertyComments
 } = PropertyApi;

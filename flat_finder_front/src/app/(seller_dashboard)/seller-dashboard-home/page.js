@@ -18,7 +18,6 @@ export default function page() {
     dashboardDataCount({ querys: `seller=${userData?._id}` })
   },[userData?.role])
 
-  console.log('dataCount', dataCount)
 
   return (
   <div className="bg-overlay h-screen p-6 rounded-t-[20px]">

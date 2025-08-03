@@ -8,6 +8,8 @@ import { useState } from 'react';
 import FFLoader from '@/components/common/Loaders/FFLoader';
 import { useDispatch } from 'react-redux';
 import { setProfileImage } from '../redux/slices/commonSlice';
+import { getSocket } from '@/utils/socket/socket';
+import { notificationToast } from '@/utils/toaster/toaster';
 
 export default function Layout({children}) {
   const userData = getLocalStorageData();
@@ -33,6 +35,19 @@ export default function Layout({children}) {
       setLoading(false)
     }
   },[userData?.name])
+
+   const socket = getSocket();
+
+  useEffect(() => {
+      socket.on("notifyseller", (notification) => {
+        console.log('notification check', notification)
+        notificationToast(notification)
+      })
+
+      return () =>{
+        socket.off("notifyseller")
+      }
+    },[])
 
   return (
     <LayoutContainer>

@@ -6,7 +6,8 @@ import FFbadge from '@/components/common/FFbadge';
 import CommentIcon from '@mui/icons-material/Comment';
 import { getLocalStorageData } from '@/utils/getLocalStorageData';
 import { getSocket } from '@/utils/socket/socket';
-import { useAddCommentMutation } from '@/app/redux/features/propertyApi';
+import { useAddCommentMutation, useLazyGetSinglePropertyQuery } from '@/app/redux/features/propertyApi';
+import FFLoader2 from '@/components/common/Loaders/FFLoader-2';
 
 export default function CommentBox({property}) {
   const [comments, setComments] = useState([]);
@@ -15,6 +16,7 @@ export default function CommentBox({property}) {
   const socket = getSocket();
   const commentRef = useRef(null);
   const [postComment ] = useAddCommentMutation();
+  const [propertyCommentTrigger, { data: propertyData , isFetching}] = useLazyGetSinglePropertyQuery();
 
   const handleSubmit = async () => {
       const commentObj = {
@@ -70,10 +72,14 @@ export default function CommentBox({property}) {
     }
     
  useEffect(() => {
-    if(property?.comments?.length > 0){
-      formatComments(property?.comments)
-    }
-  },[property?.comments])
+    propertyCommentTrigger({querys: `id=${property?._id}`})
+  },[property?._id])
+
+  useEffect(() => {
+      if(propertyData?.data?.comments?.length > 0){
+        formatComments(propertyData?.data?.comments)
+      }
+  },[propertyData?.data?.comments?.length])
 
     useEffect(() => {
     if(comments?.length > 0){
@@ -83,7 +89,6 @@ export default function CommentBox({property}) {
     }
   },[comments])
 
-  console.log('property?.comments', property?.comments)
   return (
     <div className="w-full max-w-xl mx-auto h-[550px] rounded-xl border border-gray-200 shadow-sm bg-white flex flex-col overflow-hidden">
       
@@ -115,19 +120,23 @@ export default function CommentBox({property}) {
 
       {/* Scrollable Comments */}
       <div className="overflow-y-auto flex-1 p-4 space-y-4 custom-scroll">
-        {comments.length === 0 ? (
+        {
+          isFetching ? <FFLoader2/> : <>
+           {comments.length === 0 ? (
           <p className="text-xl_title text-gray-400 ">No comments yet.</p>
-        ) : (
-          comments.map((comment) => (
-            <div key={comment.id} className="flex gap-3 bg-gray-50 p-3 rounded-md shadow-sm">
-              <Avatar src={comment?.profileImg} alt={comment.name} sx={{ width: 36, height: 36 }} />
-              <div>
-                <p className="font-medium text-sm text-gray-800">{comment?.fromAuthor ? 'Seller' : comment?.name}</p>
-                <p className="text-sm text-gray-700 mt-1">{comment?.text}</p>
-              </div>
-            </div>
-          ))
-        )}
+            ) : (
+              comments.map((comment) => (
+                <div key={comment.id} className="flex gap-3 bg-gray-50 p-3 rounded-md shadow-sm">
+                  <Avatar src={comment?.profileImg} alt={comment.name} sx={{ width: 36, height: 36 }} />
+                  <div>
+                    <p className="font-medium text-sm text-gray-800">{comment?.fromAuthor ? 'Seller' : comment?.name}</p>
+                    <p className="text-sm text-gray-700 mt-1">{comment?.text}</p>
+                  </div>
+                </div>
+              ))
+            )}
+          </>
+        }
       </div>
 
       {/* Sticky Bottom "Show more" */}

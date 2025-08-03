@@ -14,6 +14,9 @@ const init = (server) => {
   io.on("connection", (socket) => {
     const userId = socket.handshake.query.userId;
     console.log('connected ==>', userId)
+    if (userId) {
+      userSocketMap[userId] = socket.id;
+    }
 
     //Socket Handlers
      commentHandlers(io, socket, userSocketMap);

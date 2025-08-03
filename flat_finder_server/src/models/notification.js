@@ -39,7 +39,7 @@ const NotificationSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
-connectionRoamId: {
+ connectionRoamId: {
     type: String
   },
   createdAt: {
