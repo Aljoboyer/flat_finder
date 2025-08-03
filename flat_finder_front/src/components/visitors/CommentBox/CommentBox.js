@@ -6,6 +6,7 @@ import FFbadge from '@/components/common/FFbadge';
 import CommentIcon from '@mui/icons-material/Comment';
 import { getLocalStorageData } from '@/utils/getLocalStorageData';
 import { getSocket } from '@/utils/socket/socket';
+import { useAddCommentMutation } from '@/app/redux/features/propertyApi';
 
 export default function CommentBox({property}) {
   const [comments, setComments] = useState([]);
@@ -13,28 +14,31 @@ export default function CommentBox({property}) {
   const userData = getLocalStorageData();
   const socket = getSocket();
   const commentRef = useRef(null);
+  const [postComment ] = useAddCommentMutation();
 
-  const handleSubmit = () => {
-    if(userData?.role == 'buyer'){
+  const handleSubmit = async () => {
       const commentObj = {
         profileImg: userData?.image,
         text: commentText,
         name: userData?.name,
         commenterId: userData?._id,
-        fromAuthor: false
+        fromAuthor: userData?.role == 'seller' ? true : false,
+        propertyId: property?._id,
+        sellerId: property?.seller?._id
       }
+
       socket.emit('addComments', commentObj)
-    }
-    else{
 
-    }
+      const reqObj = {
+        commenter: userData?._id,
+        property: property?._id,
+        text: commentText,
+        fromAuthor: userData?.role == 'seller' ? true : false
+      }
+
+      const postComRes = await postComment(reqObj)
+      setCommentText('')
   };
-
-  useEffect(() => {
-    if(property?.comments > 0){
-      setComments(property?.comments)
-    }
-  },[])
 
     useEffect(() => {
     const handleAddComnt = (comnt) => {
@@ -50,6 +54,26 @@ export default function CommentBox({property}) {
     }
   },[])
 
+    const formatComments = (data) => {
+        const formatCommentData = property?.comments?.map((item) => {
+          const formatItemObj = {
+            profileImg: item?.commenter?.image,
+            name: item?.commenter?.name,
+            text: item?.text,
+            fromAuthor: item?.fromAuthor,
+            property: item?.property
+          }
+          return formatItemObj;
+        })
+ 
+        setComments(formatCommentData)
+    }
+    
+ useEffect(() => {
+    if(property?.comments?.length > 0){
+      formatComments(property?.comments)
+    }
+  },[property?.comments])
 
     useEffect(() => {
     if(comments?.length > 0){
@@ -59,6 +83,7 @@ export default function CommentBox({property}) {
     }
   },[comments])
 
+  console.log('property?.comments', property?.comments)
   return (
     <div className="w-full max-w-xl mx-auto h-[550px] rounded-xl border border-gray-200 shadow-sm bg-white flex flex-col overflow-hidden">
       
@@ -69,7 +94,7 @@ export default function CommentBox({property}) {
           placeholder="Add a comment..."
           value={commentText}
           onChange={(e) => setCommentText(e.target.value)}
-          disabled={userData?.role == 'seller' || !userData?.email}
+          disabled={!userData?.email}
         />
         <div className="flex items-center justify-between mt-2">
           <div className="space-x-2  flex flex-row items-center">
@@ -83,7 +108,7 @@ export default function CommentBox({property}) {
             bgColor={COLORS.baseColor}
             textColor={COLORS.side_yellow}
             other_style={{width: '20%'}}
-            disabled={userData?.role == 'seller' || !userData?.email}
+            disabled={!userData?.email}
           />
         </div>
       </div>
@@ -97,7 +122,7 @@ export default function CommentBox({property}) {
             <div key={comment.id} className="flex gap-3 bg-gray-50 p-3 rounded-md shadow-sm">
               <Avatar src={comment?.profileImg} alt={comment.name} sx={{ width: 36, height: 36 }} />
               <div>
-                <p className="font-medium text-sm text-gray-800">{comment?.fromAuthor ? 'Author' : comment?.name}</p>
+                <p className="font-medium text-sm text-gray-800">{comment?.fromAuthor ? 'Seller' : comment?.name}</p>
                 <p className="text-sm text-gray-700 mt-1">{comment?.text}</p>
               </div>
             </div>
