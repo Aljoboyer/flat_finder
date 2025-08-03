@@ -22,13 +22,18 @@ export default function VisitorLayout({ children }) {
   
     useEffect(() => {
         if(userData?.name){
-            socket.on("notifyseller", (notification) => {
+          socket.on("notifyseller", (notification) => {
+            notificationToast(notification)
+          })
 
+          socket.on("notifybuyer", (notification) => {
+            console.log('check', notification)
             notificationToast(notification)
           })
     
           return () =>{
             socket.off("notifyseller")
+            socket.off("notifybuyer")
           }
         }
       },[])

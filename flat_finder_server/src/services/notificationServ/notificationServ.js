@@ -7,7 +7,7 @@ const addNotification = async (notifyData) => {
 
       if(notifyData?.type == 'new-comment'){
         reqObj = {
-          receiver: notifyData?.sellerId,
+          receiver: notifyData?.receiver,
           sender: notifyData?.commenterId,
           type: 'new-comment',
           message: `Buyer: ${notifyData?.name} Commented on your Property`,
@@ -20,6 +20,7 @@ const addNotification = async (notifyData) => {
       
       return
     } catch (error) {
+      console.log('error ===>', )
      return
     }
   };

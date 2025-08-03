@@ -26,10 +26,14 @@ export default function CommentBox({property}) {
         commenterId: userData?._id,
         fromAuthor: userData?.role == 'seller' ? true : false,
         propertyId: property?._id,
-        sellerId: property?.seller?._id
+        sellerId: property?.seller?._id,
       }
 
-      socket.emit('addComments', commentObj)
+      if(userData?.role == 'seller'){
+        socket.emit('addComments', commentObj)
+      }else{
+          socket.emit('addComments', {...commentObj, receiver: property?.seller?._id,})
+      }
 
       const reqObj = {
         commenter: userData?._id,
@@ -47,7 +51,7 @@ export default function CommentBox({property}) {
 
       const currentCommentData = commentRef.current
       
-      setComments([...currentCommentData, comnt])
+      setComments([comnt, ...currentCommentData])
     }
     socket.on("receivedcomments", handleAddComnt)
 
