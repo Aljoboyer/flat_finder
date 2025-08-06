@@ -1,5 +1,5 @@
 "use client"
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   AppBar,
   Toolbar,
@@ -34,6 +34,9 @@ import { AccountCircle, Logout } from '@mui/icons-material';
 import { getLocalStorageData } from '@/utils/getLocalStorageData';
 import NotificationMenu from './Notification/FFNotification';
 import MailIcon from '@mui/icons-material/Mail';
+import { notificationToast } from '@/utils/toaster/toaster';
+import { useLazyGetNotificationListQuery } from '@/app/redux/features/notificationApi';
+import { getSocket } from '@/utils/socket/socket';
 
 const navItems = [
     {label: 'Home', link: '/flat-finder-home'},
@@ -52,8 +55,10 @@ const Navbar = () => {
   const [drawerOpen, setDrawerOpen] = React.useState(false);
   const isLoggedIn = getAuthToken();
   const userData = getLocalStorageData()
- const pathname = usePathname();
- 
+  const pathname = usePathname();
+  const socket = getSocket();
+  const [notificationTrigger, { data: notifications }] = useLazyGetNotificationListQuery();
+
   const toggleDrawer = (open) => () => {
     setDrawerOpen(open);
   };
@@ -75,6 +80,29 @@ const Navbar = () => {
   const iconNavItems = [
     { label: `${userData?.role == 'buyer' ? 'My Account' : 'Dasboard'}`, icon: <AccountCircle /> },
   ];
+
+   useEffect(() => {
+      if(userData?.name){
+        notificationTrigger({ querys: `limit=${10}&page=${1}&receiver=${userData?._id}` });
+
+        socket.on("notifyseller", (notification) => {
+          notificationTrigger({ querys: `limit=${10}&page=${1}&receiver=${userData?._id}` });
+          notificationToast(notification)
+        })
+
+        socket.on("notifybuyer", (notification) => {
+          notificationTrigger({ querys: `limit=${10}&page=${1}&receiver=${userData?._id}` });
+          notificationToast(notification)
+        })
+  
+        return () =>{
+          socket.off("notifyseller")
+          socket.off("notifybuyer")
+        }
+      }
+      },[userData?.name])
+  
+  console.log('notifications ===>', notifications)
 
   return (
     <AppBar position="sticky" sx={{ backgroundColor: '#fff', color: '#000', boxShadow: 'none' }}>
@@ -117,7 +145,7 @@ const Navbar = () => {
               }
               
               {
-                isLoggedIn && <NotificationMenu />
+                isLoggedIn && <NotificationMenu notificationsData={notifications}/>
               }
 
              <DropDownBtn manuArray={languages} buttonTitle='En'/>

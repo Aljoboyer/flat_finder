@@ -3,90 +3,18 @@ import { useState } from "react";
 import { IconButton, Badge, Avatar, Divider } from "@mui/material";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import CloseIcon from "@mui/icons-material/Close";
-import { Home } from "@mui/icons-material";
+import { Home, HomeFilled } from "@mui/icons-material";
 import { COLORS } from "@/theme/colors";
 import { useRouter } from "next/navigation";
 import { getLocalStorageData } from "@/utils/getLocalStorageData";
+import { formatCustomDateTime } from "@/helper/customDateTimeFormatter";
 
-const notificationsMock = [
-  {
-    id: 1,
-    title: "John Doe",
-    message: "It is a long established fact that a reader will be distracted",
-    time: "2 min ago",
-    avatar: "https://i.pravatar.cc/40?img=1",
-    unread: false,
-  },
-  {
-    id: 2,
-    title: "Store Verification Done",
-    message: "We have successfully received your request.",
-    time: "2 min ago",
-    icon: <Home className="text-bluemain"/>,
-    unread: false,
-  },
-  {
-    id: 3,
-    title: "Check Your Mail.",
-    message: "All done! Now check your inbox as you’re in for a sweet treat!",
-    time: "2 min ago",
-    icon: <Home className="text-bluemain"/>,
-    unread: true,
-  },
-    {
-    id: 4,
-    title: "John Doe",
-    message: "It is a long established fact that a reader will be distracted",
-    time: "2 min ago",
-    avatar: "https://i.pravatar.cc/40?img=1",
-    unread: true,
-  },
-  {
-    id: 5,
-    title: "Store Verification Done",
-    message: "We have successfully received your request.",
-    time: "2 min ago",
-    icon: "🏬",
-    unread: false,
-  },
-  {
-    id: 6,
-    title: "Check Your Mail.",
-    message: "All done! Now check your inbox as you’re in for a sweet treat!",
-    time: "2 min ago",
-    icon: "📬",
-    unread: false,
-  },
-    {
-    id: 7,
-    title: "John Doe",
-    message: "It is a long established fact that a reader will be distracted",
-    time: "2 min ago",
-    avatar: "https://i.pravatar.cc/40?img=1",
-    unread: true,
-  },
-  {
-    id: 8,
-    title: "Store Verification Done",
-    message: "We have successfully received your request.",
-    time: "2 min ago",
-    icon: "🏬",
-    unread: true,
-  },
-  {
-    id: 9,
-    title: "Check Your Mail.",
-    message: "All done! Now check your inbox as you’re in for a sweet treat!",
-    time: "2 min ago",
-    icon: "📬",
-    unread: false,
-  },
-];
 
-export default function NotificationMenu() {
+
+export default function NotificationMenu({notificationsData}) {
   const router = useRouter()
   const [open, setOpen] = useState(false);
-  const [notifications, setNotifications] = useState(notificationsMock);
+  const [notifications, setNotifications] = useState(notificationsData?.data);
   const userData = getLocalStorageData();
 
   const toggleMenu = () => setOpen((prev) => !prev);
@@ -98,7 +26,7 @@ export default function NotificationMenu() {
   return (
     <div className="relative">
       <IconButton onClick={toggleMenu}>
-        <Badge badgeContent={notifications.length} color="warning">
+        <Badge badgeContent={notificationsData?.totalUnread} color="warning">
           <NotificationsIcon fontSize="medium" className="text-bluemain" sx={{fontSize: '30px'}} />
         </Badge>
       </IconButton>
@@ -108,7 +36,7 @@ export default function NotificationMenu() {
 
           <div className="flex items-center justify-between p-4 border-b">
             <p className="text-p_lg text-blackshade font-semibold">All Notification<span className="bg-successOverlay text-blackshade text-psm font-bold px-2 py-0.5 rounded-full ms-2">
-              {notifications.length.toString().padStart(2, "0")}
+              {notificationsData?.data?.length.toString().padStart(2, "0")}
             </span></p>
              <button
              onClick={toggleMenu}
@@ -119,12 +47,12 @@ export default function NotificationMenu() {
           </div>
 
           <div className="max-h-[400px] overflow-y-auto custom-scroll">
-            {notificationsMock.map((item) => (
+            {notificationsData?.data?.map((item) => (
               <div>
                     <div
                     key={item.id}
                     className={`relative p-4 ${
-                    item.unread ? "bg-[#e3f2fd]" : ""
+                    !item.isRead ? "bg-[#e3f2fd]" : ""
                     }`}
                 >
                     <button
@@ -139,13 +67,13 @@ export default function NotificationMenu() {
                         <Avatar src={item.avatar} alt={item.title} />
                     ) : (
                         <div className="w-10 h-10 rounded-full bg-yellowOverlay  flex items-center justify-center">
-                        {item.icon}
+                        <HomeFilled/>
                         </div>
                     )}
                     <div className="flex-1">
                         <div className="flex justify-between items-center mb-1">
-                        <p className="font-medium text-blackshade text-p">{item.title}</p>
-                        <span className="text-[12px] text-gray-400">{item.time}</span>
+                        <p className="font-medium text-blackshade text-p">{item.type == 'new-comment' ? 'Comment' : ''}</p>
+                        <span className="text-[12px] text-gray-400">{formatCustomDateTime(item.createdAt)}</span>
                         </div>
                         <p className="text-psm text-gray-600">{item.message}</p>
                     </div>
