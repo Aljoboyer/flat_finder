@@ -12,9 +12,17 @@ const RentApi = api.injectEndpoints({
       providesTags: ["notificationlist"],
     }),
 
+    updateNotification: builder.mutation({
+      query: (requestBody) =>(
+        mutationCall('/notification/update','PUT', requestBody)
+      ),
+     invalidatesTags: ["notificationlist"],
+    }),
+
   }),
 });
 
 export const {
     useLazyGetNotificationListQuery,
+    useUpdateNotificationMutation
 } = RentApi;

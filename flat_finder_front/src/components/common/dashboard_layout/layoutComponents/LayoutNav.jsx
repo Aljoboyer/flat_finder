@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Typography from '@mui/material/Typography';
 import Toolbar from '@mui/material/Toolbar';
 import { Avatar, Badge, Box, Button, IconButton } from '@mui/material';
@@ -12,6 +12,9 @@ import NotificationMenu from '../../Notification/FFNotification';
 import { Notifications } from '@mui/icons-material';
 import { getLocalStorageData } from '@/utils/getLocalStorageData';
 import MailIcon from '@mui/icons-material/Mail';
+import { getSocket } from '@/utils/socket/socket';
+import { useLazyGetNotificationListQuery } from '@/app/redux/features/notificationApi';
+import { notificationToast } from '@/utils/toaster/toaster';
 
 const manuItems = [
     {"label": "Profile", "link": "", "icon": <Avatar fontSize="small" />},
@@ -21,6 +24,30 @@ const manuItems = [
 export const LayoutNav = ({handleDrawerOpen}) => {
   const router = useRouter();
   const userData = getLocalStorageData()
+  const socket = getSocket();
+  const [notificationTrigger, { data: notifications }] = useLazyGetNotificationListQuery();
+
+     useEffect(() => {
+        if(userData?.name){
+          notificationTrigger({ querys: `limit=${10}&page=${1}&receiver=${userData?._id}` });
+  
+          socket.on("notifyseller", (notification) => {
+            notificationTrigger({ querys: `limit=${10}&page=${1}&receiver=${userData?._id}` });
+            notificationToast(notification)
+          })
+  
+          socket.on("notifybuyer", (notification) => {
+            notificationTrigger({ querys: `limit=${10}&page=${1}&receiver=${userData?._id}` });
+            notificationToast(notification)
+          })
+    
+          return () =>{
+            socket.off("notifyseller")
+            socket.off("notifybuyer")
+          }
+        }
+        },[userData?.name])
+    
 
   return (
     <Box sx={{position:'sticky',top: '0px', width: '100%', backgroundColor: 'white', height: '70px', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', paddingX: {md: '20px'}, alignItems: 'center' ,zIndex: 1,}}>
@@ -88,7 +115,7 @@ export const LayoutNav = ({handleDrawerOpen}) => {
         </div>
 
         <div className='hidden md:block'>
-          <NotificationMenu />
+          <NotificationMenu notificationsData={notifications}/>
         </div>
 
       <ProfileManu manuItems={manuItems}/>

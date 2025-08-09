@@ -27,6 +27,7 @@ export default function CommentBox({property}) {
         fromAuthor: userData?.role == 'seller' ? true : false,
         propertyId: property?._id,
         sellerId: property?.seller?._id,
+        type: 'new-comment'
       }
 
       if(userData?.role == 'seller'){

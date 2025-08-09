@@ -6,7 +6,7 @@ const commentHandlers = (io, socket, userSocketMap) => {
 
         //sending comment to everyone
         io.emit("receivedcomments", comment)
-        addNotification({...comment, type: 'new-comment'})
+        addNotification(comment)
 
         //Creating comment roam for buyer so that they can get seller notification on comment
         if(!comment?.fromAuthor){

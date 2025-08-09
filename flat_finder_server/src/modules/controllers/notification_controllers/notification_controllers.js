@@ -32,7 +32,29 @@ const getNotificationListController = async (req, res) => {
     }
   };
 
+const updateNotificationCotroller = async (req, res) => {
+  try {
+    const {notifyId, updateType} = req.body;
+    
+       if(updateType == 'update'){
+          const updateNotifyStatus = await NotificationCollection.findByIdAndUpdate(
+          notifyId,
+          { isRead: true },
+          { new: true }
+        );
+       }
+       else{
+          const updateNotifyStatus = await NotificationCollection.findByIdAndDelete(notifyId);
+       }
+       
+    res.status(500).json({ message: "Notification get Failed" , error});
+  } catch (error) {
+        res.status(500).json({ message: "Notification update Failed" , error});
+  }
+}
+
   module.exports = {
     getNotificationListController,
+    updateNotificationCotroller,
   };
     

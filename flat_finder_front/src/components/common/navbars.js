@@ -102,7 +102,6 @@ const Navbar = () => {
       }
       },[userData?.name])
   
-  console.log('notifications ===>', notifications)
 
   return (
     <AppBar position="sticky" sx={{ backgroundColor: '#fff', color: '#000', boxShadow: 'none' }}>

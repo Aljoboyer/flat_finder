@@ -3,11 +3,13 @@ import { useState } from "react";
 import { IconButton, Badge, Avatar, Divider } from "@mui/material";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import CloseIcon from "@mui/icons-material/Close";
-import { Home, HomeFilled } from "@mui/icons-material";
+import { Circle, Home, HomeFilled } from "@mui/icons-material";
 import { COLORS } from "@/theme/colors";
 import { useRouter } from "next/navigation";
 import { getLocalStorageData } from "@/utils/getLocalStorageData";
 import { formatCustomDateTime } from "@/helper/customDateTimeFormatter";
+import { useUpdateNotificationMutation } from "@/app/redux/features/notificationApi";
+import FFLoader2 from "../Loaders/FFLoader-2";
 
 
 
@@ -16,12 +18,24 @@ export default function NotificationMenu({notificationsData}) {
   const [open, setOpen] = useState(false);
   const [notifications, setNotifications] = useState(notificationsData?.data);
   const userData = getLocalStorageData();
-
+  const [updateNotification ] = useUpdateNotificationMutation();
+  const [deleteNotifyId, setDeleteNotifyId] = useState('')
+  
   const toggleMenu = () => setOpen((prev) => !prev);
 
-  const removeNotification = (id) => {
-    setNotifications((prev) => prev.filter((n) => n.id !== id));
+  const removeNotification = async (item) => {
+      setDeleteNotifyId(item?._id)
+      await updateNotification({notifyId: item?._id, updateType: 'delete'})
+      setDeleteNotifyId('')
   };
+
+  const notificationClickHandler = async (item) => {
+
+      if(item?.type == "new-comment"){
+        await updateNotification({notifyId: item?._id, updateType: 'update'})
+        router.push(`/property-details/${item?.property}`)
+      }
+  }
 
   return (
     <div className="relative">
@@ -48,19 +62,27 @@ export default function NotificationMenu({notificationsData}) {
 
           <div className="max-h-[400px] overflow-y-auto custom-scroll">
             {notificationsData?.data?.map((item) => (
-              <div>
+              <div onClick={() => notificationClickHandler(item)} className="cursor-pointer">
                     <div
                     key={item.id}
                     className={`relative p-4 ${
                     !item.isRead ? "bg-[#e3f2fd]" : ""
                     }`}
                 >
-                    <button
-                    onClick={() => removeNotification(item.id)}
+
+                  {
+                    deleteNotifyId == item?._id ?  <button
+                    className="absolute top-0 right-2 text-basecolor cursor-pointer"
+                    >
+                        <Circle fontSize="small" />
+                    </button> :    <button
+                    onClick={() => removeNotification(item)}
                     className="absolute top-0 right-2 text-basecolor cursor-pointer"
                     >
                     <CloseIcon fontSize="small" />
                     </button>
+                  }
+                 
 
                     <div className="flex gap-3 items-start">
                     {item.avatar ? (
