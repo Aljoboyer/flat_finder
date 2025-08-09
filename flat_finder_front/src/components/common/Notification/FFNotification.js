@@ -23,14 +23,15 @@ export default function NotificationMenu({notificationsData}) {
   
   const toggleMenu = () => setOpen((prev) => !prev);
 
-  const removeNotification = async (item) => {
+  const removeNotification = async (e , item) => {
+    e.stopPropagation();
       setDeleteNotifyId(item?._id)
       await updateNotification({notifyId: item?._id, updateType: 'delete'})
       setDeleteNotifyId('')
   };
 
-  const notificationClickHandler = async (item) => {
-
+  const notificationClickHandler = async (e, item) => {
+    e.stopPropagation();
       if(item?.type == "new-comment"){
         await updateNotification({notifyId: item?._id, updateType: 'update'})
         router.push(`/property-details/${item?.property}`)
@@ -62,7 +63,7 @@ export default function NotificationMenu({notificationsData}) {
 
           <div className="max-h-[400px] overflow-y-auto custom-scroll">
             {notificationsData?.data?.map((item) => (
-              <div onClick={() => notificationClickHandler(item)} className="cursor-pointer">
+              <div onClick={(e) => notificationClickHandler(e, item)} className="cursor-pointer">
                     <div
                     key={item.id}
                     className={`relative p-4 ${
@@ -76,7 +77,7 @@ export default function NotificationMenu({notificationsData}) {
                     >
                         <Circle fontSize="small" />
                     </button> :    <button
-                    onClick={() => removeNotification(item)}
+                    onClick={(e) => removeNotification(e, item)}
                     className="absolute top-0 right-2 text-basecolor cursor-pointer"
                     >
                     <CloseIcon fontSize="small" />
