@@ -98,15 +98,21 @@ const Navbar = () => {
         })
 
         socket.on("notifyuser", (notification) => {
-          console.log('hitted notifyuser ===>', notification)
+          
+          notificationTrigger({ querys: `limit=${10}&page=${1}&receiver=${userData?._id}` });
+          notificationToast(notification)
+        })
+
+        socket.on("newpropertyposted", (notification) => {
           notificationTrigger({ querys: `limit=${10}&page=${1}&receiver=${userData?._id}` });
           notificationToast(notification)
         })
   
         return () =>{
-          socket.off("notifyseller")
-          socket.off("notifybuyer")
-          socket.off("notifyuser")
+          socket.off("notifyseller");
+          socket.off("notifybuyer");
+          socket.off("notifyuser");
+          socket.off("newpropertyposted");
         }
       }
     },[userData?.name])

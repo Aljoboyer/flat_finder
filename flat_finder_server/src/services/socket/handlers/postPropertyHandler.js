@@ -1,13 +1,12 @@
 const { addNotification } = require("../../notificationServ/notificationServ");
 
 const postPropertyHandler = (io, socket, userSocketMap) => {
-    socket.on("postedproperty", (followObj) => {
-        const targetSocketId = userSocketMap[followObj?.receiver];
+    socket.on("postedproperty", (postpropertyObj) => {
         
-        socket.to(targetSocketId).emit("notifyuser", followObj?.message);
+        io.to(postpropertyObj?.connectionRoamId).emit("newpropertyposted", postpropertyObj?.message);
         
         //adding to db 
-        addNotification(followObj)
+        addNotification(postpropertyObj)
 
       })
 };
