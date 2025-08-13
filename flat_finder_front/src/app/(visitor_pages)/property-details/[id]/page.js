@@ -18,6 +18,7 @@ import SellerInfoSection from '@/components/visitors/PropertyDetails/SellerInfoS
 import { PropertyDetailsTabData } from '@/constant/tabsdata';
 import { requestNote } from '@/constant/textdata';
 import { getLocalStorageData } from '@/utils/getLocalStorageData';
+import { getSocket } from '@/utils/socket/socket';
 import { errorToast, successToast } from '@/utils/toaster/toaster';
 import { useMediaQuery, useTheme } from '@mui/material';
 import React, { useEffect, useState } from 'react'
@@ -39,7 +40,8 @@ export default function page({params}) {
   const [note, setNote] = useState(requestNote);
   const userdata = getLocalStorageData()
   const [followData, setFollowData] = useState({});
-  
+  const socket = getSocket();
+
   const { id } = params;
   
     const sellerPropertyFetch = () => {
@@ -72,13 +74,23 @@ export default function page({params}) {
    }
 
    const requestSentHandler = async () => {
-    const reqObj = {
-      "property": property?.data?._id,
-      "buyer": userdata?._id,
-      "seller": property?.data?.seller?._id,
-      "message": note,
-      "status": "pending"
-    }
+      const reqObj = {
+        "property": property?.data?._id,
+        "buyer": userdata?._id,
+        "seller": property?.data?.seller?._id,
+        "message": note,
+        "status": "pending"
+      }
+
+        const notificationObj = {
+        message: `${userdata?.name} sent you a rent request for your property.`,
+        sender: userdata?._id,
+        propertyId: property?._id,
+        receiver: property?.seller?._id,
+        type: 'rent-request'
+      }
+      
+    socket.emit('sendRendReq', notificationObj)
 
     const reqRes = await requestForRent(reqObj)
    
@@ -142,6 +154,8 @@ export default function page({params}) {
       }
 
   }
+
+
   return (
     <div className='w-full p-2 lg:p-6'>
       {

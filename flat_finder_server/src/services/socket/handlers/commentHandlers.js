@@ -6,7 +6,16 @@ const commentHandlers = (io, socket, userSocketMap) => {
 
         //sending comment to everyone
         io.emit("receivedcomments", comment)
-        addNotification(comment)
+
+        const notificationObj = {
+            receiver: comment?.receiver,
+            sender: comment?.commenterId,
+            message: `${comment?.fromAuthor ? 'Seller' : 'Buyer'}: ${comment?.name} ${comment?.fromAuthor ? 'seller commented on a property you also commented on.' : 'Commented on your Property'}`,
+            property: comment?.propertyId,
+            isRead: false,
+            type: comment?.type
+        }
+        addNotification(notificationObj)
 
         //Creating comment roam for buyer so that they can get seller notification on comment
         if(!comment?.fromAuthor){
@@ -14,7 +23,7 @@ const commentHandlers = (io, socket, userSocketMap) => {
           socket.to(targetSocketId).emit("notifyseller", `Buyer: ${comment?.name} Commented on your Property`);
         }else{
            socket.join(comment?.propertyId);
-          socket.to(comment?.propertyId).emit("notifybuyer", `The seller commented on a property you also commented on.`);
+          socket.to(comment?.propertyId).emit("notifybuyer", `Seller commented on a property you also commented on.`);
         }
         
       })

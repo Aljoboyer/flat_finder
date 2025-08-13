@@ -100,7 +100,7 @@ const Navbar = () => {
           socket.off("notifybuyer")
         }
       }
-      },[userData?.name])
+    },[userData?.name])
   
 
   return (

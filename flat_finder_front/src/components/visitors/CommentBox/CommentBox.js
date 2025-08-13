@@ -17,7 +17,8 @@ export default function CommentBox({property}) {
   const commentRef = useRef(null);
   const [postComment ] = useAddCommentMutation();
   const [propertyCommentTrigger, { data: propertyData , isFetching}] = useLazyGetSinglePropertyQuery();
-
+  const [storeComments, setStoreComments] = useState([])
+  
   const handleSubmit = async () => {
       const commentObj = {
         profileImg: userData?.image,
@@ -33,7 +34,7 @@ export default function CommentBox({property}) {
       if(userData?.role == 'seller'){
         socket.emit('addComments', commentObj)
       }else{
-          socket.emit('addComments', {...commentObj, receiver: property?.seller?._id,})
+        socket.emit('addComments', {...commentObj, receiver: property?.seller?._id,})
       }
 
       const reqObj = {
@@ -72,8 +73,9 @@ export default function CommentBox({property}) {
           }
           return formatItemObj;
         })
- 
-        setComments(formatCommentData)
+        
+        setStoreComments(formatCommentData)
+        setComments(formatCommentData?.slice(0, 10))
     }
     
  useEffect(() => {
@@ -93,6 +95,17 @@ export default function CommentBox({property}) {
       commentRef.current = []
     }
   },[comments])
+
+  const showMoreHandler = () => {
+    if(storeComments?.length > comments?.length){
+      const sliceComment = storeComments?.slice(comments?.length, 10)
+
+      setComments([...comments, ...sliceComment])
+    }else{
+      return;
+    }
+
+  }
 
   return (
     <div className="w-full max-w-xl mx-auto h-[550px] rounded-xl border border-gray-200 shadow-sm bg-white flex flex-col overflow-hidden">
@@ -146,7 +159,9 @@ export default function CommentBox({property}) {
 
       {/* Sticky Bottom "Show more" */}
       <div className="sticky bottom-0 bg-white border-t border-basecolor p-3">
-        <button className="w-full text-blue-800 hover:underline text-p font-medium cursor-pointer">
+        <button 
+        onClick={() => showMoreHandler()}
+        className="w-full text-blue-800 hover:underline text-p font-medium cursor-pointer">
           Show more
         </button>
       </div>
