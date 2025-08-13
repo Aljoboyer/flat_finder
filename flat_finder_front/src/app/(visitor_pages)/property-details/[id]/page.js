@@ -90,7 +90,7 @@ export default function page({params}) {
         type: 'rent-request'
       }
       
-    socket.emit('sendRendReq', notificationObj)
+    socket.emit('sendRentReq', notificationObj)
 
     const reqRes = await requestForRent(reqObj)
    

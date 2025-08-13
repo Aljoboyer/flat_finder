@@ -10,6 +10,7 @@ import { filterFieldConfig } from '@/constant/formConfigs/filterConfig'
 import { sellerRentTableHeader } from '@/constant/tableConfig/rentReqTableConfig'
 import { RentRequestTabData } from '@/constant/tabsdata'
 import { getLocalStorageData } from '@/utils/getLocalStorageData'
+import { getSocket } from '@/utils/socket/socket'
 import { capitalizeFirstLetter } from '@/utils/stringHelper'
 import { successToast } from '@/utils/toaster/toaster'
 import { useMediaQuery } from '@mui/material'
@@ -35,6 +36,7 @@ export default function page() {
     const [tableHeader, setTableHeader] = useState([])
     const [selectedDate, setSelectedDate] = useState(null);
     const [areaNameTrigger, { data: areaNameList}] = useLazyGetAreaNamesQuery();
+    const socket = getSocket();
 
     const handleTabChange = (event, newValue) => {
         setValue(newValue);
@@ -75,6 +77,16 @@ export default function page() {
           "property_id": rentReq?.property?._id,
           "status": action
       }
+
+      const notificationObj = {
+        message: `Your request is ${capitalizeFirstLetter(action)}`,
+        sender: userData?._id,
+        propertyId: rentReq?.property?._id,
+        receiver: rentReq?.buyer?._id,
+        type: action == 'rejected' ? 'rent-request-rejected' : 'rent-request-accepted'
+      }
+      
+      socket.emit('rentreqaction', notificationObj)
       
       const actionres = await rentReqAction(reqObj)
 

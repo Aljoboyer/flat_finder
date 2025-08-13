@@ -94,10 +94,16 @@ const Navbar = () => {
           notificationTrigger({ querys: `limit=${10}&page=${1}&receiver=${userData?._id}` });
           notificationToast(notification)
         })
+
+        socket.on("notifyuser", (notification) => {
+          notificationTrigger({ querys: `limit=${10}&page=${1}&receiver=${userData?._id}` });
+          notificationToast(notification)
+        })
   
         return () =>{
           socket.off("notifyseller")
           socket.off("notifybuyer")
+          socket.off("notifyuser")
         }
       }
     },[userData?.name])
@@ -276,8 +282,16 @@ const Navbar = () => {
           
             {
               isLoggedIn && <ListItem>
-              <ListItemIcon>
-                 <Badge badgeContent={4} color="warning">
+              <ListItemIcon
+              onClick={() => {
+                if(userData.role == 'buyer'){
+                  router.push('/buyer-notifications')
+                }else{
+                  router.push('/seller-notifications')
+                }
+              }}
+              >
+                 <Badge badgeContent={notifications?.data?.length} color="warning">
                   <Notifications fontSize="medium" className="text-bluemain" />
                 </Badge>
               </ListItemIcon>
@@ -286,7 +300,7 @@ const Navbar = () => {
             }
 
            {
-            isLoggedIn &&          <ListItem>
+            isLoggedIn && <ListItem>
               <ListItemIcon>
                 <Logout />
               </ListItemIcon>

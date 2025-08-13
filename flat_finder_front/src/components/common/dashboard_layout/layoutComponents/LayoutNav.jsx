@@ -40,10 +40,16 @@ export const LayoutNav = ({handleDrawerOpen}) => {
             notificationTrigger({ querys: `limit=${10}&page=${1}&receiver=${userData?._id}` });
             notificationToast(notification)
           })
-    
+          
+          socket.on("notifyuser", (notification) => {
+            notificationTrigger({ querys: `limit=${10}&page=${1}&receiver=${userData?._id}` });
+            notificationToast(notification)
+          })
+
           return () =>{
             socket.off("notifyseller")
             socket.off("notifybuyer")
+            socket.off("notifyuser")
           }
         }
         },[userData?.name])
@@ -109,7 +115,7 @@ export const LayoutNav = ({handleDrawerOpen}) => {
             router.push('/seller-notifications')
           }
         }}>
-           <Badge sx={{display: {xs: 'block', md: 'none'}}} badgeContent={4} color="warning">
+           <Badge sx={{display: {xs: 'block', md: 'none'}}} badgeContent={notifications?.data?.length} color="warning">
               <Notifications fontSize="medium" className="text-bluemain" sx={{fontSize: '30px'}} />
           </Badge>
         </div>
