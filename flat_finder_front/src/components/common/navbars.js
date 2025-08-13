@@ -96,6 +96,7 @@ const Navbar = () => {
         })
 
         socket.on("notifyuser", (notification) => {
+          console.log('hitted notifyuser ===>', notification)
           notificationTrigger({ querys: `limit=${10}&page=${1}&receiver=${userData?._id}` });
           notificationToast(notification)
         })

@@ -85,8 +85,8 @@ export default function page({params}) {
         const notificationObj = {
         message: `${userdata?.name} sent you a rent request for your property.`,
         sender: userdata?._id,
-        propertyId: property?._id,
-        receiver: property?.seller?._id,
+        propertyId: property?.data?._id,
+        receiver: property?.data?.seller?._id,
         type: 'rent-request'
       }
       
