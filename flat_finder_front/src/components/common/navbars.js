@@ -37,6 +37,7 @@ import MailIcon from '@mui/icons-material/Mail';
 import { notificationToast } from '@/utils/toaster/toaster';
 import { useLazyGetNotificationListQuery } from '@/app/redux/features/notificationApi';
 import { getSocket } from '@/utils/socket/socket';
+import { useLazyGetFollowListQuery } from '@/app/redux/features/profileApi';
 
 const navItems = [
     {label: 'Home', link: '/flat-finder-home'},
@@ -58,6 +59,7 @@ const Navbar = () => {
   const pathname = usePathname();
   const socket = getSocket();
   const [notificationTrigger, { data: notifications }] = useLazyGetNotificationListQuery();
+   const [followListTrigger, { data: FollowList, isFetching}] = useLazyGetFollowListQuery();
 
   const toggleDrawer = (open) => () => {
     setDrawerOpen(open);
@@ -108,7 +110,21 @@ const Navbar = () => {
         }
       }
     },[userData?.name])
-  
+    
+    useEffect(() => {
+      if(userData?.role == 'buyer'){
+            followListTrigger({ querys: `limit=${1000}&page=${1}&buyer=${userData?._id}` });
+      }
+    },[userData?.role])
+
+    useEffect(() => {
+      if(FollowList?.data?.length > 0 && userData?.role == 'buyer'){
+        FollowList?.data.forEach((followItem) => {
+          socket.emit("join-roam", {roadmid: followItem?.seller?._id });
+        });
+         
+      }
+    },[FollowList?.data]);
 
   return (
     <AppBar position="sticky" sx={{ backgroundColor: '#fff', color: '#000', boxShadow: 'none' }}>

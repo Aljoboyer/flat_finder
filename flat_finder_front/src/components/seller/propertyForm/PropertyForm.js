@@ -15,6 +15,7 @@ import { successToast } from '@/utils/toaster/toaster'
 import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
+import { getSocket } from '@/utils/socket/socket'
 
 export default function PropertyForm({property}) {
   const [loading, setLoading] = useState(false)
@@ -30,7 +31,8 @@ export default function PropertyForm({property}) {
   const [areaNameTrigger, { data: areaNameList}] = useLazyGetAreaNamesQuery();
   const [deleteUrls, setDeletedUrls] = useState([])
   const [imgErr, setImgErr] = useState('')
-  
+  const socket = getSocket();
+
   const {
     handleSubmit,
     control,
@@ -75,6 +77,15 @@ export default function PropertyForm({property}) {
           const postPropertyData = await postProperty({...data, images: images, seller: userData?._id})
 
           if(postPropertyData?.data?.msg == 'Poperty posted Successfully'){
+            const notificationObj = {
+              message: `Seller ${userData?.name} Posted New Property.`,
+              sender: userData?._id,
+              connectionRoamId: userData?._id,
+              type: 'new-property'
+            }
+            
+            socket.emit('postedproperty', notificationObj);
+            
             setLoading(false)
             successToast('Successfully Property Posted!')
             router.push('/seller-properties')

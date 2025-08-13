@@ -2,6 +2,7 @@ const { Server } = require("socket.io");
 const { commentHandlers } = require("./handlers/commentHandlers");
 const { rentReqHandlers } = require("./handlers/rentReqHandlers");
 const { followHandler } = require("./handlers/followHandler");
+const { postPropertyHandler } = require("./handlers/postPropertyHandler");
 
 let io;
 const userSocketMap = {}; 
@@ -24,7 +25,8 @@ const init = (server) => {
     commentHandlers(io, socket, userSocketMap);
     rentReqHandlers(io, socket, userSocketMap);
     followHandler(io, socket, userSocketMap);
-
+    postPropertyHandler(io, socket, userSocketMap);
+    
     socket.on("disconnect", () => {
       // Find and remove user from userSocketMap
       for (const userId in userSocketMap) {
