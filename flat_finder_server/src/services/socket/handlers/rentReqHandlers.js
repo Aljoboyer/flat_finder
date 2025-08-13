@@ -6,7 +6,6 @@ const rentReqHandlers = (io, socket, userSocketMap) => {
         
         socket.to(targetSocketId).emit("notifyuser", rentReq?.message);
         
-        
         //adding to db 
         addNotification(rentReq)
       })

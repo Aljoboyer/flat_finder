@@ -89,9 +89,8 @@ export default function page({params}) {
         receiver: property?.data?.seller?._id,
         type: 'rent-request'
       }
-      
+    
     socket.emit('sendRentReq', notificationObj)
-
     const reqRes = await requestForRent(reqObj)
    
     if(reqRes?.data?.msg == 'Rent request added Successfully'){
@@ -125,10 +124,20 @@ export default function page({params}) {
       buyer: userdata?._id,
       seller: property?.data?.seller?._id
     }
+      const notificationObj = {
+        message: `${userdata?.name} Following you.`,
+        sender: userdata?._id,
+        propertyId: property?.data?._id,
+        receiver: property?.data?.seller?._id,
+        type: 'user-connected'
+      }
+    
+    socket.emit('followwing', notificationObj)
+
     const followRes = await followSeller(reqObj)
 
     if(followRes?.data?.msg == 'Connection posted Successfully'){
-      successToast('Following Successfull')
+      successToast('Following Successfully')
       followCheck()
     }
    }
