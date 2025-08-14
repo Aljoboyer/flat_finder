@@ -16,6 +16,7 @@ import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { getSocket } from '@/utils/socket/socket'
+import { Button } from '@mui/material'
 
 export default function PropertyForm({property}) {
   const [loading, setLoading] = useState(false)
@@ -45,72 +46,72 @@ export default function PropertyForm({property}) {
 
   
     const deleteImgApiCall = async (imgId) => {
-    const deleteImgRes = await deletePropertyImg({public_id: imgId})
-    return deleteImgRes
-  }
+      const deleteImgRes = await deletePropertyImg({public_id: imgId})
+      return deleteImgRes
+    }
 
-  const onSubmit = async (data) => {
+    const onSubmit = async (data) => {
 
-       setLoading(true)
+        setLoading(true)
 
-       if(property?._id){
-          if(deleteUrls?.length > 0){
-            await deleteImgApiCall(deleteUrls)
-          }
-          const postPropertyData = await updateProperty({...data, images: images})
-
-          if(postPropertyData?.data?.msg == 'updated successfully'){
-            setLoading(false)
-            successToast('Successfully Property Updated!')
-            router.push('/seller-properties')
-          }
-       }
-       else{
-           if(deleteUrls?.length > 0){
-            await deleteImgApiCall(deleteUrls)
-          }
-          if(images?.length == 0){
-            setLoading(false)
-            setImgErr('Add at least one image')
-            return
-          }
-          const postPropertyData = await postProperty({...data, images: images, seller: userData?._id})
-
-          if(postPropertyData?.data?.msg == 'Poperty posted Successfully'){
-            const notificationObj = {
-              message: `Seller ${userData?.name} Posted New Property.`,
-              sender: userData?._id,
-              connectionRoamId: userData?._id,
-              type: 'new-property'
+        if(property?._id){
+            if(deleteUrls?.length > 0){
+              await deleteImgApiCall(deleteUrls)
             }
-            
-            socket.emit('postedproperty', notificationObj);
-            
-            setLoading(false)
-            successToast('Successfully Property Posted!')
-            router.push('/seller-properties')
-          }
-       }
-  }
+            const postPropertyData = await updateProperty({...data, images: images})
 
-  const imageUploadHandler = async (img) => {
-    const uploadedData = await uploadImage(img, setImgLoading)
-  
-    setImages([...images, uploadedData?.url])
-  }
+            if(postPropertyData?.data?.msg == 'updated successfully'){
+              setLoading(false)
+              successToast('Successfully Property Updated!')
+              router.push('/seller-properties')
+            }
+        }
+        else{
+            if(deleteUrls?.length > 0){
+              await deleteImgApiCall(deleteUrls)
+            }
+            if(images?.length == 0){
+              setLoading(false)
+              setImgErr('Add at least one image')
+              return
+            }
+            const postPropertyData = await postProperty({...data, images: images, seller: userData?._id})
 
-  const deleteImgFilterHandler = (imgId) => {
-     const removeDeletedImg = images?.filter((item) => item !== imgId)
-     setImages(removeDeletedImg)
-  }
+            if(postPropertyData?.data?.msg == 'Poperty posted Successfully'){
+              const notificationObj = {
+                message: `Seller ${userData?.name} Posted New Property.`,
+                sender: userData?._id,
+                connectionRoamId: userData?._id,
+                type: 'new-property'
+              }
+              
+              socket.emit('postedproperty', notificationObj);
+              
+              setLoading(false)
+              successToast('Successfully Property Posted!')
+              router.push('/seller-properties')
+            }
+        }
+    }
 
-  const onImgDeleteHandler = async (imgId) => {
+    const imageUploadHandler = async (img) => {
+      const uploadedData = await uploadImage(img, setImgLoading)
     
-    deleteImgFilterHandler(imgId);
-    const public_id = extractImgPublicId(imgId)
-    setDeletedUrls([...deleteUrls, public_id])
+      setImages([...images, uploadedData?.url])
+    }
 
-  }
+    const deleteImgFilterHandler = (imgId) => {
+      const removeDeletedImg = images?.filter((item) => item !== imgId)
+      setImages(removeDeletedImg)
+    }
+
+    const onImgDeleteHandler = async (imgId) => {
+      
+      deleteImgFilterHandler(imgId);
+      const public_id = extractImgPublicId(imgId)
+      setDeletedUrls([...deleteUrls, public_id])
+
+    }
 
     useEffect(() => {
       if(property?._id){
@@ -160,9 +161,22 @@ export default function PropertyForm({property}) {
       }
     },[city])
   
+  const testHandler = () => {
+      const notificationObj = {
+        message: `Seller ${userData?.name} Posted New Property.`,
+        sender: userData?._id,
+        connectionRoamId: userData?._id,
+        type: 'new-property'
+      }
+      
+      socket.emit('postedproperty', notificationObj);
+  }
+  
   return (
       <div className=" w-full">
-          
+
+          <p className='font-bold text-3xl' onClick={() => testHandler()}>Test</p>
+
            <div className="bg-white rounded-md p-4">
 
             {

@@ -104,6 +104,7 @@ const Navbar = () => {
         })
 
         socket.on("newpropertyposted", (notification) => {
+          console.log("newpropertyposted ===>", newpropertyposted)
           notificationTrigger({ querys: `limit=${10}&page=${1}&receiver=${userData?._id}` });
           notificationToast(notification)
         })

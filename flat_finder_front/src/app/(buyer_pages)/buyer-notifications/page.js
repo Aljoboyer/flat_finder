@@ -49,8 +49,9 @@ export default function page() {
       setPage(1); 
     };
 
+ 
   return (
-     <div className="bg-overlay  p-6 rounded-t-[20px] ">
+     <div className="bg-overlay  p-6 rounded-t-[20px] h-screen"> 
         <CommonTabs 
           value={value}
           handleTabChange={handleTabChange}
@@ -62,7 +63,7 @@ export default function page() {
             isFetching ? <FFLoader/> : <>
             {
               notifications?.data?.length > 0 ? <Notification
-          totalPage={notifications?.totalData}
+          totalPage={notifications?.totalPage}
           handlePerPageChange={handlePerPageChange}
           handlePageChange={handlePageChange}
           notifications={notifications?.data}

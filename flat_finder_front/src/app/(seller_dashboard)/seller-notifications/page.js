@@ -62,7 +62,7 @@ export default function page() {
             isFetching ? <FFLoader/> : <>
             {
               notifications?.data?.length > 0 ? <Notification
-          totalPage={notifications?.totalData}
+          totalPage={notifications?.totalPage}
           handlePerPageChange={handlePerPageChange}
           handlePageChange={handlePageChange}
           notifications={notifications?.data}
