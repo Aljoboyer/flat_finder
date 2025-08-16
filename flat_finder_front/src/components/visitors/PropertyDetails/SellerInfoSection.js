@@ -32,6 +32,10 @@ const SellerInfoSection = ({propertyDetails,
      }
   }
 
+  const messageHandler = () => {
+     router.push(`/buyer-inbox/${propertyDetails?.seller?._id}`)
+  }
+
   return (
     <div
       className="pl-0 lg:pl-4 sm:0 w-full lg:w-2/5 mt-4 lg:mt-0"
@@ -105,7 +109,7 @@ const SellerInfoSection = ({propertyDetails,
            }
            {
            userdata?.role == 'buyer' && <div
-          onClick={() => {}}
+          onClick={() => messageHandler()}
           className="bg-basecolor w-full h-[40px] flex flex-row justify-center items-center rounded-sm cursor-pointer mt-4"
         >
            <BsChat color={COLORS.side_yellow} size={24} /> 

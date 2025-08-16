@@ -1,5 +1,5 @@
 "use client"
-
+import * as React from "react";
 import { useLazyBuyerSavedPropertyListQuery, useFollowCheckMutation, useFollowSellerMutation } from '@/app/redux/features/profileApi';
 import { useLazyGetPropertyListQuery, useLazyGetSinglePropertyQuery, useSavePropertyMutation } from '@/app/redux/features/propertyApi';
 import { useLazyGetSingleRequestQuery, useRequestForRentMutation } from '@/app/redux/features/rentApi';
@@ -21,7 +21,7 @@ import { getLocalStorageData } from '@/utils/getLocalStorageData';
 import { getSocket } from '@/utils/socket/socket';
 import { errorToast, successToast } from '@/utils/toaster/toaster';
 import { useMediaQuery, useTheme } from '@mui/material';
-import React, { useEffect, useState } from 'react'
+import  { useEffect, useState } from 'react'
 
 export default function page({params}) {
   const theme = useTheme();
@@ -42,7 +42,7 @@ export default function page({params}) {
   const [followData, setFollowData] = useState({});
   const socket = getSocket();
 
-  const { id } = params;
+  const { id } = React.use(params);
   
     const sellerPropertyFetch = () => {
     propertyListTrigger({ querys: `limit=${10}&page=${1}&status=active&seller=${property?.data?.seller?._id}` });

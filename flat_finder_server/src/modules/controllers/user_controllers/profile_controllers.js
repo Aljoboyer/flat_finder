@@ -14,7 +14,7 @@ const getSpecificUser = async (req, res) => {
  
     const { id } = req.query
 
-     const User = await UserCollection.findById({_id: new ObjectId(id)})
+     const User = await UserCollection.findById({_id:  ObjectId.createFromHexString(id)})
 
     res.status(200).json({
       data: User
@@ -30,7 +30,7 @@ const updateProfileController = async (req, res) => {
   try {
  
     const { _id, ...rest} = req.body
-
+    
      const updatedProperty = await UserCollection.findByIdAndUpdate(
       _id,
       rest,

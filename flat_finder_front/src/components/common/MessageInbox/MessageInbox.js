@@ -1,49 +1,53 @@
 "use client"
-import { useState } from 'react';
-import { Avatar, IconButton, TextField, Typography, Badge, InputBase, Paper } from '@mui/material';
+import { useEffect, useState } from 'react';
+import { Avatar, IconButton, TextField } from '@mui/material';
 import { Send, Phone, VideoCall, Info, MoreVert, InsertEmoticon, AttachFile } from '@mui/icons-material';
+import FFLoader2 from '../Loaders/FFLoader-2';
+import { useLazyGetSingleUserProfileQuery } from '@/app/redux/features/profileApi';
+import { getLocalStorageData } from '@/utils/getLocalStorageData';
+import { formatCustomDateTime } from '@/helper/customDateTimeFormatter';
 
 function cn(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
-const messages = [
+const messagesD = [
   { from: 'them', text: 'Hey. Very Good morning. How are you?', time: '11:23 AM' },
-  { from: 'me', text: 'Hi Good Morning!', time: '11:23 AM' },
-  { from: 'me', text: 'Good. Thank you', time: '11:23 AM' },
-  { from: 'them', text: 'I need your minute, are you available?', time: '11:23 AM' },
-    { from: 'them', text: 'Hey. Very Good morning. How are you?', time: '11:23 AM' },
-  { from: 'me', text: 'Hi Good Morning!', time: '11:23 AM' },
-  { from: 'me', text: 'Good. Thank you', time: '11:23 AM' },
-  { from: 'them', text: 'I need your minute, are you available?', time: '11:23 AM' },
-    { from: 'them', text: 'Hey. Very Good morning. How are you?', time: '11:23 AM' },
-  { from: 'me', text: 'Hi Good Morning!', time: '11:23 AM' },
-  { from: 'me', text: 'Good. Thank you', time: '11:23 AM' },
-  { from: 'them', text: 'I need your minute, are you available?', time: '11:23 AM' },
-    { from: 'them', text: 'Hey. Very Good morning. How are you?', time: '11:23 AM' },
-  { from: 'me', text: 'Hi Good Morning!', time: '11:23 AM' },
-  { from: 'me', text: 'Good. Thank you', time: '11:23 AM' },
-  { from: 'them', text: 'I need your minute, are you available?', time: '11:23 AM' },
-    { from: 'them', text: 'Hey. Very Good morning. How are you?', time: '11:23 AM' },
-  { from: 'me', text: 'Hi Good Morning!', time: '11:23 AM' },
-  { from: 'me', text: 'Good. Thank you', time: '11:23 AM' },
-  { from: 'them', text: 'I need your minute, are you available?', time: '11:23 AM' },
 ];
 
-export default function ChatInbox() {
-  const [message, setMessage] = useState('');
+export default function ChatInbox({id}) {
+  const [messages, setMessages] = useState([]);
+  const [userProfileTirgger, { data: selectedUserProfile,  isFetching}] = useLazyGetSingleUserProfileQuery();
+  const [msgText, setMsgText] = useState('');
+  const userData = getLocalStorageData();
+  
+  const sendMessage = () => {
+    const msgObj = {
+       fromUser: userData?._id, toUser: id, text: msgText, time: new Date() 
+    }
+    setMsgText('')
+    setMessages([...messages, msgObj])
+  }
+
+  useEffect(() => {
+    if(id){
+       userProfileTirgger({ querys: `id=${id}` })
+    }
+  },[id])
+  
+
   return (
     <div className="w-full lg:w-3/4 flex flex-col bg-white pb-13 md:pb-0 ">
 
         <div className="p-4 border-b flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Avatar src={''} alt='Jhon Snow' />
+            <Avatar src={selectedUserProfile?.data?.image} alt='Jhon Snow' />
             <div>
               <div className='flex flex-row items-center'>
-                <p className='text-p md:text-p_lg font-bold text-basecolor'>Jhon Snow</p>
+                <p className='text-p md:text-p_lg font-bold text-basecolor'>{selectedUserProfile?.data?.name}</p>
                 <div className="w-2 h-2 bg-green-500 rounded-full ms-2" />
               </div>
-              <p className='text-gray-400 font-medium text-xsm md:text-psm'>Last seen 2h ago</p>
+              {/* <p className='text-gray-400 font-medium text-xsm md:text-psm'>Last seen 2h ago</p> */}
             </div>
           </div>
           <div className="flex items-center gap-2">
@@ -55,8 +59,9 @@ export default function ChatInbox() {
         </div>
 
         {/* Messages */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-4">
-          {messages.map((msg, i) => (
+        {
+          isFetching ? <FFLoader2/> : <div className="flex-1 overflow-y-auto p-4 space-y-4">
+          {messages?.map((msg, i) => (
             <div
               key={i}
               className={cn(
@@ -65,10 +70,11 @@ export default function ChatInbox() {
               )}
             >
               <p className={`${msg.from === 'me' ? 'text-basecolor ' : 'text-side_yellow'}`}>{msg.text}</p>
-              <div className={`${msg.from === 'me' ? 'text-gray-600' : 'text-white'} mt-1 text-[10px] text-right `}>{msg.time}</div>
+              <div className={`${msg.from === 'me' ? 'text-gray-600' : 'text-white'} mt-1 text-[10px] text-right `}>{formatCustomDateTime(msg?.time)}</div>
             </div>
           ))}
         </div>
+        }
 
         {/* Input */}
         <div className="p-4 border-t flex items-center flex-wrap md:flex-nowrap gap-2 h-[90px]">
@@ -77,8 +83,10 @@ export default function ChatInbox() {
              <IconButton><AttachFile /></IconButton>
           </div>
           <div className='flex items-center w-full'>
-            <TextField multiline maxRows={6} fullWidth size="small" placeholder="Type a Message" />
-            <IconButton color="success">
+            <TextField
+            value={msgText}
+            onChange={(e) => setMsgText(e.target.value)} multiline maxRows={6} fullWidth size="small" placeholder="Type a Message" />
+            <IconButton onClick={() => sendMessage()} color="success">
               <Send />
             </IconButton>
           </div>
