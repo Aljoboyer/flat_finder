@@ -15,8 +15,7 @@ const propertyPostController = async (req, res) => {
       const propertyId = generatePropertyId()
       const result = await PropertyCollection.create({...requestData, propertyId});
 
-
-    res.status(201).json({ "msg": "Poperty posted Successfully" });
+      res.status(201).json({ "msg": "Poperty posted Successfully" , newProperty: result});
 
     } catch (error) {
       res.status(500).json({ message: "Property Posting Failed" , error});

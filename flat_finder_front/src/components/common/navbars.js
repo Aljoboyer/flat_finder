@@ -85,27 +85,27 @@ const Navbar = () => {
 
    useEffect(() => {
       if(userData?.name){
-        notificationTrigger({ querys: `limit=${10}&page=${1}&receiver=${userData?._id}` });
+        notificationTrigger({ querys: `limit=${10}&page=${1}&receiver=${userData?._id}&role=${userData?.role}` });
 
         socket.on("notifyseller", (notification) => {
-          notificationTrigger({ querys: `limit=${10}&page=${1}&receiver=${userData?._id}` });
+          notificationTrigger({ querys: `limit=${10}&page=${1}&receiver=${userData?._id}&role=${userData?.role}` });
           notificationToast(notification)
         })
 
         socket.on("notifybuyer", (notification) => {
-          notificationTrigger({ querys: `limit=${10}&page=${1}&receiver=${userData?._id}` });
+          notificationTrigger({ querys: `limit=${10}&page=${1}&receiver=${userData?._id}&role=${userData?.role}` });
           notificationToast(notification)
         })
 
         socket.on("notifyuser", (notification) => {
           
-          notificationTrigger({ querys: `limit=${10}&page=${1}&receiver=${userData?._id}` });
+          notificationTrigger({ querys: `limit=${10}&page=${1}&receiver=${userData?._id}&role=${userData?.role}` });
           notificationToast(notification)
         })
 
         socket.on("newpropertyposted", (notification) => {
-          console.log("newpropertyposted ===>", newpropertyposted)
-          notificationTrigger({ querys: `limit=${10}&page=${1}&receiver=${userData?._id}` });
+         console.log('notification ===>', notification)
+          notificationTrigger({ querys: `limit=${10}&page=${1}&receiver=${userData?._id}&role=${userData?.role}` });
           notificationToast(notification)
         })
   

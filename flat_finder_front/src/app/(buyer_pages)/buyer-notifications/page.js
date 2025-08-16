@@ -23,20 +23,20 @@ export default function page() {
     const handleTabChange = (event, newValue) => {
       setValue(newValue);
       if(newValue == 1){
-        notificationTrigger({ querys: `limit=${perPage}&page=${page}&receiver=${userData?._id}&isRead=${true}` });
+        notificationTrigger({ querys: `limit=${perPage}&page=${page}&receiver=${userData?._id}&isRead=${true}&role=${userData?.role}` });
       }
       else if (newValue == 2){
-          notificationTrigger({ querys: `limit=${perPage}&page=${page}&receiver=${userData?._id}&isRead=${false}` });
+          notificationTrigger({ querys: `limit=${perPage}&page=${page}&receiver=${userData?._id}&isRead=${false}&role=${userData?.role}` });
       }
       else{
-          notificationTrigger({ querys: `limit=${perPage}&page=${page}&receiver=${userData?._id}` });
+          notificationTrigger({ querys: `limit=${perPage}&page=${page}&receiver=${userData?._id}&role=${userData?.role}` });
       }
 
     }
 
     useEffect(() => {
         if(userData?.name){
-          notificationTrigger({ querys: `limit=${perPage}&page=${page}&receiver=${userData?._id}` });
+          notificationTrigger({ querys: `limit=${perPage}&page=${page}&receiver=${userData?._id}&role=${userData?.role}` });
         }
         },[userData?.name, perPage, page])
 

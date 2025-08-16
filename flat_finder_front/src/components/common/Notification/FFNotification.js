@@ -45,9 +45,13 @@ export default function NotificationMenu({notificationsData}) {
         await updateNotification({notifyId: item?._id, updateType: 'update'})
         router.push(`/seller-profile`)
       }
-        if(item?.type == 'payment-success'){
+      if(item?.type == 'payment-success'){
         await updateNotification({notifyId: item?._id, updateType: 'update'})
         router.push(`/seller-rent-sell-history`)
+      }
+      if(item?.type == 'new-property'){
+        await updateNotification({notifyId: item?._id, updateType: 'update'})
+        router.push(`/property-details/${item?.property}`)
       }
   }
 
@@ -108,7 +112,7 @@ export default function NotificationMenu({notificationsData}) {
                     )}
                     <div className="flex-1">
                         <div className="flex justify-between items-center mb-1">
-                        <p className="font-medium text-blackshade text-p">{item.type == 'new-comment' ? 'Comment' : item.type == 'rent-request' ? 'Rent Request' :  item.type == 'rent-request-accepted' ? 'Rent Request Accepted' : item.type == 'rent-request-rejected' ? 'Rent Request Rejected' : item.type == 'user-connected' ? 'Follow' : item?.type == 'payment-success' ? 'Payment' : ''}</p>
+                        <p className="font-medium text-blackshade text-p">{item.type == 'new-comment' ? 'Comment' : item.type == 'rent-request' ? 'Rent Request' :  item.type == 'rent-request-accepted' ? 'Rent Request Accepted' : item.type == 'rent-request-rejected' ? 'Rent Request Rejected' : item.type == 'user-connected' ? 'Follow' : item?.type == 'payment-success' ? 'Payment' : item.type === 'new-property' ? 'New Property Posted' : ''}</p>
                         <span className="text-[12px] text-gray-400">{formatCustomDateTime(item.createdAt)}</span>
                         </div>
                         <p className="text-psm text-gray-600">{item.message}</p>

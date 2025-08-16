@@ -78,10 +78,12 @@ export default function PropertyForm({property}) {
             const postPropertyData = await postProperty({...data, images: images, seller: userData?._id})
 
             if(postPropertyData?.data?.msg == 'Poperty posted Successfully'){
+
               const notificationObj = {
                 message: `Seller ${userData?.name} Posted New Property.`,
                 sender: userData?._id,
                 connectionRoamId: userData?._id,
+                property: postPropertyData?.data?.newProperty?._id,
                 type: 'new-property'
               }
               
@@ -161,21 +163,8 @@ export default function PropertyForm({property}) {
       }
     },[city])
   
-  const testHandler = () => {
-      const notificationObj = {
-        message: `Seller ${userData?.name} Posted New Property.`,
-        sender: userData?._id,
-        connectionRoamId: userData?._id,
-        type: 'new-property'
-      }
-      
-      socket.emit('postedproperty', notificationObj);
-  }
-  
   return (
       <div className=" w-full">
-
-          <p className='font-bold text-3xl' onClick={() => testHandler()}>Test</p>
 
            <div className="bg-white rounded-md p-4">
 
