@@ -6,6 +6,7 @@ import FFLoader2 from '../Loaders/FFLoader-2';
 import { useLazyGetSingleUserProfileQuery } from '@/app/redux/features/profileApi';
 import { getLocalStorageData } from '@/utils/getLocalStorageData';
 import { formatCustomDateTime } from '@/helper/customDateTimeFormatter';
+import { useSentMsgMutation } from '@/app/redux/features/msgApi';
 
 function cn(...classes) {
   return classes.filter(Boolean).join(' ');
@@ -18,15 +19,18 @@ const messagesD = [
 export default function ChatInbox({id}) {
   const [messages, setMessages] = useState([]);
   const [userProfileTirgger, { data: selectedUserProfile,  isFetching}] = useLazyGetSingleUserProfileQuery();
+  const [msgSendHanlder, { }] = useSentMsgMutation();
+
   const [msgText, setMsgText] = useState('');
   const userData = getLocalStorageData();
   
-  const sendMessage = () => {
+  const sendMessage = async () => {
     const msgObj = {
-       fromUser: userData?._id, toUser: id, text: msgText, time: new Date() 
+       from: userData?._id, to: id, content: msgText, time: new Date(), 
     }
     setMsgText('')
     setMessages([...messages, msgObj])
+    const msgAdd = await msgSendHanlder(msgObj)
   }
 
   useEffect(() => {
@@ -66,11 +70,11 @@ export default function ChatInbox({id}) {
               key={i}
               className={cn(
                 'max-w-xs p-3 rounded-lg text-sm shadow-md',
-                msg.from === 'me' ? 'bg-overlay ml-auto' : 'bg-basecolor'
+                msg.from === userData?._id ? 'bg-overlay ml-auto' : 'bg-basecolor'
               )}
             >
-              <p className={`${msg.from === 'me' ? 'text-basecolor ' : 'text-side_yellow'}`}>{msg.text}</p>
-              <div className={`${msg.from === 'me' ? 'text-gray-600' : 'text-white'} mt-1 text-[10px] text-right `}>{formatCustomDateTime(msg?.time)}</div>
+              <p className={`${msg.from === userData?._id  ? 'text-basecolor ' : 'text-side_yellow'}`}>{msg.content}</p>
+              <div className={`${msg.from === userData?._id  ? 'text-gray-600' : 'text-white'} mt-1 text-[10px] text-right `}>{formatCustomDateTime(msg?.time)}</div>
             </div>
           ))}
         </div>
