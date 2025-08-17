@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Avatar, TextField, Typography, Badge, Divider } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import { Close } from '@mui/icons-material';
 import NoChatSelected from './NoChatSelected';
 import { useState } from 'react';
 import { getLocalStorageData } from '@/utils/getLocalStorageData';
+import { useLazyGetlAllConversationQuery } from '@/app/redux/features/msgApi';
 
 const conversationsD = [
   { id: 1, name: 'Alene', role: 'Technical Department', time: '2h ago', unread: 2, avatar: '/avatar1.png' },
@@ -16,7 +17,16 @@ export default function InboxSideManu({
   const userData = getLocalStorageData()
   const [conversations, setConversations] = useState([])
   const router = useRouter();
+  const [conversationTrigger, { data: allConversation}] = useLazyGetlAllConversationQuery();
 
+   useEffect(() => {
+      if(userData?._id){
+         conversationTrigger({ querys: `userId=${userData?._id}` })
+      }
+    },[userData?._id])
+  
+  console.log('Conversation Check ===>', allConversation);
+  
   return (
        <div className="w-full p-2">
         <div className="px-4 border-b border-gray-100 mb-4">

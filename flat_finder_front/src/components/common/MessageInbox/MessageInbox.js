@@ -46,8 +46,7 @@ export default function ChatInbox({id}) {
       setMessages(allMessage?.messages)
     }
   },[allMessage?.messages]);
-  
-  console.log('allMessage ==>', allMessage)
+
 
   return (
     <div className="w-full lg:w-3/4 flex flex-col bg-white pb-13 md:pb-0 ">
