@@ -6,7 +6,7 @@ import FFLoader2 from '../Loaders/FFLoader-2';
 import { useLazyGetSingleUserProfileQuery } from '@/app/redux/features/profileApi';
 import { getLocalStorageData } from '@/utils/getLocalStorageData';
 import { formatCustomDateTime } from '@/helper/customDateTimeFormatter';
-import { useSentMsgMutation } from '@/app/redux/features/msgApi';
+import { useLazyGetlAllMessagesQuery, useSentMsgMutation } from '@/app/redux/features/msgApi';
 
 function cn(...classes) {
   return classes.filter(Boolean).join(' ');
@@ -19,6 +19,7 @@ const messagesD = [
 export default function ChatInbox({id}) {
   const [messages, setMessages] = useState([]);
   const [userProfileTirgger, { data: selectedUserProfile,  isFetching}] = useLazyGetSingleUserProfileQuery();
+  const [getMessagesTrigger, { data: allMessage}] = useLazyGetlAllMessagesQuery();
   const [msgSendHanlder, { }] = useSentMsgMutation();
 
   const [msgText, setMsgText] = useState('');
@@ -36,9 +37,17 @@ export default function ChatInbox({id}) {
   useEffect(() => {
     if(id){
        userProfileTirgger({ querys: `id=${id}` })
+       getMessagesTrigger({ querys: `currentUser=${userData?._id}&selectedUser=${id}&limit=${30}` })
     }
   },[id])
   
+  useEffect(() => {
+    if(allMessage?.messages?.length > 0){
+      setMessages(allMessage?.messages)
+    }
+  },[allMessage?.messages]);
+  
+  console.log('allMessage ==>', allMessage)
 
   return (
     <div className="w-full lg:w-3/4 flex flex-col bg-white pb-13 md:pb-0 ">
@@ -74,7 +83,7 @@ export default function ChatInbox({id}) {
               )}
             >
               <p className={`${msg.from === userData?._id  ? 'text-basecolor ' : 'text-side_yellow'}`}>{msg.content}</p>
-              <div className={`${msg.from === userData?._id  ? 'text-gray-600' : 'text-white'} mt-1 text-[10px] text-right `}>{formatCustomDateTime(msg?.time)}</div>
+              <div className={`${msg.from === userData?._id  ? 'text-gray-600' : 'text-white'} mt-1 text-[10px] text-right `}>{msg?.time ? formatCustomDateTime(msg?.time) : formatCustomDateTime(msg?.createdAt)}</div>
             </div>
           ))}
         </div>

@@ -11,9 +11,17 @@ const MessageApi = api.injectEndpoints({
       ),
     }),
 
+    getlAllMessages: builder.query({
+      query: (data) => (
+        getListQueryCall('/msg/messages', data?.querys)
+      ),
+  
+    }),
+
   }),
 });
 
 export const {
   useSentMsgMutation,
+  useLazyGetlAllMessagesQuery
 } = MessageApi;

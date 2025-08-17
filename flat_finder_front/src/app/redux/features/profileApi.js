@@ -62,7 +62,6 @@ const ProfileApi = api.injectEndpoints({
       query: (data) => (
         getListQueryCall('/user/profile', data?.querys)
       ),
-       providesTags: ["savedList"],
     }),
 
   }),

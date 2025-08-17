@@ -10,12 +10,33 @@ const messageAddController = async (req, res) => {
       res.status(201).json({ "msg": "Msg Sent" });
 
     } catch (error) {
-      console.log('error ===>', error)
       res.status(500).json({ "msg": "Msg Sent Failed" });
     }
-  };
+};
+
+const getMessagesContoller = async (req, res) => {
+
+    const {limit, currentUser, selectedUser} = req.query
+
+    try {
+      const messages = await MessageCollection.find({
+          $or: [
+            { from: currentUser, to: selectedUser },
+            { from: selectedUser, to: currentUser }
+          ]
+        })
+        .sort({ createdAt: 1 }).limit(limit);
+      
+      res.status(201).json({ messages});
+
+    } catch (error) {
+      res.status(500).json({ "msg": "Msg Sent Failed" });
+    }
+    
+}
 
 module.exports = {
- messageAddController
+ messageAddController,
+ getMessagesContoller
 };
   
