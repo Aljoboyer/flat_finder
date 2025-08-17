@@ -7,6 +7,7 @@ import { useLazyGetSingleUserProfileQuery } from '@/app/redux/features/profileAp
 import { getLocalStorageData } from '@/utils/getLocalStorageData';
 import { formatCustomDateTime } from '@/helper/customDateTimeFormatter';
 import { useLazyGetlAllMessagesQuery, useSentMsgMutation } from '@/app/redux/features/msgApi';
+import { getSocket } from '@/utils/socket/socket';
 
 function cn(...classes) {
   return classes.filter(Boolean).join(' ');
@@ -24,13 +25,16 @@ export default function ChatInbox({id}) {
 
   const [msgText, setMsgText] = useState('');
   const userData = getLocalStorageData();
-  
+  const socket = getSocket();
+
   const sendMessage = async () => {
     const msgObj = {
        from: userData?._id, to: id, content: msgText, time: new Date(), 
     }
-    setMsgText('')
-    setMessages([...messages, msgObj])
+    setMsgText('');
+    setMessages([...messages, msgObj]);
+    socket.emit('sendMessage', msgObj);
+    
     const msgAdd = await msgSendHanlder(msgObj)
   }
 

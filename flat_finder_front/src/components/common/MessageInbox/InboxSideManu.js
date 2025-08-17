@@ -25,7 +25,12 @@ export default function InboxSideManu({
       }
     },[userData?._id])
   
-  console.log('Conversation Check ===>', allConversation);
+  useEffect(() => {
+    if(allConversation?.conversations?.length > 0){
+      setConversations(allConversation?.conversations)
+    }
+  },[allConversation?.conversations]);
+
   
   return (
        <div className="w-full p-2">
@@ -50,25 +55,29 @@ export default function InboxSideManu({
            {conversations?.map((conv) => (
           <div className='w-full inbox_sidemanue'>
             <div
-              key={conv.id}
+              key={conv?._id}
               onClick={() => {
-                router.push(`/buyer-inbox/${2}`)
+                if(userData?.role == 'buyer'){
+                    router.push(`/buyer-inbox/${conv?.otherUser?._id}`)
+                }else{
+                    router.push(`/seller-inbox/${conv?.otherUser?._id}`)
+                }
               }}
               className="flex justify-between items-center gap-2 p-4 cursor-pointer "
              
             >
               <div className='flex flex-row'>
-                <Avatar src={conv.avatar} />
+                <Avatar src={conv?.otherUser?.image}  alt={conv?.otherUser?.name}/>
                 <div className="ms-2">
-                  <p className='text-p font-semibold'>{conv.name}</p>
-                  <p className='text-xsm fontmedium text-gray100'>{conv.role}</p>
+                  <p className='text-p font-semibold'>{conv?.otherUser?.name}</p>
+                  <p className='text-xsm fontmedium text-gray100'>{conv?.latestMessage?.content}</p>
                 </div>
               </div>
 
-              <div className="flex flex-col ">
+              {/* <div className="flex flex-col ">
                 {conv.unread && <Badge badgeContent={conv.unread} color="success"  />}
                 <p  className='text-xsm fontmedium text-gray100 mt-4'>{conv.time}</p>
-              </div>
+              </div> */}
             </div>
             <Divider/>
           </div>

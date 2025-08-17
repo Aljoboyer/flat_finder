@@ -37,7 +37,7 @@ const getMessagesContoller = async (req, res) => {
 
 const getConversationListCotroller = async (req, res) => {
   const {userId} = req.query
-  console.log('hitted', userId)
+
   try {
           const currentUserId = ObjectId.createFromHexString(userId);
 

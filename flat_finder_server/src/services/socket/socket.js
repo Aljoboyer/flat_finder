@@ -3,6 +3,7 @@ const { commentHandlers } = require("./handlers/commentHandlers");
 const { rentReqHandlers } = require("./handlers/rentReqHandlers");
 const { followHandler } = require("./handlers/followHandler");
 const { postPropertyHandler } = require("./handlers/postPropertyHandler");
+const { chatHandler } = require("./handlers/chatHandler");
 
 let io;
 const userSocketMap = {}; 
@@ -26,6 +27,7 @@ const init = (server) => {
     rentReqHandlers(io, socket, userSocketMap);
     followHandler(io, socket, userSocketMap);
     postPropertyHandler(io, socket, userSocketMap);
+    chatHandler(io, socket, userSocketMap);
     
     socket.on("disconnect", () => {
       // Find and remove user from userSocketMap
