@@ -8,14 +8,11 @@ import { getLocalStorageData } from '@/utils/getLocalStorageData';
 import { formatCustomDateTime } from '@/helper/customDateTimeFormatter';
 import { useLazyGetlAllMessagesQuery, useSentMsgMutation } from '@/app/redux/features/msgApi';
 import { getSocket } from '@/utils/socket/socket';
+import { useRef } from 'react';
 
 function cn(...classes) {
   return classes.filter(Boolean).join(' ');
 }
-
-const messagesD = [
-  { from: 'them', text: 'Hey. Very Good morning. How are you?', time: '11:23 AM' },
-];
 
 export default function ChatInbox({id}) {
   const [messages, setMessages] = useState([]);
@@ -26,6 +23,14 @@ export default function ChatInbox({id}) {
   const [msgText, setMsgText] = useState('');
   const userData = getLocalStorageData();
   const socket = getSocket();
+  const selectedUserRef = useRef(id);
+
+  useEffect(() => {
+      if(id){
+          selectedUserRef.current = id;
+      }
+      
+  }, [id]);
 
   const sendMessage = async () => {
     const msgObj = {
@@ -51,9 +56,29 @@ export default function ChatInbox({id}) {
     }
   },[allMessage?.messages]);
 
+    useEffect(() => {
+        const handlePrivateMessage = (msg) => {
+          const current = selectedUserRef.current;
+          const isCurrentChat = msg.from === current || msg.to === current;
+          
+          if (isCurrentChat) {
+            setMessages((prev) => [...prev, msg]);
+          } else {
+            
+            console.log("📬 Message from another user, not shown in current chat.");
+          }
+        };
+      
+        socket.on("receiveMessage", handlePrivateMessage);
+      
+        return () => {
+          socket.off("receiveMessage", handlePrivateMessage);
+        };
+      }, []);
+
 
   return (
-    <div className="w-full lg:w-3/4 flex flex-col bg-white pb-13 md:pb-0 ">
+    <div className="w-full lg:w-3/4 flex flex-col bg-white pb-13 md:pb-0 h-screen">
 
         <div className="p-4 border-b flex items-center justify-between">
           <div className="flex items-center gap-2">
