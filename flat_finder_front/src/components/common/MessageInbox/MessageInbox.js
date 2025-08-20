@@ -9,6 +9,7 @@ import { formatCustomDateTime } from '@/helper/customDateTimeFormatter';
 import { useLazyGetlAllMessagesQuery, useSentMsgMutation } from '@/app/redux/features/msgApi';
 import { getSocket } from '@/utils/socket/socket';
 import { useRef } from 'react';
+import TypingIndicator from '../TypingIndicator/TypingIndicator';
 
 function cn(...classes) {
   return classes.filter(Boolean).join(' ');
@@ -24,7 +25,8 @@ export default function ChatInbox({id}) {
   const userData = getLocalStorageData();
   const socket = getSocket();
   const selectedUserRef = useRef(id);
-
+  const [showTyping, setShowTyping] = useState(false)
+  
   useEffect(() => {
       if(id){
           selectedUserRef.current = id;
@@ -76,6 +78,41 @@ export default function ChatInbox({id}) {
         };
       }, []);
 
+    const onBlurHandler = () => {
+      const typObj = {from: userData?._id, to: id}
+
+      socket.emit("typingoff", typObj)
+    }
+  
+  const onChangeHandler = (value) => {
+    setMsgText(value)
+    const typObj = {from: userData?._id, to: id}
+
+    socket.emit("typingon", typObj)
+  }
+
+  useEffect(() => {
+    const handlePrivateTyping = (data) => {
+      const current = selectedUserRef.current;
+      if (data.from == current) {
+        setShowTyping(true)
+      } 
+    };
+    const handlePrivateTypingOff = (data) => {
+      const current = selectedUserRef.current;
+      if (data.from == current) {
+        setShowTyping(false)
+      } 
+    };
+    socket.on("typingstatuson", handlePrivateTyping);
+    socket.on("typingstatusoff", handlePrivateTypingOff);
+
+    return () => {
+      socket.off('typingstatuson');
+      socket.off('typingstatusoff');
+    }
+
+  },[])
 
   return (
     <div className="w-full lg:w-3/4 flex flex-col bg-white pb-13 md:pb-0 h-screen">
@@ -116,7 +153,7 @@ export default function ChatInbox({id}) {
           ))}
         </div>
         }
-
+      {showTyping && <TypingIndicator/>}
         {/* Input */}
         <div className="p-4 border-t flex items-center flex-wrap md:flex-nowrap gap-2 h-[90px]">
           <div className='flex items-center'>
@@ -125,8 +162,9 @@ export default function ChatInbox({id}) {
           </div>
           <div className='flex items-center w-full'>
             <TextField
+            onBlur={onBlurHandler}
             value={msgText}
-            onChange={(e) => setMsgText(e.target.value)} multiline maxRows={6} fullWidth size="small" placeholder="Type a Message" />
+            onChange={(e) => onChangeHandler(e.target.value)} multiline maxRows={6} fullWidth size="small" placeholder="Type a Message" />
             <IconButton onClick={() => sendMessage()} color="success">
               <Send />
             </IconButton>
