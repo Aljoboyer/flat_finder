@@ -10,6 +10,9 @@ import { useLazyGetlAllMessagesQuery, useSentMsgMutation } from '@/app/redux/fea
 import { getSocket } from '@/utils/socket/socket';
 import { useRef } from 'react';
 import TypingIndicator from '../TypingIndicator/TypingIndicator';
+import SentIcon from './MessageIcons/SentIcon';
+import DeliveredIcon from './MessageIcons/DeliveredIcon';
+import SeenIcon from './MessageIcons/SeenIcon';
 
 function cn(...classes) {
   return classes.filter(Boolean).join(' ');
@@ -115,7 +118,7 @@ export default function ChatInbox({id}) {
   },[])
 
   return (
-    <div className="w-full lg:w-3/4 flex flex-col bg-white pb-13 md:pb-0 h-screen">
+    <div className="w-full lg:w-3/4 flex flex-col bg-white pb-13 md:pb-0 ">
 
         <div className="p-4 border-b flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -140,22 +143,47 @@ export default function ChatInbox({id}) {
         {
           isFetching ? <FFLoader2/> : <div className="flex-1 overflow-y-auto p-4 space-y-4">
           {messages?.map((msg, i) => (
-            <div
-              key={i}
-              className={cn(
-                'max-w-xs p-3 rounded-lg text-sm shadow-md',
-                msg.from === userData?._id ? 'bg-overlay ml-auto' : 'bg-basecolor'
+         <div 
+            key={i}
+            className={cn(
+              'max-w-xs p-3 rounded-lg text-sm shadow-md relative',
+              msg.from === userData?._id ? 'bg-overlay ml-auto' : 'bg-basecolor'
+            )}
+          >
+            {/* Message text */}
+            <p className={msg.from === userData?._id ? 'text-basecolor' : 'text-side_yellow'}>
+              {msg.content}
+            </p>
+
+            {/* Time + Status */}
+            <div className="flex justify-end items-center gap-1 mt-1">
+              <span className={`${msg.from === userData?._id ? 'text-gray-600' : 'text-white'} text-[10px]`}>
+                {msg?.time ? formatCustomDateTime(msg?.time) : formatCustomDateTime(msg?.createdAt)}
+              </span>
+
+              {msg.from === userData?._id && (
+                <span className="text-[12px] flex items-center">
+                  {msg.status === 'sent' && (
+                    <SeenIcon/>
+                  )}
+                  {msg.status === 'delivered' && (
+                    <DeliveredIcon/>
+                  )}
+                    {msg.status === 'sent' && (
+                     <SentIcon/>
+                    )}
+                
+                </span>
               )}
-            >
-              <p className={`${msg.from === userData?._id  ? 'text-basecolor ' : 'text-side_yellow'}`}>{msg.content}</p>
-              <div className={`${msg.from === userData?._id  ? 'text-gray-600' : 'text-white'} mt-1 text-[10px] text-right `}>{msg?.time ? formatCustomDateTime(msg?.time) : formatCustomDateTime(msg?.createdAt)}</div>
             </div>
+          </div>
+
           ))}
         </div>
         }
       {showTyping && <TypingIndicator/>}
         {/* Input */}
-        <div className="p-4 border-t flex items-center flex-wrap md:flex-nowrap gap-2 h-[90px]">
+        <div className="p-4 border-t flex items-center flex-wrap md:flex-nowrap gap-2 h-fit">
           <div className='flex items-center'>
             <IconButton><InsertEmoticon /></IconButton>
              <IconButton><AttachFile /></IconButton>
