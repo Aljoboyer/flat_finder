@@ -4,6 +4,7 @@ const { rentReqHandlers } = require("./handlers/rentReqHandlers");
 const { followHandler } = require("./handlers/followHandler");
 const { postPropertyHandler } = require("./handlers/postPropertyHandler");
 const { chatHandler } = require("./handlers/chatHandler");
+const { ConversationServ } = require("../messageServ/ConversationServ");
 
 let io;
 const userSocketMap = {}; 
@@ -15,13 +16,25 @@ const init = (server) => {
     },
   });
 
-  io.on("connection", (socket) => {
+  io.on("connection", async (socket) => {
     const userId = socket.handshake.query.userId;
     console.log('connected ==>', userId)
     if (userId) {
       userSocketMap[userId] = socket.id;
     }
 
+    const conversations = await ConversationServ(userId);
+    const conversationUserIds = conversations.map(
+      (conv) => conv.otherUser._id.toString()
+    );
+
+    const onlinePartners = conversationUserIds.filter(
+      (partnerId) => userSocketMap[partnerId]
+    );
+
+     // Send only relevant online users to this client
+    socket.emit("onlineUsers", onlinePartners);
+  console.log('onlineUsers', onlinePartners)
     //Socket Handlers
     commentHandlers(io, socket, userSocketMap);
     rentReqHandlers(io, socket, userSocketMap);

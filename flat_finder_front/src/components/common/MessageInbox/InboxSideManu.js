@@ -22,6 +22,7 @@ export default function InboxSideManu({
   const [conversationTrigger, { data: allConversation}] = useLazyGetlAllConversationQuery();
   const socket = getSocket();
   const selectedUserRef = useRef(userData?._id);
+  const [onlineUsers, setOnlineUsers] = useState([]);
 
    useEffect(() => {
       if(userData?._id){
@@ -53,6 +54,18 @@ export default function InboxSideManu({
         };
       }, []);
 
+  useEffect(() => {
+    socket.on("onlineUsers", (users) => {
+      
+      setOnlineUsers(users);
+    });
+
+    return () => {
+      socket.off("onlineUsers");
+    };
+  }, []);
+
+    
   return (
        <div className="w-full p-2">
         <div className="px-4 border-b border-gray-100 mb-4">
@@ -95,10 +108,11 @@ export default function InboxSideManu({
                 </div>
               </div>
 
-              {/* <div className="flex flex-col ">
-                {conv.unread && <Badge badgeContent={conv.unread} color="success"  />}
-                <p  className='text-xsm fontmedium text-gray100 mt-4'>{conv.time}</p>
-              </div> */}
+              <div className="flex flex-col ">
+                 {onlineUsers.includes(conv?.otherUser?._id) &&  <div className="h-[10px] w-[10px] bg-green-600 rounded-full ms-2"></div>}
+                {/* <Badge badgeContent={conv.unread} color="success"  /> */}
+                {/* <p  className='text-xsm fontmedium text-gray100 mt-4'>{conv.time}</p> */}
+              </div>
             </div>
             <Divider/>
           </div>
