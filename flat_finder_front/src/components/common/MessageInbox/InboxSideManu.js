@@ -8,6 +8,7 @@ import { getLocalStorageData } from '@/utils/getLocalStorageData';
 import { useLazyGetlAllConversationQuery } from '@/app/redux/features/msgApi';
 import { getSocket } from '@/utils/socket/socket';
 import { useRef } from 'react';
+import FFLoader2 from '../Loaders/FFLoader-2';
 
 const conversationsD = [
   { id: 1, name: 'Alene', role: 'Technical Department', time: '2h ago', unread: 2, avatar: '/avatar1.png' },
@@ -19,7 +20,7 @@ export default function InboxSideManu({
   const userData = getLocalStorageData()
   const [conversations, setConversations] = useState([])
   const router = useRouter();
-  const [conversationTrigger, { data: allConversation}] = useLazyGetlAllConversationQuery();
+  const [conversationTrigger, { data: allConversation, isFetching}] = useLazyGetlAllConversationQuery();
   const socket = getSocket();
   const selectedUserRef = useRef(userData?._id);
   const [onlineUsers, setOnlineUsers] = useState([]);
@@ -59,9 +60,19 @@ export default function InboxSideManu({
       
       setOnlineUsers(users);
     });
+    
+    socket.on("userOnline", (id) => {
+      setOnlineUsers(prev => [...new Set([...prev, id])]);
+    });
 
+    socket.on("userOffline", (id) => {
+      setOnlineUsers(prev => prev.filter(uid => uid !== id));
+    });
+    
     return () => {
       socket.off("onlineUsers");
+      socket.off("userOnline");
+      socket.off("userOffline");
     };
   }, []);
 
@@ -84,7 +95,10 @@ export default function InboxSideManu({
           <TextField size="small" fullWidth className="mt-4" placeholder="Search Mail" />
         </div>
         <Divider/>
-         {
+       
+       {
+          isFetching ? <FFLoader2/> : <>
+            {
           conversations?.length > 0 ? <>
            {conversations?.map((conv) => (
           <div className='w-full inbox_sidemanue'>
@@ -123,6 +137,8 @@ export default function InboxSideManu({
         subText="It all starts with hello."
         />
          }
+          </>
+       }
  
       </div>
   )

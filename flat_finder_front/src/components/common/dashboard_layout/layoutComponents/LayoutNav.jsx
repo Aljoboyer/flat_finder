@@ -28,6 +28,8 @@ export const LayoutNav = ({handleDrawerOpen}) => {
   const [notificationTrigger, { data: notifications }] = useLazyGetNotificationListQuery();
 
      useEffect(() => {
+        socket.emit('justNowConnected')
+        
         if(userData?.name){
           notificationTrigger({ querys: `limit=${10}&page=${1}&receiver=${userData?._id}&role=${userData?.role}` });
   

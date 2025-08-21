@@ -34,7 +34,16 @@ const init = (server) => {
 
      // Send only relevant online users to this client
     socket.emit("onlineUsers", onlinePartners);
-  console.log('onlineUsers', onlinePartners)
+    
+    // 4️⃣ Notify their partners that THIS user is now online
+    socket.on('justNowConnected', () => {
+      onlinePartners.forEach(partnerId => {
+        if (userSocketMap[partnerId]) {
+          io.to(userSocketMap[partnerId]).emit("userOnline", userId);
+        }
+      });
+    })
+    
     //Socket Handlers
     commentHandlers(io, socket, userSocketMap);
     rentReqHandlers(io, socket, userSocketMap);
