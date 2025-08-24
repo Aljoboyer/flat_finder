@@ -56,8 +56,9 @@ export default function InboxSideManu({
       }, []);
 
   useEffect(() => {
+    socket.emit('userConnected', userData?._id);
+    
     socket.on("onlineUsers", (users) => {
-      
       setOnlineUsers(users);
     });
     
@@ -76,6 +77,7 @@ export default function InboxSideManu({
     };
   }, []);
 
+  console.log('onlineUsers ===>', onlineUsers)
     
   return (
        <div className="w-full p-2">

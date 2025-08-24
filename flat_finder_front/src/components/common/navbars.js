@@ -86,6 +86,8 @@ const Navbar = () => {
    useEffect(() => {
       if(userData?.name){
         socket.emit('justNowConnected')
+        socket.emit('userConnected', userData?._id);
+        
         notificationTrigger({ querys: `limit=${10}&page=${1}&receiver=${userData?._id}&role=${userData?.role}` });
 
         socket.on("notifyseller", (notification) => {

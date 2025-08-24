@@ -23,20 +23,33 @@ const init = (server) => {
       userSocketMap[userId] = socket.id;
     }
 
-    const conversations = await ConversationServ(userId);
-    const conversationUserIds = conversations.map(
-      (conv) => conv.otherUser._id.toString()
-    );
+    socket.on('userConnected', async (userid) => {
+          const conversations = await ConversationServ(userid);
+  
+          const conversationUserIds = conversations.map(
+            (conv) => conv.otherUser._id.toString()
+          );
 
-    const onlinePartners = conversationUserIds.filter(
-      (partnerId) => userSocketMap[partnerId]
-    );
+          const onlinePartners = conversationUserIds.filter(
+            (partnerId) => userSocketMap[partnerId]
+          );
 
-     // Send only relevant online users to this client
-    socket.emit("onlineUsers", onlinePartners);
+          // Send only relevant online users to this client
+          socket.emit("onlineUsers", onlinePartners);
+    })
     
     // 4️⃣ Notify their partners that THIS user is now online
-    socket.on('justNowConnected', () => {
+    socket.on('justNowConnected', async () => {
+          const conversations = await ConversationServ(userId);
+
+        const conversationUserIds = conversations.map(
+          (conv) => conv.otherUser._id.toString()
+        );
+
+        const onlinePartners = conversationUserIds.filter(
+          (partnerId) => userSocketMap[partnerId]
+        );
+
       onlinePartners.forEach(partnerId => {
         if (userSocketMap[partnerId]) {
           io.to(userSocketMap[partnerId]).emit("userOnline", userId);

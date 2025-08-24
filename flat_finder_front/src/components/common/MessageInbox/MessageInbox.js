@@ -10,9 +10,10 @@ import { useLazyGetlAllMessagesQuery, useSentMsgMutation } from '@/app/redux/fea
 import { getSocket } from '@/utils/socket/socket';
 import { useRef } from 'react';
 import TypingIndicator from '../TypingIndicator/TypingIndicator';
-import SentIcon from './MessageIcons/SentIcon';
 import DeliveredIcon from './MessageIcons/DeliveredIcon';
 import SeenIcon from './MessageIcons/SeenIcon';
+import SentIcon from './MessageIcons/SentIcon';
+
 
 function cn(...classes) {
   return classes.filter(Boolean).join(' ');
@@ -29,7 +30,8 @@ export default function ChatInbox({id}) {
   const socket = getSocket();
   const selectedUserRef = useRef(id);
   const [showTyping, setShowTyping] = useState(false)
-  
+  const [onlineUsers, setOnlineUsers] = useState([]);
+
   useEffect(() => {
       if(id){
           selectedUserRef.current = id;
@@ -38,20 +40,22 @@ export default function ChatInbox({id}) {
   }, [id]);
 
   const sendMessage = async () => {
+    const isUserOnline = onlineUsers?.find((item) => item == id);
+         console.log('isUserOnline ===>', isUserOnline, onlineUsers)
     const msgObj = {
-       from: userData?._id, to: id, content: msgText, time: new Date(), 
+       from: userData?._id, to: id, content: msgText, time: new Date(), status: isUserOnline ? 'delivered' : 'sent'
     }
     setMsgText('');
     setMessages([...messages, msgObj]);
     socket.emit('sendMessage', msgObj);
     
     const msgAdd = await msgSendHanlder(msgObj)
-  }
+  } 
 
   useEffect(() => {
     if(id){
        userProfileTirgger({ querys: `id=${id}` })
-       getMessagesTrigger({ querys: `currentUser=${userData?._id}&selectedUser=${id}&limit=${30}` })
+       getMessagesTrigger({ querys: `currentUser=${userData?._id}&selectedUser=${id}&limit=${50}&page=${1}` })
     }
   },[id])
   
@@ -67,7 +71,10 @@ export default function ChatInbox({id}) {
           const isCurrentChat = msg.from === current || msg.to === current;
           
           if (isCurrentChat) {
-            setMessages((prev) => [...prev, msg]);
+            console.log('hitted here', msg)
+            const isUserOnline = onlineUsers?.find((item) => item == msg.from);
+            const newMsg = {...msg, status: isUserOnline ? 'seen' : 'delivered'}
+            setMessages((prev) => [...prev, newMsg]);
           } else {
             
             console.log("📬 Message from another user, not shown in current chat.");
@@ -117,6 +124,27 @@ export default function ChatInbox({id}) {
 
   },[])
 
+   useEffect(() => {
+      socket.on("onlineUsers", (users) => {
+        
+        setOnlineUsers(users);
+      });
+      
+      socket.on("userOnline", (id) => {
+        setOnlineUsers(prev => [...new Set([...prev, id])]);
+      });
+  
+      socket.on("userOffline", (id) => {
+        setOnlineUsers(prev => prev.filter(uid => uid !== id));
+      });
+      
+      return () => {
+        socket.off("onlineUsers");
+        socket.off("userOnline");
+        socket.off("userOffline");
+      };
+    }, []);
+
   return (
     <div className="w-full lg:w-3/4 flex flex-col bg-white pb-13 md:pb-0 ">
 
@@ -163,7 +191,7 @@ export default function ChatInbox({id}) {
 
               {msg.from === userData?._id && (
                 <span className="text-[12px] flex items-center">
-                  {msg.status === 'sent' && (
+                  {msg.status === 'seen' && (
                     <SeenIcon/>
                   )}
                   {msg.status === 'delivered' && (

@@ -2,8 +2,9 @@ import React from 'react'
 
 export default function SeenIcon() {
   return (
-    <svg className="w-5.5 h-5.5 text-gray-500" fill="currentColor" viewBox="0 0 16 16">
-        <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-5 5a.75.75 0 0 1-1.08-.02l-2.5-2.75a.75.75 0 0 1 1.1-1.02l1.97 2.16 4.44-4.42z"/>
+    <svg className="w-5.5 h-5.5 text-blue-500" fill="currentColor" viewBox="0 0 16 16">
+        <path d="M6.354 11.354a.5.5 0 0 1-.708 0L2.5 8.207l.708-.707L6 10.293l6.793-6.793.707.707-7.146 7.147z"/>
+        <path d="M11.354 11.354a.5.5 0 0 1-.708 0L7.5 8.207l.708-.707L11 10.293l2.793-2.793.707.707-3.146 3.147z"/>
     </svg>
   )
 }

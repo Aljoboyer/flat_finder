@@ -29,6 +29,7 @@ export const LayoutNav = ({handleDrawerOpen}) => {
 
      useEffect(() => {
         socket.emit('justNowConnected')
+        socket.emit('userConnected', userData?._id);
         
         if(userData?.name){
           notificationTrigger({ querys: `limit=${10}&page=${1}&receiver=${userData?._id}&role=${userData?.role}` });
