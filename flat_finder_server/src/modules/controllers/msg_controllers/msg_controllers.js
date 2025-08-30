@@ -1,13 +1,17 @@
 const MessageCollection = require("../../../models/message");
 const mongoose = require('mongoose');
 const { ConversationServ } = require("../../../services/messageServ/ConversationServ");
+const { getIo } = require("../../../services/socket/socket");
 const ObjectId = mongoose.Types.ObjectId;
 
 const messageAddController = async (req, res) => {
 
     try {
+      const io = getIo();
       const addedMsg = await MessageCollection.create(req.body);
-      
+      io.sockets.sockets.forEach((socket) => {
+        socket.emit("triggermsgcount",);
+      });
       res.status(201).json({ "msg": "Msg Sent" });
 
     } catch (error) {
@@ -52,9 +56,10 @@ const getConversationListCotroller = async (req, res) => {
 
 const markMessagesAsReadController = async (req, res) => {
   try {
+    const io = getIo();
     const { id } = req.query;
     const userId = ObjectId.createFromHexString(id);
-    
+
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({ error: 'Invalid user id' });
     }
@@ -69,7 +74,11 @@ const markMessagesAsReadController = async (req, res) => {
         $set: { status: 'seen' },
       }
     );
-
+    
+      io.sockets.sockets.forEach((socket) => {
+        socket.emit("triggermsgcount",);
+      });
+      
     return res.status(200).json({
       success: true,
       modifiedCount: result.modifiedCount,

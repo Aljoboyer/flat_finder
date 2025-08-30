@@ -30,7 +30,7 @@ export default function ChatInbox({id}) {
   const userData = getLocalStorageData();
   const socket = getSocket();
   const selectedUserRef = useRef(id);
-  const onlineUsersRef = useRef(null);
+  const currentMessages = useRef(null);
   const [showTyping, setShowTyping] = useState(false)
   const [onlineUsers, setOnlineUsers] = useState([]);
 
@@ -42,11 +42,11 @@ export default function ChatInbox({id}) {
   }, [id]);
 
     useEffect(() => {
-      if(onlineUsers?.length > 0){
-          onlineUsersRef.current = onlineUsers;
+      if(messages?.length > 0){
+          currentMessages.current = messages;
       }
       
-  }, [onlineUsers]);
+  }, [messages]);
 
   const sendMessage = async () => {
     const isUserOnline = onlineUsers?.find((item) => item == id);
@@ -70,7 +70,7 @@ export default function ChatInbox({id}) {
   },[id])
 
   useEffect(() => {
-    markReadTrigger({ querys: `id=${id}` })
+    markReadTrigger({ querys: `id=${userData?._id}` })
   },[])
   
   useEffect(() => {
@@ -82,16 +82,16 @@ export default function ChatInbox({id}) {
     useEffect(() => {
         const handlePrivateMessage = (msg) => {
           const current = selectedUserRef.current;
-          const currentOnlineUsers = onlineUsersRef.current
           const isCurrentChat = msg.from === current || msg.to === current;
+          const currentMsg = currentMessages.current
           
           if (isCurrentChat) {
-            console.log('currentOnlineUsers ==>', currentOnlineUsers);
-
-            const isUserOnline = currentOnlineUsers?.find((item) => item == msg.from);
-            console.log('isUserOnline ===>', isUserOnline);
-            const newMsg = {...msg, status: isUserOnline ? 'seen' : 'delivered'}
-            setMessages((prev) => [...prev, newMsg]);
+            const mappedMsg = [...currentMsg, msg]?.map((item) => {
+              const newItem = {...item, status: msg.from == current ? 'seen' : item.status};
+              return newItem
+            });
+            
+            setMessages(mappedMsg);
           } else {
             
             console.log("📬 Message from another user, not shown in current chat.");

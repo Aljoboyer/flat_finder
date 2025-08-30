@@ -114,13 +114,19 @@ const Navbar = () => {
           notificationTrigger({ querys: `limit=${10}&page=${1}&receiver=${userData?._id}&role=${userData?.role}` });
           notificationToast(notification)
         })
-  
+        
+        socket.on("triggermsgcount", () => {
+          console.log('triggermsgcount called')
+          unreadMsgTrigger({ querys: `id=${userData?._id}` });
+        });
+
         return () =>{
           socket.off("notifyseller");
           socket.off("notifybuyer");
           socket.off("notifyuser");
           socket.off("newpropertyposted");
           socket.off("justNowConnected");
+          socket.off("triggermsgcount");
         }
       }
     },[userData?.name])

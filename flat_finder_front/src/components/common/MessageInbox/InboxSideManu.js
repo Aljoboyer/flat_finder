@@ -98,9 +98,7 @@ export default function InboxSideManu({
           <TextField size="small" fullWidth className="mt-4" placeholder="Search Mail" />
         </div>
         <Divider/>
-       
-       {
-          isFetching ? <FFLoader2/> : <>
+
             {
           conversations?.length > 0 ? <>
            {conversations?.map((conv) => (
@@ -140,8 +138,7 @@ export default function InboxSideManu({
         subText="It all starts with hello."
         />
          }
-          </>
-       }
+  
  
       </div>
   )
