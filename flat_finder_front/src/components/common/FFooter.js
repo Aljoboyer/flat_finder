@@ -3,7 +3,7 @@
 import React from 'react'
 import { CiFacebook, CiLinkedin, CiInstagram } from "react-icons/ci";
 
- const Footers = () => {
+ const FFooter = () => {
   return (
  <footer className="bg-[#F3F9F8] text-[#00594C] py-10 px-6 mt-4">
       <div className="max-w-7xl mx-auto">
@@ -70,4 +70,4 @@ import { CiFacebook, CiLinkedin, CiInstagram } from "react-icons/ci";
     </footer>
   )
 }
-export default Footers;
+export default FFooter;

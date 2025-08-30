@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setProfileImage } from "../redux/slices/commonSlice";
 import Navbar from "@/components/common/navbars";
-import Footers from "@/components/common/Footers";
+import FFooter from "@/components/common/FFooter";
 
 export default function VisitorLayout({ children }) {
   const userData = getLocalStorageData();
@@ -21,7 +21,7 @@ export default function VisitorLayout({ children }) {
     <div className="w-full">
         <Navbar/>
         {children}
-        <Footers/>
+        <FFooter/>
     </div>
   );
 }
