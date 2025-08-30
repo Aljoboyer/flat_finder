@@ -2,6 +2,7 @@ const MessageCollection = require("../../../models/message");
 const mongoose = require('mongoose');
 const { ConversationServ } = require("../../../services/messageServ/ConversationServ");
 const { getIo } = require("../../../services/socket/socket");
+const { PaginationCalculate } = require("../../../helper/pagination");
 const ObjectId = mongoose.Types.ObjectId;
 
 const messageAddController = async (req, res) => {
@@ -21,7 +22,8 @@ const messageAddController = async (req, res) => {
 
 const getMessagesContoller = async (req, res) => {
 
-    const {limit, currentUser, selectedUser} = req.query
+    const { currentUser, selectedUser} = req.query
+    const { skip , page, limit} = PaginationCalculate(req.query);
 
     try {
       const messages = await MessageCollection.find({
@@ -30,8 +32,8 @@ const getMessagesContoller = async (req, res) => {
             { from: selectedUser, to: currentUser }
           ]
         })
-        .sort({ createdAt: 1 }).limit(limit);
-      
+        .sort({ createdAt: 1 }).skip(skip).limit(limit);
+       
       res.status(201).json({ messages});
 
     } catch (error) {

@@ -33,6 +33,8 @@ export default function ChatInbox({id}) {
   const currentMessages = useRef(null);
   const [showTyping, setShowTyping] = useState(false)
   const [onlineUsers, setOnlineUsers] = useState([]);
+  const [page, setPage] = useState(1);
+  const scrollRef = useRef(null);
 
   useEffect(() => {
       if(id){
@@ -65,7 +67,6 @@ export default function ChatInbox({id}) {
   useEffect(() => {
     if(id){
        userProfileTirgger({ querys: `id=${id}` })
-       getMessagesTrigger({ querys: `currentUser=${userData?._id}&selectedUser=${id}&limit=${50}&page=${1}` })
     }
   },[id])
 
@@ -75,7 +76,7 @@ export default function ChatInbox({id}) {
   
   useEffect(() => {
     if(allMessage?.messages?.length > 0){
-      setMessages(allMessage?.messages)
+      setMessages([...messages, ...allMessage?.messages])
     }
   },[allMessage?.messages]);
 
@@ -162,6 +163,41 @@ export default function ChatInbox({id}) {
       };
     }, []);
 
+  // Load first messages
+  useEffect(() => {
+    if(id){
+      getMessagesTrigger({ querys: `currentUser=${userData?._id}&selectedUser=${id}&limit=${50}&page=${page}` })
+    }
+  }, [page, id]);
+
+  // Scroll event handler
+  const handleScroll = () => {
+    const div = scrollRef.current;
+    if (div.scrollTop === 0 && !isFetching) {
+      // reached top → load older messages
+      const nextPage = page + 1;
+      setTimeout(() => setPage(nextPage), 100)
+    }
+  };
+
+  const messagesEndRef = useRef(null);
+
+    // 👇 Scrolls to the bottom
+    const scrollToBottom = () => {
+      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    };
+
+    // 👇 Run only on first render
+    useEffect(() => {
+      scrollToBottom();
+    }, []);
+
+    // 👇 Also scroll when new messages arrive
+    useEffect(() => {
+      scrollToBottom();
+    }, [messages]);
+
+  
   return (
     <div className="w-full lg:w-3/4 flex flex-col bg-white pb-13 md:pb-0 ">
 
@@ -186,7 +222,11 @@ export default function ChatInbox({id}) {
 
         {/* Messages */}
         {
-          isFetching ? <FFLoader2/> : <div className="flex-1 overflow-y-auto p-4 space-y-4">
+          isFetching ? <FFLoader2/> : <div 
+          ref={scrollRef}
+          onScroll={handleScroll}
+          className="flex-1 overflow-y-auto p-4 space-y-4"
+          >
           {messages?.map((msg, i) => (
          <div 
             key={i}
@@ -224,6 +264,9 @@ export default function ChatInbox({id}) {
           </div>
 
           ))}
+          {/* invisible div to scroll into */}
+          <div ref={messagesEndRef} />
+
         </div>
         }
       {showTyping && <TypingIndicator/>}
