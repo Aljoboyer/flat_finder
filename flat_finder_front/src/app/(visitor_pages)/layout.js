@@ -1,11 +1,11 @@
 "use client"
 
-import { Footers } from "@/components/common/Footers";
 import { getLocalStorageData } from "@/utils/getLocalStorageData";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setProfileImage } from "../redux/slices/commonSlice";
 import Navbar from "@/components/common/navbars";
+import Footers from "@/components/common/Footers";
 
 export default function VisitorLayout({ children }) {
   const userData = getLocalStorageData();
