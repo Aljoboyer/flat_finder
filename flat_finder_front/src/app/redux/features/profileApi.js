@@ -58,6 +58,12 @@ const ProfileApi = api.injectEndpoints({
        providesTags: ["savedList"],
     }),
 
+    getSingleUserProfile: builder.query({
+      query: (data) => (
+        getListQueryCall('/user/profile', data?.querys)
+      ),
+    }),
+
   }),
 });
 
@@ -69,5 +75,6 @@ export const {
   useLazyGetFollowListQuery,
   useUnFollowSellerMutation,
   useLazyBuyerSavedPropertyListQuery,
-  useLazyGetDashboardDataCountQuery
+  useLazyGetDashboardDataCountQuery,
+  useLazyGetSingleUserProfileQuery,
 } = ProfileApi;

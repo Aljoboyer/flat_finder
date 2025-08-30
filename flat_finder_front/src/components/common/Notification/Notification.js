@@ -2,27 +2,40 @@ import { Avatar, Box, Divider } from '@mui/material'
 import React, { useState } from 'react'
 import { COLORS } from '@/theme/colors';
 import CloseIcon from "@mui/icons-material/Close";
-import { Home } from '@mui/icons-material';
+import { Circle, Home } from '@mui/icons-material';
 import FFPagination from '../FFPagination';
+import { formatCustomDateTime } from '@/helper/customDateTimeFormatter';
+import { useUpdateNotificationMutation } from '@/app/redux/features/notificationApi';
+import { useRouter } from 'next/navigation';
 
-export default function Notification() {
-    const [perPage, setPerPage] = useState(10);
-    const [page, setPage] = useState(1);
+export default function Notification({notifications,handlePerPageChange, handlePageChange, totalPage, perPage}) {
 
-    const handlePageChange = (event, value) => {
-      setPage(value);
-    };
+    const [updateNotification ] = useUpdateNotificationMutation();
+    const [deleteNotifyId, setDeleteNotifyId] = useState('')
+    const router = useRouter();
+   
+ const removeNotification = async (e , item) => {
+    e.stopPropagation();
+      setDeleteNotifyId(item?._id)
+      await updateNotification({notifyId: item?._id, updateType: 'delete'})
+      setDeleteNotifyId('')
+  };
 
-    const handlePerPageChange = (event) => {
-      setPerPage(Number(event.target.value));
-      setPage(1); 
-    };
+  const notificationClickHandler = async (e, item) => {
+    e.stopPropagation();
+      if(item?.type == "new-comment"){
+        await updateNotification({notifyId: item?._id, updateType: 'update'})
+        router.push(`/property-details/${item?.property}`)
+      }
+  }
+
   return (
     <div className='p-4 bg-white'>
         {
-            [1,2,3,4,5,6,7,8,9].map((item) => (
-                <div className='mt-2'>
+            notifications?.map((item) => (
+                <div  onClick={(e) => notificationClickHandler(e, item)} className='mt-2'>
                     <Box
+                    
                     sx={{
                         display: 'flex',
                         flexDirection: 'row',
@@ -34,22 +47,23 @@ export default function Notification() {
                             backgroundColor: COLORS.grey100
                         },
                         transition: 'ease-in-out 0.2s',
-                        backgroundColor: item == 1 || item == 3 || item == 6  ? 'white' : COLORS.blueOverlay 
+                        backgroundColor: item?.isRead  ? 'white' : COLORS.blueOverlay 
                     }}>
                     <div className='flex flex-row'>
-                        { item == 1 || item == 3 || item == 6 ? <Avatar sizes='30px' alt='Image'/> :
+                        { item?.type == 'user-connected' ? <Avatar sizes='30px' alt='Image'/> :
                             <div className="w-10 h-10 rounded-full bg-yellowOverlay  flex items-center justify-center">
                                 <Home className='text-bluemain' />
                             </div>
                         }
                             <div className='ms-2'>
-                                <p className='text-blackshade font-medium text-psm md:title_sm '>Your proposal for Experienced React Native Developer Needed for Mobile App was viewed.</p>
-                                <p className='text-psm text-gray-600 my-2'>Jul 6 2025</p>
+                                <p className='text-blackshade font-medium text-psm md:title_sm '>{item?.message}</p>
+                                <p className='text-psm text-gray-600 my-2'>{formatCustomDateTime(item.createdAt)}</p>
                             </div>
                         </div>
-                        <div>
-                            <CloseIcon className='text-bluemain' sx={{fontSize: '25px'}} />
-            
+                        <div onClick={(e) => removeNotification(e, item)}>
+                            {
+                                deleteNotifyId == item?._id ? <Circle sx={{fontSize: '25px'}} /> : <CloseIcon onCl className='text-bluemain' sx={{fontSize: '25px'}} />
+                            }
                         </div>
                     </Box>
                     <Divider />
@@ -61,7 +75,7 @@ export default function Notification() {
             perPage={perPage}
             handlePerPageChange={handlePerPageChange}
             handlePageChange={handlePageChange}
-            totalPage={3} />
+            totalPage={totalPage} />
         </div>
     </div>
   )

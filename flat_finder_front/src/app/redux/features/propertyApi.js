@@ -44,6 +44,18 @@ const PropertyApi = api.injectEndpoints({
       invalidatesTags: ['savedList'],
     }),
 
+    addComment: builder.mutation({
+      query: (requestBody) =>(
+        mutationCall('/comment/post','POST', requestBody)
+      ),
+    }),
+
+    getSinglePropertyComments: builder.query({
+      query: (data) => (
+        getListQueryCall('/property/property', data?.querys)
+      ),
+    }),
+
   }),
 });
 
@@ -53,5 +65,7 @@ export const {
   useDeletePropertyImgMutation,
   useLazyGetSinglePropertyQuery,
   useUpdatePropertyMutation,
-  useSavePropertyMutation
+  useSavePropertyMutation,
+  useAddCommentMutation,
+  getSinglePropertyComments
 } = PropertyApi;

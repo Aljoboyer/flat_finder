@@ -15,6 +15,10 @@ const CommentSchema = new mongoose.Schema({
     type: String,
     required: true,
     maxlength: 2000
+  },
+  fromAuthor: {
+    type: Boolean,
+    default: false
   }
 }, { timestamps: true });
 

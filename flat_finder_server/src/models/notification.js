@@ -4,12 +4,12 @@ const NotificationSchema = new mongoose.Schema({
   receiver: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
-    required: true,
+    required: false,
   },
   sender: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
-    default: null, // System-generated notifications will have null
+    default: null, 
   },
   type: {
     type: String,
@@ -39,7 +39,7 @@ const NotificationSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
-connectionRoamId: {
+ connectionRoamId: {
     type: String
   },
   createdAt: {

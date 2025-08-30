@@ -7,7 +7,6 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setProfileImage } from "../redux/slices/commonSlice";
 
-
 export default function VisitorLayout({ children }) {
   const userData = getLocalStorageData();
   const dispatch = useDispatch()
@@ -17,6 +16,8 @@ export default function VisitorLayout({ children }) {
         dispatch(setProfileImage(userData?.image))
       }
     },[userData?.name])
+  
+   
 
   return (
     <div className="w-full">

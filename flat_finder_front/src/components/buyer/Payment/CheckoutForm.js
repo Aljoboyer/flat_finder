@@ -5,6 +5,7 @@ import { COLORS } from '@/theme/colors';
 import { useCompletePaymentMutation, usePaymentIntentCreateMutation } from '@/app/redux/features/paymentApi';
 import { errorToast, successToast } from '@/utils/toaster/toaster';
 import FFLoader2 from '@/components/common/Loaders/FFLoader-2';
+import { getSocket } from '@/utils/socket/socket';
 
 export default function CheckoutForm({property, handleClose}) {
   const stripe = useStripe();
@@ -13,7 +14,8 @@ export default function CheckoutForm({property, handleClose}) {
   const [completePayment, { isLoading }] = useCompletePaymentMutation();
   const[clientSecret , setClientSecret] = useState('')
   const [processing, setProcessing] = useState(false)
-  
+  const socket = getSocket();
+
   const createIntent = async () => {
     const intentRes = await createPaymentIntent({totalamount: property?.property?.advanceMoney})
 
@@ -85,6 +87,16 @@ export default function CheckoutForm({property, handleClose}) {
           const paymentRes = await completePayment(reqObj)
 
           if(paymentRes?.data?.msg == 'payment success'){
+              const notificationObj = {
+                message: `${property?.buyer?.name} Completed payment for property ${property?.property?.title}.`,
+                sender: property?.buyer?._id,
+                propertyId: property?.data?._id,
+                receiver: property?.seller?._id,
+                type: 'payment-success'
+              }
+              
+              socket.emit('followwing', notificationObj)
+
             successToast('Payment Succesfull!')
             setProcessing(false)
             handleClose()
@@ -92,6 +104,7 @@ export default function CheckoutForm({property, handleClose}) {
         }
     
   }
+
   return (
     <form className="w-full" onSubmit={handleSubmit}>
       {

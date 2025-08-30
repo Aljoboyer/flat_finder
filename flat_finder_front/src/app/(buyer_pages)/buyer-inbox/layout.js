@@ -26,7 +26,7 @@ export default function Layout({children}) {
           <div className='hidden lg:block w-full  lg:w-1/4 border-r border-gray-200 overflow-y-auto bg-white'>
               <InboxSideManu />
           </div>
-          
+           
           <FFDrawer open={openDrawer} toggleDrawer={toggleDrawer}>
               <div className='w-full border-r border-gray-200 overflow-y-auto bg-white'>
                 <InboxSideManu closeDrawer={toggleDrawer}/>

@@ -15,8 +15,7 @@ const propertyPostController = async (req, res) => {
       const propertyId = generatePropertyId()
       const result = await PropertyCollection.create({...requestData, propertyId});
 
-
-    res.status(201).json({ "msg": "Poperty posted Successfully" });
+      res.status(201).json({ "msg": "Poperty posted Successfully" , newProperty: result});
 
     } catch (error) {
       res.status(500).json({ message: "Property Posting Failed" , error});
@@ -81,7 +80,11 @@ const getSpecificProperty = async (req, res) => {
     const Property = await PropertyCollection.findById({_id: new ObjectId(id)}).populate([
                 {
                 path: 'comments',
-                select: 'name email image'
+                populate: {
+                  path: 'commenter',
+                  select: '_id name image'
+                },
+                select: 'commenter text fromAuthor property'
                 },
                 {
                 path: 'seller',

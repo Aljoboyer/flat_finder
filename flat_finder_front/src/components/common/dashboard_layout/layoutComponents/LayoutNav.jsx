@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Typography from '@mui/material/Typography';
 import Toolbar from '@mui/material/Toolbar';
 import { Avatar, Badge, Box, Button, IconButton } from '@mui/material';
@@ -12,6 +12,10 @@ import NotificationMenu from '../../Notification/FFNotification';
 import { Notifications } from '@mui/icons-material';
 import { getLocalStorageData } from '@/utils/getLocalStorageData';
 import MailIcon from '@mui/icons-material/Mail';
+import { getSocket } from '@/utils/socket/socket';
+import { useLazyGetNotificationListQuery } from '@/app/redux/features/notificationApi';
+import { notificationToast } from '@/utils/toaster/toaster';
+import { useLazyGetUnreadMessagesQuery } from '@/app/redux/features/msgApi';
 
 const manuItems = [
     {"label": "Profile", "link": "", "icon": <Avatar fontSize="small" />},
@@ -21,6 +25,53 @@ const manuItems = [
 export const LayoutNav = ({handleDrawerOpen}) => {
   const router = useRouter();
   const userData = getLocalStorageData()
+  const socket = getSocket();
+  const [notificationTrigger, { data: notifications }] = useLazyGetNotificationListQuery();
+  const [unreadMsgTrigger, { data: unreadMsList }] = useLazyGetUnreadMessagesQuery();
+
+  useEffect(() => {
+    socket.emit('justNowConnected')
+    socket.emit('userConnected', userData?._id);
+    
+    if(userData?.name){
+      notificationTrigger({ querys: `limit=${10}&page=${1}&receiver=${userData?._id}&role=${userData?.role}` });
+      unreadMsgTrigger({ querys: `id=${userData?._id}` });
+      
+      socket.on("notifyseller", (notification) => {
+        notificationTrigger({ querys: `limit=${10}&page=${1}&receiver=${userData?._id}&role=${userData?.role}` });
+        notificationToast(notification)
+      })
+
+      socket.on("notifybuyer", (notification) => {
+        notificationTrigger({ querys: `limit=${10}&page=${1}&receiver=${userData?._id}&role=${userData?.role}` });
+        notificationToast(notification)
+      })
+      
+      socket.on("notifyuser", (notification) => {
+        unreadMsgTrigger({ querys: `id=${userData?._id}` });
+        notificationTrigger({ querys: `limit=${10}&page=${1}&receiver=${userData?._id}&role=${userData?.role}` });
+        notificationToast(notification)
+      })
+
+      socket.on("newpropertyposted", (notification) => {
+        notificationTrigger({ querys: `limit=${10}&page=${1}&receiver=${userData?._id}&role=${userData?.role}` });
+        notificationToast(notification)
+      });
+
+      socket.on("triggermsgcount", () => {
+          unreadMsgTrigger({ querys: `id=${userData?._id}` });
+        });
+
+      return () =>{
+        socket.off("notifyseller");
+        socket.off("notifybuyer");
+        socket.off("notifyuser");
+        socket.off("newpropertyposted");
+        socket.off("triggermsgcount");
+      }
+    }
+    },[userData?.name])
+    
 
   return (
     <Box sx={{position:'sticky',top: '0px', width: '100%', backgroundColor: 'white', height: '70px', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', paddingX: {md: '20px'}, alignItems: 'center' ,zIndex: 1,}}>
@@ -70,7 +121,7 @@ export const LayoutNav = ({handleDrawerOpen}) => {
             router.push('/seller-inbox')
           }
         }}>
-        <Badge badgeContent={4} color="warning">
+        <Badge badgeContent={unreadMsList?.count} color="warning">
           <MailIcon sx={{fontSize: '30px'}} color="info"/>
         </Badge>
         </IconButton>
@@ -82,13 +133,13 @@ export const LayoutNav = ({handleDrawerOpen}) => {
             router.push('/seller-notifications')
           }
         }}>
-           <Badge sx={{display: {xs: 'block', md: 'none'}}} badgeContent={4} color="warning">
+           <Badge sx={{display: {xs: 'block', md: 'none'}}} badgeContent={notifications?.data?.length} color="warning">
               <Notifications fontSize="medium" className="text-bluemain" sx={{fontSize: '30px'}} />
           </Badge>
         </div>
 
         <div className='hidden md:block'>
-          <NotificationMenu />
+          <NotificationMenu notificationsData={notifications}/>
         </div>
 
       <ProfileManu manuItems={manuItems}/>

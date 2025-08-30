@@ -1,5 +1,5 @@
 "use client"
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   AppBar,
   Toolbar,
@@ -34,6 +34,11 @@ import { AccountCircle, Logout } from '@mui/icons-material';
 import { getLocalStorageData } from '@/utils/getLocalStorageData';
 import NotificationMenu from './Notification/FFNotification';
 import MailIcon from '@mui/icons-material/Mail';
+import { notificationToast } from '@/utils/toaster/toaster';
+import { useLazyGetNotificationListQuery } from '@/app/redux/features/notificationApi';
+import { getSocket } from '@/utils/socket/socket';
+import { useLazyGetFollowListQuery } from '@/app/redux/features/profileApi';
+import { useLazyGetUnreadMessagesQuery } from '@/app/redux/features/msgApi';
 
 const navItems = [
     {label: 'Home', link: '/flat-finder-home'},
@@ -52,8 +57,12 @@ const Navbar = () => {
   const [drawerOpen, setDrawerOpen] = React.useState(false);
   const isLoggedIn = getAuthToken();
   const userData = getLocalStorageData()
- const pathname = usePathname();
- 
+  const pathname = usePathname();
+  const socket = getSocket();
+  const [notificationTrigger, { data: notifications }] = useLazyGetNotificationListQuery();
+  const [followListTrigger, { data: FollowList, isFetching}] = useLazyGetFollowListQuery();
+  const [unreadMsgTrigger, { data: unreadMsList }] = useLazyGetUnreadMessagesQuery();
+
   const toggleDrawer = (open) => () => {
     setDrawerOpen(open);
   };
@@ -75,6 +84,67 @@ const Navbar = () => {
   const iconNavItems = [
     { label: `${userData?.role == 'buyer' ? 'My Account' : 'Dasboard'}`, icon: <AccountCircle /> },
   ];
+
+   useEffect(() => {
+      if(userData?.name){
+        socket.emit('justNowConnected')
+        socket.emit('userConnected', userData?._id);
+        
+        notificationTrigger({ querys: `limit=${10}&page=${1}&receiver=${userData?._id}&role=${userData?.role}` });
+        unreadMsgTrigger({ querys: `id=${userData?._id}` });
+
+        socket.on("notifyseller", (notification) => {
+          notificationTrigger({ querys: `limit=${10}&page=${1}&receiver=${userData?._id}&role=${userData?.role}` });
+          notificationToast(notification)
+        })
+
+        socket.on("notifybuyer", (notification) => {
+          notificationTrigger({ querys: `limit=${10}&page=${1}&receiver=${userData?._id}&role=${userData?.role}` });
+          notificationToast(notification)
+        })
+
+        socket.on("notifyuser", (notification) => {
+          unreadMsgTrigger({ querys: `id=${userData?._id}` });
+          notificationTrigger({ querys: `limit=${10}&page=${1}&receiver=${userData?._id}&role=${userData?.role}` });
+          notificationToast(notification)
+        })
+
+        socket.on("newpropertyposted", (notification) => {
+         console.log('notification ===>', notification)
+          notificationTrigger({ querys: `limit=${10}&page=${1}&receiver=${userData?._id}&role=${userData?.role}` });
+          notificationToast(notification)
+        })
+        
+        socket.on("triggermsgcount", () => {
+          console.log('triggermsgcount called')
+          unreadMsgTrigger({ querys: `id=${userData?._id}` });
+        });
+
+        return () =>{
+          socket.off("notifyseller");
+          socket.off("notifybuyer");
+          socket.off("notifyuser");
+          socket.off("newpropertyposted");
+          socket.off("justNowConnected");
+          socket.off("triggermsgcount");
+        }
+      }
+    },[userData?.name])
+    
+    useEffect(() => {
+      if(userData?.role == 'buyer'){
+            followListTrigger({ querys: `limit=${1000}&page=${1}&buyer=${userData?._id}` });
+      }
+    },[userData?.role])
+
+    useEffect(() => {
+      if(FollowList?.data?.length > 0 && userData?.role == 'buyer'){
+        FollowList?.data.forEach((followItem) => {
+          socket.emit("join-roam", {roadmid: followItem?.seller?._id });
+        });
+         
+      }
+    },[FollowList?.data]);
 
   return (
     <AppBar position="sticky" sx={{ backgroundColor: '#fff', color: '#000', boxShadow: 'none' }}>
@@ -110,14 +180,14 @@ const Navbar = () => {
                   router.push('/seller-inbox')
                 }
               }}>
-              <Badge badgeContent={4} color="warning">
+              <Badge badgeContent={unreadMsList?.count} color="warning">
                 <MailIcon sx={{fontSize: '30px'}} color="info"/>
               </Badge>
               </IconButton>
               }
               
               {
-                isLoggedIn && <NotificationMenu />
+                isLoggedIn && <NotificationMenu notificationsData={notifications}/>
               }
 
              <DropDownBtn manuArray={languages} buttonTitle='En'/>
@@ -239,7 +309,7 @@ const Navbar = () => {
                   router.push('/seller-inbox')
                 }
               }}>
-                <Badge badgeContent={4} color="warning">
+                <Badge badgeContent={unreadMsList?.count} color="warning">
                 <MailIcon sx={{fontSize: '30px'}} color="info"/>
               </Badge>
              </ListItemIcon>
@@ -249,8 +319,16 @@ const Navbar = () => {
           
             {
               isLoggedIn && <ListItem>
-              <ListItemIcon>
-                 <Badge badgeContent={4} color="warning">
+              <ListItemIcon
+              onClick={() => {
+                if(userData.role == 'buyer'){
+                  router.push('/buyer-notifications')
+                }else{
+                  router.push('/seller-notifications')
+                }
+              }}
+              >
+                 <Badge badgeContent={notifications?.data?.length} color="warning">
                   <Notifications fontSize="medium" className="text-bluemain" />
                 </Badge>
               </ListItemIcon>
@@ -259,7 +337,7 @@ const Navbar = () => {
             }
 
            {
-            isLoggedIn &&          <ListItem>
+            isLoggedIn && <ListItem>
               <ListItemIcon>
                 <Logout />
               </ListItemIcon>

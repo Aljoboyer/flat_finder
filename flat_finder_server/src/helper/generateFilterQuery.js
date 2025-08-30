@@ -21,6 +21,8 @@ const generateFilterQuery = (queryOptions) => {
           paymentLastDate,
           createdAt,
           buyer,
+          isRead,
+          receiver,
         } = queryOptions;
 
           
@@ -72,10 +74,15 @@ const generateFilterQuery = (queryOptions) => {
         if(status){
             query.status = status
         }
+        if(isRead){
+            query.isRead = isRead
+        }
         if(property){
             query.property = property;
         }
-   
+        if(receiver){
+            query.receiver =  ObjectId.createFromHexString(receiver);
+        }
         if(paymentLastDate && paymentLastDate !== 'null' &&  paymentLastDate !== 'undefined'){
             query.paymentLastDate = paymentLastDate
         }

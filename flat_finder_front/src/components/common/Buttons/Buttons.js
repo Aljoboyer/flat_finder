@@ -11,11 +11,13 @@ export const Buttons = ({
     other_style = {},
     type = '',
     isLoading,
-    component= ''
+    component= '',
+    disabled = false
 }) => {
 
   return (
-    <Button 
+    <Button
+    disabled={disabled}
     component={component}
      loading={isLoading}
      type={type}

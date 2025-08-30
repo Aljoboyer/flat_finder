@@ -3,102 +3,62 @@ import { useState } from "react";
 import { IconButton, Badge, Avatar, Divider } from "@mui/material";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import CloseIcon from "@mui/icons-material/Close";
-import { Home } from "@mui/icons-material";
+import { Circle, Home, HomeFilled } from "@mui/icons-material";
 import { COLORS } from "@/theme/colors";
 import { useRouter } from "next/navigation";
 import { getLocalStorageData } from "@/utils/getLocalStorageData";
+import { formatCustomDateTime } from "@/helper/customDateTimeFormatter";
+import { useUpdateNotificationMutation } from "@/app/redux/features/notificationApi";
+import FFLoader2 from "../Loaders/FFLoader-2";
 
-const notificationsMock = [
-  {
-    id: 1,
-    title: "John Doe",
-    message: "It is a long established fact that a reader will be distracted",
-    time: "2 min ago",
-    avatar: "https://i.pravatar.cc/40?img=1",
-    unread: false,
-  },
-  {
-    id: 2,
-    title: "Store Verification Done",
-    message: "We have successfully received your request.",
-    time: "2 min ago",
-    icon: <Home className="text-bluemain"/>,
-    unread: false,
-  },
-  {
-    id: 3,
-    title: "Check Your Mail.",
-    message: "All done! Now check your inbox as you’re in for a sweet treat!",
-    time: "2 min ago",
-    icon: <Home className="text-bluemain"/>,
-    unread: true,
-  },
-    {
-    id: 4,
-    title: "John Doe",
-    message: "It is a long established fact that a reader will be distracted",
-    time: "2 min ago",
-    avatar: "https://i.pravatar.cc/40?img=1",
-    unread: true,
-  },
-  {
-    id: 5,
-    title: "Store Verification Done",
-    message: "We have successfully received your request.",
-    time: "2 min ago",
-    icon: "🏬",
-    unread: false,
-  },
-  {
-    id: 6,
-    title: "Check Your Mail.",
-    message: "All done! Now check your inbox as you’re in for a sweet treat!",
-    time: "2 min ago",
-    icon: "📬",
-    unread: false,
-  },
-    {
-    id: 7,
-    title: "John Doe",
-    message: "It is a long established fact that a reader will be distracted",
-    time: "2 min ago",
-    avatar: "https://i.pravatar.cc/40?img=1",
-    unread: true,
-  },
-  {
-    id: 8,
-    title: "Store Verification Done",
-    message: "We have successfully received your request.",
-    time: "2 min ago",
-    icon: "🏬",
-    unread: true,
-  },
-  {
-    id: 9,
-    title: "Check Your Mail.",
-    message: "All done! Now check your inbox as you’re in for a sweet treat!",
-    time: "2 min ago",
-    icon: "📬",
-    unread: false,
-  },
-];
 
-export default function NotificationMenu() {
+
+export default function NotificationMenu({notificationsData}) {
   const router = useRouter()
   const [open, setOpen] = useState(false);
-  const [notifications, setNotifications] = useState(notificationsMock);
+  const [notifications, setNotifications] = useState(notificationsData?.data);
   const userData = getLocalStorageData();
-
+  const [updateNotification ] = useUpdateNotificationMutation();
+  const [deleteNotifyId, setDeleteNotifyId] = useState('')
+  
   const toggleMenu = () => setOpen((prev) => !prev);
 
-  const removeNotification = (id) => {
-    setNotifications((prev) => prev.filter((n) => n.id !== id));
+  const removeNotification = async (e , item) => {
+    e.stopPropagation();
+      setDeleteNotifyId(item?._id)
+      await updateNotification({notifyId: item?._id, updateType: 'delete'})
+      setDeleteNotifyId('')
   };
+
+  const notificationClickHandler = async (e, item) => {
+    e.stopPropagation();
+     toggleMenu()
+      if(item?.type == "new-comment"){
+        await updateNotification({notifyId: item?._id, updateType: 'update'})
+        router.push(`/property-details/${item?.property}`)
+      }
+       if(item?.type == "rent-request-accepted" || item?.type == "rent-request-rejected"){
+        await updateNotification({notifyId: item?._id, updateType: 'update'})
+        router.push(`/buyer-rent-requests`)
+      }
+      if(item?.type == 'user-connected'){
+        await updateNotification({notifyId: item?._id, updateType: 'update'})
+        router.push(`/seller-profile`)
+      }
+      if(item?.type == 'payment-success'){
+        await updateNotification({notifyId: item?._id, updateType: 'update'})
+        router.push(`/seller-rent-sell-history`)
+      }
+      if(item?.type == 'new-property'){
+        await updateNotification({notifyId: item?._id, updateType: 'update'})
+        router.push(`/property-details/${item?.property}`)
+      }
+  }
 
   return (
     <div className="relative">
       <IconButton onClick={toggleMenu}>
-        <Badge badgeContent={notifications.length} color="warning">
+        <Badge badgeContent={notificationsData?.totalUnread} color="warning">
           <NotificationsIcon fontSize="medium" className="text-bluemain" sx={{fontSize: '30px'}} />
         </Badge>
       </IconButton>
@@ -108,7 +68,7 @@ export default function NotificationMenu() {
 
           <div className="flex items-center justify-between p-4 border-b">
             <p className="text-p_lg text-blackshade font-semibold">All Notification<span className="bg-successOverlay text-blackshade text-psm font-bold px-2 py-0.5 rounded-full ms-2">
-              {notifications.length.toString().padStart(2, "0")}
+              {notificationsData?.data?.length.toString().padStart(2, "0")}
             </span></p>
              <button
              onClick={toggleMenu}
@@ -119,33 +79,41 @@ export default function NotificationMenu() {
           </div>
 
           <div className="max-h-[400px] overflow-y-auto custom-scroll">
-            {notificationsMock.map((item) => (
-              <div>
+            {notificationsData?.data?.map((item) => (
+              <div onClick={(e) => notificationClickHandler(e, item)} className="cursor-pointer">
                     <div
                     key={item.id}
                     className={`relative p-4 ${
-                    item.unread ? "bg-[#e3f2fd]" : ""
+                    !item.isRead ? "bg-[#e3f2fd]" : ""
                     }`}
                 >
-                    <button
-                    onClick={() => removeNotification(item.id)}
+
+                  {
+                    deleteNotifyId == item?._id ?  <button
+                    className="absolute top-0 right-2 text-basecolor cursor-pointer"
+                    >
+                        <Circle fontSize="small" />
+                    </button> :    <button
+                    onClick={(e) => removeNotification(e, item)}
                     className="absolute top-0 right-2 text-basecolor cursor-pointer"
                     >
                     <CloseIcon fontSize="small" />
                     </button>
+                  }
+                 
 
                     <div className="flex gap-3 items-start">
                     {item.avatar ? (
                         <Avatar src={item.avatar} alt={item.title} />
                     ) : (
                         <div className="w-10 h-10 rounded-full bg-yellowOverlay  flex items-center justify-center">
-                        {item.icon}
+                        <HomeFilled/>
                         </div>
                     )}
                     <div className="flex-1">
                         <div className="flex justify-between items-center mb-1">
-                        <p className="font-medium text-blackshade text-p">{item.title}</p>
-                        <span className="text-[12px] text-gray-400">{item.time}</span>
+                        <p className="font-medium text-blackshade text-p">{item.type == 'new-comment' ? 'Comment' : item.type == 'rent-request' ? 'Rent Request' :  item.type == 'rent-request-accepted' ? 'Rent Request Accepted' : item.type == 'rent-request-rejected' ? 'Rent Request Rejected' : item.type == 'user-connected' ? 'Follow' : item?.type == 'payment-success' ? 'Payment' : item.type === 'new-property' ? 'New Property Posted' : ''}</p>
+                        <span className="text-[12px] text-gray-400">{formatCustomDateTime(item.createdAt)}</span>
                         </div>
                         <p className="text-psm text-gray-600">{item.message}</p>
                     </div>
@@ -160,6 +128,7 @@ export default function NotificationMenu() {
           <div className="text-center p-3">
             <button 
             onClick={() => {
+              toggleMenu()
               if(userData.role == 'buyer'){
                 router.push('/buyer-notifications')
               }else{

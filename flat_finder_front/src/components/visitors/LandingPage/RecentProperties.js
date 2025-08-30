@@ -49,9 +49,13 @@ export default function RecentProperties() {
 
         <div className="  pt-7 ">
             {
-                isFetching ? [1,2,3, 4]?.map((item) => (
+                isFetching ? <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-12'>
+                    {
+                        [1,2,3, 4]?.map((item) => (
                 <ApartmentCardSkeleton key={item}/>
-                )) : <>
+                )) 
+                    }
+                </div>: <>
                     {
                     propertyList?.data?.length == 0 || !propertyList?.data ? <FFNodata/> : 
                         <>

@@ -29,6 +29,7 @@ export default function ProfilePage() {
       ])
     }
   },[])
+  
   return (
     <div className='bg-overlay p-6 rounded-t-[20px] h-fit lg:h-[100vh]'>
       <CommonTabs 
