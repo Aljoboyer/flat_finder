@@ -40,11 +40,14 @@ export default function InboxSideManu({
 
     useEffect(() => {
         const handlePrivateMessage = (msg) => {
+          
           const current = selectedUserRef.current;
           const isCurrentChat = msg.from === current || msg.to === current;
-          
+        
           if (isCurrentChat) {
-            conversationTrigger({ querys: `userId=${userData?._id}` })
+            setTimeout(() => {
+              conversationTrigger({ querys: `userId=${userData?._id}` })
+            },1500)
           }
         };
       
@@ -76,8 +79,6 @@ export default function InboxSideManu({
       socket.off("userOffline");
     };
   }, []);
-
-  console.log('onlineUsers ===>', onlineUsers)
     
   return (
        <div className="w-full p-2">

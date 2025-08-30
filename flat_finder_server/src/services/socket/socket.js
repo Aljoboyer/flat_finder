@@ -18,14 +18,16 @@ const init = (server) => {
 
   io.on("connection", async (socket) => {
     const userId = socket.handshake.query.userId;
-    console.log('connected ==>', userId)
+
+    console.log('connected ==>', userId);
+
     if (userId) {
       userSocketMap[userId] = socket.id;
     }
 
     socket.on('userConnected', async (userid) => {
           const conversations = await ConversationServ(userid);
-  
+          
           const conversationUserIds = conversations.map(
             (conv) => conv.otherUser._id.toString()
           );

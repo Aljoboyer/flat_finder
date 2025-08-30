@@ -38,6 +38,7 @@ import { notificationToast } from '@/utils/toaster/toaster';
 import { useLazyGetNotificationListQuery } from '@/app/redux/features/notificationApi';
 import { getSocket } from '@/utils/socket/socket';
 import { useLazyGetFollowListQuery } from '@/app/redux/features/profileApi';
+import { useLazyGetUnreadMessagesQuery } from '@/app/redux/features/msgApi';
 
 const navItems = [
     {label: 'Home', link: '/flat-finder-home'},
@@ -59,7 +60,8 @@ const Navbar = () => {
   const pathname = usePathname();
   const socket = getSocket();
   const [notificationTrigger, { data: notifications }] = useLazyGetNotificationListQuery();
-   const [followListTrigger, { data: FollowList, isFetching}] = useLazyGetFollowListQuery();
+  const [followListTrigger, { data: FollowList, isFetching}] = useLazyGetFollowListQuery();
+  const [unreadMsgTrigger, { data: unreadMsList }] = useLazyGetUnreadMessagesQuery();
 
   const toggleDrawer = (open) => () => {
     setDrawerOpen(open);
@@ -89,6 +91,7 @@ const Navbar = () => {
         socket.emit('userConnected', userData?._id);
         
         notificationTrigger({ querys: `limit=${10}&page=${1}&receiver=${userData?._id}&role=${userData?.role}` });
+        unreadMsgTrigger({ querys: `id=${userData?._id}` });
 
         socket.on("notifyseller", (notification) => {
           notificationTrigger({ querys: `limit=${10}&page=${1}&receiver=${userData?._id}&role=${userData?.role}` });
@@ -101,7 +104,7 @@ const Navbar = () => {
         })
 
         socket.on("notifyuser", (notification) => {
-          
+          unreadMsgTrigger({ querys: `id=${userData?._id}` });
           notificationTrigger({ querys: `limit=${10}&page=${1}&receiver=${userData?._id}&role=${userData?.role}` });
           notificationToast(notification)
         })
@@ -171,7 +174,7 @@ const Navbar = () => {
                   router.push('/seller-inbox')
                 }
               }}>
-              <Badge badgeContent={4} color="warning">
+              <Badge badgeContent={unreadMsList?.count} color="warning">
                 <MailIcon sx={{fontSize: '30px'}} color="info"/>
               </Badge>
               </IconButton>
@@ -300,7 +303,7 @@ const Navbar = () => {
                   router.push('/seller-inbox')
                 }
               }}>
-                <Badge badgeContent={4} color="warning">
+                <Badge badgeContent={unreadMsList?.count} color="warning">
                 <MailIcon sx={{fontSize: '30px'}} color="info"/>
               </Badge>
              </ListItemIcon>

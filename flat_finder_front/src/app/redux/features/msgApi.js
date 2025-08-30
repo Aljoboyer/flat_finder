@@ -23,11 +23,25 @@ const MessageApi = api.injectEndpoints({
       ),
     }),
 
+    markMessageAsRead: builder.query({
+      query: (data) => (
+        getListQueryCall('/msg/mark-read', data?.querys)
+      ),
+    }),
+
+    getUnreadMessages: builder.query({
+      query: (data) => (
+        getListQueryCall('/msg/unread', data?.querys)
+      ),
+    }),
+
   }),
 });
 
 export const {
   useSentMsgMutation,
   useLazyGetlAllMessagesQuery,
-  useLazyGetlAllConversationQuery
+  useLazyGetlAllConversationQuery,
+  useLazyMarkMessageAsReadQuery,
+  useLazyGetUnreadMessagesQuery
 } = MessageApi;

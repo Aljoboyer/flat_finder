@@ -15,6 +15,7 @@ import MailIcon from '@mui/icons-material/Mail';
 import { getSocket } from '@/utils/socket/socket';
 import { useLazyGetNotificationListQuery } from '@/app/redux/features/notificationApi';
 import { notificationToast } from '@/utils/toaster/toaster';
+import { useLazyGetUnreadMessagesQuery } from '@/app/redux/features/msgApi';
 
 const manuItems = [
     {"label": "Profile", "link": "", "icon": <Avatar fontSize="small" />},
@@ -26,42 +27,45 @@ export const LayoutNav = ({handleDrawerOpen}) => {
   const userData = getLocalStorageData()
   const socket = getSocket();
   const [notificationTrigger, { data: notifications }] = useLazyGetNotificationListQuery();
+  const [unreadMsgTrigger, { data: unreadMsList }] = useLazyGetUnreadMessagesQuery();
 
-     useEffect(() => {
-        socket.emit('justNowConnected')
-        socket.emit('userConnected', userData?._id);
-        
-        if(userData?.name){
-          notificationTrigger({ querys: `limit=${10}&page=${1}&receiver=${userData?._id}&role=${userData?.role}` });
-  
-          socket.on("notifyseller", (notification) => {
-            notificationTrigger({ querys: `limit=${10}&page=${1}&receiver=${userData?._id}&role=${userData?.role}` });
-            notificationToast(notification)
-          })
-  
-          socket.on("notifybuyer", (notification) => {
-            notificationTrigger({ querys: `limit=${10}&page=${1}&receiver=${userData?._id}&role=${userData?.role}` });
-            notificationToast(notification)
-          })
-          
-          socket.on("notifyuser", (notification) => {
-            notificationTrigger({ querys: `limit=${10}&page=${1}&receiver=${userData?._id}&role=${userData?.role}` });
-            notificationToast(notification)
-          })
+  useEffect(() => {
+    socket.emit('justNowConnected')
+    socket.emit('userConnected', userData?._id);
+    
+    if(userData?.name){
+      notificationTrigger({ querys: `limit=${10}&page=${1}&receiver=${userData?._id}&role=${userData?.role}` });
+      unreadMsgTrigger({ querys: `id=${userData?._id}` });
+      
+      socket.on("notifyseller", (notification) => {
+        notificationTrigger({ querys: `limit=${10}&page=${1}&receiver=${userData?._id}&role=${userData?.role}` });
+        notificationToast(notification)
+      })
 
-          socket.on("newpropertyposted", (notification) => {
-          notificationTrigger({ querys: `limit=${10}&page=${1}&receiver=${userData?._id}&role=${userData?.role}` });
-          notificationToast(notification)
-        })
+      socket.on("notifybuyer", (notification) => {
+        notificationTrigger({ querys: `limit=${10}&page=${1}&receiver=${userData?._id}&role=${userData?.role}` });
+        notificationToast(notification)
+      })
+      
+      socket.on("notifyuser", (notification) => {
+        unreadMsgTrigger({ querys: `id=${userData?._id}` });
+        notificationTrigger({ querys: `limit=${10}&page=${1}&receiver=${userData?._id}&role=${userData?.role}` });
+        notificationToast(notification)
+      })
 
-          return () =>{
-            socket.off("notifyseller");
-            socket.off("notifybuyer");
-            socket.off("notifyuser");
-            socket.off("newpropertyposted");
-          }
-        }
-        },[userData?.name])
+      socket.on("newpropertyposted", (notification) => {
+      notificationTrigger({ querys: `limit=${10}&page=${1}&receiver=${userData?._id}&role=${userData?.role}` });
+      notificationToast(notification)
+    })
+
+      return () =>{
+        socket.off("notifyseller");
+        socket.off("notifybuyer");
+        socket.off("notifyuser");
+        socket.off("newpropertyposted");
+      }
+    }
+    },[userData?.name])
     
 
   return (
@@ -112,7 +116,7 @@ export const LayoutNav = ({handleDrawerOpen}) => {
             router.push('/seller-inbox')
           }
         }}>
-        <Badge badgeContent={4} color="warning">
+        <Badge badgeContent={unreadMsList?.count} color="warning">
           <MailIcon sx={{fontSize: '30px'}} color="info"/>
         </Badge>
         </IconButton>

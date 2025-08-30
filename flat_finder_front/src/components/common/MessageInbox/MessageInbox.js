@@ -6,7 +6,7 @@ import FFLoader2 from '../Loaders/FFLoader-2';
 import { useLazyGetSingleUserProfileQuery } from '@/app/redux/features/profileApi';
 import { getLocalStorageData } from '@/utils/getLocalStorageData';
 import { formatCustomDateTime } from '@/helper/customDateTimeFormatter';
-import { useLazyGetlAllMessagesQuery, useSentMsgMutation } from '@/app/redux/features/msgApi';
+import { useLazyGetlAllMessagesQuery, useLazyMarkMessageAsReadQuery, useSentMsgMutation } from '@/app/redux/features/msgApi';
 import { getSocket } from '@/utils/socket/socket';
 import { useRef } from 'react';
 import TypingIndicator from '../TypingIndicator/TypingIndicator';
@@ -24,11 +24,13 @@ export default function ChatInbox({id}) {
   const [userProfileTirgger, { data: selectedUserProfile,  isFetching}] = useLazyGetSingleUserProfileQuery();
   const [getMessagesTrigger, { data: allMessage}] = useLazyGetlAllMessagesQuery();
   const [msgSendHanlder, { }] = useSentMsgMutation();
+  const [markReadTrigger, { data: markeds}] = useLazyMarkMessageAsReadQuery();
 
   const [msgText, setMsgText] = useState('');
   const userData = getLocalStorageData();
   const socket = getSocket();
   const selectedUserRef = useRef(id);
+  const onlineUsersRef = useRef(null);
   const [showTyping, setShowTyping] = useState(false)
   const [onlineUsers, setOnlineUsers] = useState([]);
 
@@ -39,12 +41,20 @@ export default function ChatInbox({id}) {
       
   }, [id]);
 
+    useEffect(() => {
+      if(onlineUsers?.length > 0){
+          onlineUsersRef.current = onlineUsers;
+      }
+      
+  }, [onlineUsers]);
+
   const sendMessage = async () => {
     const isUserOnline = onlineUsers?.find((item) => item == id);
-         console.log('isUserOnline ===>', isUserOnline, onlineUsers)
+
     const msgObj = {
        from: userData?._id, to: id, content: msgText, time: new Date(), status: isUserOnline ? 'delivered' : 'sent'
     }
+    socket.emit('userConnected', userData?._id);
     setMsgText('');
     setMessages([...messages, msgObj]);
     socket.emit('sendMessage', msgObj);
@@ -58,6 +68,10 @@ export default function ChatInbox({id}) {
        getMessagesTrigger({ querys: `currentUser=${userData?._id}&selectedUser=${id}&limit=${50}&page=${1}` })
     }
   },[id])
+
+  useEffect(() => {
+    markReadTrigger({ querys: `id=${id}` })
+  },[])
   
   useEffect(() => {
     if(allMessage?.messages?.length > 0){
@@ -68,11 +82,14 @@ export default function ChatInbox({id}) {
     useEffect(() => {
         const handlePrivateMessage = (msg) => {
           const current = selectedUserRef.current;
+          const currentOnlineUsers = onlineUsersRef.current
           const isCurrentChat = msg.from === current || msg.to === current;
           
           if (isCurrentChat) {
-            console.log('hitted here', msg)
-            const isUserOnline = onlineUsers?.find((item) => item == msg.from);
+            console.log('currentOnlineUsers ==>', currentOnlineUsers);
+
+            const isUserOnline = currentOnlineUsers?.find((item) => item == msg.from);
+            console.log('isUserOnline ===>', isUserOnline);
             const newMsg = {...msg, status: isUserOnline ? 'seen' : 'delivered'}
             setMessages((prev) => [...prev, newMsg]);
           } else {
