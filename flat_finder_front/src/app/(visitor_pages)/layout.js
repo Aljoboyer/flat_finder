@@ -1,11 +1,11 @@
 "use client"
 
 import { Footers } from "@/components/common/Footers";
-import Navbar from "@/components/common/Navbars";
 import { getLocalStorageData } from "@/utils/getLocalStorageData";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setProfileImage } from "../redux/slices/commonSlice";
+import Navbar from "@/components/common/navbars";
 
 export default function VisitorLayout({ children }) {
   const userData = getLocalStorageData();
@@ -17,8 +17,6 @@ export default function VisitorLayout({ children }) {
       }
     },[userData?.name])
   
-   
-
   return (
     <div className="w-full">
         <Navbar/>
