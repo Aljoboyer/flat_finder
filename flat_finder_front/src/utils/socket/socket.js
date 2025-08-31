@@ -1,7 +1,7 @@
 // socket.js
 "use client";
 
-import { BASEURL, SERVER } from "@/constant/urls";
+import {  SERVER, SocketIoUrl } from "@/constant/urls";
 import { io } from "socket.io-client";
 import { getLocalStorageData } from "../getLocalStorageData";
 
@@ -13,7 +13,7 @@ export const getSocket = () => {
       const userData = getLocalStorageData();
    
       if (userData?._id) {
-        socket = io(SERVER, {
+        socket = io(SocketIoUrl, {
           query: { userId: userData._id },
         });
       } else {
