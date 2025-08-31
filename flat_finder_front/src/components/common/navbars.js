@@ -26,7 +26,7 @@ import { COLORS } from '@/theme/colors';
 import { Buttons } from './Buttons/Buttons';
 import { DropDownBtn } from './Buttons/DropDownBtn';
 import { languages } from '@/constant/dropdownData';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { usePathname } from 'next/navigation';
 import ProfileManu from './ProfileManu/ProfileManu';
 import { getAuthToken } from '@/utils/getAuthToken';
@@ -41,12 +41,12 @@ import { useLazyGetFollowListQuery } from '@/app/redux/features/profileApi';
 import { useLazyGetUnreadMessagesQuery } from '@/app/redux/features/msgApi';
 
 const navItems = [
-    {label: 'Home', link: '/flat-finder-home'},
+    {label: 'Home', link: '/flat-finder-home', stateValue: ''},
     {label: 'Flat / Apartment', link: '/search-property', stateValue:  'flat'},
     {label: 'Showroom', link: '/search-property', stateValue:  'showroom'},
     {label: 'Resturant', link: '/search-property', stateValue:  'restaurant'},
     {label: 'Office', link: '/search-property', stateValue:  'office'},
-    {label: 'Services', link: '/services', stateValue:  ''},
+    {label: 'Services', link: '/services', stateValue:  'serv'},
 ];
 
 const Navbar = () => {
@@ -146,6 +146,8 @@ const Navbar = () => {
       }
     },[FollowList?.data]);
 
+    const searchParams = useSearchParams();
+    const propertyType = searchParams.get('propertyType')
   return (
     <AppBar position="sticky" sx={{ backgroundColor: '#fff', color: '#000', boxShadow: 'none' }}>
       <Box sx={{ borderBottom: `4px solid ${COLORS.side_yellow}` }} />
@@ -235,7 +237,7 @@ const Navbar = () => {
           <Toolbar sx={{ justifyContent: 'space-between', flexWrap: 'wrap' }}>
             <Box sx={{ display: 'flex', gap: 3 }}>
               {navItems.map((item) => (
-                <Button onClick={() => navigationHanlder(item)} key={item?.label} sx={{ color: '#fff', fontWeight: '600', ":hover":{textDecoration: 'underline', color: COLORS.side_yellow} }}>{item?.label}</Button>
+                <Button onClick={() => navigationHanlder(item)} key={item?.label} sx={{ color: item.stateValue == propertyType ? COLORS.side_yellow : '#fff', fontWeight: '600', ":hover":{textDecoration: 'underline', color: COLORS.side_yellow}, textDecoration: item.stateValue == propertyType ? 'underline' : '', }}>{item?.label}</Button>
               ))}
             </Box>
               {

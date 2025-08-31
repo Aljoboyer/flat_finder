@@ -58,6 +58,11 @@ export default function PropertyForm({property}) {
             if(deleteUrls?.length > 0){
               await deleteImgApiCall(deleteUrls)
             }
+            if(images?.length == 0){
+              setLoading(false)
+              setImgErr('Add at least one image')
+              return
+            }
             const postPropertyData = await updateProperty({...data, images: images})
 
             if(postPropertyData?.data?.msg == 'updated successfully'){
@@ -170,12 +175,11 @@ export default function PropertyForm({property}) {
 
             {
               imgLoading ? <div className='w-[100px] h-[50px] mx-auto'><FFLoader2/> </div> : <ImageUpload 
-             
               imageUploadHandler={imageUploadHandler} 
               ImageResolution={2000}
               />
             }
-            <p className='my-2 text-red-600 text-p text-center'>{imgErr}</p>
+            <p className='my-2 text-red-600 text-p text-center'>{images.length == 0 && imgErr}</p>
             <PropertyFormImg
               onDeleteHandler={onImgDeleteHandler}
               currentDeletingImg={currentDeletingImg}
