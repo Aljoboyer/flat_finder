@@ -13,13 +13,15 @@ export default function CommentBox({property}) {
   const [comments, setComments] = useState([]);
   const [commentText, setCommentText] = useState('');
   const userData = getLocalStorageData();
-  const socket = getSocket();
+ 
   const commentRef = useRef(null);
   const [postComment ] = useAddCommentMutation();
   const [propertyCommentTrigger, { data: propertyData , isFetching}] = useLazyGetSinglePropertyQuery();
   const [storeComments, setStoreComments] = useState([])
   
   const handleSubmit = async () => {
+     const socket = getSocket();
+
       const commentObj = {
         profileImg: userData?.image,
         text: commentText,
@@ -48,19 +50,25 @@ export default function CommentBox({property}) {
       setCommentText('')
   };
 
-    useEffect(() => {
+  useEffect(() => {
+    const socket = getSocket();
+
+    if (!socket) {
+      console.warn("Socket not initialized - user may not be logged in yet.");
+      return;
+    }
+
     const handleAddComnt = (comnt) => {
+      const currentCommentData = commentRef.current;
+      setComments([comnt, ...currentCommentData]);
+    };
 
-      const currentCommentData = commentRef.current
-      
-      setComments([comnt, ...currentCommentData])
-    }
-    socket.on("receivedcomments", handleAddComnt)
+    socket.on("receivedcomments", handleAddComnt);
 
-    return () =>{
-      socket.off("receivedcomments")
-    }
-  },[])
+    return () => {
+      socket.off("receivedcomments", handleAddComnt);
+    };
+  }, []);
 
     const formatComments = (data) => {
         const formatCommentData = property?.comments?.map((item) => {

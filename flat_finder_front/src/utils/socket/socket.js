@@ -17,7 +17,7 @@ export const getSocket = () => {
           query: { userId: userData._id },
         });
       } else {
-        return
+        return null
         console.error("No user data found in localStorage");
       }
     }
