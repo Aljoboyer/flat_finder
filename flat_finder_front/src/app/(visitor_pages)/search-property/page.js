@@ -152,24 +152,22 @@ export default function SearchProperty() {
   },[areaNameList, areaNameList?.data?.length])
 
   const addingUrlQueryValueToFilter = (id, value) => {
+
       if(id == 'propertyType'){
           setFilterObj({...{
             city: '', areaName: '', bedRooms: '', 
             propertyType: '', bathRooms: '', maxSqft: '', minSqft: '',
             minPrice: '0', maxPrice: '10000000',purpose: ''  }, [id]: value})
-      }else{
-          setFilterObj({...filterObj, [id]: value})
       }
 
-        const addFilterValuToInput = filterFieldConfig?.map((item) => {
-      if(item?.field_id == id){
-        return {...item, value: value}
-      }else{
-        return item;
-      }
-    })
-
-    setFilterInputData(addFilterValuToInput)
+      const addFilterValuToInput = filterFieldConfig?.map((item) => {
+        if(item?.field_id == id){
+          return {...item, value: value}
+        }else{
+          return item;
+        }
+      })
+      setFilterInputData(addFilterValuToInput)
   }
 
   useEffect(() => {
@@ -177,13 +175,38 @@ export default function SearchProperty() {
       addingUrlQueryValueToFilter('propertyType', propertyType)
 
     }
-    if (city){
-      addingUrlQueryValueToFilter('city', city)
-    }
-     if (areaName){
-      addingUrlQueryValueToFilter('areaName', areaName)
-    }
   },[propertyType])
+
+    useEffect(() => {
+    if (city && areaName){
+        setFilterObj({...filterObj, city: city, areaName: areaName});
+        
+        const addFilterValuToInput = filterFieldConfig?.map((item) => {
+          if(item?.field_id == 'city'){
+            return {...item, value: city}
+          }
+          else if(item?.field_id == 'areaName'){
+             return {...item, value: areaName}
+          }
+          else{
+            return item;
+          }
+        })
+        setFilterInputData(addFilterValuToInput)
+    }else if(city){
+      setFilterObj({...filterObj, city: city});
+        
+        const addFilterValuToInput = filterFieldConfig?.map((item) => {
+          if(item?.field_id == 'city'){
+            return {...item, value: city}
+          }
+          else{
+            return item;
+          }
+        })
+        setFilterInputData(addFilterValuToInput)
+    }
+  },[city])
 
   const propertySaveHandler = async (e, property, action) => {
       e.stopPropagation();
@@ -212,7 +235,9 @@ export default function SearchProperty() {
       }
 
   }
-console.log('check ===>', filterObj);
+
+console.log('filterObj ===>', filterObj);
+
 
   return (
    <div className="w-full ">

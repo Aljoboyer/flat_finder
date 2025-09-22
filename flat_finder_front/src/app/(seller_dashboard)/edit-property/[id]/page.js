@@ -12,7 +12,8 @@ export default function page({params}) {
  
   useEffect(() => {
     if(id){
-      propertyTrigger({querys: `id=${id}`})
+      console.log('called ===>')
+    propertyTrigger({ querys: `id=${id}&_t=${Date.now()}` })
     }
   },[id])
 
