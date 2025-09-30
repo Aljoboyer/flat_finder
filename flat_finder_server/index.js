@@ -35,3 +35,5 @@ app.get('/', (req, res) => {
 server.listen(port, () => {
   console.log(`Flat Finder running on port ${port}`);
 });
+
+module.exports = app;
